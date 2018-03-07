@@ -1,5 +1,8 @@
 <?php
 include('SQLFunctions.php');
+session_start();
+
+
 
     $link = f_sqlConnect();
     //$table = pages;
