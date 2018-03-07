@@ -95,6 +95,7 @@ if(!isset($_SESSION['UserID']))
     <br>
     <a href='NewDef.php' style='font-size:20px'>Add Deficiency</a><br>
     <br>
+    <a href='UpdatePassword.php' style='font-size:20px'>Change Password</a><br>
     <a href='logout.php' style='font-size:20px'>Logout</a><br>
     <a href='help.php' style='font-size:20px'>Help</a><br>";
 }
@@ -111,5 +112,6 @@ if($Role == 'A' OR $Role == 'S')
 } else {
     
 }
+//exit()
 ?>
 </nav>
