@@ -13,10 +13,6 @@ include('filestart.php'); ?>
         </div>
       </div>
 
-      <div class="container">
-        <!-- Example row of columns -->
-        <!-- /container -->
-
     </main>
 
     <?php include('fileend.php'); ?>
