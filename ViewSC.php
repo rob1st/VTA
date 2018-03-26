@@ -50,20 +50,102 @@ include('filestart.php');
                         } else {
                             $color = "Black";
                         }*/
-            echo "        <th class='vdth' colspan='7' height='50' style='background-color:$color'><p>
-                        Satey Certifiable Element. $SCItem</p></th>
+            echo "        <br /><br />
+            <br /><br />
+            <table border='1' style='width:60% leftmargin:10%'>
+                <th class='vdth' colspan='12' height='50' style='background-color:$color'><p>
+                        Safety Certifiable Element. $SCItem</p></th>
                 </tr>
                 <tr>
-                    <td>Item</td>
-                    <td>Safety/Security<br />Requirement</td>
-                    <td>Design<br />Codes/Standards</td>
-                    <td>Design Specifications/Criteria</td>
-                    <td>Design Compliance</td>
-                    <td>Construction/Installation<br />Verification/Testing</td>
-                    <td>Pre-Revenue<br />Testing/Operations</td>
+                    <th class='vdth'>Item</td>
+                    <th class='vdth'>Safety/Security<br />Requirement</td>
+                    <th class='vdth' colspan='2'>Design<br />Codes/Standards</td>
+                    <th class='vdth' colspan='2'>Design Specifications/Criteria</td>
+                    <th class='vdth' colspan='2'>Design Compliance</td>
+                    <th class='vdth' colspan='2'>Construction/Installation<br />Verification/Testing</td>
+                    <th class='vdth' colspan='2'>Pre-Revenue<br />Testing/Operations</td>
+                </tr>
+                <tr>
+                    <td rowspan='11'>SB.290.02</td>
+                    <td rowspan='11'>Toilet rooms exhaust shall be seperate from and other exhausts</td>
+                    <td rowspan='6' colspan='2'>Facility Design Criteria,<br />Mechanical 3.5.7 -<br />Stations & Station Sites</td>
+                    <td rowspan='6' colspan='2'>1.4.2.A, Page 5</td>
+                    <th class='vdth'>Prepared by:</td>
+                    <td></td>
+                    <th class='vdth'>Prepared by:</td>
+                    <td></td>
+                    <th class='vdth'>Prepared by:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Compliance Status:</td>
+                    <td></td>
+                    <th class='vdth'>Compliance Status:</td>
+                    <td></td>
+                    <th class='vdth'>Compliance Status:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Date Disposed:</td>
+                    <td></td>
+                    <th class='vdth'>Date Disposed:</td>
+                    <td></td>
+                    <th class='vdth'>Date Disposed:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Validated by:</td>
+                    <td></td>
+                    <th class='vdth'>Validated by:</td>
+                    <td></td>
+                    <th class='vdth'>Validated by:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Date validated:</td>
+                    <td></td>
+                    <th class='vdth'>Date validated:</td>
+                    <td></td>
+                    <th class='vdth'>Date validated:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth' colspan='2'>Reference Drawings/Documents/Notes/Tests<br />(Include Page/Drawing/Test Numbers)</td>
+                    <th class='vdth' colspan='2'>Reference Drawings/Documents/Notes/Tests<br />(Include Page/Drawing/Test Numbers)</td>
+                    <th class='vdth' colspan='2'>Reference Drawings/Documents/Notes/Tests<br />(Include Page/Drawing/Test Numbers)</td>
+                </tr>
+                <tr>
+                    <th class='vdth' colspan='4'>Compliance method<br />Check all methods used</td>
+                    <td colspan='2' rowspan='5'></td>
+                    <td colspan='2' rowspan='5'></td>
+                    <td colspan='2' rowspan='5'></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Design:</td>
+                    <td></td>
+                    <th class='vdth'>Procedures & Training:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Warning Devices:</td>
+                    <td></td>
+                    <th class='vdth'>Security Technology:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Safety Devices:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class='vdth'>Testing:</td>
+                    <td></td>
+                    <th class='vdth'>Visual Inspection:</td>
+                    <td></td>
                 </tr>
             </table><br>";
-            if($Role == 'S' OR $Role == 'A' OR $Role == 'U') 
+            /*if($Role == 'S' OR $Role == 'A' OR $Role == 'U') 
             {
                 echo "
                     <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
