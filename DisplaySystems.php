@@ -15,28 +15,32 @@ include('filestart.php');
     $sql = "SELECT SystemID, System, Update_TS, Updated_by FROM $table ORDER BY System";
     $sql1 = "SELECT COUNT(*) FROM $table";
     
+    // display Page Heading
     if($result = mysqli_query($link,$sql1)) {
-        echo"   <h1>Systems</h1>
-                <table class='sumtable'>
-                    <tr class='sumtr'>
-                        <td class='sumtd'>Systems:</td>";
-            while ($row = mysqli_fetch_array($result)) {
-                    echo "<td class='sumtd'>{$row[0]}</td>";
-            }    
-            echo "</tr></table>";
+        echo"   <main class='main-content data-page'>
+                    <h1>Systems</h1>
+                    <table class='sumtable'>
+                        <tr class='sumtr'>
+                            <td class='sumtd'>Systems:</td>";
+                            while ($row = mysqli_fetch_array($result)) {
+                                    echo "<td class='sumtd'>{$row[0]}</td>";
+                            }    
+        echo"   </tr></table>";
     }
-        if($result = mysqli_query($link,$sql)) {
-        echo"   <table class='table usertable'>
-                    <tr class='usertr'>
-                        <th class='userth'>System ID</th>
+    
+    // display Deficiency Table
+    if($result = mysqli_query($link,$sql)) {
+        echo"   <table class='table def-table'>
+                    <tr class='def-tr'>
+                        <th class='userth'>ID</th>
                         <th class='userth'>System</th>";
                         if(!isset($_SESSION['UserID'])) 
                         {
                         echo "</tr>";
                         } else {
                         echo "
-                            <th class='userth'>Last Updated</th>
-                            <th class='userth'>Last Updated By</th>
+                            <th class='userth'>Last Update</th>
+                            <th class='userth'>Updated By</th>
                             <th class='userth'>Edit</th>";
                             if($Role == 'S') {
                                 echo "
@@ -46,7 +50,7 @@ include('filestart.php');
                             </tr>"; 
                         }
             while ($row = mysqli_fetch_array($result)) {
-        echo"       <tr class='usertr'>
+        echo"       <tr class='def-tr'>
                         <td class='usertd'>{$row[0]}</td>
                         <td class='usertd'>{$row[1]}</td>";
                         if(!isset($_SESSION['UserID'])) 

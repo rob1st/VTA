@@ -235,7 +235,9 @@ img {
     
 }
 
-.usertr:nth-child(even){background-color: #f2f2f2}
+.def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
+/* End of Table Menu CSS */
+
 
 .svbxtable {
     margin-left: auto;

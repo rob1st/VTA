@@ -41,24 +41,24 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
     while ($stmt->fetch()) { 
     
     echo "
-            <table class='vdtable'>
-                <tr class='vdtr'>";
-                    if($Status == "Open") {
-                        $color = "Red";
-                    } elseif($Status == "Closed") {
-                        $color = "Green"; 
+            <main class='main-content view-def'>
+                <table>
+                    <tr class='vdtr'>";
+                        if($Status == "Open") {
+                            $color = "Red";
+                        } elseif($Status == "Closed") {
+                            $color = "Green"; 
                         } else {
                             $color = "Black";
                         }
-            echo "        <th class='vdth' colspan='4' height='50' style='background-color:$color'><p>
-                        Deficiency No. $DefID</p></th>
+            echo "        <th class='vdth' colspan='4' height='50' style='background-color:$color'>Deficiency No. $DefID</th>
                 </tr>
                 <tr class='vdtr'>
-                    <th colspan='4' class='vdth'><p>Required Information</p></th>
+                    <th colspan='4' class='vdth'>Required Information</th>
                 </tr>
                 <tr class='vdtr'>
-                    <td class='vdtdh'><p>Safety Certifiable:</p></td>
-                    <td class='vdtda'><p>";
+                    <td class='vdtdh'>Safety Certifiable:</td>
+                    <td class='vdtda'>";
                         if($SafetyCert == '1') {
                             $SafetyCert = 'Yes';
                         } elseif($SafetyCert == '2') {
@@ -66,9 +66,9 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                         } else {
                             $SafetyCert = '';
                         }
-                    echo " $SafetyCert</p></td>
-                    <td class='vdtdh'><p>System Affected:</p></td>
-                    <td class='vdtd'><p>$SystemAffected</p></td>
+                    echo " $SafetyCert</td>
+                    <td class='vdtdh'>System Affected:</td>
+                    <td class='vdtd'>$SystemAffected</td>
                 </tr>
                 <tr class='vdtr'>
                     <td class='vdtdh'><p>General Location:</p></td>
@@ -163,7 +163,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td class='vdtdh'><p>Updated by:</p></td>
                     <td class='vdtda'><p>$Updated_by</p></td>
                 </tr>
-            </table><br>";
+            </table></main>";
             if($Role == 'S' OR $Role == 'A' OR $Role == 'U') 
             {
                 echo "
