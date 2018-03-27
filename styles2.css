@@ -278,9 +278,16 @@ img {
     }
 }
 
+<<<<<<< HEAD
 .footer {
     background: var(--vta-dk-blue);
     color: var(--bs-jumbo-grey);
+=======
+/* Footer CSS */
+.footer {
+    background: #03528B;
+    color: #FFFFFF;
+>>>>>>> use class .footer for footer
     text-align: center;
     position: fixed;
     bottom: 0px;

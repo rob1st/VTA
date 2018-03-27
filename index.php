@@ -1,7 +1,6 @@
-<?php
-include('filestart.php'); ?>
+<?php include('filestart.php'); ?>
 
-    <main role="main" class="main-content landing-page">
+<main role="main" class="main-content landing-page">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
@@ -13,6 +12,6 @@ include('filestart.php'); ?>
         </div>
       </div>
 
-    </main>
+</main>
 
-    <?php include('fileend.php'); ?>
+<?php include('fileend.php'); ?>
