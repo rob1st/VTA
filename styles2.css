@@ -69,6 +69,19 @@ img {
     text-align:center;
 }
 
+.login-field {
+    margin-bottom:.5rem;
+}
+
+.login-btn {
+    display: block;
+    margin: .25rem auto .5rem;
+}
+
+.forgot-password {
+    text-decoration: underline;
+}
+
 .login {
    color: #03528B;
    text-decoration: none;
