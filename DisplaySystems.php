@@ -47,21 +47,21 @@ include('filestart.php');
                         }
             while ($row = mysqli_fetch_array($result)) {
         echo"       <tr class='usertr'>
-                        <td style='text-align:center' class='usertd'>{$row[0]}</td>
+                        <td class='usertd'>{$row[0]}</td>
                         <td class='usertd'>{$row[1]}</td>";
                         if(!isset($_SESSION['UserID'])) 
                         {
                             echo "</tr>";
                         } else {
                         echo "
-                        <td class='usertd'>{$row[2]}</td>
-                        <td class='usertd'>{$row[3]}</td>
-                        <td class='usertd' style='text-align:center'><form action='UpdateSystem.php' method='POST' onsubmit=''/>
-                        <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
+                            <td class='usertd'>{$row[2]}</td>
+                            <td class='usertd'>{$row[3]}</td>
+                            <td class='usertd'><form action='UpdateSystem.php' method='POST' onsubmit=''>
+                                <input type='hidden' name='q' value='.$row[0].'/><input type='submit' value='Update'></form></td>";
                             if($Role == 'S') {
                                 echo "
-                        <td class='usertd'><form action='DeleteSystem.php' method='POST' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
-                        <input type='hidden' name='q' value='".$row[0]."' /><input type='Submit' value='delete'></form></td>";
+                                <td class='usertd'><form action='DeleteSystem.php' method='POST' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
+                                <input type='hidden' name='q' value='".$row[0]."' /><input type='Submit' value='delete'></form></td>";
                             }
                         echo "
                     </tr>";

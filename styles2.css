@@ -1,3 +1,5 @@
+@import './assets/typicons.font/src/font/typicons.css';
+
 * {
     /* Bootsrap breakpoints */
     --breakpoint-xs: 0;
