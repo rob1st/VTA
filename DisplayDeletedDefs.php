@@ -44,7 +44,7 @@ include('filestart.php');
                     }
             while($row = mysqli_fetch_array($result)) {
                 echo "  <tr class='svbxtr'>
-                        <td class='svbxtd' style='text-align:center'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
+                        <td class='svbxtd' style='text-align:center'><a href='ViewDef.php?DefID={$row[0]}'>{$row[0]}</a></td>
                         <td class='col_2  col_3  col_4 svbxtd'>{$row[1]}</td>
                         <td class='col_3  col_4 svbxtd' style='text-align:center'>{$row[2]}</td>
                         <td class='col_1  col_2  col_3  col_4 svbxtd' style='text-align:center'>{$row[3]}</td>

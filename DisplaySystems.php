@@ -16,20 +16,17 @@ include('filestart.php');
     $sql1 = "SELECT COUNT(*) FROM $table";
     
     if($result = mysqli_query($link,$sql1)) {
-        echo"   <div class='jumbotron'>
-                <h1>Systems</h1><br />
+        echo"   <h1>Systems</h1>
                 <table class='sumtable'>
                     <tr class='sumtr'>
-                        <td class='sumtd'>Systems: </td>";
+                        <td class='sumtd'>Systems:</td>";
             while ($row = mysqli_fetch_array($result)) {
                     echo "<td class='sumtd'>{$row[0]}</td>";
             }    
-            echo "</table><br>";
-}
+            echo "</tr></table>";
+    }
         if($result = mysqli_query($link,$sql)) {
-        echo"   
-                <div class='container'>
-                <table class='usertable'>
+        echo"   <table class='table usertable'>
                     <tr class='usertr'>
                         <th class='userth'>System ID</th>
                         <th class='userth'>System</th>";
@@ -63,20 +60,20 @@ include('filestart.php');
                         <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
                             if($Role == 'S') {
                                 echo "
-                        <td class='usertd' style='text-align:center'><form action='DeleteSystem.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
+                        <td class='usertd'><form action='DeleteSystem.php' method='POST' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
                         <input type='hidden' name='q' value='".$row[0]."' /><input type='Submit' value='delete'></form></td>";
                             }
                         echo "
                     </tr>";
                     }
             }    
-            echo "</table><br></div>";
+            echo "</table>";
     }
     mysqli_free_result($result);
     
     if(mysqli_error($link)) {
-        echo '<br>Error: ' .mysqli_error($link);
-    } else //echo '<br>Success';
+        echo 'Error: ' .mysqli_error($link);
+    } else //echo 'Success';
     
     mysqli_close($link);
     include 'fileend.php';
