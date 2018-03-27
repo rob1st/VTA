@@ -45,7 +45,7 @@ session_start();
                 <tr class='svbxtr'>";
                 while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' class='svbxtd'  style='text-align:center'><a href='DisplaySystems.php' style='color:black'>{$row[0]} Systems</a></td>
+                  <td colspan='2' class='svbxtd def-tot'><a href='DisplaySystems.php' class='def-link'>{$row[0]} Systems</a></td>
                 </tr>";
                 }    
           }
@@ -58,8 +58,8 @@ session_start();
               while ($row = mysqli_fetch_array($result)) {
                 echo "
                   <tr class='svbxtr'>
-                    <td class='svbxtd'>{$row[0]}</td>
-                    <td style='text-align:center' class='svbxtd'>{$row[1]}</td>
+                    <td class='svbxtd def-name'>{$row[0]}</td>
+                    <td class='svbxtd def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " </table> ";
@@ -74,7 +74,7 @@ session_start();
               <tr class='svbxtr'>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' style='text-align:center' class='svbxtd><a href='DisplayStatus.php' style='color:black'>{$row[0]} Statuses</a></td>
+                  <td colspan='2' class='svbxtd def-tot'><a href='DisplayStatus.php' class='def-link'>{$row[0]} Statuses</a></td>
                 </tr>";
               }    
           }
@@ -87,8 +87,8 @@ session_start();
               while ($row = mysqli_fetch_array($result)) {
                 echo "
                   <tr class='svbxtr'>
-                    <td class='svbxtd'>{$row[0]}</td>
-                    <td style='text-align:center' class='svbxtd'>{$row[1]}</td>
+                    <td class='svbxtd def-name'>{$row[0]}</td>
+                    <td class='svbxtd def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " 
@@ -104,7 +104,7 @@ session_start();
                 <tr class='svbxtr'>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' style='text-align:center' class='svbxtd'><a href='DisplaySeverity.php' style='color:black'>{$row[0]} Severities</a></td>
+                  <td colspan='2' class='svbxtd def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Severities</a></td>
                   </tr>";
               }    
           }
@@ -117,8 +117,8 @@ session_start();
               while ($row = mysqli_fetch_array($result)) {
                 echo "
                   <tr class='svbxtr'>
-                    <td class='svbxtd'>{$row[0]}</td>
-                    <td class='svbxtd' style='text-align:center'>{$row[1]}</td>
+                    <td class='svbxtd def-name'>{$row[0]}</td>
+                    <td class='svbxtd def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " </table> ";
@@ -134,7 +134,7 @@ session_start();
                 <tr class='svbxtr'>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' style='text-align:center' class='svbxtd'><a href='DisplaySeverity.php' style='color:black'>{$row[0]} Locations</a></td>
+                  <td colspan='2' class='svbxtd def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Locations</a></td>
                   </tr>";
               }    
           }
@@ -147,8 +147,8 @@ session_start();
               while ($row = mysqli_fetch_array($result)) {
                 echo "
                   <tr class='svbxtr'>
-                    <td class='svbxtd'>{$row[0]}</td>
-                    <td class='svbxtd' style='text-align:center'>{$row[1]}</td>
+                    <td class='svbxtd def-name'>{$row[0]}</td>
+                    <td class='svbxtd def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " </table> ";

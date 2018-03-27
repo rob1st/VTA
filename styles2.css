@@ -1,11 +1,23 @@
 * {
+    /* Bootsrap breakpoints */
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
     --bs-jumbo-grey:#e9ecef;
     --vta-dk-blue:#03528B;
 }
 
+body,html {
+    height: 100%;
+}
+
 body {
-   background-color:#FFFFFF;
    margin:0;
+   background-color:#FFFFFF;
+   /*background-repeat:repeat-x;*/
+   background-position:center top;
 }
 
 a:hover {
@@ -52,6 +64,7 @@ img {
 .forgot-password-btn {
     text-decoration: underline;
 }
+
 /* End of Content CSS */
 
 /* Forms CSS */
@@ -202,9 +215,7 @@ img {
 
 .sumtr:nth-child(even){background-color: #f2f2f2}
 
-.usertable {
-    margin-left: 10%;
-    margin-right: 10%;
+.def-table {
     border: 1px solid black;
     width:80%;
 }
@@ -251,9 +262,21 @@ img {
 /* End of Table CSS */
 
 /* Footer CSS */
+@media screen and (max-width: 576px) {
+    .footer {
+        font-size: .7rem;
+    }
+}
+
+@media screen and (min-width: 577px) {
+    .footer {
+        font-size: normal;
+    }
+}
+
 .footer {
-    background: #03528B;
-    color: #FFFFFF;
+    background: var(--vta-dk-blue);
+    color: var(--bs-jumbo-grey);
     text-align: center;
     position: fixed;
     bottom: 0px;
@@ -267,8 +290,7 @@ footer a:link{
 }
 
 footer a:hover {
-text-decoration: underline;
-
+    text-decoration: underline;
 }
 
 footer a:visited{
