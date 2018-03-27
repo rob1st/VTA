@@ -98,6 +98,7 @@ text-decoration: underline;
 }
 
 .main-content {
+    margin-top:3.5rem;
 }
 
 .main-content.landing-page .jumbotron {
@@ -162,13 +163,6 @@ text-decoration: underline;
 
 /* Table CSS
 ============================*/
-/*.myTable {*/
-/*    float:left;*/
-/*    border:1px solid #dfdfdf;*/
-/*    border-collapse:collapse;   */
-/*    width:100%;*/
-/*    font-size:12px;*/
-/*}*/
 /* #Tablet (Portrait)
 ================================================== */
 /* Note: Design for a width of 768px */
@@ -187,12 +181,6 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse; 
     }
-    /*img {*/
-    /*max-width: 100%;*/
-    /*height: auto;*/
-    /*width: auto;*/
-    /*padding-top: 5px;*/
-    /*} */
 }
 /* #Mobile (Landscape)
 ================================================== */
@@ -212,12 +200,6 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse;
     } 
-    /*img {*/
-    /*max-width: 100%;*/
-    /*height: auto;*/
-    /*width: auto;*/
-    /*padding-top: 5px;*/
-    /*} */
 }
 /* #Mobile (Landscape)
 ================================================== */
@@ -237,12 +219,6 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse;
     } 
-    /*img {*/
-    /*max-width: 100%;*/
-    /*height: auto;*/
-    /*width: auto;*/
-    /*padding-top: 5px;*/
-    /*} */
 }
 /*  #Mobile (Portrait)
 ================================================== */
@@ -262,12 +238,6 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse;
     } 
-    /*img {*/
-    /*max-width: 100%;*/
-    /*height: auto;*/
-    /*width: auto;*/
-    /*padding-top: 5px;*/
-    /*} */
 }
 
 .vdtable {

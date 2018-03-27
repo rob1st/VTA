@@ -70,7 +70,7 @@ else
     }
 }
 ?>
-<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #03528B">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #03528B">
       <span class="navbar-brand"><?php echo $login; ?></span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
