@@ -1,7 +1,7 @@
 <?php
 include('filestart.php'); ?>
 
-    <main role="main">
+    <main role="main" class="main-content landing-page">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
