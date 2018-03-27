@@ -24,6 +24,18 @@ img {
 } 
 
 /* Content CSS */
+.page-header {
+    margin-top: 4rem;
+}
+
+.page-heading {
+    font-size: 3.5rem;
+}
+
+.logo-md {
+    width: 127px;
+}
+
 .background {
     position: fixed;
     border-style: solid;
@@ -51,6 +63,10 @@ img {
    height:100%;
    text-align: center;
    overflow:auto;
+}
+
+.login-container {
+    text-align:center;
 }
 
 .login {
@@ -361,7 +377,7 @@ a:hover {
 }
 
 #defdd{
-    width:150px;   
+    width:150px;
 }
 
 /* Footer CSS */
