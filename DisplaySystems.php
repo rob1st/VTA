@@ -57,7 +57,7 @@ include('filestart.php');
                             <td class='usertd'>{$row[2]}</td>
                             <td class='usertd'>{$row[3]}</td>
                             <td class='usertd'><form action='UpdateSystem.php' method='POST' onsubmit=''>
-                                <input type='hidden' name='q' value='.$row[0].'/><input type='submit' value='Update'></form></td>";
+                                <button type='submit' name='q' value='.$row[0].'><i class='typcn typcn-edit'></i></button></form></td>";
                             if($Role == 'S') {
                                 echo "
                                 <td class='usertd'><form action='DeleteSystem.php' method='POST' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
