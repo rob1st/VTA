@@ -28,6 +28,15 @@ img {
     margin-top: 4rem;
 }
 
+.masthead {
+    margin-top: 4rem;
+}
+
+.masthead-logo {
+    margin-right: 1rem;
+    height: 3rem;
+}
+
 .page-heading {
     font-size: 3.5rem;
 }
@@ -210,6 +219,7 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse; 
     }
+
 }
 /* #Mobile (Landscape)
 ================================================== */
@@ -229,6 +239,7 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse;
     } 
+
 }
 /* #Mobile (Landscape)
 ================================================== */
@@ -248,6 +259,7 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse;
     } 
+
 }
 /*  #Mobile (Portrait)
 ================================================== */
@@ -267,6 +279,7 @@ text-decoration: underline;
         opacity:0;
         visibility: collapse;
     } 
+
 }
 
 .vdtable {
@@ -424,3 +437,4 @@ footer a:visited{
 #app {
 display: inline-block;
 }
+
