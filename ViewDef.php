@@ -42,7 +42,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
     
     echo "
             <main class='main-content view-def'>
-                <table>
+                <table class='table'>
                     <tr class='vdtr'>";
                         if($Status == "Open") {
                             $color = "Red";
@@ -51,7 +51,8 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                         } else {
                             $color = "Black";
                         }
-            echo "        <th class='vdth' colspan='4' height='50' style='background-color:$color'>Deficiency No. $DefID</th>
+            echo "
+                    <th class='vdth' colspan='4' height='50' style='background-color:$color'>Deficiency No. $DefID</th>
                 </tr>
                 <tr class='vdtr'>
                     <th colspan='4' class='vdth'>Required Information</th>
