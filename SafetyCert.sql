@@ -22,4 +22,4 @@ LEFT JOIN
     CertifiableElement S
 ON 
     S.CE_ID = A.CertElement
-WHERE CertID =
+ORDER BY A.Item
