@@ -30,7 +30,7 @@ $Role = $_SESSION['Role'];
     if($result = mysqli_query($link,$sql)) {
         echo"   
                 <div class='container' style='max-width: 1600px;'>
-                <table class='usertable'>
+                <table class='table'>
                     <tr class='usertr'>
                         <th class='userth'>First name</th>
                         <th class='userth'>Last name</th>

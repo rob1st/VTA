@@ -35,28 +35,28 @@ session_start();
         //Systems Status Table
           if($result = mysqli_query($link,$sql1)) {
             echo "
-              <table class='svbxtable'>
-                <tr class='svbxtr'>
-                  <th colspan='2' class='svbxth'>Systems</th>
+              <table class='table svbx-table dash-table'>
+                <tr class='svbx-tr'>
+                  <th colspan='2' class='svbx-th'>Systems</th>
                 </tr>
-                <tr class='svbxtr'>";
+                <tr class='svbx-tr'>";
                 while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' class='svbxtd def-tot'><a href='DisplaySystems.php' class='def-link'>{$row[0]} Systems</a></td>
+                  <td colspan='2' class='svbx-td def-tot'><a href='DisplaySystems.php' class='def-link'>{$row[0]} Systems</a></td>
                 </tr>";
                 }    
           }
           if($result = mysqli_query($link,$System)) {
             echo "
-              <tr class='svbxtr'>
-                <th style='width:15%' class='svbxth'>System</th>
-                <th style='width:5%' class='svbxth'>Actions</th>
+              <tr class='svbx-tr'>
+                <th style='width:15%' class='svbx-th'>System</th>
+                <th style='width:5%' class='svbx-th'>Actions</th>
               </tr>"; 
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <tr class='svbxtr'>
-                    <td class='svbxtd def-name'>{$row[0]}</td>
-                    <td class='svbxtd def-count'>{$row[1]}</td>
+                  <tr class='svbx-tr'>
+                    <td class='svbx-td def-name'>{$row[0]}</td>
+                    <td class='svbx-td def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " </table> ";
@@ -64,28 +64,28 @@ session_start();
           //Status Status Table
           if($result = mysqli_query($link,$sqlS)) {
             echo "
-              <table class='svbxtable'>
-                <tr class='svbxtr'>
-                  <th colspan='2' class='svbxth'>Status</th>
+              <table class='table svbx-table dash-table'>
+                <tr class='svbx-tr'>
+                  <th colspan='2' class='svbx-th'>Status</th>
                 </tr>
-              <tr class='svbxtr'>";
+              <tr class='svbx-tr'>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' class='svbxtd def-tot'><a href='DisplayStatus.php' class='def-link'>{$row[0]} Statuses</a></td>
+                  <td colspan='2' class='svbx-td def-tot'><a href='DisplayStatus.php' class='def-link'>{$row[0]} Statuses</a></td>
                 </tr>";
               }    
           }
           if($result = mysqli_query($link,$Status)) {
             echo "
-              <tr class='svbxtr'>
-                <th style='width:15%' class='svbxth'>Status</th>
-                <th style='width:5%' class='svbxth'>Items</th>
+              <tr class='svbx-tr'>
+                <th style='width:15%' class='svbx-th'>Status</th>
+                <th style='width:5%' class='svbx-th'>Items</th>
               </tr>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <tr class='svbxtr'>
-                    <td class='svbxtd def-name'>{$row[0]}</td>
-                    <td class='svbxtd def-count'>{$row[1]}</td>
+                  <tr class='svbx-tr'>
+                    <td class='svbx-td def-name'>{$row[0]}</td>
+                    <td class='svbx-td def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " 
@@ -94,28 +94,28 @@ session_start();
           //Severity Status Table
           if($result = mysqli_query($link,$sqlSev)) {
             echo "
-              <table class='svbxtable'>
-                <tr class='svbxtr'>
-                  <th colspan='2' class='svbxth'>Severities</th>
+              <table class='table svbx-table dash-table'>
+                <tr class='svbx-tr'>
+                  <th colspan='2' class='svbx-th'>Severities</th>
                 </tr>
-                <tr class='svbxtr'>";
+                <tr class='svbx-tr'>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' class='svbxtd def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Severities</a></td>
+                  <td colspan='2' class='svbx-td def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Severities</a></td>
                   </tr>";
               }    
           }
           if($result = mysqli_query($link,$Sev)) {
             echo "
-              <tr class='svbxtr'>
-                <th style='width:10%' class='svbxth'>Severity</th>
-                <th style='width:10%' class='svbxth'>Open Items</th>
+              <tr class='svbx-tr'>
+                <th style='width:10%' class='svbx-th'>Severity</th>
+                <th style='width:10%' class='svbx-th'>Open Items</th>
               </tr>"; 
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <tr class='svbxtr'>
-                    <td class='svbxtd def-name'>{$row[0]}</td>
-                    <td class='svbxtd def-count'>{$row[1]}</td>
+                  <tr class='svbx-tr'>
+                    <td class='svbx-td def-name'>{$row[0]}</td>
+                    <td class='svbx-td def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " </table> ";
@@ -124,28 +124,28 @@ session_start();
           //Location Status Table
           if($result = mysqli_query($link,$sqlLoc)) {
             echo "
-              <table class='svbxtable'>
-                <tr class='svbxtr'>
-                  <th colspan='2' class='svbxth'>Locations</th>
+              <table class='table svbx-table dash-table'>
+                <tr class='svbx-tr'>
+                  <th colspan='2' class='svbx-th'>Locations</th>
                 </tr>
-                <tr class='svbxtr'>";
+                <tr class='svbx-tr'>";
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <td colspan='2' class='svbxtd def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Locations</a></td>
+                  <td colspan='2' class='svbx-td def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Locations</a></td>
                   </tr>";
               }    
           }
           if($result = mysqli_query($link,$location)) {
             echo "
-              <tr class='svbxtr'>
-                <th style='width:10%' class='svbxth'>Location</th>
-                <th style='width:10%' class='svbxth'>Open Items</th>
+              <tr class='svbx-tr'>
+                <th style='width:10%' class='svbx-th'>Location</th>
+                <th style='width:10%' class='svbx-th'>Open Items</th>
               </tr>"; 
               while ($row = mysqli_fetch_array($result)) {
                 echo "
-                  <tr class='svbxtr'>
-                    <td class='svbxtd def-name'>{$row[0]}</td>
-                    <td class='svbxtd def-count'>{$row[1]}</td>
+                  <tr class='svbx-tr'>
+                    <td class='svbx-td def-name'>{$row[0]}</td>
+                    <td class='svbx-td def-count'>{$row[1]}</td>
                   </tr>";
               }    
               echo " </table> ";

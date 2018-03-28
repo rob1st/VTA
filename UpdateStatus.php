@@ -26,7 +26,7 @@
                         <div class='container'> 
                             <FORM action='UpdateEvidenceCommit.php' method='POST'>
                                 <input type='hidden' name='StatusID' value='".$q."'>
-                                <table class='usertable'>
+                                <table class='table'>
                                     <tr class='usertr'>
                                         <th class='userth'>Evidence Type Name:</th>
                                         <td class='usertd'>

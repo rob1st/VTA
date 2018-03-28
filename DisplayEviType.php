@@ -29,7 +29,7 @@ include('filestart.php');
     if($result = mysqli_query($link,$sql)) {
         echo"   
                 <div='container'>
-                <table class='usertable'>
+                <table class='table'>
                     <tr class='usertr'>
                         <th class='userth'>Evidence ID</th>
                         <th class='userth'>Evidence</th>";

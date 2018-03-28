@@ -237,34 +237,37 @@ img {
 }
 
 .def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
-/* End of Table Menu CSS */
 
-
-.svbxtable {
-    margin-left: auto;
-    margin-right: auto;
+.svbx-table {
+    margin-left: auto; margin-right: auto;
     border: 1px solid black;
-    width:20%;
-    display:inline-block;
     vertical-align:top;
-    min-width: 300px; /* 100px x3 = 300 */
 }
 
-.svbxth {
+.svbx-th {
     background-color: #03528B;
     color: white;
     border: 1px solid white;
     text-align: center;
 }
 
-.svbxtd {
+.svbx-td {
     text-align: left;
     padding: 8px;
-    
 }
 
-.svbxtr:nth-child(even){background-color: #f2f2f2}
-/* End of Table CSS */
+@media screen and (min-width: 577px) {
+    .dash-table {
+        width: 50%;
+    }
+}
+
+.def-tot, .def-count {
+    text-align: center;
+}
+
+.svbx-tr:nth-child(even){background-color: #f2f2f2}
+/* End of Table Menu CSS */
 
 /* Footer CSS */
 @media screen and (max-width: 576px) {
@@ -280,6 +283,7 @@ img {
 }
 
 /* Footer CSS */
+/* resize footer for different screen sizes */
 @media screen and (max-width: 576px) {
     .footer {
         font-size: .7rem;

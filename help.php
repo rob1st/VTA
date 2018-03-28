@@ -29,18 +29,18 @@ session_start();
    
     
     if($result = mysqli_query($link,$sql)) {
-        echo"   <table class='svbxtable' style='width:45%'>
-                    <tr class='svbxtr'>
-                        <th class='svbxth' style='width:10%'>First name</th>
-                        <th class='svbxth' style='width:10%'>Last name</th>
-                        <th class='svbxth' style='width:25%'>Email</th>
+        echo"   <table class='table svbx-table' style='width:45%'>
+                    <tr class='svbx-tr'>
+                        <th class='svbx-th' style='width:10%'>First name</th>
+                        <th class='svbx-th' style='width:10%'>Last name</th>
+                        <th class='svbx-th' style='width:25%'>Email</th>
                     </tr>"; 
                     while ($row = mysqli_fetch_array($result)) {
                     echo "       
-                    <tr class='svbxtr'>
-                        <td class='svbxtd'>{$row[0]}</td>
-                        <td class='svbxtd'>{$row[1]}</td>
-                        <td class='svbxtd'><a href='mailto:{$row[2]}' style='color:black'>{$row[2]}</a></td>
+                    <tr class='svbx-tr'>
+                        <td class='svbx-td'>{$row[0]}</td>
+                        <td class='svbx-td'>{$row[1]}</td>
+                        <td class='svbx-td'><a href='mailto:{$row[2]}' style='color:black'>{$row[2]}</a></td>
                     </tr>";
                     }
     }
