@@ -2,7 +2,6 @@
 include('SQLFunctions.php');
 session_start();
 
-
     $title = "SVBX - Home";
     $link = f_sqlConnect();
     //$table = pages;
@@ -25,13 +24,11 @@ session_start();
     //echo '<br>SQL String: ' .$sql;
     include('filestart.php'); //Provides all HTML starting code
 ?> 
-    <main role="main">
+    <main role="main" class="main-content">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <div class="container">
-          <h1 class="display-3">Database Information</h1>
-        </div>
+      <header class="page-header">
+        <h1 class="page-title">Database Information</h1>
       </div>
       <div class="container">
         <?php
