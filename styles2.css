@@ -219,7 +219,6 @@ img {
 .sumtr:nth-child(even){background-color: #f2f2f2}
 
 .def-table {
-    margin-left: auto; margin-right: auto;
     border: 1px solid black;
     /*width:80%;*/
 }
@@ -245,9 +244,9 @@ img {
     margin-left: auto;
     margin-right: auto;
     border: 1px solid black;
-    /*width:20%;*/
-    /*display:inline-block;*/
-    /*vertical-align:top;*/
+    width:20%;
+    display:inline-block;
+    vertical-align:top;
     min-width: 300px; /* 100px x3 = 300 */
 }
 
@@ -266,6 +265,19 @@ img {
 
 .svbxtr:nth-child(even){background-color: #f2f2f2}
 /* End of Table CSS */
+
+/* Footer CSS */
+@media screen and (max-width: 576px) {
+    .footer {
+        font-size: .7rem;
+    }
+}
+
+@media screen and (min-width: 577px) {
+    .footer {
+        font-size: normal;
+    }
+}
 
 /* Footer CSS */
 @media screen and (max-width: 576px) {
