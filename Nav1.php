@@ -158,6 +158,13 @@ else
           if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
             echo "
           <li class='nav-item dropdown'>
+            <a class='nav-link dropdown-toggle' id='dropdown01' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Safety Certs</a>
+            <div class='dropdown-menu' aria-labelledby='dropdown01'>
+              <a class='dropdown-item' href='ViewSC.php'>View/Search</a>";
+          }
+          if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
+            echo "
+          <li class='nav-item dropdown'>
             <a class='nav-link dropdown-toggle' id='dropdown01' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>User Menu</a>
             <div class='dropdown-menu' aria-labelledby='dropdown01'>
               <a class='dropdown-item' href='UpdateProfile.php'>Update Profile</a>

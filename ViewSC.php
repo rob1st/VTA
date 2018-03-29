@@ -11,7 +11,9 @@ $AND = 0;
 
 if($_POST['Search'] == NULL) {
     $sql = file_get_contents("SafetyCert.sql");
+    $count = "SELECT COUNT(*) FROM SafetyCert A";
 } else {
+    
     $ItemS = $_POST['Item'];
     $RequirementS = $_POST['Requirement'];
     $DesignCodeS = $_POST['DesignCode'];
@@ -20,8 +22,9 @@ if($_POST['Search'] == NULL) {
     $ControlNoS = $_POST['ControlNo'];
     $ElementGroupS = $_POST['ElementGroup'];
     $CertElementS = $_POST['CertElement'];
+    
     $sql = "SELECT 
-                A.CertID, 
+                A.CertID,
                 A.Item, 
                 A.Requirement, 
                 A.DesignCode, 
@@ -43,8 +46,8 @@ if($_POST['Search'] == NULL) {
             LEFT JOIN 
                 CertifiableElement D 
             ON 
-                D.CE_ID = A.CertElement
-            WHERE";
+                D.CE_ID = A.CertElement";
+    $count = "SELECT COUNT(*) FROM SafetyCert A";
     
     if($ItemS <> NULL) {
        $ItemSQL = " A.Item = '".$ItemS."'";
@@ -56,7 +59,7 @@ if($_POST['Search'] == NULL) {
         if($AND == 1) {
            $ReqSQL = " AND A.Requirement LIKE '%".$RequirementS."%'"; //LIKE '%123456%'
        } else {
-       $ReqSQL = " A.Requirement LIKE '%".$RequirementS."%'";
+       $ReqSQL = " WHERE A.Requirement LIKE '%".$RequirementS."%'";
        $AND = 1;
        }
     } else {
@@ -66,7 +69,7 @@ if($_POST['Search'] == NULL) {
         if($AND == 1) {
            $DesignCodeSQL = " AND A.DesignCode LIKE '%".$DesignCodeS."%'";
         } else {
-           $DesignCodeSQL = " A.DesignCode LIKE '%".$DesignCodeS."%'";
+           $DesignCodeSQL = " WHERE A.DesignCode LIKE '%".$DesignCodeS."%'";
            $AND = 1;
        }
     } else {
@@ -76,7 +79,7 @@ if($_POST['Search'] == NULL) {
         if($AND == 1) {
             $DesignSpecSQL = " AND A.DesignSpec LIKE '%".$DesignSpecS."%'";
         } else {
-            $DesignSpecSQL = " A.DesignSpec LIKE '%".$DesignSpecS."%'";
+            $DesignSpecSQL = " WHERE A.DesignSpec LIKE '%".$DesignSpecS."%'";
             $AND = 1;
         }
     } else {
@@ -86,7 +89,7 @@ if($_POST['Search'] == NULL) {
        if($AND == 1) {
             $ContractNoSQL = " AND A.ContractNo = '".$ContractNoS."'";
         } else {
-            $ContractNoSQL = " A.ContractNo = '".$ContractNoS."'";
+            $ContractNoSQL = " WHERE A.ContractNo = '".$ContractNoS."'";
             $AND = 1;
         }
     } else {
@@ -94,9 +97,9 @@ if($_POST['Search'] == NULL) {
     }
     if($ControlNoS <> 0) {
        if($AND == 1) {
-            $ControlNoSQL = " AND A.ControlNo LIKE '%".$ControlNoS."%'";
+            $ControlNoSQL = " AND A.ControlNo = '".$ControlNoS."'";
         } else {
-            $ControlNoSQL = " A.ControlNo = '%".$ControlNoS."%'";
+            $ControlNoSQL = " WHERE A.ControlNo = '".$ControlNoS."'";
             $AND = 1;
         }
     } else {
@@ -106,7 +109,7 @@ if($_POST['Search'] == NULL) {
        if($AND == 1) {
             $ElementGroupSQL = " AND A.ElementGroup = '".$ElementGroupS."'";
         } else {
-            $ElementGroupSQL = " A.ElementGroup = '".$ElementGroupS."'";
+            $ElementGroupSQL = " WHERE A.ElementGroup = '".$ElementGroupS."'";
             $AND = 1;
         }
     } else {
@@ -116,13 +119,15 @@ if($_POST['Search'] == NULL) {
        if($AND == 1) {
             $CertElementSQL = " AND A.CertElement = '".$CertElementS."'";
         } else {
-            $CertElementSQL = " A.CertElement = '".$CertElementS."'";
+            $CertElementSQL = " WHERE A.CertElement = '".$CertElementS."'";
             $AND = 1;
         }
     } else {
         $CertElementSQL = "";
     }
     $sql = $sql.$ItemSQL.$ReqSQL.$DesignCodeSQL.$DesignSpecSQL.$ContractNoSQL.$ControlNoSQL.$ElementGroupSQL.$CertElementSQL;
+    $count = $count.$ItemSQL.$ReqSQL.$DesignCodeSQL.$DesignSpecSQL.$ContractNoSQL.$ControlNoSQL.$ElementGroupSQL.$CertElementSQL;
+    
 }
 
 
@@ -177,7 +182,20 @@ if($_POST['Search'] == NULL) {
                                     }
                             echo "</select>";
                         ?></td>
-                    <td><input type="text" name="ControlNo" max="3" style="width:100%" value="<?php echo $ControlNoS ?>" /></td>
+                    <td><?php
+                            $sqlCN = "SELECT DISTINCT ControlNo FROM SafetyCert ORDER BY ControlNo";
+                             //if($result = mysqli_query($link,$sqlL)) {
+                                    echo "<select name='ControlNo'' style='width:100%' value='".$ControlNoS."'></option>";
+                                    echo "<option value=''></option>";
+                                    foreach(mysqli_query($link,$sqlCN) as $row) {
+                                        echo "<option value='$row[ControlNo]'";
+                                            if($row['ControlNo'] == $ControlNoS) {
+                                                echo " selected>$row[ControlNo]</option>";
+                                            } else { echo ">$row[ControlNo]</option>";
+                                            }
+                                    }
+                            echo "</select>";
+                        ?></td>
                     <td><?php
                             $sqlE = "SELECT EG_ID, ElementGroup FROM ElementGroup ORDER BY ElementGroup";
                              //if($result = mysqli_query($link,$sqlL)) {
@@ -218,10 +236,20 @@ if($_POST['Search'] == NULL) {
     </form>
     </div>
         <?php 
-            echo "<br />SQL: ".$sql;
-            echo "<br />AND: ".$AND;
+        if($result = mysqli_query($link,$count)) {
+            echo"
+                <br />
+                <table class='sumtable'>
+                <tr class='sumtr'>
+                <td class='sumtd'>Safety Requirements Found: </td>";
+            while ($row = mysqli_fetch_array($result)) {
+                echo "<td class='sumtd'>{$row[0]}</td>";
+            }
+        }
+            echo "</table>";
+            //echo "<br />SQL: ".$sql;
+            //echo "<br />Count: ".$count;
         ?>
-
 <?php
     if($result = mysqli_query($link,$sql)) {
     echo "<table border='1' style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
