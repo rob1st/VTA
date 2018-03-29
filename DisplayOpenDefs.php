@@ -16,7 +16,7 @@ include('filestart.php');
         echo"
             <main class='container main-content'>
                 <p style='color:black'>Click Deficiency ID Number to see full details</p>
-                <table class='table svbx-table def-table' border='1'>
+                <table class='table svbx-table' border='1'>
                     <tr class='svbx-tr'>
                         <th class='svbx-th'>ID</th>
                         <th class='collapse-sm collapse-xs svbx-th'>Location</th>

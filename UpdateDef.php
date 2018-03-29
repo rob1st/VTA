@@ -61,7 +61,7 @@ include('filestart.php');
         <main class='container main-content'> 
         <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
         <input type='hidden' name='DefID' value='".$q."'>
-            <table class='vdtable'>
+            <table class='table svbx-table'>
                 <tr class='vdtr'>
                 <th colspan='4' height='50' class='vdth'><p>
                         Deficiency No. $q</p></th>

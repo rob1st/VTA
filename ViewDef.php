@@ -45,11 +45,11 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             $color = "closed-def"; 
         }
     echo "
-        <header class='container page-header'>
-            <h1 class='page-title def-heading $color'>Deficiency No. $DefID</h1>
+        <header class='container page-header def-header $color'>
+            <h1 class='page-title'>Deficiency No. $DefID</h1>
         </header>
-            <main class='container main-content'>
-                <table class='table'>
+        <main class='container main-content'>
+            <table class='table svbx-table'>
                 <tr class='vdtr'>
                     <th colspan='4' class='vdth'>Required Information</th>
                 </tr>

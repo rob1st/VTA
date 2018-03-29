@@ -43,6 +43,11 @@ img {
     padding-top: .5rem; padding-bottom: .6rem;
 }
 
+.def-header {
+    margin-bottom: 0;
+    color:white;
+}
+
 .open-def {
     background-color: red;
 }
@@ -196,11 +201,6 @@ img {
 
 .sumtr:nth-child(even){background-color: #f2f2f2}
 
-.def-table {
-    border: 1px solid black;
-    /*width:80%;*/
-}
-
 .userth {
     background-color: #03528B;
     color: white;
@@ -216,6 +216,8 @@ img {
 .def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
 
 .svbx-table {
+    display:block;
+    overflow-x:scroll;
     margin-left: auto; margin-right: auto;
     border: 1px solid black;
     vertical-align:top;

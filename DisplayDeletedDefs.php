@@ -18,7 +18,7 @@ include('filestart.php');
 <?php     
     if($result = mysqli_query($link,$CDL)) {
         echo "<p style='color:black'>Click Deficiency ID Number to see full details</p>
-            <table width='98%' class='table def-table' border='1'>
+            <table width='98%' class='table svbx-table' border='1'>
                 <tr class='svbx-tr'>
                     <th class='svbx-th'>Def ID</th>
                     <th class='collapse-sm collapse-xs svbx-th'>Location</th>

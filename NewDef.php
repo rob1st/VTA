@@ -13,7 +13,7 @@ include('filestart.php') ?>
     </header>
     <main class='container main-content'>
         <form action="RecDef.php" method="POST">
-            <table class='table vdtable'>
+            <table class='table svbx-table'>
                 <tr class='vdtr'>
                     <th colspan='4' class='vdth'>
                         <p>New Deficiency</p>
