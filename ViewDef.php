@@ -41,7 +41,10 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
     while ($stmt->fetch()) { 
     
     echo "
-            <main class='main-content view-def'>
+        <header class='container page-header'>
+            <h1 class='page-title'>Deficiency No. ".$q."</h1>
+        </header>
+            <main class='container main-content'>
                 <table class='table'>
                     <tr class='vdtr'>";
                         if($Status == "Open") {
