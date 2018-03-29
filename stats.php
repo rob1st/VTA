@@ -27,10 +27,10 @@ session_start();
     <main role="main" class="main-content">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-      <header class="page-header">
+      <header class="container page-header">
         <h1 class="page-title">Database Information</h1>
-      </div>
-      <div class="container">
+      </header>
+      <div class="container main-content">
         <?php
         //Systems Status Table
           if($result = mysqli_query($link,$sql1)) {

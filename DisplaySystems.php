@@ -17,8 +17,10 @@ include('filestart.php');
     
     // display Page Heading
     if($result = mysqli_query($link,$sql1)) {
-        echo"   <main class='main-content data-page'>
-                    <h1>Systems</h1>
+        echo"   <header class='page-header'>
+                    <h1 class='page-title'>Systems</h1>
+                </header>
+                <main class='main-content data-page'>
                     <table class='sumtable'>
                         <tr class='sumtr'>
                             <td class='sumtd'>Systems:</td>";
