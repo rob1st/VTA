@@ -4,10 +4,9 @@ $Role = $_SESSION['Role'];
 $title = "SVBX - Deficiency No".$DefID;
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+error_reporting(E_ALL);
 include('filestart.php'); 
 $link = f_sqlConnect();
-$AND = 0;
 
 if($_POST['Search'] == NULL) {
     $sql = file_get_contents("SafetyCert.sql");
@@ -20,43 +19,20 @@ if($_POST['Search'] == NULL) {
     $ControlNoS = $_POST['ControlNo'];
     $ElementGroupS = $_POST['ElementGroup'];
     $CertElementS = $_POST['CertElement'];
-    $sql = "SELECT 
-                A.CertID, 
-                A.Item, 
-                A.Requirement, 
-                A.DesignCode, 
-                A.DesignSpec, 
-                B.Contract, 
-                A.ControlNo, 
-                C.ElementGroup, 
-                D.CertifiableElement 
-            FROM 
-                SafetyCert A 
-            LEFT JOIN 
-                Contract B 
-            ON 
-                B.ContractID = A.ContractNo
-            LEFT JOIN 
-                ElementGroup C 
-            ON 
-                C.EG_ID = A.ElementGroup
-            LEFT JOIN 
-                CertifiableElement D 
-            ON 
-                D.CE_ID = A.CertElement
-            WHERE";
+    $AND = 0;
+    $sql = "SELECT * FROM SafetyCert WHERE";
     
     if($ItemS <> NULL) {
-       $ItemSQL = " A.Item = '".$ItemS."'";
+       $ItemSQL = " Item = '".$ItemS."'";
        $AND = 1;
     } else {
         $ItemSQL = "";
     }
     if($RequirementS <> NULL) {
         if($AND == 1) {
-           $ReqSQL = " AND A.Requirement LIKE '%".$RequirementS."%'"; //LIKE '%123456%'
+           $ReqSQL = " AND Requirement LIKE '%".$RequirementS."%'"; //LIKE '%123456%'
        } else {
-       $ReqSQL = " A.Requirement LIKE '%".$RequirementS."%'";
+       $ReqSQL = " Requirement LIKE '%".$RequirementS."%'";
        $AND = 1;
        }
     } else {
@@ -64,9 +40,9 @@ if($_POST['Search'] == NULL) {
     }
     if($DesignCodeS <> NULL) {
         if($AND == 1) {
-           $DesignCodeSQL = " AND A.DesignCode LIKE '%".$DesignCodeS."%'";
+           $DesignCodeSQL = " AND DesignCode LIKE '%".$DesignCodeS."%'";
         } else {
-           $DesignCodeSQL = " A.DesignCode LIKE '%".$DesignCodeS."%'";
+           $DesignCodeSQL = " DesignCode LIKE '%".$DesignCodeS."%'";
            $AND = 1;
        }
     } else {
@@ -74,9 +50,9 @@ if($_POST['Search'] == NULL) {
     }
     if($DesignSpecS <> NULL) {
         if($AND == 1) {
-            $DesignSpecSQL = " AND A.DesignSpec LIKE '%".$DesignSpecS."%'";
+            $DesignSpecSQL = " AND DesignSpec LIKE '%".$DesignSpecS."%'";
         } else {
-            $DesignSpecSQL = " A.DesignSpec LIKE '%".$DesignSpecS."%'";
+            $DesignSpecSQL = " DesignSpec LIKE '%".$DesignSpecS."%'";
             $AND = 1;
         }
     } else {
@@ -84,9 +60,9 @@ if($_POST['Search'] == NULL) {
     }
     if($ContractNoS <> NULL) {
        if($AND == 1) {
-            $ContractNoSQL = " AND A.ContractNo = '".$ContractNoS."'";
+            $ContractNoSQL = " AND ContractNo = '".$ContractNoS."'";
         } else {
-            $ContractNoSQL = " A.ContractNo = '".$ContractNoS."'";
+            $ContractNoSQL = " ContractNo = '".$ContractNoS."'";
             $AND = 1;
         }
     } else {
@@ -94,9 +70,9 @@ if($_POST['Search'] == NULL) {
     }
     if($ControlNoS <> 0) {
        if($AND == 1) {
-            $ControlNoSQL = " AND A.ControlNo LIKE '%".$ControlNoS."%'";
+            $ControlNoSQL = " AND ControlNo LIKE '%".$ControlNoS."%'";
         } else {
-            $ControlNoSQL = " A.ControlNo = '%".$ControlNoS."%'";
+            $ControlNoSQL = " ControlNo = '%".$ControlNoS."%'";
             $AND = 1;
         }
     } else {
@@ -104,9 +80,9 @@ if($_POST['Search'] == NULL) {
     }
     if($ElementGroupS <> 0) {
        if($AND == 1) {
-            $ElementGroupSQL = " AND A.ElementGroup = '".$ElementGroupS."'";
+            $ElementGroupSQL = " AND ElementGroup = '".$ElementGroupS."'";
         } else {
-            $ElementGroupSQL = " A.ElementGroup = '".$ElementGroupS."'";
+            $ElementGroupSQL = " ElementGroup = '".$ElementGroupS."'";
             $AND = 1;
         }
     } else {
@@ -114,9 +90,9 @@ if($_POST['Search'] == NULL) {
     }
     if($CertElementS <> 0) {
        if($AND == 1) {
-            $CertElementSQL = " AND A.CertElement = '".$CertElementS."'";
+            $CertElementSQL = " AND CertElement = '".$CertElementS."'";
         } else {
-            $CertElementSQL = " A.CertElement = '".$CertElementS."'";
+            $CertElementSQL = " CertElement = '".$CertElementS."'";
             $AND = 1;
         }
     } else {
@@ -124,8 +100,6 @@ if($_POST['Search'] == NULL) {
     }
     $sql = $sql.$ItemSQL.$ReqSQL.$DesignCodeSQL.$DesignSpecSQL.$ContractNoSQL.$ControlNoSQL.$ElementGroupSQL.$CertElementSQL;
 }
-
-
 
 ?>
     <table border='1' style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
@@ -171,8 +145,8 @@ if($_POST['Search'] == NULL) {
                                     foreach(mysqli_query($link,$sqlC) as $row) {
                                         echo "<option value='$row[ContractID]'";
                                             if($row['ContractID'] == $ContractNoS) {
-                                                echo " selected>$row[Contract]</option>";
-                                            } else { echo ">$row[Contract]</option>";
+                                                echo " selected>$row[ContractNo]</option>";
+                                            } else { echo ">$row[ContractNo]</option>";
                                             }
                                     }
                             echo "</select>";
@@ -210,17 +184,23 @@ if($_POST['Search'] == NULL) {
     </table>
     <br />
     <div  style='display: flex; align-items: center; justify-content: center; hspace:20'>
-            <input type='submit' value='Submit' class='btn btn-primary btn-lg' /><p> </p>
-    </form>
-    <form action="ViewSC.php">
+            <input type='submit' value='submit' class='btn btn-primary btn-lg' /><p> </p>
             <div style='width:5px; height:auto; display:inline-block'></div>
-            <input type='submit' value='Reset' class='btn btn-primary btn-lg'  />
+            <input type='reset' value='reset' class='btn btn-primary btn-lg' />
+    </form>
+            <form action="ViewSC.php">
+            <div style='width:5px; height:auto; display:inline-block'></div>
+            <input type='submit' value='View All' class='btn btn-primary btn-lg'  />
     </form>
     </div>
         <?php 
             echo "<br />SQL: ".$sql;
             echo "<br />AND: ".$AND;
         ?>
+        ALTER TABLE foo
+CHANGE COLUMN bar
+bar COLUMN_DEFINITION_HERE
+FIRST;
 
 <?php
     if($result = mysqli_query($link,$sql)) {
