@@ -39,24 +39,17 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                 $DueDate,
                 $SafetyCert);  
     while ($stmt->fetch()) { 
-    
+        if($Status == "Open") {
+            $color = "open-def";
+        } else {
+            $color = "closed-def"; 
+        }
     echo "
         <header class='container page-header'>
-            <h1 class='page-title'>Deficiency No. ".$q."</h1>
+            <h1 class='page-title def-heading $color'>Deficiency No. $DefID</h1>
         </header>
             <main class='container main-content'>
                 <table class='table'>
-                    <tr class='vdtr'>";
-                        if($Status == "Open") {
-                            $color = "Red";
-                        } elseif($Status == "Closed") {
-                            $color = "Green"; 
-                        } else {
-                            $color = "Black";
-                        }
-            echo "
-                    <th class='vdth' colspan='4' height='50' style='background-color:$color'>Deficiency No. $DefID</th>
-                </tr>
                 <tr class='vdtr'>
                     <th colspan='4' class='vdth'>Required Information</th>
                 </tr>
