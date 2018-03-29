@@ -36,9 +36,10 @@ img {
 .page-header {
     margin-top: 3.5rem; margin-bottom: .35rem;
     padding-top: .5rem; padding-bottom: .6rem;
-    background-color: var(--bs-jumbo-grey);
 }
 
+.masthead {
+}
 
 .masthead-logo {
     margin-right: 1rem;
@@ -49,8 +50,12 @@ img {
     font-size: 2.5rem;
 }
 
-.main-content {
-    margin-top:3.5rem;
+.logo-md {
+    width: 127px;
+}
+
+.grey-back {
+    background-color: var(--bs-jumbo-grey);
 }
 
 .login-container {
