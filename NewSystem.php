@@ -13,7 +13,7 @@ include('filestart.php');
     </div>
         <div class="container"> 
         <FORM action="RecSystem.php" method="POST">
-            <table class='table'>
+            <table class='table svbx-table'>
                 <tr class='usertr'>
                     <th class='userth'>System Name:</th>
                     <td class='usertd'>
