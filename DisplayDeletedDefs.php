@@ -8,12 +8,9 @@ $Role = $_SESSION['Role'];
 include('filestart.php');
 ?>
     
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-        <div class="container">
-          <h1 class="display-3">Deficiencies</h1>
-        </div>
-    </div>
+    <header class="container page-header">
+          <h1 class="page-title">Deficiencies</h1>
+    </header>
     <div class="container">
 <?php     
     if($result = mysqli_query($link,$CDL)) {
