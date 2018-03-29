@@ -263,7 +263,8 @@ img {
 
 @media screen and (min-width: 577px) {
     .dash-table {
-        width: 50%;
+        display: inline-block;
+        max-width: 48%;
     }
 }
 
@@ -305,8 +306,8 @@ img {
     background: var(--vta-dk-blue);
     color: var(--bs-jumbo-grey);
     text-align: center;
-    /*position: fixed;*/
-    /*bottom: 0px;*/
+    position: absolute;
+    bottom: 0px;
     height:auto;
     max-width:100%;
 }
