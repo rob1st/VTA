@@ -24,12 +24,10 @@ session_start();
     //echo '<br>SQL String: ' .$sql;
     include('filestart.php'); //Provides all HTML starting code
 ?> 
-    <main role="main" class="main-content">
-
       <header class="container page-header">
         <h1 class="page-title">Database Information</h1>
       </header>
-      <div class="container main-content">
+      <main role="main" class="container main-content">
         <?php
         //Systems Status Table
           if($result = mysqli_query($link,$sql1)) {
@@ -151,8 +149,6 @@ session_start();
           }
               echo " </table> ";
         ?> 
-      </div><!-- /container -->
-
     </main>
     <!--DO NOT TYPE BELOW THIS LINE-->
     <?php include('fileend.php'); ?>
