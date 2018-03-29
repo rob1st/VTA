@@ -1,11 +1,25 @@
+@import './assets/typicons.font/src/font/typicons.css';
+
 * {
+    /* Bootsrap breakpoints */
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
     --bs-jumbo-grey:#e9ecef;
     --vta-dk-blue:#03528B;
 }
 
+body,html {
+    height: 100%;
+}
+
 body {
-   background-color:#FFFFFF;
    margin:0;
+   background-color:#FFFFFF;
+   /*background-repeat:repeat-x;*/
+   background-position:center top;
 }
 
 a:hover {
@@ -16,11 +30,32 @@ img {
     max-width: 100%;
     height: auto;
     width: auto;
-} 
+}
 
-/* Content CSS */
+/* Page Header */
+.jumbotron h1 {
+    text-align: center;
+    font-size: 5.9vw;
+}
+
 .page-header {
-    margin-top: 4rem;
+    margin-top: 3.5rem; margin-bottom: .35rem;
+    padding-top: .5rem; padding-bottom: .6rem;
+}
+
+.def-heading {
+    color:white;
+}
+
+.open-def {
+    background-color: red;
+}
+
+.closed-def {
+    background-color: green;
+}
+
+.masthead {
 }
 
 .masthead-logo {
@@ -30,10 +65,16 @@ img {
 
 .page-title {
     font-size: 2.5rem;
+    text-align: center;
 }
 
-.main-content {
-    margin-top:3.5rem;
+/* Content CSS */
+.logo-md {
+    width: 127px;
+}
+
+.grey-back {
+    background-color: var(--bs-jumbo-grey);
 }
 
 .login-container {
@@ -63,83 +104,41 @@ img {
 }
 
 /* Table CSS */
-
-/* These classes will collapse cells at the given breakpoints */
 /* #Tablet (Portrait) */
-/* Note: Design for a width of 768px */
-@media all and (min-width: 768px) and (max-width: 959px) {
-    td.col_1{
+/* These are your Bootstrap breakpoints:
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px; */
+@media all and (min-width: 768px) and (max-width: 992px) {
+    .collapse-md{
         display:none;
         width:0;
         height:0;
         opacity:0;
         visibility: collapse;       
-    } 
-    th.col_1{
-        display:none;
-        width:0;
-        height:0;
-        opacity:0;
-        visibility: collapse; 
     }
-
 }
 /* #Mobile (Landscape) */
-/* Note: Design for a width of 600px */
-@media all and (min-width: 600px) and (max-width: 767px) {
-    td.col_2{
+@media all and (min-width: 576px) and (max-width: 767px) {
+    .collapse-sm{
         display:none;
         width:0;
         height:0;
         opacity:0;
         visibility: collapse;
     } 
-    th.col_2{
-        display:none;
-        width:0;
-        height:0;
-        opacity:0;
-        visibility: collapse;
-    } 
-
-}
-/* #Mobile (Landscape) */
-/* Note: Design for a width of 480px */
-@media all and (min-width: 480px) and (max-width: 599px) {
-    td.col_3{
-        display:none;
-        width:0;
-        height:0;
-        opacity:0;
-        visibility: collapse;
-    } 
-    th.col_3{
-        display:none;
-        width:0;
-        height:0;
-        opacity:0;
-        visibility: collapse;
-    } 
-
 }
 /*  #Mobile (Portrait) */
-/* Note: Design for a width of 320px */
-@media all and (max-width: 479px) {
-    td.col_4{
+@media all and (max-width: 575px) {
+    .collapse-xs{
         display:none;
         width:0;
         height:0;
         opacity:0;
         visibility: collapse;
     } 
-    th.col_4{
-        display:none;
-        width:0;
-        height:0;
-        opacity:0;
-        visibility: collapse;
-    } 
-
 }
 
 .vdtable {
@@ -197,17 +196,9 @@ img {
 .sumtd {
     text-align: left;
     padding: 8px;
-    
 }
 
 .sumtr:nth-child(even){background-color: #f2f2f2}
-
-.usertable {
-    margin-left: 10%;
-    margin-right: 10%;
-    border: 1px solid black;
-    width:80%;
-}
 
 .userth {
     background-color: #03528B;
@@ -219,46 +210,71 @@ img {
 .usertd {
     text-align: left;
     padding: 8px;
-    
 }
 
-.usertr:nth-child(even){background-color: #f2f2f2}
+.def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
 
-.svbxtable {
-    margin-left: auto;
-    margin-right: auto;
+.svbx-table {
+    /*display:block;*/
+    overflow-x:scroll;
+    margin-left: auto; margin-right: auto;
     border: 1px solid black;
-    width:20%;
-    display:inline-block;
     vertical-align:top;
-    min-width: 300px; /* 100px x3 = 300 */
 }
 
-.svbxth {
+.svbx-th {
     background-color: #03528B;
     color: white;
     border: 1px solid white;
     text-align: center;
 }
 
-.svbxtd {
+.svbx-td {
     text-align: left;
     padding: 8px;
-    
 }
 
-.svbxtr:nth-child(even){background-color: #f2f2f2}
-/* End of Table CSS */
+@media screen and (min-width: 577px) {
+    .dash-table {
+        display: inline-block;
+        max-width: 48%;
+    }
+}
+
+.def-tot, .def-count {
+    text-align: center;
+}
+
+.svbx-tr:nth-child(even){background-color: #f2f2f2}
+/* End of Table Menu CSS */
 
 /* Footer CSS */
+/* resize footer for different screen sizes */
+@media screen and (max-width: 576px) {
+    .footer {
+        font-size: .7rem;
+    }
+}
+
+@media screen and (min-width: 577px) {
+    .footer {
+        font-size: normal;
+    }
+}
+
 .footer {
-    background: #03528B;
-    color: #FFFFFF;
+    background: var(--vta-dk-blue);
+    color: var(--bs-jumbo-grey);
     text-align: center;
-    position: fixed;
-    bottom: 0px;
+    /*position: absolute;*/
+    /*bottom: 0px;*/
     height:auto;
     max-width:100%;
+}
+
+.landing-page + .footer {
+    position: absolute;
+    bottom: 0px;
 }
 
 footer a:link{
@@ -267,8 +283,7 @@ footer a:link{
 }
 
 footer a:hover {
-text-decoration: underline;
-
+    text-decoration: underline;
 }
 
 footer a:visited{
