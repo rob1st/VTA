@@ -8,8 +8,11 @@ $title = "SVBX - New Deficiency";
         header('location: unauthorised.php');
     }
 include('filestart.php') ?>
-        <div class='container'>
-        <FORM action="RecDef.php" method="POST">
+    <header class='container page-header'>
+        <h1 class='page-title'>Add New Deficiency</h1>
+    </header>
+    <main class='container main-content'>
+        <form action="RecDef.php" method="POST">
             <table class='table vdtable'>
                 <tr class='vdtr'>
                     <th colspan='4' class='vdth'>
@@ -250,11 +253,9 @@ include('filestart.php') ?>
             <input type='submit' value='submit' class='btn btn-primary btn-lg' /><p> </p>
             <div style='width:5px; height:auto; display:inline-block'></div>
             <input type='reset' value='reset' class='btn btn-primary btn-lg' />
-            </form>
-            </div>
-        <br />
-        <br />
-        <?php 
-        MySqli_Close($link);
-        include('fileend.php');
-        ?>
+        </form>
+    </main>
+<?php 
+MySqli_Close($link);
+include('fileend.php');
+?>
