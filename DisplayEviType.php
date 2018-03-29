@@ -56,18 +56,17 @@ include('filestart.php');
                         {
                             echo "</tr>";
                         } else {
-                    echo "
-                        <td class='usertd'>{$row[2]}</td>
-                        <td class='usertd'>{$row[3]}</td>
-                        <td class='usertd' style='text-align:center'><form action='UpdateEvidence.php' method='POST' onsubmit=''/>
-                        <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
-                            if($Role == 'S') {
-                                echo "
-                        <td class='usertd' style='text-align:center'><form action='DeleteEvidence.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} evidence type`)'/>
-                        <input type='hidden' name='q' value='".$row[0]."' /><input type='Submit' value='delete'></form></td>";
-                            }
-                        echo "
-                    </tr>";
+                            echo "
+                            <td class='usertd'>{$row[2]}</td>
+                            <td class='usertd'>{$row[3]}</td>
+                            <td class='usertd' style='text-align:center'><form action='UpdateEvidence.php' method='POST' onsubmit=''/>
+                            <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
+                                if($Role == 'S') {
+                                    echo "
+                            <td class='usertd' style='text-align:center'><form action='DeleteEvidence.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} evidence type`)'/>
+                            <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";
+                        }
+                        echo "</tr>";
                     }    
             }
             echo "</table><br>";

@@ -65,7 +65,7 @@ include('filestart.php');
                             {
                             echo "
                             <td class='svbx-td' style='text-align:center'><form action='DeleteDef.php' method='POST' onsubmit='' onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'/>
-                            <input type='hidden' name='q' value='".$row[0]."' /><input type='Submit' value='delete'></form></td>
+                            <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>
                             </tr>";
                         }
             }

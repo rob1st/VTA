@@ -70,10 +70,9 @@ include('filestart.php');
                         if($Role == 'S') {
                             echo "
                         <td class='usertd'><form action='DeleteLocation.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} location`)'/>
-                        <input type='hidden' name='q' value='".$row[0]."' /><input type='Submit' value='delete'></form></td>";
+                        <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";
                         }
-                    echo "
-                    </tr>";
+                    echo "</tr>";
                     }
             }    
             echo "</table><br></div>";
