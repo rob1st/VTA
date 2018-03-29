@@ -27,12 +27,9 @@ session_start();
 ?> 
     <main role="main">
 
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <div class="container">
-          <h1 class="display-3">Database Information</h1>
-        </div>
-      </div>
+        <header class="container page-header">
+          <h1 class="page-title">Database Information</h1>
+        </header>
       <div class="container">
         <?php
         //Systems Status Table
