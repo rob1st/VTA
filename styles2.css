@@ -74,10 +74,6 @@ img {
 .forgot-password-btn {
     text-decoration: underline;
 }
-
-
-
-
 /* End of Content CSS */
 
 /* Forms CSS */
@@ -312,10 +308,15 @@ img {
     background: var(--vta-dk-blue);
     color: var(--bs-jumbo-grey);
     text-align: center;
-    position: absolute;
-    bottom: 0px;
+    /*position: absolute;*/
+    /*bottom: 0px;*/
     height:auto;
     max-width:100%;
+}
+
+.landing-page + .footer {
+    position: absolute;
+    bottom: 0px;
 }
 
 footer a:link{
