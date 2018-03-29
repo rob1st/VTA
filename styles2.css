@@ -34,7 +34,7 @@ img {
 
 /* Content CSS */
 .page-header {
-    margin-top: 4rem;
+    margin-top: 4rem; margin-bottom: .35rem;
     padding-top: .5rem; padding-bottom: .6rem;
     background-color: var(--bs-jumbo-grey);
 }
