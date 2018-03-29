@@ -26,7 +26,6 @@ session_start();
 ?> 
     <main role="main" class="main-content">
 
-      <!-- Main jumbotron for a primary marketing message or call to action -->
       <header class="container page-header">
         <h1 class="page-title">Database Information</h1>
       </header>
