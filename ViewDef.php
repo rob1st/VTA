@@ -98,7 +98,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td Colspan=4>"; echo nl2br($Description);
                     echo "</td>
                 </tr>
-                <t class='vdtr'>
+                <tr class='vdtr'>
                     <th colspan='4' class='vdth'>Optional Information</th>
                 </tr>
                 <tr class='vdtr'>
@@ -160,7 +160,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td class='vdtdh'>Updated by:</td>
                     <td class='vdtda'>$Updated_by</td>
                 </tr>
-            </table></main>";
+            </table>";
             if($Role == 'S' OR $Role == 'A' OR $Role == 'U') 
             {
                 echo "
@@ -168,8 +168,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <input type='hidden' name='q' value='".$DefID."'/>
                     <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
                     </form>
-                    <br />
-                    <br />";
+                    </main>";
             } else {
                 
             }
