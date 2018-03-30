@@ -305,6 +305,8 @@ img {
 }
 
 .footer {
+    position: fixed;
+    bottom: 0;
     background: var(--vta-dk-blue);
     color: var(--bs-jumbo-grey);
     text-align: center;
