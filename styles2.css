@@ -83,10 +83,6 @@ main, .main-content, .deftable {
     background-color: var(--bs-jumbo-grey);
 }
 
-.grey-back {
-    background-color: var(--bs-jumbo-grey);
-}
-
 .login-container {
     text-align:center;
 }
