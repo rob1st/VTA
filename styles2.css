@@ -31,6 +31,12 @@ img {
     width: auto;
 }
 
+/* Navbar */
+.navbar-heading {
+    max-width: 13rem;
+    overflow-x: hidden;
+}
+
 /* Page Header */
 .jumbotron h1 {
     text-align: center;
