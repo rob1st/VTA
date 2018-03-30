@@ -69,11 +69,9 @@ img {
 }
 
 /* Content CSS */
-/* temporary styles to work around footer:fixed */
-main, .main-content, .deftable {
-    margin-bottom: 3.5rem;
+.main-content {
+    margin-bottom: 4.5rem;
 }
-/* end temporary bug fix styles */
 
 .logo-md {
     width: 127px;
