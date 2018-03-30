@@ -11,14 +11,9 @@
     --vta-dk-blue:#03528B;
 }
 
-body,html {
-    height: 100%;
-}
-
 body {
    margin:0;
    background-color:#FFFFFF;
-
 }
 
 a:hover {
