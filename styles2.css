@@ -11,14 +11,9 @@
     --vta-dk-blue:#03528B;
 }
 
-body,html {
-    height: 100%;
-}
-
 body {
    margin:0;
    background-color:#FFFFFF;
-
 }
 
 a:hover {
@@ -29,6 +24,12 @@ img {
     max-width: 100%;
     height: auto;
     width: auto;
+}
+
+/* Navbar */
+.navbar-heading {
+    max-width: 13rem;
+    overflow-x: hidden;
 }
 
 /* Page Header */
@@ -69,18 +70,12 @@ img {
 }
 
 /* Content CSS */
-/* temporary styles to work around footer:fixed */
-main, .main-content, .deftable {
-    margin-bottom: 3.5rem;
+.main-content {
+    margin-bottom: 4.5rem;
 }
-/* end temporary bug fix styles */
 
 .logo-md {
     width: 127px;
-}
-
-.grey-back {
-    background-color: var(--bs-jumbo-grey);
 }
 
 .grey-back {
@@ -284,11 +279,6 @@ main, .main-content, .deftable {
     /*bottom: 0px;*/
     height:auto;
     max-width:100%;
-}
-
-.landing-page + .footer {
-    position: absolute;
-    bottom: 0px;
 }
 
 footer a:link{
