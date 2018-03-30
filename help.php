@@ -10,13 +10,10 @@ session_start();
 
 <main role="main">
 
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <div class="container">
-                <h1 class="display-3">Help</h1>
-                <p>If you are having difficulties with the database please contact one of the people below who have administrator rights,<br>otherwise email <a href="mailto:robert.burns@vta.org?subject=SVBX Deficiency Database Issue"  style='color:black'>Robert Burns</a> for assistance.</p>
-            </div>
-        </div>
+        <header class="container page-header">
+            <h1 class="display-3">Help</h1>
+            <p>If you are having difficulties with the database please contact one of the people below who have administrator rights,<br>otherwise email <a href="mailto:robert.burns@vta.org?subject=SVBX Deficiency Database Issue"  style='color:black'>Robert Burns</a> for assistance.</p>
+        </header>
         <div class="container">        
 <?php
     $table = users_enc;

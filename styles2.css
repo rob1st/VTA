@@ -18,8 +18,7 @@ body,html {
 body {
    margin:0;
    background-color:#FFFFFF;
-   /*background-repeat:repeat-x;*/
-   background-position:center top;
+
 }
 
 a:hover {
@@ -70,8 +69,18 @@ img {
 }
 
 /* Content CSS */
+/* temporary styles to work around footer:fixed */
+main, .main-content, .deftable {
+    margin-bottom: 3.5rem;
+}
+/* end temporary bug fix styles */
+
 .logo-md {
     width: 127px;
+}
+
+.grey-back {
+    background-color: var(--bs-jumbo-grey);
 }
 
 .grey-back {
@@ -130,6 +139,7 @@ img {
         opacity:0;
         visibility: collapse;
     } 
+
 }
 /*  #Mobile (Portrait) */
 @media all and (max-width: 575px) {
@@ -250,19 +260,7 @@ img {
 /* End of Table Menu CSS */
 
 /* Footer CSS */
-@media screen and (max-width: 576px) {
-    .footer {
-        font-size: .7rem;
-    }
-}
 
-@media screen and (min-width: 577px) {
-    .footer {
-        font-size: normal;
-    }
-}
-
-/* Footer CSS */
 /* resize footer for different screen sizes */
 @media screen and (max-width: 576px) {
     .footer {
@@ -277,6 +275,8 @@ img {
 }
 
 .footer {
+    position: fixed;
+    bottom: 0;
     background: var(--vta-dk-blue);
     color: var(--bs-jumbo-grey);
     text-align: center;
