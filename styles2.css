@@ -282,11 +282,6 @@ main, .main-content, .deftable {
     max-width:100%;
 }
 
-.landing-page + .footer {
-    position: absolute;
-    bottom: 0px;
-}
-
 footer a:link{
     color:#FFFFFF;
     text-decoration: none;
