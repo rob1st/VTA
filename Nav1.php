@@ -1,6 +1,5 @@
 <?php
 require_once('SQLFunctions.php');
-//session_start();
 
 if(!isset($_SESSION['UserID']))
 {
@@ -12,7 +11,6 @@ else
     $UserID = $_SESSION['UserID'];
     $Username = $_SESSION['Username'];
     $Role = $_SESSION['Role'];
-    /*echo "<br />UserID=".$UserID;*/
 
     try
     {
@@ -21,19 +19,14 @@ else
 
         /* Prep SQL statement to find the user name based on the UserID */
         $sql = "SELECT Username, firstname, lastname, Role FROM users_enc WHERE UserID = ".$UserID;
-        /*echo "<br />".$sql."<br />";*/
 
         /*execute the sql statement*/
         if($result=mysqli_query($link,$sql))
         {
           /*from the sql results, assign the username that returned to the $username variable*/
           while($row = mysqli_fetch_assoc($result)) {
-            //$Username = $row['Username'];
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];
-            //$Role = $row['Role'];
-
-            //echo "<br />username=".$username;
           }
         }
 
@@ -56,11 +49,11 @@ else
         /* Return Status to User*/
         if($Username == false)
         {
-            $login = 'Access Error<br />' .$RoleT;;
+            $login = 'Access Error<br />' .$RoleT;
         }
         else
         {
-            $login = $firstname.' '.$lastname. ' - ' .$RoleT;
+            $login = $firstname.' '.$lastname;
         }
     }
     /*if something goes wrong, return the following error*/
