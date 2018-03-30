@@ -70,7 +70,7 @@ img {
 
 /* Content CSS */
 /* temporary styles to work around footer:fixed */
-main, .main-content, .deftable {
+main, .main-content, .def-table {
     margin-bottom: 3.5rem;
 }
 /* end temporary bug fix styles */
