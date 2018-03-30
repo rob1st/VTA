@@ -18,8 +18,6 @@ body,html {
 body {
    margin:0;
    background-color:#FFFFFF;
-   /*background-repeat:repeat-x;*/
-   background-position:center top;
 }
 
 a:hover {
@@ -73,6 +71,10 @@ img {
     width: 127px;
 }
 
+.main-content {
+    margin-top:3.5rem;
+}
+
 .grey-back {
     background-color: var(--bs-jumbo-grey);
 }
@@ -104,15 +106,12 @@ img {
 }
 
 /* Table CSS */
+
+/* These classes will collapse cells at the given breakpoints */
 /* #Tablet (Portrait) */
-/* These are your Bootstrap breakpoints:
-    --breakpoint-xs: 0;
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px; */
-@media all and (min-width: 768px) and (max-width: 992px) {
-    .collapse-md{
+/* Note: Design for a width of 768px */
+@media all and (min-width: 768px) and (max-width: 959px) {
+    td.col_1{
         display:none;
         width:0;
         height:0;
@@ -121,8 +120,16 @@ img {
     }
 }
 /* #Mobile (Landscape) */
-@media all and (min-width: 576px) and (max-width: 767px) {
-    .collapse-sm{
+/* Note: Design for a width of 600px */
+@media all and (min-width: 600px) and (max-width: 767px) {
+    td.col_2{
+        display:none;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility: collapse;
+    } 
+    th.col_2{
         display:none;
         width:0;
         height:0;
@@ -130,15 +137,43 @@ img {
         visibility: collapse;
     } 
 }
-/*  #Mobile (Portrait) */
-@media all and (max-width: 575px) {
-    .collapse-xs{
+/* #Mobile (Landscape) */
+/* Note: Design for a width of 480px */
+@media all and (min-width: 480px) and (max-width: 599px) {
+    td.col_3{
         display:none;
         width:0;
         height:0;
         opacity:0;
         visibility: collapse;
     } 
+    th.col_3{
+        display:none;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility: collapse;
+    } 
+
+}
+/*  #Mobile (Portrait) */
+/* Note: Design for a width of 320px */
+@media all and (max-width: 479px) {
+    td.col_4{
+        display:none;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility: collapse;
+    } 
+    th.col_4{
+        display:none;
+        width:0;
+        height:0;
+        opacity:0;
+        visibility: collapse;
+    } 
+
 }
 
 .vdtable {
@@ -200,6 +235,13 @@ img {
 
 .sumtr:nth-child(even){background-color: #f2f2f2}
 
+.usertable {
+    margin-left: 10%;
+    margin-right: 10%;
+    border: 1px solid black;
+    width:80%;
+}
+
 .userth {
     background-color: #03528B;
     color: white;
@@ -212,7 +254,7 @@ img {
     padding: 8px;
 }
 
-.def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
+.usertr:nth-child(even){background-color: #f2f2f2}
 
 .svbx-table {
     /*display:block;*/
