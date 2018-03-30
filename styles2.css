@@ -8,7 +8,7 @@
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
     --bs-jumbo-grey:#e9ecef;
-    --vta-dk-blue:#03528B;
+    --vta-blue:#03528B;
 }
 
 body {
@@ -30,6 +30,11 @@ img {
 .navbar-heading {
     max-width: 13rem;
     overflow-x: hidden;
+}
+
+.navbar-vta-blue {
+    background-color: var(--vta-blue);
+    color: white;
 }
 
 /* Page Header */
@@ -272,7 +277,7 @@ img {
 .footer {
     position: fixed;
     bottom: 0;
-    background: var(--vta-dk-blue);
+    background: var(--vta-blue);
     color: var(--bs-jumbo-grey);
     text-align: center;
     /*position: absolute;*/
