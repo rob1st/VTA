@@ -64,7 +64,11 @@ else
 }
 ?>
 <nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue fixed-top">
-      <span class="navbar-brand navbar-heading"><?php echo $login; ?></span>
+      <span class="navbar-brand navbar-heading">
+        <a href="userAccount.php" class="navbar-link user-link">
+          <?php echo $login; ?>
+        </a>
+      </span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
