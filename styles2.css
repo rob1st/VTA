@@ -32,6 +32,16 @@ img {
     overflow-x: hidden;
 }
 
+.account-link {
+    color: white;
+    text-decoration: none;
+}
+
+.account-link:hover {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
 .navbar-vta-blue {
     background-color: var(--vta-blue);
     color: white;

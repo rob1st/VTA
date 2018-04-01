@@ -65,7 +65,7 @@ else
 ?>
 <nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue fixed-top">
       <span class="navbar-brand navbar-heading">
-        <a href="userAccount.php" class="navbar-link user-link">
+        <a href="userAccount.php" class="navbar-link account-link">
           <?php echo $login; ?>
         </a>
       </span>
