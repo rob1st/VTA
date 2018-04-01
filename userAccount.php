@@ -2,9 +2,14 @@
     include('session.php');
     $role = $_SESSION['Role'];
     $username = $_SESSION['Username'];
+    if ($role == 'S') $roleT = 'Super Admin';
+    elseif ($role == 'A') $roleT = 'Admin';
+    elseif ($role == 'U') $roleT = 'User';
+    elseif ($role == 'V') $roleT = 'Viewer';
+    else $roleT = '';
     echo '
         <header class="container page-header">
-            <h1 class="page-title">'.$username.' - '.$role.'</h1>
+            <h1 class="page-title">'.$username.' - '.$roleT.'</h1>
         </header>
     ';
 ?>
