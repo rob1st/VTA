@@ -87,6 +87,7 @@ img {
     background-color: var(--bs-jumbo-grey);
 }
 
+/* Login Page */
 .login-container {
     text-align:center;
 }
@@ -103,7 +104,26 @@ img {
 .forgot-password-btn {
     text-decoration: underline;
 }
-/* End of Content CSS */
+
+/* User Page */
+.user-menu {
+    margin-bottom: .75rem;
+    padding: 1rem;
+}
+
+.user-menu li {
+    list-style-type:none;
+}
+
+.admin-menu {}
+
+.superadmin-menu {}
+
+.user-menu-item {}
+
+.admin-menu-item {}
+
+.superadmin-menu-item {}
 
 /* Forms CSS */
 .btn-xs {
