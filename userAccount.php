@@ -38,10 +38,10 @@
                     <li class="user-menu-item admin-menu-item"><a href="NewSeverity.php">Add Severity Type</a></li>
                     <li class="user-menu-item admin-menu-item"><a href="NewStatus.php">Add Status Type</a></li>
                 </ul>
-                <a href="logout.php" class="btn btn-primary">Logout</a>
+                <div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div>
                 </main>
             ';
-        } else echo '<a href="logout.php" class="btn btn-primary">Logout</a></main>';
+        } else echo '<div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div></main>';
 
     }
     else echo '</main>';
