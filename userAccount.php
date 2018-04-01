@@ -38,9 +38,10 @@
                     <li class="user-menu-item admin-menu-item"><a href="NewSeverity.php">Add Severity Type</a></li>
                     <li class="user-menu-item admin-menu-item"><a href="NewStatus.php">Add Status Type</a></li>
                 </ul>
+                <a href="logout.php" class="btn btn-primary">Logout</a>
                 </main>
             ';
-        } else echo '</main>';
+        } else echo '<a href="logout.php" class="btn btn-primary">Logout</a></main>';
 
     }
     else echo '</main>';
