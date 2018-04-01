@@ -18,26 +18,32 @@
     include('filestart.php');
     echo '
         <main class="container main-content">
-            <ul class="card grey-bgser-menu">
-                <li class="user-menu-item"><a href="UpdateProfile.php">Update Profile</a></li>
-                <li class="user-menu-item"><a href="UpdatePassword.php">Change Password</a></li>
-            </ul>
+            <div class="card user-menu grey-bg">
+                <ul class="card-body user-menu-list">
+                    <li class="user-menu-item"><a href="UpdateProfile.php" class="card-link">Update Profile</a></li>
+                    <li class="user-menu-item"><a href="UpdatePassword.php" class="card-link">Change Password</a></li>
+                </ul>
+            </div>
     ';
     if($role == 'A' OR 'S') {
         echo '
-            <ul class="card grey-bgser-menu admin-menu">
-                <li class="user-menu-item admin-menu-item"><a href="NewUser.php">Add User</a></li>
-                <li class="user-menu-item admin-menu-item"><a href="NewLocation.php">Add Location</a></li>
-                <li class="user-menu-item admin-menu-item"><a href="NewSystem.php">Add System</a></li>
-            </ul>
+            <div class="card user-menu grey-bg">
+                <ul class="card-body user-menu-list">
+                    <li class="user-menu-item"><a href="NewUser.php" class="card-link">Add User</a></li>
+                    <li class="user-menu-item"><a href="NewLocation.php" class="card-link">Add Location</a></li>
+                    <li class="user-menu-item"><a href="NewSystem.php" class="card-link">Add System</a></li>
+                </ul>
+            </div>
         ';
         if ($role == 'S') {
             echo '
-                <ul class="card grey-bgser-menu superadmin-menu">
-                    <li class="user-menu-item superadmin-menu-item"><a href="NewEvidence.php">Add Evidence Type</a></li>
-                    <li class="user-menu-item admin-menu-item"><a href="NewSeverity.php">Add Severity Type</a></li>
-                    <li class="user-menu-item admin-menu-item"><a href="NewStatus.php">Add Status Type</a></li>
-                </ul>
+                <div class="card user-menu grey-bg">
+                    <ul class="card-body user-menu-list">
+                        <li class="user-menu-item"><a href="NewEvidence.php" class="card-link">Add Evidence Type</a></li>
+                        <li class="user-menu-item"><a href="NewSeverity.php" class="card-link">Add Severity Type</a></li>
+                        <li class="user-menu-item"><a href="NewStatus.php" class="card-link">Add Status Type</a></li>
+                    </ul>
+                </div>
                 <div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div>
                 </main>
             ';

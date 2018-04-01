@@ -125,33 +125,27 @@ img {
 }
 
 .user-menu {
-    margin-bottom: 1rem;
-    border-radius: .35rem;
-    padding: 1.2rem 1.25rem 1.25rem;
+    margin: 0;
+    margin-bottom: 1.15rem;
 }
 
-.user-menu:last-of-type {
-    margin-bottom: 1.5rem;
+.user-menu-list {
+    margin: 0;
+    padding-bottom: 1.4rem;
 }
-
-.admin-menu {}
-
-.superadmin-menu {}
 
 .user-menu-item {
-    list-style-type:none;
+    list-style-type: none;
 }
 
 .user-menu-item:not(:last-child) {
-    margin-bottom: .65rem;
+    margin-bottom: .85rem;
 }
 
 .user-menu-item a {
-    text-decoration: none;
 }
 
 .user-menu-item a:hover {
-    color: var(--vta-blue);
 }
 
 .admin-menu-item {}
