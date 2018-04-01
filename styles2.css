@@ -116,9 +116,14 @@ img {
 }
 
 /* User Page */
+.user-role-title {
+    font-style: italic;
+}
+
 .user-menu {
     margin-bottom: .75rem;
-    padding: 1rem;
+    border-radius: .25rem;
+    padding: 1.2rem 1.25rem 1.25rem;
 }
 
 .user-menu li {
@@ -129,7 +134,9 @@ img {
 
 .superadmin-menu {}
 
-.user-menu-item {}
+.user-menu-item:not(:last-child) {
+    margin-bottom: .65rem;
+}
 
 .admin-menu-item {}
 

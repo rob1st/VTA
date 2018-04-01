@@ -10,7 +10,7 @@
     echo '
         <header class="container page-header">
             <h1 class="page-title">'.$username.'</h1>
-            <h3 class="page-subtitle user-role-title">'.$roleT.'</h3>
+            <h3 class="text-secondary page-subtitle user-role-title">'.$roleT.'</h3>
         </header>
     ';
 ?>
