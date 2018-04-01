@@ -38,7 +38,7 @@ img {
 }
 
 .account-link:hover {
-    color: var(--secondary);
+    color: #fff9;
     text-decoration: none;
 }
 
