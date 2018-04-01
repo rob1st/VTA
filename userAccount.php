@@ -10,7 +10,7 @@
     echo '
         <header class="container page-header">
             <h1 class="page-title">'.$username.'</h1>
-            <h3 class="text-secondary page-subtitle user-role-title">'.$roleT.'</h3>
+            <h3 class="text-secondary user-role-title">'.$roleT.'</h3>
         </header>
     ';
 ?>
@@ -18,14 +18,14 @@
     include('filestart.php');
     echo '
         <main class="container main-content">
-            <ul class="container grey-back user-menu">
+            <ul class="card grey-bgser-menu">
                 <li class="user-menu-item"><a href="UpdateProfile.php">Update Profile</a></li>
                 <li class="user-menu-item"><a href="UpdatePassword.php">Change Password</a></li>
             </ul>
     ';
     if($role == 'A' OR 'S') {
         echo '
-            <ul class="container grey-back user-menu admin-menu">
+            <ul class="card grey-bgser-menu admin-menu">
                 <li class="user-menu-item admin-menu-item"><a href="NewUser.php">Add User</a></li>
                 <li class="user-menu-item admin-menu-item"><a href="NewLocation.php">Add Location</a></li>
                 <li class="user-menu-item admin-menu-item"><a href="NewSystem.php">Add System</a></li>
@@ -33,7 +33,7 @@
         ';
         if ($role == 'S') {
             echo '
-                <ul class="container grey-back user-menu superadmin-menu">
+                <ul class="card grey-bgser-menu superadmin-menu">
                     <li class="user-menu-item superadmin-menu-item"><a href="NewEvidence.php">Add Evidence Type</a></li>
                     <li class="user-menu-item admin-menu-item"><a href="NewSeverity.php">Add Severity Type</a></li>
                     <li class="user-menu-item admin-menu-item"><a href="NewStatus.php">Add Status Type</a></li>

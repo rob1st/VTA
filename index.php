@@ -1,6 +1,6 @@
 <?php include('filestart.php'); ?>
 
-  <header class="page-header landing-page grey-back">
+  <header class="page-header landing-page grey-bg">
       <div class="container main-content jumbotron">
         <img src="vta_logo.png">
         <h1>Silicon Valley Berryessa Extension</h1>
