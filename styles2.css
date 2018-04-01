@@ -125,21 +125,33 @@ img {
 }
 
 .user-menu {
-    margin-bottom: .75rem;
+    margin-bottom: 1rem;
     border-radius: .35rem;
     padding: 1.2rem 1.25rem 1.25rem;
 }
 
-.user-menu li {
-    list-style-type:none;
+.user-menu:last-of-type {
+    margin-bottom: 1.5rem;
 }
 
 .admin-menu {}
 
 .superadmin-menu {}
 
+.user-menu-item {
+    list-style-type:none;
+}
+
 .user-menu-item:not(:last-child) {
     margin-bottom: .65rem;
+}
+
+.user-menu-item a {
+    text-decoration: none;
+}
+
+.user-menu-item a:hover {
+    color: var(--vta-blue);
 }
 
 .admin-menu-item {}
