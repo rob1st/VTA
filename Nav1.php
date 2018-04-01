@@ -115,22 +115,10 @@ else
             <a class='nav-link' href='DisplayDefs.php'>Deficiencies</a>
           </li>";
           }
-          if($Role == 'A' OR $Role == 'S') {
-            echo "
-          <li class='nav-item'>
-            <a class='nav-link' href='adminPage.php'>Admin</a>
-          </li>";
-          }
           if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
             echo "
               <li class='nav-item'>
                 <a class='nav-link' href='ViewSC.php'>Safety Certs</a>
-              </li>";
-          }
-          if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
-            echo "
-              <li class='nav-item'>
-                <a class='nav-link' href='userAccount.php'>User Account</a>
               </li>";
           }
           ?>
