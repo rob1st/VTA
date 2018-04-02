@@ -107,7 +107,6 @@ include('filestart.php');
                             echo "<option value='$row[LocationID]'>$row[LocationName]</option>";
                                 }
                         }
-                        }
     echo "          </td>
                     <td class='vdtdh'><p>Specific Location:</p></td>
                     <td class='vdtda'><p><input type='text' name='SpecLoc' value='".$SpecLoc."' max='55' id='defdd'/></p></td>
@@ -267,13 +266,14 @@ include('filestart.php');
             <input type='submit' value='submit' class='btn btn-primary btn-lg' style='margin-left:40%' />
             <input type='reset' value='reset' class='btn btn-primary btn-lg' /><br /><br />
             </form>
-            </div>
+            </div></main>
             ";
             //echo "Description: " .$Description;
-                } else {  
-                    echo "<br>Unable to connect<br>";
-                    exit();  
-                } 
+            }
+        } else {  
+            echo "<br>Unable to connect<br>";
+            exit();  
+        } 
     MySqli_Close($link);             
     include('fileend.php');
 ?>
