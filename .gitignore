@@ -1,5 +1,6 @@
 config.*
 
+DS_Store
 error_log
 
 node_modules
