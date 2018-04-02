@@ -32,12 +32,12 @@ img {
     overflow-x: hidden;
 }
 
-.account-link {
+.navbar-brand-link {
     color: white;
     text-decoration: none;
 }
 
-.account-link:hover {
+.navbar-brand-link:hover {
     color: #fff9;
     text-decoration: none;
 }

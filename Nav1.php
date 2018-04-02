@@ -3,7 +3,7 @@ require_once('SQLFunctions.php');
 
 if(!isset($_SESSION['UserID']))
 {
-    $login = 'Not logged in';
+    $login = 'Login now';
 }
 else
 {
@@ -65,9 +65,14 @@ else
 ?>
 <nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue fixed-top">
       <span class="navbar-brand navbar-heading">
-        <a href="userAccount.php" class="navbar-link account-link">
-          <?php echo $login; ?>
-        </a>
+        <?php
+          $link = 'login.php';
+          // if UserID is already set, link to userAccount page
+          if (isset($_SESSION['UserID'])) {
+            $link = 'userAccount.php';
+          }
+          echo '<a href="userAccount.php" class="navbar-link navbar-brand-link">'.$login.'</a>';
+        ?>
       </span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -76,17 +81,17 @@ else
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <?php
-          if(!isset($_SESSION['UserID'])) {
-            echo "
-          <li class='nav-item'>
-            <a class='nav-link' href='login.php'>Login</a>
-          </li>";
-          } else {
-            echo "
-            <li class='nav-item'>
-            <a class='nav-link' href='logout.php'>Log out</a>
-          </li>";
-          }
+          // if(!isset($_SESSION['UserID'])) {
+          //   echo "
+          // <li class='nav-item'>
+          //   <a class='nav-link' href='login.php'>Login</a>
+          // </li>";
+          // } else {
+          //   echo "
+          //   <li class='nav-item'>
+          //   <a class='nav-link' href='logout.php'>Log out</a>
+          // </li>";
+          // }
           if($title == 'SVBX - Home') {
             echo "
           <li class='nav-item'>
