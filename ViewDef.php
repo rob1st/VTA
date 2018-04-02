@@ -165,8 +165,12 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             {
                 echo "
                     <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
-                    <input type='hidden' name='q' value='".$DefID."'/>
-                    <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
+                        <input type='hidden' name='q' value='".$DefID."'/>
+                        <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
+                    </form>
+                    <form action="CloneDef.php">
+                        <div style='width:5px; height:auto; display:inline-block'></div>
+                        <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
                     </form>
                     <br />
                     <br />";
