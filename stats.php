@@ -28,10 +28,9 @@ session_start();
         <h1 class="page-title">Database Information</h1>
       </header>
       <main role="main" class="container main-content">
-        <div class="card card-body grey-bg data-vis-container">
-          <div id="open-closed-graph"></div>
+        <!--<div class="card card-body grey-bg data-vis-container">
           <div id="severity-graph"></div>
-        </div>
+        </div>-->
         <?php
         //Systems Status Table
           if($result = mysqli_query($link,$sql1)) {
@@ -63,7 +62,11 @@ session_start();
               echo " </table> ";
           }
           //Status Status Table
+          $statusTot;
+          $statusOpen;
+          $statusClosed;
           if($result = mysqli_query($link,$sqlS)) {
+            $statusTot = mysqli_fetch_array($result)[0]; // for now I have to do this qry 2x. Refactor to rm
             echo "
               <table class='table svbx-table dash-table'>
                 <tr class='svbx-tr'>
@@ -83,15 +86,26 @@ session_start();
                 <th style='width:5%' class='svbx-th'>Items</th>
               </tr>";
               while ($row = mysqli_fetch_array($result)) {
+                $statusOpen = $row[0];
+                $statusClosed = $row[1];
                 echo "
                   <tr class='svbx-tr'>
                     <td class='svbx-td def-name'>{$row[0]}</td>
                     <td class='svbx-td def-count'>{$row[1]}</td>
                   </tr>";
               }    
-              echo " 
-              </table> ";
           }
+          if ($statusOpen && $statusClosed) {
+            echo "
+              <tr>
+                <td colspan='2'>
+                  <div id='open-closed-graph'></div>
+                </td>
+              </tr></table>
+            ";
+          }
+          else echo "</table>";
+
           //Severity Status Table
           if($result = mysqli_query($link,$sqlSev)) {
             echo "
@@ -154,5 +168,20 @@ session_start();
               echo " </table> ";
         ?> 
     </main>
+    <!--THIS IS A TERRIBLE WAY TO DO THIS
+        THIS IS ONLY FOR TESTING PURPOSES-->
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="js/pie_chart.js"></script>
+    <script>
+      const schemes = []
+      for (let prop in window.d3) {
+        if (prop.includes('scheme')) {
+          schemes.push(prop)
+        }
+      }
+      console.log(schemes)
+      window.renderPieCharts(window.d3)
+    </script>
+    <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
     <!--DO NOT TYPE BELOW THIS LINE-->
     <?php include('fileend.php'); ?>
