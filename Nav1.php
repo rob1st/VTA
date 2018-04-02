@@ -66,10 +66,10 @@ else
 <nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue fixed-top">
       <span class="navbar-brand navbar-heading">
         <?php
-          $link = 'login.php';
+          $navbarHref = 'login.php';
           // if UserID is already set, link to userAccount page
           if (isset($_SESSION['UserID'])) {
-            $link = 'userAccount.php';
+            $navbarHref = 'userAccount.php';
           }
           echo '<a href="userAccount.php" class="navbar-link navbar-brand-link">'.$login.'</a>';
         ?>
