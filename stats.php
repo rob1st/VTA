@@ -29,8 +29,8 @@ session_start();
       </header>
       <main role="main" class="container main-content">
         <div class="card card-body grey-bg data-vis-container">
-          <svg id="open-closed-graph" class="pie-chart" width="200" height="200"></svg>
-          <svg id="severity-graph" class="pie-chart" width="200" height="200"></svg>
+          <div id="open-closed-graph"></div>
+          <div id="severity-graph"></div>
         </div>
         <?php
         //Systems Status Table

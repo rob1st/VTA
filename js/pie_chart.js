@@ -1,6 +1,43 @@
-var width = "200"
-var height = "200"
-var radius = Math.min(width, height)/2
+/* eventually this module should work by:
+    - taking args (elementToSelect, dataToRender)
+    - dataToRender will be passed from php MySQL query
+    - this will require refactoring fileend.php into a fcn
+*/
+function renderPieCharts(d3) {
+    var dummyData = [
+        {status: 'open', count: 6, tot: 7},
+        {status: 'closed', count: 1, tot: 7}
+    ]
+    
+    var container = document.getElementById('open-closed-graph')
+    
+    var width = "200"
+    var height = "200"
+    var radius = Math.min(width, height)/2
+    
+    var color = d3.scaleOrdinal(d3.schemeCategory10)
+    
+    var chart = d3.select(container)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', `translate(${width/2},${height/2})`)
+        
+    var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius)
+    
+    var pie = d3.pie()
+        .value(d => d.count)
+        .sort(null)
+        
+    var path = chart.selectAll('path')
+        .data(pie(dummyData))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', d => color(d.data.status))
+}
 
-var openClosed = document.getElementById('open-closed-graph')
-var severity = document.getElementById('severity-graph')
+console.log('pie_charts.js loaded')

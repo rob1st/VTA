@@ -10,5 +10,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/bootstrap-4-multi-dropdown-navbar.js"></script>
     <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="js/pie_chart.js"></script>
+    <script>
+      const schemes = []
+      for (let prop in window.d3) {
+        if (prop.includes('scheme')) {
+          schemes.push(prop)
+        }
+      }
+      console.log(schemes)
+      window.renderPieCharts(window.d3)
+    </script>
   </body>
 </html>
