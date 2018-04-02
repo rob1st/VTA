@@ -313,6 +313,25 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     background: var(--secondary);
 }
 
+.def-table-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.def-nav {
+    padding: 0;
+}
+
+.def-nav li {
+    display: inline;
+    list-style-type: none;
+}
+
+.def-nav li:not(:last-child) {
+    margin-right: 2rem;
+}
+
 /* Login Page */
 .login-container {
     text-align:center;
