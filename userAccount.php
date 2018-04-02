@@ -26,7 +26,7 @@
                 </ul>
             </div>
     ';
-    if($role == 'A' OR 'S') {
+    if($role == 'A' OR $role == 'S') {
     // display admin functions for Admin and Superadmins
         echo '
             <div class="card user-menu grey-bg">
@@ -52,8 +52,9 @@
                 <div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div>
                 </main>
             ';
-        } else echo '<div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div></main>';
-
+        } else echo '
+            <div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div></main>
+        ';
     }
     else echo '</main>';
     include('fileend.php');
