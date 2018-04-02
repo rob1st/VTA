@@ -160,7 +160,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td class='vdtdh'>Updated by:</td>
                     <td class='vdtda'>$Updated_by</td>
                 </tr>
-            </table>";
+            </table></Main>";
             if($Role == 'S' OR $Role == 'A' OR $Role == 'U') 
             {
                 echo "
