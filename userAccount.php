@@ -16,6 +16,7 @@
 ?>
 <?php
     include('filestart.php');
+    // display user update options for all user types
     echo '
         <main class="container main-content">
             <div class="card user-menu grey-bg">
@@ -25,7 +26,8 @@
                 </ul>
             </div>
     ';
-    if($role == 'A' OR 'S') {
+    if($role == 'A' OR $role == 'S') {
+    // display admin functions for Admin and Superadmins
         echo '
             <div class="card user-menu grey-bg">
                 <ul class="card-body user-menu-list">
@@ -36,9 +38,12 @@
             </div>
         ';
         if ($role == 'S') {
+        // display Superadmin fcns only for Superadmins
             echo '
                 <div class="card user-menu grey-bg">
                     <ul class="card-body user-menu-list">
+                        <li class="user-menu-item"><a href="DisplayUsers.php" class="card-link">View Users List</a></li>
+                        <li class="user-menu-item"><a href="DisplayEviTypes.php" class="card-link">View Evidence Type</a></li>
                         <li class="user-menu-item"><a href="NewEvidence.php" class="card-link">Add Evidence Type</a></li>
                         <li class="user-menu-item"><a href="NewSeverity.php" class="card-link">Add Severity Type</a></li>
                         <li class="user-menu-item"><a href="NewStatus.php" class="card-link">Add Status Type</a></li>
@@ -47,8 +52,9 @@
                 <div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div>
                 </main>
             ';
-        } else echo '<div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div></main>';
-
+        } else echo '
+            <div class="btn-container logout-btn-container"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div></main>
+        ';
     }
     else echo '</main>';
     include('fileend.php');
