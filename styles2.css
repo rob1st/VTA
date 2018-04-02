@@ -32,6 +32,16 @@ img {
     overflow-x: hidden;
 }
 
+.navbar-brand-link {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-brand-link:hover {
+    color: #fff9;
+    text-decoration: none;
+}
+
 .navbar-vta-blue {
     background-color: var(--vta-blue);
     color: white;
@@ -46,6 +56,11 @@ img {
 .page-header {
     margin-top: 3.5rem; margin-bottom: .35rem;
     padding-top: .5rem; padding-bottom: .6rem;
+}
+
+.page-header h1, .page-header h2, .page-header h3,
+.page-header h4, .page-header h5, .page-header h6 {
+    text-align: center;
 }
 
 .def-heading {
@@ -69,11 +84,6 @@ img {
     height: 3rem;
 }
 
-.page-title {
-    font-size: 2.5rem;
-    text-align: center;
-}
-
 /* Content CSS */
 .main-content {
     margin-bottom: 4.5rem;
@@ -83,10 +93,15 @@ img {
     width: 127px;
 }
 
-.grey-back {
+.grey-bg {
     background-color: var(--bs-jumbo-grey);
 }
 
+.btn-container {
+    text-align: center;
+}
+
+/* Login Page */
 .login-container {
     text-align:center;
 }
@@ -103,7 +118,39 @@ img {
 .forgot-password-btn {
     text-decoration: underline;
 }
-/* End of Content CSS */
+
+/* User Page */
+.user-role-title {
+    font-style: italic;
+}
+
+.user-menu {
+    margin: 0;
+    margin-bottom: 1.15rem;
+}
+
+.user-menu-list {
+    margin: 0;
+    padding-bottom: 1.4rem;
+}
+
+.user-menu-item {
+    list-style-type: none;
+}
+
+.user-menu-item:not(:last-child) {
+    margin-bottom: .85rem;
+}
+
+.user-menu-item a {
+}
+
+.user-menu-item a:hover {
+}
+
+.admin-menu-item {}
+
+.superadmin-menu-item {}
 
 /* Forms CSS */
 .btn-xs {
