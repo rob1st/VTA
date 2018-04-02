@@ -10,18 +10,23 @@ include('filestart.php');
     
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
-    <ul class="def-nav">
-        <li><a href="DisplayDefs.php">All</a></li>
-        <li><a href="DisplayOpenDefs.php">Open</a></li>
-        <li><a href="DisplayClosedDefs.php">Closed</a></li>
-    </ul>
 </header>
 <?php     
     if($result = mysqli_query($link,$CDL)) {
         echo "
             <main class='container main-content'>
-                <p>Click Deficiency ID Number to see full details</p>
-                <table class='table svbx-table' border='1'>
+                <p class='def-table-heading'>Click Deficiency ID Number to see full details";
+        if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
+            echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
+        }
+        echo "
+            </p>
+            <ul class='def-nav'>
+                <li><a href='DisplayDefs.php' class='btn btn-secondary btn-sm'>All</a></li>
+                <li><a href='DisplayOpenDefs.php' class='btn btn-secondary btn-sm'>Open</a></li>
+                <li><a href='DisplayClosedDefs.php' class='btn btn-secondary btn-sm'>Closed</a></li>
+            </ul>
+            <table class='table svbx-table' border='1'>
                     <tr class='svbx-tr'>
                         <th class='svbx-th'>Def ID</th>
                         <th class='collapse-sm collapse-xs svbx-th'>Location</th>
