@@ -1,4 +1,7 @@
-<?php include('filestart.php'); ?>
+<?php
+  session_start();
+  include('filestart.php');
+?>
 
   <header class="page-header landing-page grey-bg">
       <div class="container main-content jumbotron">
