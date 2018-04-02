@@ -65,7 +65,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                         }
                     echo " $SafetyCert</td>
                     <td class='vdtdh'>System Affected:</td>
-                    <td class='vdtd'>$SystemAffected</td>
+                    <td class='vdtda'>$SystemAffected</td>
                 </tr>
                 <tr class='vdtr'>
                     <td class='vdtdh'>General Location:</td>
@@ -92,10 +92,10 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td class='vdtda'>$IdentifiedBy</td>
                 </tr>
                 <tr class='vdtr'>
-                    <td colspan='4' style='text-align:center' class='vdtd'>Deficiency Description</td>
+                    <td colspan='4' style='text-align:center' class='vdtda'>Deficiency Description</td>
                 </tr>
                 <tr class='vdtr'>
-                    <td Colspan=4>"; echo nl2br($Description);
+                    <td Colspan=4 class='vdtda'>"; echo nl2br($Description);
                     echo "</td>
                 </tr>
                 <t class='vdtr'>
@@ -103,7 +103,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                 </tr>
                 <tr class='vdtr'>
                     <td class='vdtdh'>Spec or Code:</td>
-                    <td colspan='3' class='vdtd'>$Spec</td>
+                    <td colspan='3' class='vdtda'>$Spec</td>
                 </tr>
                 <tr class='vdtr'>
                     <td class='vdtdh'>Action Owner:</td>
@@ -112,10 +112,10 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td class='vdtda'>$OldID</td>
                 </tr>
                 <tr class='vdtr'>
-                    <td colspan='4' style='text-align:center' class='vdtd'>Additional Information</td>
+                    <td colspan='4' style='text-align:center' class='vdtda'>Additional Information</td>
                 </tr>
                 <tr class='vdtr'>
-                    <td Colspan=4>"; echo nl2br($Comments);
+                    <td Colspan=4 class='vdtda'>"; echo nl2br($Comments);
                     echo "</td>
                 </tr>
                 <tr class='vdtr'>
@@ -139,10 +139,10 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     <td class='vdtda'>$EvidenceLink</td>
                 </tr>
                  <tr class='vdtr'>
-                    <td colspan='4' style='text-align:center' class='vdtd'>Closure Comments</td>
+                    <td colspan='4' style='text-align:center' class='vdtda'>Closure Comments</td>
                 </tr>
                 <tr class='vdtr'>
-                    <td Colspan=4>"; echo nl2br($ClosureComments);
+                    <td Colspan=4 class='vdtda'>"; echo nl2br($ClosureComments);
                     echo "</td>
                 </tr>
                 <tr class='vdtr'>
@@ -164,16 +164,17 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             if($Role == 'S' OR $Role == 'A' OR $Role == 'U') 
             {
                 echo "
+                <div  style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
                     <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
                         <input type='hidden' name='q' value='".$DefID."'/>
                         <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
                     </form>
-                    <form action="CloneDef.php">
+                    <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
                         <div style='width:5px; height:auto; display:inline-block'></div>
+                        <input type='hidden' name='q' value='".$DefID."'/>
                         <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
                     </form>
-                    <br />
-                    <br />";
+                </div>";
             } else {
                 
             }

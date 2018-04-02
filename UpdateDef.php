@@ -220,7 +220,7 @@ include('filestart.php');
                 <tr class='vdtr'>
                     <td class='vdtdh'><p>Evidence Type:</p></td>
                     <td class='vdtda' colspan='3'>
-                    <select name='EviType' value='".$EviType."'></option>
+                    <select name='EviType' value='".$EvidenceType."'></option>
                         <option value=''></option>";
                         if(is_array($list5) || is_object($list5)) {
                         foreach($list5 as $row) {
