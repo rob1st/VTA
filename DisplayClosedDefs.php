@@ -14,7 +14,21 @@ include('filestart.php');
     <div class="container">
 <?php     
     if($result = mysqli_query($link,$CDL)) {
-        echo "<p style='color:black'>Click Deficiency ID Number to see full details</p>
+        echo "
+            <main class='container main-content'>
+                <div class='card card-body grey-bg def-table-heading'>
+                    <p>Click Deficiency ID Number to see full details</p>";
+                    if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
+                        echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
+                    }
+        echo "
+                </div>
+                <ul class='def-nav'>
+                    <li class='def-nav-item'><a href='DisplayDefs.php' class='btn btn-sm btn-outline def-nav-btn'>All</a></li>
+                    <li class='def-nav-item'><a href='DisplayOpenDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Open</a></li>
+                    <li class='def-nav-item'><a href='DisplayClosedDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Closed</a></li>
+                </ul>
+
             <table class='table svbx-table' border='1'>
                 <tr class='svbx-tr'>
                     <th class='svbx-th'>Def ID</th>
