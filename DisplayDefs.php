@@ -15,13 +15,15 @@ include('filestart.php');
     if($result = mysqli_query($link,$CDL)) {
         echo "
             <main class='container main-content'>
-                <div class='card card-body grey-bg def-table-heading'>
-                    <p>Click Deficiency ID Number to see full details</p>";
-                if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
-                    echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
-                }
+            
+                <div class='container card'>
+                    <div class='card-body grey-bg def-table-heading'>
+                        <p>Click Deficiency ID Number to see full details</p>";
+                        if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
+                            echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
+                        }
         echo "
-            </div>
+            </div></div>
             <ul class='def-nav'>
                 <li class='def-nav-item'><a href='DisplayDefs.php' class='btn btn-sm btn-outline def-nav-btn'>All</a></li>
                 <li class='def-nav-item'><a href='DisplayOpenDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Open</a></li>

@@ -63,11 +63,6 @@ img {
     text-align: center;
 }
 
-.def-heading {
-    margin-bottom: 0;
-    color:white;
-}
-
 .open-def {
     background-color: red;
 }
@@ -109,12 +104,20 @@ img {
     margin-bottom: 1rem;
 }
 
-.def-table-heading:nth-child(n) {
+.def-table-heading>:nth-child(n) {
     flex: 0 1 auto;
+    margin: 0;
+    /*min-width: 50%;*/
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.def-table-heading>:not(:last-child) {
+    margin-right: .65rem;
 }
 
 .def-table-heading>p {
-    margin: 0;
+    hyphens: auto;
 }
 
 .def-nav {
