@@ -250,56 +250,11 @@ img {
     } 
 }
 
-.vdtable {
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid black;
-    width:50%;
-    vertical-align:top;
-    min-width: 400px; /* 100px x4 = 300 */
-    margin-top: 4rem;
-}
-
-.vdth {
-    background-color: #03528B;
-    color: white;
-    border: 1px solid black;
-    text-align: center;
-}
-
-.vdtdh {
-    text-align: left;
-    vertical-align: middle;
-    font-weight: bold;
-    padding: 8px;
-    border: 0.5px solid black;
-    border-right: none; 
-}
-
-.vdtda {
-    text-align: left;
-    vertical-align: middle;
-    padding: 8px;
-    border: 0.5px solid black;
-    border-left: none; 
-}
-
-.vdtr {
-    text-align: left;
-}
-
 .sumtable {
     margin-left: auto;
     margin-right: auto;
     border: 1px solid black;
     width:20%;
-}
-
-.sumth {
-    background-color: #03528B;
-    color: white;
-    border: 1px solid black;
-    text-align: center;
 }
 
 .sumtd {
@@ -309,26 +264,10 @@ img {
 
 .sumtr:nth-child(even){background-color: #f2f2f2}
 
-.userth {
-    background-color: #03528B;
-    color: white;
-    border: 1px solid black;
-    text-align: center;
-}
-
-.usertd {
-    text-align: left;
-    padding: 8px;
-}
-
-.def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
-
 .svbx-table {
-    /*display:block;*/
-    overflow-x:scroll;
     margin-left: auto; margin-right: auto;
-    border: 1px solid black;
-    vertical-align:top;
+    table-layout: fixed;
+    /*vertical-align:top;*/
 }
 
 .svbx-th {
@@ -353,8 +292,6 @@ img {
 .def-tot, .def-count {
     text-align: center;
 }
-
-.svbx-tr:nth-child(even){background-color: #f2f2f2}
 /* End of Table Menu CSS */
 
 /* Footer CSS */
