@@ -92,31 +92,29 @@ img {
     background-color: var(--bs-jumbo-grey);
 }
 
-.btn-container {
-    text-align: center;
+.heading-card {
+    margin-bottom: 1rem;
 }
 
-.def-table-heading {
+.page-heading-panel {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
 }
 
-.def-table-heading>:nth-child(n) {
+.page-heading-panel>:nth-child(n) {
     flex: 0 1 auto;
     margin: 0;
-    /*min-width: 50%;*/
     overflow-wrap: break-word;
     white-space: pre-wrap;
 }
 
-.def-table-heading>:not(:last-child) {
+.page-heading-panel>:not(:last-child) {
     margin-right: .65rem;
 }
 
-.def-table-heading>p {
+.page-heading-panel>p {
     hyphens: auto;
 }
 
@@ -194,6 +192,10 @@ img {
 .superadmin-menu-item {}
 
 /* Forms CSS */
+.btn-container {
+    text-align: center;
+}
+
 .btn-xs {
     border-radius: .15rem;
     padding: .125rem .3rem;

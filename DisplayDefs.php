@@ -16,8 +16,8 @@ include('filestart.php');
         echo "
             <main class='container main-content'>
             
-                <div class='container card'>
-                    <div class='card-body grey-bg def-table-heading'>
+                <div class='card heading-card'>
+                    <div class='card-body grey-bg page-heading-panel'>
                         <p>Click Deficiency ID Number to see full details</p>";
                         if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
                             echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
@@ -29,22 +29,25 @@ include('filestart.php');
                 <li class='def-nav-item'><a href='DisplayOpenDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Open</a></li>
                 <li class='def-nav-item'><a href='DisplayClosedDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Closed</a></li>
             </ul>
-            <table class='table svbx-table' border='1'>
-                    <tr class='svbx-tr'>
-                        <th class='svbx-th'>Def ID</th>
-                        <th class='collapse-sm collapse-xs svbx-th'>Location</th>
-                        <th class='collapse-xs svbx-th'>Severity</th>
-                        <th class='collapse-md  collapse-sm collapse-xs svbx-th'>Date Created</th>
-                        <th class='svbx-th'>Status</th>
-                        <th class='collapse-sm collapse-xs svbx-th'>System Affected</th>
-                        <th class='svbx-th'>Brief Description</th>";
-                        if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
-                            echo "
-                                <th class='collapse-md  collapse-sm collapse-xs svbx-th'>Last Updated</th>
-                                <th class='svbx-th'>Edit</th>";
-                        } else {
-                            echo "
-                                </tr>";
+            
+            <table class='table table-responsive svbx-table def-table' border='1'>
+                <tbody>
+                    <thead>
+                        <tr class='svbx-tr table-heading'>
+                            <th class='svbx-th'>Def ID</th>
+                            <th class='collapse-sm collapse-xs svbx-th'>Location</th>
+                            <th class='collapse-xs svbx-th'>Severity</th>
+                            <th class='collapse-md  collapse-sm collapse-xs svbx-th'>Date Created</th>
+                            <th class='svbx-th'>Status</th>
+                            <th class='collapse-sm collapse-xs svbx-th'>System Affected</th>
+                            <th class='svbx-th'>Brief Description</th>";
+                    if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
+                        echo "
+                            <th class='collapse-md  collapse-sm collapse-xs svbx-th'>Last Updated</th>
+                            <th class='svbx-th'>Edit</th>";
+                    } else {
+                        echo "
+                            </tr>";
                         }
                         if($Role == 'S') {
                             echo "
