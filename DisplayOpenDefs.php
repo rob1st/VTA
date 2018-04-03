@@ -30,7 +30,7 @@ include('filestart.php');
                 <li class='def-nav-item'><a href='DisplayClosedDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Closed</a></li>
             </ul>
 
-                <table class='table svbx-table' border='1'>
+                <table class='table svbx-table'>
                     <tr class='svbx-tr'>
                         <th class='svbx-th'>ID</th>
                         <th class='collapse-sm collapse-xs svbx-th'>Location</th>

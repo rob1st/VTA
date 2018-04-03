@@ -30,13 +30,13 @@ include('filestart.php');
                     <li class='def-nav-item'><a href='DisplayClosedDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Closed</a></li>
                 </ul>
                 
-                <table class='table table-striped table-responsive svbx-table def-table' border='1'>
+                <table class='table table-striped table-responsive svbx-table def-table'>
                     <thead>
                         <tr class='svbx-tr table-heading'>
                             <th class='svbx-th id-th'>ID</th>
                             <th class='svbx-th loc-th collapse-sm collapse-xs'>Location</th>
                             <th class='svbx-th sev-th collapse-xs'>Severity</th>
-                            <th class='svbx-th date-th collapse-md  collapse-sm collapse-xs'>Date Created</th>
+                            <th class='svbx-th created-th collapse-md  collapse-sm collapse-xs'>Date Created</th>
                             <th class='svbx-th status-th'>Status</th>
                             <th class='svbx-th system-th collapse-sm collapse-xs'>System Affected</th>
                             <th class='svbx-th desrip-th'>Brief Description</th>";
@@ -55,15 +55,15 @@ include('filestart.php');
                     echo "
                         <tr class='svbx-tr'>
                             <td class='svbx-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
-                            <td class='collapse-sm collapse-xs svbx-td'>{$row[1]}</td>
-                            <td class='collapse-xs svbx-td'>{$row[2]}</td>
-                            <td class='collapse-md  collapse-sm collapse-xs svbx-td'>{$row[3]}</td>
+                            <td class='svbx-td collapse-sm collapse-xs'>{$row[1]}</td>
+                            <td class='svbx-td collapse-xs'>{$row[2]}</td>
+                            <td class='svbx-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
                             <td class='svbx-td'>{$row[4]}</td>
-                            <td class='collapse-sm collapse-xs svbx-td'>{$row[5]}</td>
+                            <td class='svbx-td collapse-sm collapse-xs'>{$row[5]}</td>
                             <td class='svbx-td'>".nl2br($row[6])."</td>";
                     if ($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
                        echo "
-                            <td class='collapse-md  collapse-sm collapse-xs svbx-td'>{$row[7]}</td>
+                            <td class='svbx-td collapse-md  collapse-sm collapse-xs'>{$row[7]}</td>
                             <td class='svbx-td'><form action='UpdateDef.php' method='POST' onsubmit=''/>
                                 <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button></form>
                             </td>";
@@ -71,7 +71,7 @@ include('filestart.php');
                     if ($Role == 'S') {
                         echo "
                             <td class='svbx-td'><form action='DeleteDef.php' method='POST' onsubmit='' onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'/>
-                                <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></form></td>
+                                <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></form></td>
                             </tr>";
                     }
             }
