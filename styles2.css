@@ -282,14 +282,46 @@ img {
     vertical-align: middle;
 }
 
-.svbx-th.status-th, .svbx-td.status-td {
-    max-width: 70px;
+.svbx-table.svbx-th, .svbx-table.svbx-td {
+    overflow-x: hidden;
+    text-overflow: clip;
 }
 
 .svbx-td {
     text-align: left;
 }
 
+.svbx-th.status-th {
+    width: 40px;
+}
+
+.svbx-th.loc-th {
+    width: 91px;
+}
+
+.svbx-th.sev-th, .svbx-th.created-th {
+    width: 85px;
+}
+
+.svbx-th.status-th {
+    width: 70px;
+}
+
+.svbx-th.system-th {
+    width: 143px;
+}
+
+.svbx-th.updated-th {
+    width: 91px;
+}
+
+.svbx-th.edit-th {
+    width: 56px;
+}
+
+.svbx-th.del-th {
+    width: 73px;
+}
 /*.created-td, .updated-td {
     font-size: .75rem;
 }*/
