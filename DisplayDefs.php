@@ -15,16 +15,17 @@ include('filestart.php');
     if($result = mysqli_query($link,$CDL)) {
         echo "
             <main class='container main-content'>
-                <p class='def-table-heading'>Click Deficiency ID Number to see full details";
+                <div class='card card-body grey-bg def-table-heading'>
+                    <p>Click Deficiency ID Number to see full details</p>";
         if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
             echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
         }
         echo "
-            </p>
+            </div>
             <ul class='def-nav'>
-                <li><a href='DisplayDefs.php' class='btn btn-secondary btn-sm'>All</a></li>
-                <li><a href='DisplayOpenDefs.php' class='btn btn-secondary btn-sm'>Open</a></li>
-                <li><a href='DisplayClosedDefs.php' class='btn btn-secondary btn-sm'>Closed</a></li>
+                <li class='def-nav-item'><a href='DisplayDefs.php' class='btn btn-sm btn-outline def-nav-btn'>All</a></li>
+                <li class='def-nav-item'><a href='DisplayOpenDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Open</a></li>
+                <li class='def-nav-item'><a href='DisplayClosedDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Closed</a></li>
             </ul>
             <table class='table svbx-table' border='1'>
                     <tr class='svbx-tr'>

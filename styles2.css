@@ -103,21 +103,40 @@ img {
 
 .def-table-heading {
     display: flex;
+    flex-flow: row nowrap;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.def-table-heading:nth-child(n) {
+    flex: 0 1 auto;
+}
+
+.def-table-heading>p {
+    margin: 0;
 }
 
 .def-nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: row nowrap;
+    margin-bottom: .65rem;
     padding: 0;
 }
 
-.def-nav li {
-    display: inline;
+.def-nav-item {
+    flex: 1 1 auto;
     list-style-type: none;
 }
 
-.def-nav li:not(:last-child) {
-    margin-right: 2rem;
+.def-nav-item:not(:last-child) {
+    margin-right: .75rem;
+}
+
+.def-nav-btn {
+    display: block;
 }
 
 /* Login Page */
@@ -177,6 +196,14 @@ img {
     padding: .125rem .3rem;
     font-size: .875rem;
     line-height: 1.2;
+}
+
+.btn-outline {
+    border: 1px solid var(--secondary);
+}
+
+.btn-outline:hover {
+    background-color: var(--bs-jumbo-grey);
 }
 
 /* Table CSS */
