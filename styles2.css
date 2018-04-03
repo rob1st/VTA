@@ -279,7 +279,12 @@ img {
     background-color: #03528B;
     color: white;
     text-align: center;
-    vertical-align: middle;}
+    vertical-align: middle;
+}
+
+.svbx-th.status-th, .svbx-td.status-td {
+    max-width: 70px;
+}
 
 .svbx-td {
     text-align: left;
