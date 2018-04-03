@@ -285,6 +285,10 @@ img {
     text-align: left;
 }
 
+/*.created-td, .updated-td {
+    font-size: .75rem;
+}*/
+
 @media screen and (min-width: 577px) {
     .dash-table {
         display: inline-block;

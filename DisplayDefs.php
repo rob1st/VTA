@@ -42,37 +42,41 @@ include('filestart.php');
                             <th class='svbx-th desrip-th'>Brief Description</th>";
                     if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
                         echo "
-                            <th class='svbx-th updated-th collapse-md  collapse-sm collapse-xs'>Last Updated</th>
-                            <th class='svbx-th edit-th'>Edit</th>";
+                            <th class='svbx-th updated-th collapse-md collapse-sm collapse-xs'>Last Updated</th>
+                            <th class='svbx-th edit-th collapse-sm collapse-xs'>Edit</th>";
                     } else echo "</tr></thead><tbody>";
                     if($Role == 'S') {
                         echo "
-                            <th class='svbx-th'>Delete</th>
+                            <th class='svbx-th del-th collapse-sm collapse-xs'>Delete</th>
                         </tr></thead>"; 
                     } else echo '</tr></thead><tbody>';
                     
                 while($row = mysqli_fetch_array($result)) {
                     echo "
                         <tr class='svbx-tr'>
-                            <td class='svbx-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
-                            <td class='svbx-td collapse-sm collapse-xs'>{$row[1]}</td>
-                            <td class='svbx-td collapse-xs'>{$row[2]}</td>
-                            <td class='svbx-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
-                            <td class='svbx-td'>{$row[4]}</td>
-                            <td class='svbx-td collapse-sm collapse-xs'>{$row[5]}</td>
-                            <td class='svbx-td'>".nl2br($row[6])."</td>";
+                            <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
+                            <td class='svbx-td loc-td collapse-sm collapse-xs'>{$row[1]}</td>
+                            <td class='svbx-td sev-td collapse-xs'>{$row[2]}</td>
+                            <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
+                            <td class='svbx-td status-td'>{$row[4]}</td>
+                            <td class='svbx-td system-td collapse-sm collapse-xs'>{$row[5]}</td>
+                            <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>";
                     if ($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
                        echo "
-                            <td class='svbx-td collapse-md  collapse-sm collapse-xs'>{$row[7]}</td>
-                            <td class='svbx-td'><form action='UpdateDef.php' method='POST' onsubmit=''/>
-                                <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button></form>
+                            <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[7]}</td>
+                            <td class='svbx-td edit-td collapse-sm collapse-xs'>
+                                <form action='UpdateDef.php' method='POST' onsubmit=''/>
+                                    <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
+                                </form>
                             </td>";
                     } else echo "</tr>";
                     if ($Role == 'S') {
                         echo "
-                            <td class='svbx-td'><form action='DeleteDef.php' method='POST' onsubmit='' onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'/>
-                                <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></form></td>
-                            </tr>";
+                            <td class='svbx-td del-td collapse-sm collapse-xs'>
+                                <form action='DeleteDef.php' method='POST' onsubmit='' onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'/>
+                                    <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button>
+                                </form>
+                            </td></tr>";
                     }
             }
         echo "</tbody></table></main>";
