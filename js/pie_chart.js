@@ -3,10 +3,12 @@
     - dataToRender will be passed from php MySQL query
     - this will require refactoring fileend.php into a fcn
 */
-function renderPieCharts(d3) {
+function drawOpenCloseChart(d3, open, closed) {
+    console.log(open, closed)
+    
     var dummyData = [
-        {status: 'open', count: 6, tot: 7},
-        {status: 'closed', count: 1, tot: 7}
+        {status: 'open', count: open},
+        {status: 'closed', count: closed}
     ]
     
     var container = document.getElementById('open-closed-graph')

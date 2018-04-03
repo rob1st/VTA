@@ -32,6 +32,10 @@ session_start();
           <div id="severity-graph"></div>
         </div>-->
         <?php
+        // vars to pass to JS scripts    
+        $statusOpen;
+        $statusClosed;
+
         //Systems Status Table
           if($result = mysqli_query($link,$sql1)) {
             echo "
@@ -62,11 +66,7 @@ session_start();
               echo " </table> ";
           }
           //Status Status Table
-          $statusTot;
-          $statusOpen;
-          $statusClosed;
           if($result = mysqli_query($link,$sqlS)) {
-            $statusTot = mysqli_fetch_array($result)[0]; // for now I have to do this qry 2x. Refactor to rm
             echo "
               <table class='table svbx-table dash-table'>
                 <tr class='svbx-tr'>
@@ -77,7 +77,7 @@ session_start();
                 echo "
                   <td colspan='2' class='svbx-td def-tot'><a href='DisplayStatus.php' class='def-link'>{$row[0]} Statuses</a></td>
                 </tr>";
-              }    
+              }
           }
           if($result = mysqli_query($link,$Status)) {
             echo "
@@ -86,8 +86,8 @@ session_start();
                 <th style='width:5%' class='svbx-th'>Items</th>
               </tr>";
               while ($row = mysqli_fetch_array($result)) {
-                $statusOpen = $row[0];
-                $statusClosed = $row[1];
+                if ($row[0] == 'Open') $statusOpen = $row[1];
+                if ($row[0] == 'Closed') $statusClosed = $row[1];
                 echo "
                   <tr class='svbx-tr'>
                     <td class='svbx-td def-name'>{$row[0]}</td>
@@ -101,7 +101,8 @@ session_start();
                 <td colspan='2'>
                   <div id='open-closed-graph'></div>
                 </td>
-              </tr></table>
+              </tr>
+              </table>
             ";
           }
           else echo "</table>";
@@ -168,20 +169,16 @@ session_start();
               echo " </table> ";
         ?> 
     </main>
+  <?php
+    echo "
     <!--THIS IS A TERRIBLE WAY TO DO THIS
         THIS IS ONLY FOR TESTING PURPOSES-->
-    <script src="https://d3js.org/d3.v5.js"></script>
-    <script src="js/pie_chart.js"></script>
+    <script src='https://d3js.org/d3.v5.js'></script>
+    <script src='js/pie_chart.js'></script>
     <script>
-      const schemes = []
-      for (let prop in window.d3) {
-        if (prop.includes('scheme')) {
-          schemes.push(prop)
-        }
-      }
-      console.log(schemes)
-      window.renderPieCharts(window.d3)
+      window.drawOpenCloseChart(window.d3, '".$statusOpen."', '".$statusClosed."')
     </script>
     <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
-    <!--DO NOT TYPE BELOW THIS LINE-->
-    <?php include('fileend.php'); ?>
+    <!--DO NOT TYPE BELOW THIS LINE-->";
+    include('fileend.php');
+  ?>
