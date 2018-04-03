@@ -118,6 +118,17 @@ img {
 .forgot-password-btn {
     text-decoration: underline;
 }
+/* Data Dashboard*/
+.data-display {}
+
+.legend {}
+
+.legend-swatch {
+    display: inline-block;
+    width: 1.5rem; height: 1.5rem;
+}
+
+.legend-label {}
 
 /* User Page */
 .user-role-title {

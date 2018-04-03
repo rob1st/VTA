@@ -28,13 +28,14 @@ session_start();
         <h1 class="page-title">Database Information</h1>
       </header>
       <main role="main" class="container main-content">
-        <!--<div class="card card-body grey-bg data-vis-container">
-          <div id="severity-graph"></div>
-        </div>-->
         <?php
         // vars to pass to JS scripts    
-        $statusOpen;
-        $statusClosed;
+        $statusOpen = 0;
+        $statusClosed = 0;
+        $blockSev = 0;
+        $critSev = 0;
+        $majSev = 0;
+        $minSev = 0;
 
         //Systems Status Table
           if($result = mysqli_query($link,$sql1)) {
@@ -99,7 +100,10 @@ session_start();
             echo "
               <tr>
                 <td colspan='2'>
-                  <div id='open-closed-graph'></div>
+                  <div class='data-display'>
+                    <div id='open-closed-graph'></div>
+                    <p id='open-closed-legend' class='legend'></p>
+                  </div>
                 </td>
               </tr>
               </table>
@@ -128,15 +132,32 @@ session_start();
                 <th style='width:10%' class='svbx-th'>Open Items</th>
               </tr>"; 
               while ($row = mysqli_fetch_array($result)) {
+                if ($row[0] == 'Blocker') $blockSev = $row[1];
+                elseif ($row[0] == 'Critical') $critSev = $row[1];
+                elseif ($row[0] == 'Major') $majSev = $row[1];
+                elseif ($row[0] == 'Minor') $minSev = $row[1];
                 echo "
                   <tr class='svbx-tr'>
                     <td class='svbx-td def-name'>{$row[0]}</td>
                     <td class='svbx-td def-count'>{$row[1]}</td>
                   </tr>";
-              }    
+              }
+              if ($blockSev OR $critSev OR $majSev OR $minSev) {
+                echo "
+                  <tr>
+                    <td colspan='2'>
+                      <div class='data-display'>
+                        <div id='severity-graph'></div>
+                        <p id='severity-legend' class='legend'></p>
+                      </div>
+                    </td>
+                  </tr>
+                  </table>
+                ";
+              }
               echo " </table> ";
           }
-              echo " </table> ";
+          else echo " </table> ";
           //Location Status Table
           if($result = mysqli_query($link,$sqlLoc)) {
             echo "
@@ -177,6 +198,7 @@ session_start();
     <script src='js/pie_chart.js'></script>
     <script>
       window.drawOpenCloseChart(window.d3, '".$statusOpen."', '".$statusClosed."')
+      window.drawSeverityChart(window.d3, '".$blockSev."', '".$critSev."', '".$majSev."', '".$minSev."')
     </script>
     <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
     <!--DO NOT TYPE BELOW THIS LINE-->";
