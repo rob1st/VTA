@@ -102,7 +102,7 @@ if($_POST['Search'] == NULL) {
 }
 
 ?>
-    <table border='1' style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
+    <table style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
         <tr>
             <th class='vdth' colspan='8'>Search</td>
         </tr>
@@ -204,7 +204,7 @@ FIRST;
 
 <?php
     if($result = mysqli_query($link,$sql)) {
-    echo "<table border='1' style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
+    echo "<table style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
                 <tr>
                     <th class='vdth' colspan='8' height='50'><p>Certification Stage</p></th>
                 </tr>
