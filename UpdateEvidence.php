@@ -20,7 +20,7 @@
                 $stmt->bind_result($EviType);
                 while ($stmt->fetch()) {
                     echo "
-                        <div class='container'> 
+                        <div class='container main-content'> 
                             <FORM action='UpdateEvidenceCommit.php' method='POST'>
                                 <input type='hidden' name='EviTypeID' value='".$q."'>
                                 <table class='table'>

@@ -21,7 +21,7 @@
                 $stmt->bind_result($Location);
                 while ($stmt->fetch()) {
                     echo "
-                        <div class='container'> 
+                        <div class='container main-content'> 
                             <FORM action='UpdateLocationCommit.php' method='POST'>
                                 <input type='hidden' name='LocationID' value='".$q."'>
                                 <table class='table'>

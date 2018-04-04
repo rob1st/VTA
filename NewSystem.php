@@ -9,7 +9,7 @@ include('filestart.php');
         <header class="container page-header">
           <h1 class="page-title">Add New System</h1>
         </header>
-        <div class="container"> 
+        <div class="container main-content"> 
         <FORM action="RecSystem.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>

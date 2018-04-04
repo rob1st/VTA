@@ -10,7 +10,7 @@ include('filestart.php');
           <h1 class="page-title">Add New Location</h1>
         </header>
     </div>
-        <div class="container"> 
+        <div class="container main-content"> 
         <FORM action="RecLocation.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>

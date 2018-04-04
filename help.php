@@ -14,7 +14,7 @@ session_start();
             <h1 class="display-3">Help</h1>
             <p>If you are having difficulties with the database please contact one of the people below who have administrator rights,<br>otherwise email <a href="mailto:robert.burns@vta.org?subject=SVBX Deficiency Database Issue"  style='color:black'>Robert Burns</a> for assistance.</p>
         </header>
-        <div class="container">        
+        <div class="container main-content">        
 <?php
     $table = users_enc;
     
