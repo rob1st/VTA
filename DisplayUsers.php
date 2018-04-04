@@ -19,7 +19,7 @@ $Role = $_SESSION['Role'];
         echo"   
                 <header class='container page-header'>
                     <h1 class='page-title'>Users</h1>
-                <table class='sumtable' style='margin-left:40%'>
+                <table class='sumtable'>
                     <tr class='sumtr'>
                         <td class='sumtd'>Users in Database: </td>";
             while ($row = mysqli_fetch_array($result)) {
