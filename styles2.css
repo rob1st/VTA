@@ -140,6 +140,16 @@ img {
     display: block;
 }
 
+.nav-cur-page {
+    background: var(--secondary);
+    box-shadow: 0 0 .3rem .15rem #007bff40;
+    color: var(--dark);
+}
+
+a.nav-cur-page:hover, button.nav-cur-page:hover {
+    background: var(--secondary);
+}
+
 /* Login Page */
 .login-container {
     text-align:center;

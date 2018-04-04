@@ -22,12 +22,27 @@ include('filestart.php');
                         if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
                             echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
                         }
-          echo "
+        echo "
                 </div></div>
-                <ul class='def-nav'>
-                    <li class='def-nav-item'><a href='DisplayDefs.php' class='btn btn-sm btn-outline def-nav-btn'>All</a></li>
-                    <li class='def-nav-item'><a href='DisplayOpenDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Open</a></li>
-                    <li class='def-nav-item'><a href='DisplayClosedDefs.php' class='btn btn-sm btn-outline def-nav-btn'>Closed</a></li>
+                <ul class='def-nav'>";
+                $self = $_SERVER['PHP_SELF'];
+                $defNavLinks = array(
+                      'All' => 'DisplayDefs.php',
+                      'Open' => 'DisplayOpenDefs.php',
+                      'Closed' => 'DisplayClosedDefs.php'
+                    );
+
+                foreach ($defNavLinks as $linkText => $fileName) {
+                    $extraClass = '';
+                    if (strpos($self, $fileName)) {
+                        $extraClass = ' nav-cur-page';
+                    }
+                    echo "
+                        <li class='def-nav-item'>
+                            <a href='".$fileName."' class='btn btn-sm btn-outline def-nav-btn".$extraClass."'>".$linkText."</a>
+                        </li>";
+                }
+        echo "
                 </ul>
                 
                 <table class='table table-striped table-responsive svbx-table def-table'>
