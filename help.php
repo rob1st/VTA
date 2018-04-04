@@ -26,11 +26,11 @@ session_start();
    
     
     if($result = mysqli_query($link,$sql)) {
-        echo"   <table class='table svbx-table' style='width:45%'>
+        echo"   <table class='table svbx-table'>
                     <tr class='svbx-tr'>
-                        <th class='svbx-th' style='width:10%'>First name</th>
-                        <th class='svbx-th' style='width:10%'>Last name</th>
-                        <th class='svbx-th' style='width:25%'>Email</th>
+                        <th class='svbx-th'>First name</th>
+                        <th class='svbx-th'>Last name</th>
+                        <th class='svbx-th'>Email</th>
                     </tr>"; 
                     while ($row = mysqli_fetch_array($result)) {
                     echo "       
