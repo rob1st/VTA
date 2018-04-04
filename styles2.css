@@ -1,4 +1,4 @@
-@import './assets/typicons.font/src/font/typicons.css';
+@import './assets/typicons-font/src/font/typicons.css';
 
 * {
     /* Bootsrap breakpoints */
@@ -221,6 +221,35 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .forgot-password-btn {
     text-decoration: underline;
+}
+/* Data Dashboard*/
+.data-display {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.chart-container {
+    margin-right: .85rem;
+}
+
+.legend {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: .65rem;
+}
+
+.legend-label {
+    margin-right: .25rem;
+    margin-bottom: .35rem;
+}
+
+.legend-swatch {
+    margin-right: .25rem;
+    padding: 0 24px 3px 0;
 }
 
 /* User Page */
