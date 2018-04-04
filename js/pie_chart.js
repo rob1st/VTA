@@ -17,7 +17,7 @@ function drawOpenCloseChart(d3, open, closed) {
     var height = "200"
     var radius = Math.min(width, height)/2
     
-    var scheme = d3.schemeCategory10
+    var scheme = [ "#399e69", "#ee6969" ]
     var color = d3.scaleOrdinal(scheme)
     
     var chart = d3.select(container)
@@ -61,7 +61,7 @@ function drawSeverityChart(d3, block, crit, maj, min) {
     var height = '200'
     var radius = Math.min(width, height)/2
     
-    var scheme = d3.schemeCategory10
+    var scheme = [ "#ee6969", "#d9993c", "#c9cf59", "#399e69" ]
     var color = d3.scaleOrdinal(scheme)
     
     var chart = d3.select(container)
