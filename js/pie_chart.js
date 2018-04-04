@@ -17,8 +17,11 @@ function drawOpenCloseChart(d3, open, closed) {
     var height = "200"
     var radius = Math.min(width, height)/2
     
-    var scheme = [ "#399e69", "#ee6969" ]
-    var color = d3.scaleOrdinal(scheme)
+    var scheme = {
+        red: '#d73027',
+        green: '#66bd63'
+    }
+    var color = d3.scaleOrdinal(Object.values(scheme))
     
     var chart = d3.select(container)
         .append('svg')
@@ -49,11 +52,17 @@ function drawSeverityChart(d3, block, crit, maj, min) {
     console.log(block, crit, maj, min)
     
     var severityData = [
-        {label: 'blocked', count: block},
+        {label: 'blocker', count: block},
         {label: 'critical', count: crit},
         {label: 'major', count: maj},
         {label: 'minor', count: min}
     ]
+    var scheme = {
+        red: '#bd0026',
+        redOrange: '#fc4e2a',
+        orange: '#feb24c',
+        yellow: '#ffeda0'
+    }
     
     var container = document.getElementById('severity-graph')
     
@@ -61,8 +70,7 @@ function drawSeverityChart(d3, block, crit, maj, min) {
     var height = '200'
     var radius = Math.min(width, height)/2
     
-    var scheme = [ "#ee6969", "#d9993c", "#c9cf59", "#399e69" ]
-    var color = d3.scaleOrdinal(scheme)
+    var color = d3.scaleOrdinal(Object.values(scheme))
     
     var chart = d3.select(container)
         .append('svg')
