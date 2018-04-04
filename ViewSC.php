@@ -50,7 +50,7 @@ if($_POST['Search'] == NULL) {
     $count = "SELECT COUNT(*) FROM SafetyCert A";
     
     if($ItemS <> NULL) {
-       $ItemSQL = " A.Item = '".$ItemS."'";
+       $ItemSQL = " WHERE A.Item = '".$ItemS."'";
        $AND = 1;
     } else {
         $ItemSQL = "";
