@@ -7,13 +7,13 @@ include('filestart.php');
     }
     ?>
         <header class="page-header container">
-          <h1 class="page-title">Add New Evidence type</h1>
+          <h1 class="page-title">Add New Status type</h1>
         </header>
-        <div class="container"> 
+        <div class="container main-content"> 
         <FORM action="RecStatus.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>
-                    <th class='userth'>Evidence Type Name:</th>
+                    <th class='userth'>Status Type Name:</th>
                     <td class='usertd'>
                         <input type="text" name="Status" maxlength="50" required/>
                     </td>
