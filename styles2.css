@@ -248,9 +248,8 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 }
 
 .legend-swatch {
-    display: inline-block;
     margin-right: .25rem;
-    width: 1.5rem; height: 1.5rem;
+    padding: 0 24px 3px 0;
 }
 
 /* User Page */
