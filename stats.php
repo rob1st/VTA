@@ -101,7 +101,7 @@ session_start();
               <tr>
                 <td colspan='2'>
                   <div class='data-display'>
-                    <div id='open-closed-graph'></div>
+                    <div id='open-closed-graph' class='chart-container'></div>
                     <p id='open-closed-legend' class='legend'></p>
                   </div>
                 </td>
@@ -147,7 +147,7 @@ session_start();
                   <tr>
                     <td colspan='2'>
                       <div class='data-display'>
-                        <div id='severity-graph'></div>
+                        <div id='severity-graph' class='chart-container'></div>
                         <p id='severity-legend' class='legend'></p>
                       </div>
                     </td>

@@ -223,16 +223,35 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     text-decoration: underline;
 }
 /* Data Dashboard*/
-.data-display {}
+.data-display {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
 
-.legend {}
+.chart-container {
+    margin-right: .85rem;
+}
+
+.legend {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: .65rem;
+}
+
+.legend-label {
+    margin-right: .25rem;
+    margin-bottom: .35rem;
+}
 
 .legend-swatch {
     display: inline-block;
+    margin-right: .25rem;
     width: 1.5rem; height: 1.5rem;
 }
-
-.legend-label {}
 
 /* User Page */
 .user-role-title {

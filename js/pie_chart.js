@@ -91,21 +91,20 @@ function drawSeverityChart(d3, block, crit, maj, min) {
 
 function drawLegend(container, data, colorScheme) {
     console.log(container)
-    var swatchWidth = '24'
-    var swatchHeight = '24'
 
     var legend = container.nextElementSibling
     console.log(legend)
     
     data.forEach((datum, i) => {
-        const swatch = legend.appendChild(document.createElement('i'))
-        const label = swatch.insertAdjacentElement('afterend', document.createElement('span'))
-
-        swatch.style.backgroundColor = colorScheme[i]
-        swatch.classList.add('legend-swatch')
+        const label = legend.appendChild(document.createElement('span'))
+        const swatch = document.createElement('i')
         
         label.classList.add('legend-label')
-        label.innerText = datum.label
+        label.textContent = datum.label
+
+        swatch.classList.add('legend-swatch')
+        swatch.style.backgroundColor = colorScheme[i]
+        label.insertAdjacentElement('afterbegin', swatch)
     })
 }
 
