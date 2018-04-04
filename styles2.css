@@ -1,4 +1,4 @@
-@import './assets/typicons.font/src/font/typicons.css';
+@import './assets/typicons-font/src/font/typicons.css';
 
 * {
     /* Bootsrap breakpoints */
@@ -61,11 +61,7 @@ img {
 .page-header h1, .page-header h2, .page-header h3,
 .page-header h4, .page-header h5, .page-header h6 {
     text-align: center;
-}
 
-.def-heading {
-    margin-bottom: 0;
-    color:white;
 }
 
 .open-def {
@@ -97,8 +93,116 @@ img {
     background-color: var(--bs-jumbo-grey);
 }
 
-.btn-container {
-    text-align: center;
+.heading-card {
+    margin-bottom: 1rem;
+}
+
+.page-heading-panel {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-heading-panel>:nth-child(n) {
+    flex: 0 1 auto;
+    margin: 0;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.page-heading-panel>:not(:last-child) {
+    margin-right: .65rem;
+}
+
+.page-heading-panel>p {
+    hyphens: auto;
+}
+
+.def-nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: row nowrap;
+    margin-bottom: .65rem;
+    padding: 0;
+}
+
+.def-nav-item {
+    flex: 1 1 auto;
+    list-style-type: none;
+}
+
+.def-nav-item:not(:last-child) {
+    margin-right: .75rem;
+}
+
+.def-nav-btn {
+    display: block;
+}
+
+.nav-cur-page {
+    background: var(--secondary);
+    box-shadow: 0 0 .3rem .15rem #007bff40;
+    color: var(--dark);
+}
+
+a.nav-cur-page:hover, button.nav-cur-page:hover {
+    background: var(--secondary);
+}
+
+.page-heading-panel {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-heading-panel>:nth-child(n) {
+    flex: 0 1 auto;
+    margin: 0;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.page-heading-panel>:not(:last-child) {
+    margin-right: .65rem;
+}
+
+.page-heading-panel>p {
+    hyphens: auto;
+}
+
+.def-nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: row nowrap;
+    margin-bottom: .65rem;
+    padding: 0;
+}
+
+.def-nav-item {
+    flex: 1 1 auto;
+    list-style-type: none;
+}
+
+.def-nav-item:not(:last-child) {
+    margin-right: .75rem;
+}
+
+.def-nav-btn {
+    display: block;
+}
+
+.nav-cur-page {
+    background: var(--secondary);
+    box-shadow: 0 0 .3rem .15rem #007bff40;
+    color: var(--dark);
+}
+
+a.nav-cur-page:hover, button.nav-cur-page:hover {
+    background: var(--secondary);
 }
 
 /* Login Page */
@@ -164,11 +268,23 @@ img {
 .superadmin-menu-item {}
 
 /* Forms CSS */
+.btn-container {
+    text-align: center;
+}
+
 .btn-xs {
     border-radius: .15rem;
     padding: .125rem .3rem;
     font-size: .875rem;
     line-height: 1.2;
+}
+
+.btn-outline {
+    border: 1px solid var(--secondary);
+}
+
+.btn-outline:hover {
+    background-color: var(--bs-jumbo-grey);
 }
 
 /* Table CSS */
@@ -210,56 +326,12 @@ img {
     } 
 }
 
-.vdtable {
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid black;
-    width:50%;
-    vertical-align:top;
-    min-width: 400px; /* 100px x4 = 300 */
-    margin-top: 4rem;
-}
-
-.vdth {
-    background-color: #03528B;
-    color: white;
-    border: 1px solid black;
-    text-align: center;
-}
-
-.vdtdh {
-    text-align: left;
-    vertical-align: middle;
-    font-weight: bold;
-    padding: 8px;
-    border: 0.5px solid black;
-    border-right: none; 
-}
-
-.vdtda {
-    text-align: left;
-    vertical-align: middle;
-    padding: 8px;
-    border: 0.5px solid black;
-    border-left: none; 
-}
-
-.vdtr {
-    text-align: left;
-}
-
+/* sum table is not a proper table, and should be changed */
 .sumtable {
     margin-left: auto;
     margin-right: auto;
     border: 1px solid black;
     width:20%;
-}
-
-.sumth {
-    background-color: #03528B;
-    color: white;
-    border: 1px solid black;
-    text-align: center;
 }
 
 .sumtd {
@@ -268,40 +340,67 @@ img {
 }
 
 .sumtr:nth-child(even){background-color: #f2f2f2}
-
-.userth {
-    background-color: #03528B;
-    color: white;
-    border: 1px solid black;
-    text-align: center;
+/* above sum tables styles must be changed */
+.svbx-table, .svbx-table>thead, .svbx-table>tbody,
+.svbx-table tr, .svbx-table th, .svbx-table td {
+    table-layout: fixed;
 }
-
-.usertd {
-    text-align: left;
-    padding: 8px;
-}
-
-.def-tr:nth-child(even){background-color: var(--bs-jumbo-grey)}
 
 .svbx-table {
-    /*display:block;*/
-    overflow-x:scroll;
     margin-left: auto; margin-right: auto;
-    border: 1px solid black;
-    vertical-align:top;
+    border: none;
 }
 
-.svbx-th {
+.svbx-table .svbx-th {
     background-color: #03528B;
     color: white;
-    border: 1px solid white;
     text-align: center;
+    vertical-align: middle;
+}
+
+.svbx-table.svbx-th, .svbx-table.svbx-td {
+    overflow-x: hidden;
+    text-overflow: clip;
 }
 
 .svbx-td {
     text-align: left;
-    padding: 8px;
 }
+
+.svbx-th.status-th {
+    width: 40px;
+}
+
+.svbx-th.loc-th {
+    width: 91px;
+}
+
+.svbx-th.sev-th, .svbx-th.created-th {
+    width: 85px;
+}
+
+.svbx-th.status-th {
+    width: 70px;
+}
+
+.svbx-th.system-th {
+    width: 143px;
+}
+
+.svbx-th.updated-th {
+    width: 91px;
+}
+
+.svbx-th.edit-th {
+    width: 56px;
+}
+
+.svbx-th.del-th {
+    width: 73px;
+}
+/*.created-td, .updated-td {
+    font-size: .75rem;
+}*/
 
 @media screen and (min-width: 577px) {
     .dash-table {
@@ -313,8 +412,6 @@ img {
 .def-tot, .def-count {
     text-align: center;
 }
-
-.svbx-tr:nth-child(even){background-color: #f2f2f2}
 /* End of Table Menu CSS */
 
 /* Footer CSS */
