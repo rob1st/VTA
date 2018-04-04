@@ -11,7 +11,7 @@ include('filestart.php');
     <header class="container page-header">
           <h1 class="page-title">Deficiencies</h1>
     </header>
-    <div class="container">
+    <div class="container main-content">
 <?php     
     if($result = mysqli_query($link,$CDL)) {
         echo "<p style='color:black'>Click Deficiency ID Number to see full details</p>
