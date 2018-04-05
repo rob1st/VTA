@@ -58,8 +58,8 @@ session_start();
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
               <li class='dash-list-item dash-list-heading'>
-                <span class='dash-list-name'>{$cardSpecs[0]}</h4>
-                <span class='dash-list-count'>{$cardSpecs[1]}</h4>
+                <span class='dash-list-left dash-list-name'>{$cardSpecs[0]}</span>
+                <span class='dash-list-right dash-list-count'>{$cardSpecs[1]}</span>
               </li>";
       if ($tot && $qry) {
         while ($row = mysqli_fetch_array($qry)) {
@@ -71,8 +71,8 @@ session_start();
           elseif ($row[0] == 'Minor') $minSev = $row[1];
           echo "
               <li class='dash-list-item'>
-                <span>{$row[0]}</span>
-                <span>{$row[1]}</span>
+                <span class='dash-list-left'>{$row[0]}</span>
+                <span class='dash-list-right'>{$row[1]}</span>
               </li>
           ";
         }
