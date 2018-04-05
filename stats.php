@@ -42,7 +42,7 @@ session_start();
         <div class='card dash-card'>
           <header class='card-header'>
             <p style='margin: 0; font-size: .75rem; color: crimson'>{$dbConnect}</p>
-            <h3>{$element[1]}</h3>
+            <h4>{$element[1]}</h4>
           </header>
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
@@ -63,7 +63,7 @@ session_start();
         echo "
             </ul></div>
             <footer class='card-footer'>
-              <span>Number of {$element[1]} {$tot}</span>
+              <span class='dash-card-tot'>Number of {$element[1]} {$tot}</span>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";

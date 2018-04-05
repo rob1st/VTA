@@ -461,8 +461,13 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     }
 }
 
-.dash-card .card-header {
+.dash-card .card-header, .dash-card .card-footer {
     text-align: center;
+}
+
+.dash-card .card-header {
+    background-color: var(--vta-blue);
+    color: white;
 }
 
 .dash-list-item {
@@ -498,6 +503,17 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     padding: 0 24px 3px 0;
 }
 
+.dash-card .card-footer {
+    background-color: var(--bs-jumbo-grey);
+    border-top: none;
+    padding-bottom: 1.75rem;
+}
+
+.dash-card-tot {
+    margin-bottom: .5rem;
+    border: 1px solid #0003;
+    padding: .75rem;
+}
 /* User Page */
 .user-role-title {
     font-style: italic;
