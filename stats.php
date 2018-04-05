@@ -82,7 +82,7 @@ session_start();
         } else echo "</div>";
         echo "
             <footer class='card-footer'>
-              <span class='dash-card-tot'>Number of {$cardSpecs[1]} {$tot}</span>
+              <a href='Display{$cardSpecs[1]}.php' class='btn btn-lg btn-outline btn-a'>Number of {$cardSpecs[1]} {$tot}</a>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
@@ -155,7 +155,7 @@ session_start();
           //     <tr class='svbx-tr'>";
           //     while ($row = mysqli_fetch_array($result)) {
           //       echo "
-          //         <td colspan='2' class='svbx-td def-tot'><a href='DisplayStatus.php' class='def-link'>{$row[0]} Statuses</a></td>
+          //         <td colspan='2' class='svbx-td def-tot'><a href='DisplayStatuses.php' class='def-link'>{$row[0]} Statuses</a></td>
           //       </tr>";
           //     }
           // }
@@ -197,7 +197,7 @@ session_start();
           //       <tr class='svbx-tr'>";
           //     while ($row = mysqli_fetch_array($result)) {
           //       echo "
-          //         <td colspan='2' class='svbx-td def-tot'><a href='DisplaySeverity.php' class='def-link'>{$row[0]} Severities</a></td>
+          //         <td colspan='2' class='svbx-td def-tot'><a href='DisplaySeverities.php' class='def-link'>{$row[0]} Severities</a></td>
           //         </tr>";
           //     }    
           // }

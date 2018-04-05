@@ -7,8 +7,10 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --bs-jumbo-grey:#e9ecef;
-    --vta-blue:#03528B;
+    --bs-jumbo-grey: #e9ecef;
+    --quarter-trans-grey: #0003;
+    --vta-blue: #0072c6;
+    --vta-dark-blue: #03528B;
 }
 
 body {
@@ -43,7 +45,7 @@ img {
 }
 
 .navbar-vta-blue {
-    background-color: var(--vta-blue);
+    background-color: var(--vta-dark-blue);
     color: white;
 }
 
@@ -466,7 +468,7 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 }
 
 .dash-card .card-header {
-    background-color: var(--vta-blue);
+    background-color: var(--vta-dark-blue);
     color: white;
 }
 
@@ -538,7 +540,7 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .dash-card-tot {
     margin-bottom: .5rem;
-    border: 1px solid #0003;
+    border: 1px solid var(--quarter-trans-grey);
     padding: .75rem;
 }
 /* User Page */
@@ -586,8 +588,18 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     line-height: 1.2;
 }
 
-.btn-outline {
+.btn.btn-outline {
+    background-color: var(--quarter-trans-grey);
     border: 1px solid var(--secondary);
+    color: var(--dark);
+}
+
+.btn.btn-a {
+    color: var(--vta-blue);
+}
+
+.btn.btn-a:hover {
+    color: var(--vta-dark-blue);
 }
 
 .btn-outline:hover {
@@ -739,7 +751,7 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 .footer {
     position: fixed;
     bottom: 0;
-    background: var(--vta-blue);
+    background: var(--vta-dark-blue);
     color: var(--bs-jumbo-grey);
     text-align: center;
     /*position: absolute;*/
