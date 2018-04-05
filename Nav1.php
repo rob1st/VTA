@@ -1,13 +1,9 @@
 <?php
 require_once('SQLFunctions.php');
 
-if(!isset($_SESSION['UserID']))
-{
-    $login = 'Login now';
-    $logout = false;
-}
-else
-{
+if(!isset($_SESSION['UserID'])) {
+    $navHeading = 'Login now';
+} else {
     /*copy the session UserID to a local variable*/
     $UserID = $_SESSION['UserID'];
     $Username = $_SESSION['Username'];
@@ -48,14 +44,10 @@ try
     }
 
     /* Return Status to User*/
-    if($Username == false)
-    {
-        $login = 'Access Error<br />' .$RoleT;
-    }
-    else
-    {
-        $login = $firstname.' '.$lastname;
-        $logout = true;
+    if($Username == false) {
+        $login = 'Access Error' .$RoleT;
+    } else {
+        $navHeading = $firstname.' '.$lastname;
     }
 }
 /*if something goes wrong, return the following error*/
@@ -73,7 +65,7 @@ catch (Exception $e)
       if (isset($_SESSION['UserID'])) {
         $navbarHref = 'userAccount.php';
       }
-      echo '<a href="userAccount.php" class="navbar-link navbar-brand-link">'.$login.'</a>';
+      echo "<a href='{$navbarHref}' class='navbar-link navbar-brand-link'>{$navHeading}</a>";
     ?>
   </span>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,47 +75,53 @@ catch (Exception $e)
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <?php
-      if($title == 'SVBX - Home') {
-        echo "
-      <li class='nav-item'>
-        <span class='nav-link disabled'>Home</span>
-      </li>";
-      } else {
-        echo "
-      <li class='nav-item'>
-        <a class='nav-link' href='stats.php'>Home</a>
-      </li>";
-      }
-      if($title == 'SVBX - Help') {
-        echo "
-      <li class='nav-item'>
-        <span class='nav-link disabled'>Help</span>
-      </li>";
-      } else {
-        echo "
-      <li class='nav-item'>
-        <a class='nav-link' href='help.php'>Help</a>
-      </li>";
-      }
-      if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
-        echo "
-      <li class='nav-item'>
-        <a class='nav-link' href='DisplayDefs.php'>Deficiencies</a>
-      </li>";
-      }
-      if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
-        echo "
-          <li class='nav-item'>
-            <a class='nav-link' href='ViewSC.php'>Safety Certs</a>
-          </li>";
-      }
-      if($logout) {
-        echo '
-          <li class="nav-item">
-            <a class="nav-link" href="logout.php">Logout</a>
-          </li>
-        ';
-      }
+        foreach([
+          'Home' => 'stats.php',
+          'Help' => 'help.php',
+          'Deficiencies' => 'DisplayDefs.php',
+          'Safety Certs' => 'ViewSC.php'
+        ] as $text => $href) {
+          $classList = 'nav-link';
+          $disableLink = ' disabled';
+          if (strpos($_SERVER['PHP_SELF'], $href)) $classList .= $disableLink;
+          echo "
+            <li class='nav-item'>
+              <a href='{$href}' class='{$classList}'>{$text}</a>
+            </li>
+          ";
+        }
+        
+        // if($title == 'SVBX - Home') $classList .= ' disabled';
+        // echo "
+        //   <li class='nav-item'>
+        //     <a class='{$classList}{disableLink($title)}' href='stats.php'>Home</a>
+        //   </li>";
+        // if($title == 'SVBX - Help') $classList .= ' disabled';
+        // echo "
+        //   <li class='nav-item'>
+        //     <a class='{$classList}{disableLink($title)}' href='help.php'>Help</a>
+        //   </li>";
+        // if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
+        //   if (strpos($title, 'Deficiencies')) $classList .= ' disabled';
+        //   echo "
+        //     <li class='nav-item'>
+        //       <a class='{$classList}{disableLink($title)}' href='DisplayDefs.php'>Deficiencies</a>
+        //     </li>";
+        // }
+        // if($Role == 'A' OR $Role == 'S' OR $Role == 'U' OR $Role == 'V') {
+        //   if (strpos($title, 'Safety Certifications')) $classList .= ' disabled';
+        //   echo "
+        //     <li class='nav-item'>
+        //       <a class='{$classList}{disableLink($title)}' href='ViewSC.php'>Safety Certs</a>
+        //     </li>";
+        // }
+        if($navHeading != 'Login now') {
+          echo '
+            <li class="nav-item">
+              <a class="nav-link" href="logout.php">Logout</a>
+            </li>
+          ';
+        }
       ?>
     </ul>
   </div>
