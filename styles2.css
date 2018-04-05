@@ -439,8 +439,26 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     text-decoration: underline;
 }
 /* Data Dashboard*/
+.dashboard {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
 .dash-card {
-    max-width: 290px;
+    margin-bottom: 1.25rem;
+    width: 100%;
+}
+
+@media screen and (min-width: 576px) {
+    .dash-card {
+        max-width: 46%;
+    }
+    
+    .dash-card:nth-child(2n + 1) {
+        margin-right: 2%;
+    }
 }
 
 .data-display {
