@@ -470,8 +470,30 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     color: white;
 }
 
+.dash-list {
+    margin: 0;
+    margin-bottom: 1.25rem;
+    padding: 0;
+}
+
+.dash-list-heading {
+    background: var(--secondary);
+    color: white;
+}
+
 .dash-list-item {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 1rem;
     list-style-type: none;
+}
+
+.dash-list-left, .dash-list-right {
+    display: block;
+    width: 48%;
+    text-align: center;
 }
 
 .data-display {
