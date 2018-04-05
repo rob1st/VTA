@@ -385,6 +385,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     text-decoration: underline;
 }
 /* Data Dashboard*/
+.dash-card {
+    max-width: 290px;
+}
+
 .data-display {
     display: flex;
     flex-flow: row wrap;
