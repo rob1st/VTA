@@ -47,12 +47,11 @@ session_start();
                 <span>{$row[0]}</span>
                 <span>{$row[1]}</span>
               </li>
-            </ul>
           ";
         }
         echo "
-            <footer>
-             <span>Number of Systems {$tot}</span>
+            </ul><footer>
+              <span>Number of {$element[1]} {$tot}</span>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
@@ -76,7 +75,7 @@ session_start();
       <header class="container page-header">
         <h1 class="page-title">Database Information</h1>
       </header>
-      <main role="main" class="container main-content">
+      <main role="main" class="container main-content dashboard">
         <?php
         // vars to pass to JS scripts    
         $statusOpen = 0;
