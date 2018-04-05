@@ -17,15 +17,25 @@ session_start();
     $sqlLoc = "SELECT COUNT(*) FROM Location"; //Location Counts
     $sqlET = "SELECT COUNT(*) FROM CDL WHERE Status=2"; //Status Closed Counts
         
+    // vars to pass to JS scripts    
+    $statusOpen = 0;
+    $statusClosed = 0;
+    $blockSev = 0;
+    $critSev = 0;
+    $majSev = 0;
+    $minSev = 0;
+
     //if(!f_tableExists($link, $table, DB_Name)) {
     //    die('<br>Destination table does not exist: '.$table);
     //}
     
     // array of tables to render as cards
     // each item MUST include TableName, PluralString, ItemString, SqlString
+    // if any extra content is needed, add it to index after required items
     $cards = [
-      ['Status', 'Statuses', 'Items'],
-      ['Severity', 'Severities', 'Open Items'],
+      ['Status', 'Statuses', 'Items', 
+        "<div class='data-display'><div id='open-closed-graph' class='chart-container'></div><p id='open-closed-legend' class='legend'></p></div>"],
+      ['Severity', 'Severities', 'Open Items', '<div class="data-display"><div id="severity-graph" class="chart-container"></div><p id="open-closed-legend" class="legend"></p></div>'],
       ['System', 'Systems', 'Actions'],
       ['Location', 'Locations', 'Open Items']
     ];
@@ -36,23 +46,29 @@ session_start();
       'Location' => 'SELECT L.LocationName, COUNT(C.Location) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location GROUP BY Location  ORDER BY L.LocationName'
     ];
     
-    function writeDashCard($db, $table, $qry, $element) {
+    function writeDashCard($tot, $qry, $cardSpecs) {
+      global $statusOpen, $statusClosed, $blockSev, $critSev, $majSev, $minSev;
       if ($db) $dbConnect = 'connection successful';
       echo "
         <div class='card dash-card'>
           <header class='card-header'>
             <p style='margin: 0; font-size: .75rem; color: crimson'>{$dbConnect}</p>
-            <h4>{$element[1]}</h4>
+            <h4>{$cardSpecs[1]}</h4>
           </header>
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
               <li class='dash-list-item dash-list-heading'>
-                <span class='dash-list-name'>{$element[0]}</h4>
-                <span class='dash-list-count'>{$element[1]}</h4>
+                <span class='dash-list-name'>{$cardSpecs[0]}</h4>
+                <span class='dash-list-count'>{$cardSpecs[1]}</h4>
               </li>";
-      if ($tot = mysqli_fetch_array(mysqli_query($db, $table))[0] &&
-            $result = mysqli_query($db, $qry)) {
-        while ($row = mysqli_fetch_array($result)) {
+      if ($tot && $qry) {
+        while ($row = mysqli_fetch_array($qry)) {
+          if ($row[0] == 'Open') $statusOpen = $row[1];
+          elseif ($row[0] == 'Closed') $statusClosed = $row[1];
+          elseif ($row[0] == 'Blocker') $blockSev = $row[1];
+          elseif ($row[0] == 'Critical') $critSev = $row[1];
+          elseif ($row[0] == 'Major') $majSev = $row[1];
+          elseif ($row[0] == 'Minor') $minSev = $row[1];
           echo "
               <li class='dash-list-item'>
                 <span>{$row[0]}</span>
@@ -60,10 +76,13 @@ session_start();
               </li>
           ";
         }
+        echo "</ul>";
+        if (count($cardSpecs) > 3) {
+          echo "{$cardSpecs[3]}</div>";
+        } else echo "</div>";
         echo "
-            </ul></div>
             <footer class='card-footer'>
-              <span class='dash-card-tot'>Number of {$element[1]} {$tot}</span>
+              <span class='dash-card-tot'>Number of {$cardSpecs[1]} {$tot}</span>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
@@ -78,17 +97,11 @@ session_start();
       </header>
       <main role="main" class="container main-content dashboard">
         <?php
-        // vars to pass to JS scripts    
-        $statusOpen = 0;
-        $statusClosed = 0;
-        $blockSev = 0;
-        $critSev = 0;
-        $majSev = 0;
-        $minSev = 0;
-
         foreach($cards as $card) {
           $tableStr = 'SELECT COUNT(*) FROM '.$card[0];
-          writeDashCard($link, $tableStr, $queries[$card[0]], $card);
+          $count = mysqli_fetch_array(mysqli_query($link, $tableStr))[0];
+          $cardData = mysqli_query($link, $queries[$card[0]]);
+          writeDashCard($count, $cardData, $card);
         }
         //Systems Status Card
           // if($result = mysqli_query($link,$sqlSys)) {
