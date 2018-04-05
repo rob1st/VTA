@@ -9,17 +9,15 @@ if(!isset($_SESSION['UserID'])) {
     $Username = $_SESSION['Username'];
     $Role = $_SESSION['Role'];
 
-try
-{
-     /*Connect to CRUD Database*/
+  try {
+    /*Connect to CRUD Database*/
     $link = f_sqlConnect();
 
     /* Prep SQL statement to find the user name based on the UserID */
     $sql = "SELECT Username, firstname, lastname, Role FROM users_enc WHERE UserID = ".$UserID;
 
     /*execute the sql statement*/
-    if($result=mysqli_query($link,$sql))
-    {
+    if($result=mysqli_query($link,$sql)) {
       /*from the sql results, assign the username that returned to the $username variable*/
       while($row = mysqli_fetch_assoc($result)) {
         $firstname = $row['firstname'];
@@ -29,17 +27,13 @@ try
 
     if($Role=='S') {
         $RoleT = 'Super Admin';
-    }
-    elseif($Role=='A') {
+    } elseif($Role=='A') {
         $RoleT = 'Administrator';
-    }
-    elseif($Role=='U') {
+    } elseif($Role=='U') {
         $RoleT = 'User';
-    }
-    elseif($Role=='V') {
+    } elseif($Role=='V') {
         $RoleT = 'Viewer';
-    }
-    else {
+    } else {
         $RoleT = '';
     }
 
@@ -49,12 +43,11 @@ try
     } else {
         $navHeading = $firstname.' '.$lastname;
     }
-}
-/*if something goes wrong, return the following error*/
-catch (Exception $e)
-{
-    $login = 'Unable to process request.';
-}
+  }
+  /*if something goes wrong, return the following error*/
+  catch (Exception $e) {
+      $login = 'Unable to process request.';
+  }
 }
 ?>
 <nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue fixed-top">
