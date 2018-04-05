@@ -481,13 +481,18 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     color: white;
 }
 
-.dash-list-item {
+.dash-list-heading, .dash-list-item {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: flex-start;
+    margin-bottom: .125rem;
     padding: 0 1rem;
     list-style-type: none;
+}
+
+.dash-list-item:not(:last-child) {
+    border-bottom: 1px solid #0002;
 }
 
 .dash-list-left, .dash-list-right {

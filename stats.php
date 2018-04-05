@@ -57,7 +57,7 @@ session_start();
           </header>
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
-              <li class='dash-list-item dash-list-heading'>
+              <li class='dash-list-heading'>
                 <span class='dash-list-left dash-list-name'>{$cardSpecs[0]}</span>
                 <span class='dash-list-right dash-list-count'>{$cardSpecs[1]}</span>
               </li>";
