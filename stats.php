@@ -5,6 +5,17 @@ session_start();
     $title = "SVBX - Home";
     $link = f_sqlConnect();
     //$table = pages;
+    
+    $System = "SELECT S.System, COUNT(C.GroupToResolve) FROM CDL C LEFT JOIN System S ON C.GroupToResolve=S.SystemID GROUP BY System ORDER BY S.System"; //Count Actions by System
+    $Sev = "SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN Severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY Severity ORDER BY S.SeverityName"; 
+    $Status = "SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID";
+    $location = "SELECT L.LocationName, COUNT(C.Location) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location GROUP BY Location  ORDER BY L.LocationName";
+    $Comp = "SELECT CompName FROM Comp ORDER BY CompName";
+    $sqlSys = "SELECT COUNT(*) FROM System"; //Systems Count
+    $sqlStat = "SELECT COUNT(*) FROM Status"; //Status Counts
+    $sqlSev = "SELECT COUNT(*) FROM Severity"; //Severity Counts
+    $sqlLoc = "SELECT COUNT(*) FROM Location"; //Location Counts
+    $sqlET = "SELECT COUNT(*) FROM CDL WHERE Status=2"; //Status Closed Counts
         
     //if(!f_tableExists($link, $table, DB_Name)) {
     //    die('<br>Destination table does not exist: '.$table);
@@ -29,13 +40,13 @@ session_start();
       if ($db) $dbConnect = 'connection successful';
       echo "
         <div class='card dash-card'>
-          <p style='font-size: .75rem; color: crimson'>{$dbConnect}</p>
+          <header class='card-header'>
+            <p style='margin: 0; font-size: .75rem; color: crimson'>{$dbConnect}</p>
+            <h3>{$element[1]}</h3>
+          </header>
           <div class='card-body grey-bg'>
-            <header class='card-heading'>
-              <h3>{$element[1]}</h3>
-            </header>
             <ul class='dash-list'>
-              <li class='dash-list-heading'>
+              <li class='dash-list-item dash-list-heading'>
                 <span class='dash-list-name'>{$element[0]}</h4>
                 <span class='dash-list-count'>{$element[1]}</h4>
               </li>";
@@ -50,24 +61,14 @@ session_start();
           ";
         }
         echo "
-            </ul><footer>
+            </ul></div>
+            <footer class='card-footer'>
               <span>Number of {$element[1]} {$tot}</span>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
-      echo "</div></div>";
+      echo "</div>";
     }
-    
-    $System = "SELECT S.System, COUNT(C.GroupToResolve) FROM CDL C LEFT JOIN System S ON C.GroupToResolve=S.SystemID GROUP BY System ORDER BY S.System"; //Count Actions by System
-    $Sev = "SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN Severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY Severity ORDER BY S.SeverityName"; 
-    $Status = "SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID";
-    $location = "SELECT L.LocationName, COUNT(C.Location) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location GROUP BY Location  ORDER BY L.LocationName";
-    $Comp = "SELECT CompName FROM Comp ORDER BY CompName";
-    $sqlSys = "SELECT COUNT(*) FROM System"; //Systems Count
-    $sqlStat = "SELECT COUNT(*) FROM Status"; //Status Counts
-    $sqlSev = "SELECT COUNT(*) FROM Severity"; //Severity Counts
-    $sqlLoc = "SELECT COUNT(*) FROM Location"; //Location Counts
-    $sqlET = "SELECT COUNT(*) FROM CDL WHERE Status=2"; //Status Closed Counts
 
     //echo '<br>SQL String: ' .$sql;
     include('filestart.php'); //Provides all HTML starting code

@@ -461,6 +461,14 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     }
 }
 
+.dash-card .card-header {
+    text-align: center;
+}
+
+.dash-list-item {
+    list-style-type: none;
+}
+
 .data-display {
     display: flex;
     flex-flow: row wrap;
