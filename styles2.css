@@ -589,10 +589,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 }
 
 .form-subsection {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    align-items: flex-start;
     margin-bottom: .25rem;
     padding: .5rem 0 .65rem;
 }
@@ -601,8 +597,19 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     border-bottom: 1px solid var(--quarter-trans-grey);
 }
 
+.form-group {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
 .input-label {
     margin: 0;
+}
+
+.label-breakline {
+    display: block;
 }
 
 .btn-container {

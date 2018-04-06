@@ -15,7 +15,7 @@ include('filestart.php') ?>
         <form action="RecDef.php" method="POST">
             <h5 class="bg-secondary text-white form-section-heading">Required Information</h5>
             <section class="form-section">
-                <div class="form-subsection">
+                <div class="form-subsection form-group">
                     <label class="input-label">Affect Safety Cert:
                         <select name'SafetyCert' value='' id='defdd' required>
                             <option value=''></option>
@@ -36,7 +36,7 @@ include('filestart.php') ?>
                         ?>
                     </label>
                 </div>
-                <div class="form-subsection">
+                <div class="form-subsection form-group">
                     <label class="input-label">General Location:
                         <?php
                             $sqlL = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
@@ -53,7 +53,7 @@ include('filestart.php') ?>
                         <input type="text" name="SpecLoc" max="55" id="defdd" required/>
                     </label>
                 </div>
-                <div class="form-subsection">
+                <div class="form-subsection form-group">
                     <label class="input-label">Status:
                         <?php
                             $sqlT = "SELECT StatusID, Status FROM Status WHERE StatusID <> '3' ORDER BY StatusID";
@@ -79,7 +79,7 @@ include('filestart.php') ?>
                         ?>
                     </label>
                 </div>
-                <div class="form-subsection">
+                <div class="form-subsection form-group">
                     <label class="input-label">To be resolved by:
                         <input type='date' name='DueDate' id='defdd'/>
                     </label>
@@ -96,7 +96,7 @@ include('filestart.php') ?>
                         ?>
                     </label>
                 </div>
-                <div class="form-subsection">
+                <div class="form-subsection form-group">
                     <label class="input-label">Group to resolve:
                         <?php
                             $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
@@ -113,9 +113,10 @@ include('filestart.php') ?>
                         <input type="text" name="IdentifiedBy" max="24" id="defdd" required/>
                     </label>
                 </div>
-                <label class="input-label">Deficiency Description
+                <div class="form-subsection">
+                    <label class="input-label label-breakline">Deficiency Description</label>
                     <textarea type="message"  rows="5" cols="99%" name="description" max="1000" required></textarea>
-                </label>
+                </div>
             </section>
             <h5 class="bg-secondary text-white form-section-heading">Optional Information</h5>
             <section class="form-section">
