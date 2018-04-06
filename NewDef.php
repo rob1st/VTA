@@ -120,7 +120,7 @@ include('filestart.php')
             <div class="form-subsection">
                 <div class="form-element center-element">
                     <label class="input-label label-breakline">Deficiency Description</label>
-                    <textarea name="description" maxlength="1000" required></textarea>
+                    <textarea name="description" maxlength="1000" required class="textarea"></textarea>
                 </div>
             </div>
         </fieldset>
@@ -145,7 +145,7 @@ include('filestart.php')
             <div class="form-subsection">
                 <div class="form-element center-element">
                     <label class="input-label label-breakline">More Information</label>
-                    <textarea name="comments" maxlength="1000"></textarea>
+                    <textarea name="comments" maxlength="1000" class="textarea"></textarea>
                 </div>
             </div>
         </fieldset>
@@ -182,7 +182,7 @@ include('filestart.php')
             <div class="form-subsection">
                 <div class="form-element center-element">
                     <label class="input-label label-breakline">Closure Comments</label>
-                    <textarea name="ClosureComments" maxlength="1000"></textarea>
+                    <textarea name="ClosureComments" maxlength="1000" class="textarea"></textarea>
                 </div>
             </div>
         </fieldset>

@@ -581,16 +581,17 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 /* Forms CSS */
 .form-section-heading {
     margin: 0;
+    margin-bottom: .25rem;
     padding: .5rem .75rem .55rem;
 }
 
 .form-section {
-    padding: .125rem 1rem .35rem;
+    padding-bottom: .5rem;
 }
 
 .form-subsection {
     margin-bottom: .25rem;
-    padding: .5rem 0 .65rem;
+    padding: .5rem 1rem .65rem;
 }
 
 .form-subsection:not(:last-child) {
@@ -604,6 +605,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     align-items: flex-start;
 }
 
+.form-element {
+    flex-grow: 1;
+}
+
 .center-element {
     margin-left: auto; margin-right: auto;
     width: min-content;
@@ -611,6 +616,7 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .input-label {
     margin: 0;
+    min-width: 150px;
 }
 
 .label-breakline:after {
