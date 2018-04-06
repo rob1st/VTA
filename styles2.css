@@ -55,6 +55,10 @@ img {
     }
 }*/
 
+.center-element {
+    margin-left: auto; margin-right: auto;
+}
+
 /* Navbar */
 .navbar-heading {
     max-width: 13.5rem;
@@ -631,11 +635,12 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 }
 
 .form-element {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-grow: 1;
-}
-
-.center-element {
-    margin-left: auto; margin-right: auto;
+    padding: 0 1rem;
 }
 
 .input-label {
@@ -646,6 +651,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 .label-breakline:after {
     content: '\A';
     white-space: pre-wrap;
+}
+
+.flex-input {
+    flex-grow: 1;
 }
 
 .textarea-full-width {
