@@ -18,7 +18,7 @@ include('filestart.php')
             <legend class="bg-secondary text-white form-section-heading">Required Information</legend>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Affect Safety Cert:</label>
+                    <label class="input-label">Affect Safety Cert</label>
                     <select name'SafetyCert' id='defdd' required>
                         <option value='Y'>Yes</option>
                         <option value='N'>No</option>
@@ -39,7 +39,7 @@ include('filestart.php')
             </div>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">General Location:</label>
+                    <label class="input-label">General Location</label>
                     <?php
                         $sqlL = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
                          //if($result = mysqli_query($link,$sqlL)) {
@@ -51,13 +51,13 @@ include('filestart.php')
                     ?>
                 </div>
                 <div class="form-element">
-                    <label class="input-label">Specific Location:</label>
+                    <label class="input-label">Specific Location</label>
                     <input type="text" name="SpecLoc" maxlength="55" id="defdd" required/>
                 </div>
             </div>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Status:</label>
+                    <label class="input-label">Status</label>
                     <?php
                         $sqlT = "SELECT StatusID, Status FROM Status WHERE StatusID <> '3' ORDER BY StatusID";
                          //if($result = mysqli_query($link,$sqlT)) {
@@ -83,11 +83,11 @@ include('filestart.php')
             </div>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">To be resolved by:</label>
+                    <label class="input-label">To be resolved by</label>
                     <input type='date' name='DueDate' id='defdd'/>
                 </div>
                 <div class="form-element">
-                    <label class="input-label">Required for:</label>
+                    <label class="input-label">Required for</label>
                     <?php
                         $sqlRB = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY ReqByID";
                          //if($result = mysqli_query($link,$sqlS)) {
@@ -101,7 +101,7 @@ include('filestart.php')
             </div>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Group to resolve:</label>
+                    <label class="input-label">Group to resolve</label>
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                          //if($result = mysqli_query($link,$sqlY)) {
@@ -113,7 +113,7 @@ include('filestart.php')
                     ?>
                 </div>
                 <div class="form-element">
-                    <label class="input-label">Identified by:</label>
+                    <label class="input-label">Identified by</label>
                     <input type="text" name="IdentifiedBy" maxlength="24" id="defdd" required/>
                 </div>
             </div>
@@ -128,17 +128,17 @@ include('filestart.php')
             <legend class="bg-secondary text-white form-section-heading">Optional Information</legend>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Spec or Code:</label>
+                    <label class="input-label">Spec or Code</label>
                     <input type="text" name="Spec" maxlength="55"  id="defdd"/>
                 </div>
             </div>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Action Owner:</label>
+                    <label class="input-label">Action Owner</label>
                     <input type="text" name="ActionOwner" maxlength="24"  id="defdd"/>
                 </div>
                 <div class="form-element">
-                    <label class="input-label">Old Id:</label>
+                    <label class="input-label">Old Id</label>
                     <input type="text" name="OldID" maxlength="24" id="defdd"/>
                 </div>
             </div>
@@ -153,7 +153,7 @@ include('filestart.php')
             <legend class="bg-secondary text-white form-section-heading">Closure Information</legend>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Evidence Type:</label>
+                    <label class="input-label">Evidence Type</label>
                     <?php
                         $sqlE = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
                          //if($result = mysqli_query($link,$sqlE)) {
@@ -167,7 +167,7 @@ include('filestart.php')
             </div>
             <div class="form-subsection form-group">
                 <div class="form-element">
-                    <label class="input-label">Evidence Repository:</label>
+                    <label class="input-label">Evidence Repository</label>
                     <select name'Repo' id='defdd'>
                         <option value=''></option>
                         <option value='A'>Aconex</option>
