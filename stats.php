@@ -59,7 +59,7 @@ session_start();
             <ul class='dash-list'>
               <li class='dash-list-heading'>
                 <span class='dash-list-left dash-list-name'>{$cardSpecs[0]}</span>
-                <span class='dash-list-right dash-list-count'>{$cardSpecs[1]}</span>
+                <span class='dash-list-right dash-list-count'>{$cardSpecs[2]}</span>
               </li>";
       if ($tot && $qry) {
         while ($row = mysqli_fetch_array($qry)) {
