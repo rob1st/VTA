@@ -580,7 +580,29 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 /* Forms CSS */
 .form-section-heading {
+    margin: 0;
     padding: .5rem .75rem .55rem;
+}
+
+.form-section {
+    padding: .125rem 1rem .35rem;
+}
+
+.form-subsection {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-bottom: .25rem;
+    padding: .5rem 0 .65rem;
+}
+
+.form-subsection:not(:last-child) {
+    border-bottom: 1px solid var(--quarter-trans-grey);
+}
+
+.input-label {
+    margin: 0;
 }
 
 .btn-container {

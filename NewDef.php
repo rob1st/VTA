@@ -15,15 +15,15 @@ include('filestart.php') ?>
         <form action="RecDef.php" method="POST">
             <h5 class="bg-secondary text-white form-section-heading">Required Information</h5>
             <section class="form-section">
-                <div class="form-row">
-                    <label>Affect Safety Cert:
+                <div class="form-subsection">
+                    <label class="input-label">Affect Safety Cert:
                         <select name'SafetyCert' value='' id='defdd' required>
                             <option value=''></option>
                             <option value='Y'>Yes</option>
                             <option value='N'>No</option>
                         </select>
                     </label>
-                    <label>System Affected
+                    <label class="input-label">System Affected
                         <?php
                             $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                              //if($result = mysqli_query($link,$sqlY)) {
@@ -36,8 +36,8 @@ include('filestart.php') ?>
                         ?>
                     </label>
                 </div>
-                <div class="form-row">
-                    <label>General Location:
+                <div class="form-subsection">
+                    <label class="input-label">General Location:
                         <?php
                             $sqlL = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
                              //if($result = mysqli_query($link,$sqlL)) {
@@ -49,12 +49,12 @@ include('filestart.php') ?>
                             echo "</select>";
                         ?>
                     </label>
-                    <label>Specific Location:
+                    <label class="input-label">Specific Location:
                         <input type="text" name="SpecLoc" max="55" id="defdd" required/>
                     </label>
                 </div>
-                <div class="form-row">
-                    <label>Status:
+                <div class="form-subsection">
+                    <label class="input-label">Status:
                         <?php
                             $sqlT = "SELECT StatusID, Status FROM Status WHERE StatusID <> '3' ORDER BY StatusID";
                              //if($result = mysqli_query($link,$sqlT)) {
@@ -66,7 +66,7 @@ include('filestart.php') ?>
                             echo "</select>";
                         ?>
                     </label>
-                    <label>Severity
+                    <label class="input-label">Severity
                         <?php
                             $sqlS = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
                              //if($result = mysqli_query($link,$sqlS)) {
@@ -79,11 +79,11 @@ include('filestart.php') ?>
                         ?>
                     </label>
                 </div>
-                <div class="form-row">
-                    <label>To be resolved by:
+                <div class="form-subsection">
+                    <label class="input-label">To be resolved by:
                         <input type='date' name='DueDate' id='defdd'/>
                     </label>
-                    <label>Required for:
+                    <label class="input-label">Required for:
                         <?php
                             $sqlRB = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY ReqByID";
                              //if($result = mysqli_query($link,$sqlS)) {
@@ -96,8 +96,8 @@ include('filestart.php') ?>
                         ?>
                     </label>
                 </div>
-                <div class="form-row">
-                    <label>Group to resolve:
+                <div class="form-subsection">
+                    <label class="input-label">Group to resolve:
                         <?php
                             $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                              //if($result = mysqli_query($link,$sqlY)) {
@@ -109,32 +109,32 @@ include('filestart.php') ?>
                             echo "</select>";
                         ?>
                     </label>
-                    <label>Identified by:
+                    <label class="input-label">Identified by:
                         <input type="text" name="IdentifiedBy" max="24" id="defdd" required/>
                     </label>
                 </div>
-                <label>Deficiency Description
+                <label class="input-label">Deficiency Description
                     <textarea type="message"  rows="5" cols="99%" name="description" max="1000" required></textarea>
                 </label>
             </section>
             <h5 class="bg-secondary text-white form-section-heading">Optional Information</h5>
             <section class="form-section">
-                <label>Spec or Code:
+                <label class="input-label">Spec or Code:
                     <input type="text" name="Spec" max="55"  id="defdd"/>
                 </label>
-                <label>Action Owner:
+                <label class="input-label">Action Owner:
                     <input type="text" name="ActionOwner" max="24"  id="defdd"/>
                 </label>
-                <label>Old Id:
+                <label class="input-label">Old Id:
                     <input type="text" name="OldID" max="24" id="defdd"/>
                 </label>
-                <label>More Information
+                <label class="input-label">More Information
                     <textarea type="message"  rows="5" cols="99%" name="comments" max="1000"></textarea>
                 </label>
             </section>
             <h5 class="bg-secondary text-white form-section-heading">Closure Information</h5>
             <section class="form-section">
-                <label>Evidence Type:
+                <label class="input-label">Evidence Type:
                     <?php
                         $sqlE = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
                          //if($result = mysqli_query($link,$sqlE)) {
@@ -146,17 +146,17 @@ include('filestart.php') ?>
                         echo "</select>";
                     ?>
                 </label>
-                <label>Evidence Repository:
+                <label class="input-label">Evidence Repository:
                     <select name'Repo' value='' id='defdd'>
                         <option value=''></option>
                         <option value='A'>Aconex</option>
                         <option value='S'>SharePoint</option>
                     </select>
                 </label>
-                <label>Repository Number
+                <label class="input-label">Repository Number
                     <input type="text" name="EvidenceLink" max="255"  id='defdd'/>
                 </label>
-                <label>Closure Comments
+                <label class="input-label">Closure Comments
                     <textarea type="message"  rows="5" cols="99%" name="ClosureComments" max="1000"></textarea>
                 </label>
                 <input type='submit' value='submit' class='btn btn-primary btn-lg' />
