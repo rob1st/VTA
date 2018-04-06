@@ -117,10 +117,10 @@ include('filestart.php')
                     <input type="text" name="IdentifiedBy" maxlength="24" id="defdd" required/>
                 </div>
             </div>
-            <div class="form-subsection">
-                <div class="form-element center-element">
+            <div class="constrainer form-subsection center-element">
+                <div class="form-element">
                     <label class="input-label label-breakline">Deficiency Description</label>
-                    <textarea name="description" maxlength="1000" required class="textarea"></textarea>
+                    <textarea name="description" rows="5" maxlength="1000" required class="textarea-full-width"></textarea>
                 </div>
             </div>
         </fieldset>
@@ -142,10 +142,10 @@ include('filestart.php')
                     <input type="text" name="OldID" maxlength="24" id="defdd"/>
                 </div>
             </div>
-            <div class="form-subsection">
-                <div class="form-element center-element">
+            <div class="constrainer form-subsection center-element">
+                <div class="form-element">
                     <label class="input-label label-breakline">More Information</label>
-                    <textarea name="comments" maxlength="1000" class="textarea"></textarea>
+                    <textarea name="comments" rows="5" maxlength="1000" class="textarea-full-width"></textarea>
                 </div>
             </div>
         </fieldset>
@@ -179,10 +179,10 @@ include('filestart.php')
                     <input type="text" name="EvidenceLink" maxlength="255"  id='defdd'/>
                 </div>
             </div>
-            <div class="form-subsection">
-                <div class="form-element center-element">
+            <div class="constrainer form-subsection center-element">
+                <div class="form-element">
                     <label class="input-label label-breakline">Closure Comments</label>
-                    <textarea name="ClosureComments" maxlength="1000" class="textarea"></textarea>
+                    <textarea name="ClosureComments" rows="5" maxlength="1000" class="textarea-full-width"></textarea>
                 </div>
             </div>
         </fieldset>

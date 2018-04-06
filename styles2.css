@@ -30,6 +30,31 @@ img {
     width: auto;
 }
 
+/* a tighter container, adabted from Bootstrap */
+.constrainer {
+    width: 100%;
+}
+@media screen and (min-width: 576px) {
+    .constrainer {
+        width: 80%;
+    }
+}
+@media screen and (min-width: 768px) {
+    .constrainer {
+        width: 50%;
+    }
+}
+/*@media screen and (min-width: 992px) {
+    .constrainer {
+        width: 50%;
+    }
+}*/
+/*@media screen and (min-width: 1200px) {
+    .constrainer {
+        width: 50%;
+    }
+}*/
+
 /* Navbar */
 .navbar-heading {
     max-width: 13.5rem;
@@ -611,7 +636,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .center-element {
     margin-left: auto; margin-right: auto;
-    width: min-content;
 }
 
 .input-label {
@@ -622,6 +646,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 .label-breakline:after {
     content: '\A';
     white-space: pre-wrap;
+}
+
+.textarea-full-width {
+    width: 100%;
 }
 
 .btn-container {
