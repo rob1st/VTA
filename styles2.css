@@ -480,10 +480,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     padding: 0;
 }
 
-.dash-list-heading {
+/*.dash-list-heading {
     background: var(--secondary);
     color: white;
-}
+}*/
 
 .dash-list-heading, .dash-list-item {
     display: flex;
@@ -579,6 +579,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 .superadmin-menu-item {}
 
 /* Forms CSS */
+.form-section-heading {
+    padding: .5rem .75rem .55rem;
+}
+
 .btn-container {
     text-align: center;
 }
