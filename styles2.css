@@ -8,7 +8,9 @@
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
     --bs-jumbo-grey: #e9ecef;
-    --quarter-trans-grey: #0003;
+    --quarter-trans-grey: #0000003f;
+    --tenth-trans-grey: #00000018;
+    --vta-bright-blue: #3eb4e6;
     --vta-blue: #0072c6;
     --vta-dark-blue: #03528B;
 }
@@ -594,16 +596,16 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     color: var(--dark);
 }
 
+.btn-outline:hover {
+    background-color: var(--tenth-trans-grey);
+}
+
 .btn.btn-a {
     color: var(--vta-blue);
 }
 
 .btn.btn-a:hover {
     color: var(--vta-dark-blue);
-}
-
-.btn-outline:hover {
-    background-color: var(--bs-jumbo-grey);
 }
 
 /* Table CSS */
