@@ -13,8 +13,8 @@ include('filestart.php') ?>
     </header>
     <main class='container main-content'>
         <form action="RecDef.php" method="POST">
-            <h5 class="bg-secondary text-white form-section-heading">Required Information</h5>
-            <section class="form-section">
+            <legend class="bg-secondary text-white form-section-heading">Required Information</legend>
+            <fieldset class="form-section">
                 <div class="form-subsection form-group">
                     <label class="input-label">Affect Safety Cert:</label>
                     <select name'SafetyCert' value='' id='defdd' required>
@@ -107,8 +107,8 @@ include('filestart.php') ?>
                     <label class="input-label label-breakline">Deficiency Description</label>
                     <textarea type="message"  rows="5" cols="99%" name="description" max="1000" required></textarea>
                 </div>
-            </section>
-            <h5 class="bg-secondary text-white form-section-heading">Optional Information</h5>
+            </fieldset>
+            <legend class="bg-secondary text-white form-section-heading">Optional Information</legend>
             <section class="form-section">
                 <label class="input-label">Spec or Code:</label>
                 <input type="text" name="Spec" max="55"  id="defdd"/>
@@ -118,8 +118,8 @@ include('filestart.php') ?>
                 <input type="text" name="OldID" max="24" id="defdd"/>
                 <label class="input-label">More Information</label>
                 <textarea type="message"  rows="5" cols="99%" name="comments" max="1000"></textarea>
-            </section>
-            <h5 class="bg-secondary text-white form-section-heading">Closure Information</h5>
+            </fieldset>
+            <legend class="bg-secondary text-white form-section-heading">Closure Information</legend>
             <section class="form-section">
                 <label class="input-label">Evidence Type:</label>
                 <?php
@@ -144,7 +144,7 @@ include('filestart.php') ?>
                 <textarea type="message"  rows="5" cols="99%" name="ClosureComments" max="1000"></textarea>
                 <input type='submit' value='submit' class='btn btn-primary btn-lg' />
                 <input type='reset' value='reset' class='btn btn-primary btn-lg' />
-            </section>
+            </fieldset>
         </form>
     </main>
 <?php 
