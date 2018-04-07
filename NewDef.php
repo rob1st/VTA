@@ -19,7 +19,7 @@ include('filestart.php')
             <div class="form-subsection form-group">
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Affect Safety Cert</label>
-                    <select name'SafetyCert' id='' required class="">
+                    <select name'SafetyCert' id='' required class="def-input">
                         <option value='' disabled selected>Y/N</option>
                         <option value='Y'>Yes</option>
                         <option value='N'>No</option>
@@ -30,7 +30,7 @@ include('filestart.php')
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                          //if($result = mysqli_query($link,$sqlY)) {
-                                echo "<select name='SystemAffected' id='' required class=''>
+                                echo "<select name='SystemAffected' id='' required class='def-input'>
                                         <option value='' disabled selected>Choose System</option>";
                                 foreach(mysqli_query($link,$sqlY) as $row) {
                                     echo "<option value={$row[SystemID]}>{$row[System]}</option>";
@@ -45,7 +45,7 @@ include('filestart.php')
                     <?php
                         $sqlL = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
                          //if($result = mysqli_query($link,$sqlL)) {
-                                echo "<select name='Location' id='' required class=''>
+                                echo "<select name='Location' id='' required class='def-input'>
                                         <option value='' disabled selected>Choose Location</option>";
                                 foreach(mysqli_query($link,$sqlL) as $row) {
                                     echo "<option value={$row[LocationID]}>{$row[LocationName]}</option>";
@@ -55,7 +55,7 @@ include('filestart.php')
                 </div>
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Specific Location</label>
-                    <input type="text" name="SpecLoc" maxlength="55" id="" required class=""/>
+                    <input type="text" name="SpecLoc" maxlength="55" id="" required class="def-input"/>
                 </div>
             </div>
             <div class="form-subsection form-group">
@@ -64,7 +64,7 @@ include('filestart.php')
                     <?php
                         $sqlT = "SELECT StatusID, Status FROM Status WHERE StatusID <> '3' ORDER BY StatusID";
                          //if($result = mysqli_query($link,$sqlT)) {
-                                echo "<select name='Status' id='' required class=''>
+                                echo "<select name='Status' id='' required class='def-input'>
                                         <option value='' disabled selected>Choose Status</option>";
                                 foreach(mysqli_query($link,$sqlT) as $row) {
                                     echo "<option value={$row[StatusID]}>{$row[Status]}</option>";
@@ -77,7 +77,7 @@ include('filestart.php')
                     <?php
                         $sqlS = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
                          //if($result = mysqli_query($link,$sqlS)) {
-                                echo "<select name='Severity' id='' required class=''>
+                                echo "<select name='Severity' id='' required class='def-input'>
                                         <option value='' disabled selected>Choose Severity</option>";
                                 foreach(mysqli_query($link,$sqlS) as $row) {
                                     echo "<option value={$row[SeverityID]}>{$row[SeverityName]}</option>";
@@ -89,14 +89,14 @@ include('filestart.php')
             <div class="form-subsection form-group">
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">To be resolved by</label>
-                    <input type='date' name='DueDate' id='' class=""/>
+                    <input type='date' name='DueDate' id='' class="def-input"/>
                 </div>
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Required for</label>
                     <?php
                         $sqlRB = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY ReqByID";
                          //if($result = mysqli_query($link,$sqlS)) {
-                                echo "<select name='RequiredBy' id='' required class=''>
+                                echo "<select name='RequiredBy' id='' required class='def-input'>
                                         <option value='' disabled selected>Requirement</option>";
                                 foreach(mysqli_query($link,$sqlRB) as $row) {
                                     echo "<option value=$row[ReqByID]>$row[RequiredBy]</option>";
@@ -111,7 +111,7 @@ include('filestart.php')
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                          //if($result = mysqli_query($link,$sqlY)) {
-                                echo "<select name='GroupToResolve' id='' required class=''>
+                                echo "<select name='GroupToResolve' id='' required class='def-input'>
                                         <option value='' disabled selected>Group</option>";
                                 foreach(mysqli_query($link,$sqlY) as $row) {
                                     echo "<option value=$row[SystemID]>$row[System]</option>";
@@ -121,7 +121,7 @@ include('filestart.php')
                 </div>
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Identified by</label>
-                    <input type="text" name="IdentifiedBy" maxlength="24" id="" required class=""/>
+                    <input type="text" name="IdentifiedBy" maxlength="24" id="" required class="def-input"/>
                 </div>
             </div>
             <div class="constrainer form-subsection center-element">
@@ -136,17 +136,17 @@ include('filestart.php')
             <div class="form-subsection form-group">
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Spec or Code</label>
-                    <input type="text" name="Spec" maxlength="55"  id="" class=""/>
+                    <input type="text" name="Spec" maxlength="55"  id="" class="def-input"/>
                 </div>
             </div>
             <div class="form-subsection form-group">
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Action Owner</label>
-                    <input type="text" name="ActionOwner" maxlength="24"  id="" class=""/>
+                    <input type="text" name="ActionOwner" maxlength="24"  id="" class="def-input"/>
                 </div>
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Old Id</label>
-                    <input type="text" name="OldID" maxlength="24" id="" class=""/>
+                    <input type="text" name="OldID" maxlength="24" id="" class="def-input"/>
                 </div>
             </div>
             <div class="constrainer form-subsection center-element">
@@ -164,7 +164,7 @@ include('filestart.php')
                     <?php
                         $sqlE = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
                          //if($result = mysqli_query($link,$sqlE)) {
-                                echo "<select name='EvidenceType' id='' class=''></option>
+                                echo "<select name='EvidenceType' id='' class='def-input'></option>
                                         <option value='' disabled selected>Choose Type</option>";
                                 foreach(mysqli_query($link,$sqlE) as $row) {
                                     echo "<option value=$row[EviTypeID]>$row[EviType]</option>";
@@ -176,7 +176,7 @@ include('filestart.php')
             <div class="form-subsection form-group">
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Evidence Repository</label>
-                    <select name'Repo' id='' class="">
+                    <select name'Repo' id='' class="def-input">
                         <option value='' disabled selected>Choose Repo</option>
                         <option value=''></option>
                         <option value='A'>Aconex</option>
@@ -185,7 +185,7 @@ include('filestart.php')
                 </div>
                 <div class="half-container flex-row no-wrap space-between">
                     <label class="input-label">Repository Number</label>
-                    <input type="text" name="EvidenceLink" maxlength="255"  id='' class=""/>
+                    <input type="text" name="EvidenceLink" maxlength="255"  id='' class="def-input"/>
                 </div>
             </div>
             <div class="constrainer form-subsection center-element">

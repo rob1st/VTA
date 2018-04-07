@@ -42,6 +42,9 @@ ul li {
 .half-container {
     width: 100%;
 }
+.half-container:not(:last-child) {
+    margin: 0;
+}
 
 @media screen and (min-width: 576px) {
     .constrainer {
@@ -53,7 +56,10 @@ ul li {
         width: 50%;
     }
     .half-container {
-        max-width: 50%;
+        max-width: calc(50% - .75rem);
+    }
+    .half-container:not(:last-child) {
+        margin-right: .75rem;
     }
 }
 /*@media screen and (min-width: 992px) {
@@ -414,6 +420,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .input-label {
     margin: 0;
+}
+
+.def-input {
+    max-width: 150px;
 }
 
 .label-breakline:after {
