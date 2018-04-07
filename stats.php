@@ -34,7 +34,7 @@ session_start();
     // if any extra content is needed, add it to index after required items
     $cards = [
       ['Status', 'Statuses', 'Items', 
-        "<div class='data-display'><div id='open-closed-graph' class='chart-container'></div><p id='open-closed-legend' class='legend'></p></div>"],
+        "<div class='data-display'><div id='open-closed-graph' class='chart-container'></div><p id='open-closed-legend' class='flex-column'></p></div>"],
       ['Severity', 'Severities', 'Open Items', '<div class="data-display"><div id="severity-graph" class="chart-container"></div><p id="open-closed-legend" class="legend"></p></div>'],
       ['System', 'Systems', 'Actions'],
       ['Location', 'Locations', 'Open Items']
