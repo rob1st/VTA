@@ -10,6 +10,7 @@
     --bs-jumbo-grey: #e9ecef;
     --quarter-trans-grey: #0000003f;
     --tenth-trans-grey: #00000018;
+    --yellow: #feb24c;
     --vta-bright-blue: #3eb4e6;
     --vta-blue: #0072c6;
     --vta-dark-blue: #03528B;
@@ -389,6 +390,11 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 .superadmin-menu-item {}
 
 /* Forms CSS */
+.form-control:focus {
+    border-color: var(--yellow);
+    box-shadow: 0 0 2px 1px var(--yellow);
+}
+
 .form-section-heading {
     margin: 0;
     margin-bottom: .25rem;
@@ -415,15 +421,12 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     align-items: flex-start;
 }
 
-.form-element {
-}
-
 .input-label {
     margin: 0;
 }
 
 .def-input {
-    max-width: 150px;
+    min-width: 150px;
 }
 
 .label-breakline:after {

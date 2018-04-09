@@ -17,20 +17,20 @@ include('filestart.php')
         <fieldset class="form-section">
             <legend class="bg-secondary text-white form-section-heading">Required Information</legend>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Affect Safety Cert</label>
-                    <select name'SafetyCert' id='' required class="def-input">
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Affect Safety Cert</label>
+                    <select name'SafetyCert' id='' required class="form-control def-input">
                         <option value='' disabled selected>Y/N</option>
                         <option value='Y'>Yes</option>
                         <option value='N'>No</option>
                     </select>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">System Affected</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">System Affected</label>
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                          //if($result = mysqli_query($link,$sqlY)) {
-                                echo "<select name='SystemAffected' id='' required class='def-input'>
+                                echo "<select name='SystemAffected' id='' required class='form-control def-input'>
                                         <option value='' disabled selected>Choose System</option>";
                                 foreach(mysqli_query($link,$sqlY) as $row) {
                                     echo "<option value={$row[SystemID]}>{$row[System]}</option>";
@@ -40,12 +40,12 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">General Location</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">General Location</label>
                     <?php
                         $sqlL = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
                          //if($result = mysqli_query($link,$sqlL)) {
-                                echo "<select name='Location' id='' required class='def-input'>
+                                echo "<select name='Location' id='' required class='form-control def-input'>
                                         <option value='' disabled selected>Choose Location</option>";
                                 foreach(mysqli_query($link,$sqlL) as $row) {
                                     echo "<option value={$row[LocationID]}>{$row[LocationName]}</option>";
@@ -53,18 +53,18 @@ include('filestart.php')
                         echo "</select>";
                     ?>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Specific Location</label>
-                    <input type="text" name="SpecLoc" maxlength="55" id="" required class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Specific Location</label>
+                    <input type="text" name="SpecLoc" maxlength="55" id="" required class="form-control def-input"/>
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Status</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Status</label>
                     <?php
                         $sqlT = "SELECT StatusID, Status FROM Status WHERE StatusID <> '3' ORDER BY StatusID";
                          //if($result = mysqli_query($link,$sqlT)) {
-                                echo "<select name='Status' id='' required class='def-input'>
+                                echo "<select name='Status' id='' required class='form-control def-input'>
                                         <option value='' disabled selected>Choose Status</option>";
                                 foreach(mysqli_query($link,$sqlT) as $row) {
                                     echo "<option value={$row[StatusID]}>{$row[Status]}</option>";
@@ -72,12 +72,12 @@ include('filestart.php')
                         echo "</select>";
                     ?>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Severity</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Severity</label>
                     <?php
                         $sqlS = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
                          //if($result = mysqli_query($link,$sqlS)) {
-                                echo "<select name='Severity' id='' required class='def-input'>
+                                echo "<select name='Severity' id='' required class='form-control def-input'>
                                         <option value='' disabled selected>Choose Severity</option>";
                                 foreach(mysqli_query($link,$sqlS) as $row) {
                                     echo "<option value={$row[SeverityID]}>{$row[SeverityName]}</option>";
@@ -87,16 +87,16 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">To be resolved by</label>
-                    <input type='date' name='DueDate' id='' class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">To be resolved by</label>
+                    <input type='date' name='DueDate' id='' class="form-control def-input"/>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Required for</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Required for</label>
                     <?php
                         $sqlRB = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY ReqByID";
                          //if($result = mysqli_query($link,$sqlS)) {
-                                echo "<select name='RequiredBy' id='' required class='def-input'>
+                                echo "<select name='RequiredBy' id='' required class='form-control def-input'>
                                         <option value='' disabled selected>Requirement</option>";
                                 foreach(mysqli_query($link,$sqlRB) as $row) {
                                     echo "<option value=$row[ReqByID]>$row[RequiredBy]</option>";
@@ -106,12 +106,12 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Group to resolve</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Group to resolve</label>
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
                          //if($result = mysqli_query($link,$sqlY)) {
-                                echo "<select name='GroupToResolve' id='' required class='def-input'>
+                                echo "<select name='GroupToResolve' id='' required class='form-control def-input'>
                                         <option value='' disabled selected>Group</option>";
                                 foreach(mysqli_query($link,$sqlY) as $row) {
                                     echo "<option value=$row[SystemID]>$row[System]</option>";
@@ -119,52 +119,52 @@ include('filestart.php')
                         echo "</select>";
                     ?>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Identified by</label>
-                    <input type="text" name="IdentifiedBy" maxlength="24" id="" required class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Identified by</label>
+                    <input type="text" name="IdentifiedBy" maxlength="24" id="" required class="form-control def-input"/>
                 </div>
             </div>
             <div class="constrainer form-subsection center-element">
                 <div class="flex-column no-wrap">
                     <label class="input-label label-breakline">Deficiency Description</label>
-                    <textarea name="description" rows="5" maxlength="1000" required class="textarea-full-width"></textarea>
+                    <textarea name="description" rows="5" maxlength="1000" required class="form-control textarea-full-width"></textarea>
                 </div>
             </div>
         </fieldset>
         <fieldset class="form-section">
             <legend class="bg-secondary text-white form-section-heading">Optional Information</legend>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Spec or Code</label>
-                    <input type="text" name="Spec" maxlength="55"  id="" class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Spec or Code</label>
+                    <input type="text" name="Spec" maxlength="55"  id="" class="form-control def-input"/>
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Action Owner</label>
-                    <input type="text" name="ActionOwner" maxlength="24"  id="" class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Action Owner</label>
+                    <input type="text" name="ActionOwner" maxlength="24"  id="" class="form-control def-input"/>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Old Id</label>
-                    <input type="text" name="OldID" maxlength="24" id="" class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Old Id</label>
+                    <input type="text" name="OldID" maxlength="24" id="" class="form-control def-input"/>
                 </div>
             </div>
             <div class="constrainer form-subsection center-element">
                 <div class="flex-column no-wrap">
                     <label class="input-label label-breakline">More Information</label>
-                    <textarea name="comments" rows="5" maxlength="1000" class="textarea-full-width"></textarea>
+                    <textarea name="comments" rows="5" maxlength="1000" class="form-control textarea-full-width"></textarea>
                 </div>
             </div>
         </fieldset>
         <fieldset class="form-section">
             <legend class="bg-secondary text-white form-section-heading">Closure Information</legend>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Evidence Type</label>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Evidence Type</label>
                     <?php
                         $sqlE = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
                          //if($result = mysqli_query($link,$sqlE)) {
-                                echo "<select name='EvidenceType' id='' class='def-input'></option>
+                                echo "<select name='EvidenceType' id='' class='form-control def-input'></option>
                                         <option value='' disabled selected>Choose Type</option>";
                                 foreach(mysqli_query($link,$sqlE) as $row) {
                                     echo "<option value=$row[EviTypeID]>$row[EviType]</option>";
@@ -174,24 +174,24 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Evidence Repository</label>
-                    <select name'Repo' id='' class="def-input">
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Evidence Repository</label>
+                    <select name'Repo' id='' class="form-control def-input">
                         <option value='' disabled selected>Choose Repo</option>
                         <option value=''></option>
                         <option value='A'>Aconex</option>
                         <option value='S'>SharePoint</option>
                     </select>
                 </div>
-                <div class="half-container flex-row no-wrap space-between">
-                    <label class="input-label">Repository Number</label>
-                    <input type="text" name="EvidenceLink" maxlength="255"  id='' class="def-input"/>
+                <div class="half-container flex-row space-between item-margin-bottom">
+                    <label class="input-label item-margin-right">Repository Number</label>
+                    <input type="text" name="EvidenceLink" maxlength="255"  id='' class="form-control def-input"/>
                 </div>
             </div>
             <div class="constrainer form-subsection center-element">
                 <div class="flex-column no-wrap">
                     <label class="input-label label-breakline">Closure Comments</label>
-                    <textarea name="ClosureComments" rows="5" maxlength="1000" class="textarea-full-width"></textarea>
+                    <textarea name="ClosureComments" rows="5" maxlength="1000" class="form-control textarea-full-width"></textarea>
                 </div>
             </div>
         </fieldset>
