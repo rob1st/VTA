@@ -255,10 +255,10 @@ if($_POST['Search'] == NULL) {
         <table class='table table-striped table-responsive svbx-table sc-table'>
             <thead>
                 <tr>
-                    <th class='svbx-th svbx-table-title' colspan='8'>Certification Stage</th>
+                    <th class='svbx-table-title' colspan='8'>Certification Stage</th>
                 </tr>
                 <tr>
-                    <th class='svbx-th'>Item</th>
+                    <th class='svbx-th'>ID</th>
                     <th class='svbx-th collapse-xs'>Safety/Security Requirement</th>
                     <th class='svbx-th'>Design Codes/Standards</th>
                     <th class='svbx-th'>Design Specifications/Criteria</th>
@@ -273,7 +273,7 @@ if($_POST['Search'] == NULL) {
                 while($row = mysqli_fetch_array($result)) { 
                     echo "
                 <tr>
-                    <td class='svbx-td'>{$row[1]}</td>
+                    <td class='svbx-td id-th'>{$row[1]}</td>
                     <td class='svbx-td collapse-xs'>{$row[2]}</td>
                     <td class='svbx-td'>{$row[3]}</td>
                     <td class='svbx-td'>{$row[4]}</td>

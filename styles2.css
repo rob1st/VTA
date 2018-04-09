@@ -433,11 +433,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     min-width: 150px;
 }
 
-.label-breakline:after {
-    content: '\A';
-    white-space: pre-wrap;
-}
-
 select:invalid {
     color: var(--secondary);
 }
@@ -539,6 +534,17 @@ select:invalid {
     border: none;
 }
 
+.svbx-table-title {
+    font-size: 2rem;
+    font-weight: normal;
+    text-align: left;
+}
+
+.svbx-th, .svbx-td {
+    overflow: hidden;
+    text-overflow: clip;
+}
+
 .svbx-table .svbx-th {
     background-color: #03528B;
     color: white;
@@ -555,35 +561,36 @@ select:invalid {
     text-align: left;
 }
 
-.svbx-th.status-th {
+.svbx-th.id-th, .svbx-table .id-td {
     width: 40px;
 }
 
-.svbx-th.loc-th {
+.svbx-th.loc-th, .svbx-table .loc-td {
     width: 91px;
 }
 
-.svbx-th.sev-th, .svbx-th.created-th {
+.svbx-th.sev-th, .svbx-th.created-th,
+.svbx-table .sev-td, .svbx-table .created-td {
     width: 85px;
 }
 
-.svbx-th.status-th {
+.svbx-th.status-th, .svbx-table .status-td {
     width: 70px;
 }
 
-.svbx-th.system-th {
+.svbx-th.system-th, .svbx-table .system-td {
     width: 143px;
 }
 
-.svbx-th.updated-th {
+.svbx-th.updated-th, .svbx-table .updated-td {
     width: 91px;
 }
 
-.svbx-th.edit-th {
+.svbx-th.edit-th, .svbx-table .edit-td {
     width: 56px;
 }
 
-.svbx-th.del-th {
+.svbx-th.del-th, .svbx-table .del-td {
     width: 73px;
 }
 /* End of Table Menu CSS */
