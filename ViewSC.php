@@ -224,7 +224,6 @@ if($_POST['Search'] == NULL) {
                                     }
                             echo "</select>";
                         ?></td>
-            </form>
         </tr>
     </table>
     <br />
