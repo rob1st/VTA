@@ -15,9 +15,8 @@ include('filestart.php');
     if($result = mysqli_query($link,$CDL)) {
         echo "
             <main class='container main-content'>
-            
                 <div class='card heading-card'>
-                    <div class='card-body grey-bg item-margin-right page-heading-panel'>
+                    <div class='card-body grey-bg page-heading-panel'>
                         <p>Click Deficiency ID Number to see full details</p>";
                         if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
                             echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
