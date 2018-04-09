@@ -226,7 +226,6 @@ if($_POST['Search'] == NULL) {
                         ?></td>
         </tr>
     </table>
-    <br />
     <div  style='display: flex; align-items: center; justify-content: center; hspace:20'>
             <input type='submit' value='Submit' class='btn btn-primary btn-lg' /><p> </p>
     </form>
@@ -234,21 +233,20 @@ if($_POST['Search'] == NULL) {
             <input type='submit' value='Reset' class='btn btn-primary btn-lg'  />
     </form>
     </div>
-        <?php 
-        if($result = mysqli_query($link,$count)) {
-            echo"
-                <br />
-                <table class='sumtable'>
-                <tr class='sumtr'>
-                <td class='sumtd'>Safety Requirements Found: </td>";
-            while ($row = mysqli_fetch_array($result)) {
-                echo "<td class='sumtd'>{$row[0]}</td>";
-            }
-        }
-            echo "</table>";
-            //echo "<br />SQL: ".$sql;
-            //echo "<br />Count: ".$count;
-        ?>
+    
+<?php 
+    if($result = mysqli_query($link,$count)) {
+        echo "
+            <div class='col-4 offset-4'>
+                <div class='card sum-card'>
+                    <div class='card-body center-content'>
+                        <span>Safety Requirements Found: </span>";
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo "<span>{$row[0]}<span>";
+                        }
+        echo "</div></div></div>";
+    }
+?>
 <?php
     if($result = mysqli_query($link,$sql)) {
     echo "<table style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>

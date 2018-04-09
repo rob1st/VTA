@@ -196,6 +196,10 @@ ul li {
     margin-bottom: 1rem;
 }
 
+.sum-card {
+    margin-top: 1rem;
+}
+
 .page-heading-panel {
     display: flex;
     flex-flow: row nowrap;
