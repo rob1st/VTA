@@ -197,7 +197,7 @@ ul li {
 }
 
 .sum-card {
-    margin-top: 1rem;
+    margin-top: 1.25rem; margin-bottom: 1.5rem;
 }
 
 .page-heading-panel {
@@ -547,8 +547,8 @@ select:invalid {
 }
 
 .svbx-table.svbx-th, .svbx-table.svbx-td {
-    overflow-x: hidden;
-    text-overflow: clip;
+    /*overflow-x: hidden;*/
+    /*text-overflow: clip;*/
 }
 
 .svbx-td {

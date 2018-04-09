@@ -249,48 +249,52 @@ if($_POST['Search'] == NULL) {
 ?>
 <?php
     if($result = mysqli_query($link,$sql)) {
-    echo "<table style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
+    echo "
+        <table class='table table-striped table-responsive svbx-table sc-table'>
+            <thead>
                 <tr>
-                    <th class='vdth' colspan='8' height='50'><p>Certification Stage</p></th>
+                    <th class='svbx-th svbx-table-title' colspan='8'>Certification Stage</th>
                 </tr>
                 <tr>
-                    <th class='vdth' style='width:5%'>Item</td>
-                    <th class='vdth' style='width:26%'>Safety/Security<br />Requirement</td>
-                    <th class='vdth' style='width:15%'>Design<br />Codes/Standards</td>
-                    <th class='vdth' style='width:15%'>Design Specifications/Criteria</td>
-                    <th class='vdth' style='width:10%'>Contract No.</td>
-                    <th class='vdth' style='width:10%'>Control No.</td>
-                    <th class='vdth' style='width:10%'>Element Group</td>
-                    <th class='vdth' style='width:10%'>Certifiable Element</td>
+                    <th class='svbx-th'>Item</td>
+                    <th class='svbx-th'>Safety/Security Requirement</td>
+                    <th class='svbx-th'>Design Codes/Standards</td>
+                    <th class='svbx-th'>Design Specifications/Criteria</td>
+                    <th class='svbx-th'>Contract No.</td>
+                    <th class='svbx-th'>Control No.</td>
+                    <th class='svbx-th'>Element Group</td>
+                    <th class='svbx-th'>Certifiable Element</td>
                     
-                </tr>";
+                </tr>
+            </head>
+            <tbody>";
                 while($row = mysqli_fetch_array($result)) { 
                     echo "
                 <tr>
-                    <td style='vertical-align:Top;text-align:left'>{$row[1]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[2]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[3]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[4]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[5]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[6]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[7]}</td>
-                    <td style='vertical-align:Top;text-align:left'>{$row[8]}</td>
+                    <td class='svbx-td'>{$row[1]}</td>
+                    <td class='svbx-td'>{$row[2]}</td>
+                    <td class='svbx-td'>{$row[3]}</td>
+                    <td class='svbx-td'>{$row[4]}</td>
+                    <td class='svbx-td'>{$row[5]}</td>
+                    <td class='svbx-td'>{$row[6]}</td>
+                    <td class='svbx-td'>{$row[7]}</td>
+                    <td class='svbx-td'>{$row[8]}</td>
                 </tr>";
                     }  
-                echo "</table><br>";
-                } else {  
-                    echo "
-                    <div='container'>
-                    <br />
-                    <br />
-                    <br />
-                    <br>Unable to connect<br>
-                    </div>";
-                    echo $sql.'<br /><br />';
-                    //echo mysqli_error();
-                    //echo "<BR>Def ID: ".$DefID;
-                  exit();  
-                } 
+    echo "</tbody></table><br>";
+    } else {  
+        echo "
+        <div='container'>
+        <br />
+        <br />
+        <br />
+        <br>Unable to connect<br>
+        </div>";
+        echo $sql;
+        //echo mysqli_error();
+        //echo "<BR>Def ID: ".$DefID;
+      exit();  
+    } 
     include('fileend.php');
     MySqli_Close($link); 
 ?>
