@@ -257,13 +257,13 @@ if($_POST['Search'] == NULL) {
                 </tr>
                 <tr>
                     <th class='svbx-th'>Item</td>
-                    <th class='svbx-th'>Safety/Security Requirement</td>
+                    <th class='svbx-th collapse-xs'>Safety/Security Requirement</td>
                     <th class='svbx-th'>Design Codes/Standards</td>
                     <th class='svbx-th'>Design Specifications/Criteria</td>
-                    <th class='svbx-th'>Contract No.</td>
-                    <th class='svbx-th'>Control No.</td>
-                    <th class='svbx-th'>Element Group</td>
-                    <th class='svbx-th'>Certifiable Element</td>
+                    <th class='svbx-th collapse-xs'>Contract No.</td>
+                    <th class='svbx-th collapse-xs'>Control No.</td>
+                    <th class='svbx-th collapse-xs'>Element Group</td>
+                    <th class='svbx-th collapse-xs'>Certifiable Element</td>
                     
                 </tr>
             </head>
@@ -272,13 +272,13 @@ if($_POST['Search'] == NULL) {
                     echo "
                 <tr>
                     <td class='svbx-td'>{$row[1]}</td>
-                    <td class='svbx-td'>{$row[2]}</td>
+                    <td class='svbx-td collapse-xs'>{$row[2]}</td>
                     <td class='svbx-td'>{$row[3]}</td>
                     <td class='svbx-td'>{$row[4]}</td>
-                    <td class='svbx-td'>{$row[5]}</td>
-                    <td class='svbx-td'>{$row[6]}</td>
-                    <td class='svbx-td'>{$row[7]}</td>
-                    <td class='svbx-td'>{$row[8]}</td>
+                    <td class='svbx-td collapse-xs'>{$row[5]}</td>
+                    <td class='svbx-td collapse-xs'>{$row[6]}</td>
+                    <td class='svbx-td collapse-xs'>{$row[7]}</td>
+                    <td class='svbx-td collapse-xs'>{$row[8]}</td>
                 </tr>";
                     }  
     echo "</tbody></table><br>";
