@@ -133,106 +133,89 @@ if($_POST['Search'] == NULL) {
 
 
 ?>
-    <table style='width:96%;margin-left:auto;margin-right:auto;margin-top:100px'>
-        <tr>
-            <th class='vdth' colspan='8'>Search</td>
-        </tr>
-        <tr>
-            <th class='vdth' style='width:5%'>Item</td>
-            <th class='vdth' style='width:26%'>Safety/Security<br />Requirement</td>
-            <th class='vdth' style='width:15%'>Design<br />Codes/Standards</td>
-            <th class='vdth' style='width:15%'>Design Specifications/Criteria</td>
-            <th class='vdth' style='width:10%'>Contract No.</td>
-            <th class='vdth' style='width:10%'>Control No.</td>
-            <th class='vdth' style='width:10%'>Element Group</td>
-            <th class='vdth' style='width:10%'>Certifiable Element</td>
-                    
-        </tr>
-        <tr>
-            <form action="ViewSC.php" method="POST">
-                <input type='hidden' name='Search' value=1>
-                    <td><?php
-                            $sqlI = "SELECT Item FROM SafetyCert ORDER BY Item";
-                             //if($result = mysqli_query($link,$sqlL)) {
-                                    echo "<select name='Item'' style='width:100%' value='".$ItemS."'></option>";
-                                    echo "<option value=''></option>";
-                                    foreach(mysqli_query($link,$sqlI) as $row) {
-                                        echo "<option value='$row[Item]'";
-                                            if($row['Item'] == $ItemS) {
-                                                echo " selected>$row[Item]</option>";
-                                            } else { echo ">$row[Item]</option>";
-                                            }
-                                    }
-                            echo "</select>";
-                        ?></td>
-                    <td><input type="text" name="Requirement" max="55" style="width:100%" value="<?php echo $RequirementS ?>" /></td>
-                    <td><input type="text" name="DesignCode" max="55" style="width:100%" value="<?php echo $DesignCodeS ?>" /></td>
-                    <td><input type="text" name="DesignSpec" max="55" style="width:100%" value="<?php echo $DesignSpecS ?>" /></td>
-                    <td><?php
-                            $sqlC = "SELECT ContractID, Contract FROM Contract ORDER BY Contract";
-                             //if($result = mysqli_query($link,$sqlL)) {
-                                    echo "<select name='ContractNo' style='width:100%' value='".$ContractNoS."'></option>";
-                                    echo "<option value=''></option>";
-                                    foreach(mysqli_query($link,$sqlC) as $row) {
-                                        echo "<option value='$row[ContractID]'";
-                                            if($row['ContractID'] == $ContractNoS) {
-                                                echo " selected>$row[Contract]</option>";
-                                            } else { echo ">$row[Contract]</option>";
-                                            }
-                                    }
-                            echo "</select>";
-                        ?></td>
-                    <td><?php
-                            $sqlCN = "SELECT DISTINCT ControlNo FROM SafetyCert ORDER BY ControlNo";
-                             //if($result = mysqli_query($link,$sqlL)) {
-                                    echo "<select name='ControlNo'' style='width:100%' value='".$ControlNoS."'></option>";
-                                    echo "<option value=''></option>";
-                                    foreach(mysqli_query($link,$sqlCN) as $row) {
-                                        echo "<option value='$row[ControlNo]'";
-                                            if($row['ControlNo'] == $ControlNoS) {
-                                                echo " selected>$row[ControlNo]</option>";
-                                            } else { echo ">$row[ControlNo]</option>";
-                                            }
-                                    }
-                            echo "</select>";
-                        ?></td>
-                    <td><?php
-                            $sqlE = "SELECT EG_ID, ElementGroup FROM ElementGroup ORDER BY ElementGroup";
-                             //if($result = mysqli_query($link,$sqlL)) {
-                                    echo "<select name='ElementGroup' style='width:100%' value='".$ElementGroupS."'></option>";
-                                    echo "<option value=''></option>";
-                                    foreach(mysqli_query($link,$sqlE) as $row) {
-                                        echo "<option value='$row[EG_ID]'";
-                                            if($row['EG_ID'] == $ElementGroupS) {
-                                                echo " selected>$row[ElementGroup]</option>";
-                                            } else { echo ">$row[ElementGroup]</option>";
-                                            }
-                                    }
-                            echo "</select>";
-                        ?></td>
-                    <td><?php
-                            $sqlCE = "SELECT CE_ID, CertifiableElement FROM CertifiableElement ORDER BY CertifiableElement";
-                             //if($result = mysqli_query($link,$sqlL)) {
-                                    echo "<select name='CertElement' style='width:100%' value='".$CertElementS."'></option>";
-                                    echo "<option value=''></option>";
-                                    foreach(mysqli_query($link,$sqlCE) as $row) {
-                                        echo "<option value='$row[CE_ID]'";
-                                            if($row['CE_ID'] == $CertElementS) {
-                                                echo " selected>$row[CertifiableElement]</option>";
-                                            } else { echo ">$row[CertifiableElement]</option>";
-                                            }
-                                    }
-                            echo "</select>";
-                        ?></td>
-        </tr>
-    </table>
-    <div  style='display: flex; align-items: center; justify-content: center; hspace:20'>
-            <input type='submit' value='Submit' class='btn btn-primary btn-lg' /><p> </p>
-    </form>
-    <form action="ViewSC.php">
-            <input type='submit' value='Reset' class='btn btn-primary btn-lg'  />
-    </form>
-    </div>
+<main class="container main-content">
+    <header class="container page-header">
+        <form action="ViewSC.php" method="POST" class="form-inline">
+            <legend class=''>Search</legend>
+            <input type='hidden' name='Search' value=1>
+            <?php
+                $sqlI = "SELECT Item FROM SafetyCert ORDER BY Item";
+                 //if($result = mysqli_query($link,$sqlL)) {
+                echo "
+                    <label>Item</label>
+                    <select name='Item' value='".$ItemS."' class='form-control'>";
+                echo "<option value=''></option>";
+                foreach(mysqli_query($link,$sqlI) as $row) {
+                    echo "<option value='$row[Item]'";
+                    if($row['Item'] == $ItemS) echo " selected>$row[Item]</option>";
+                    else echo ">$row[Item]</option>";
+                }
+                echo "</select>";
+            ?>
+            <label>Safety/Security Requirement</label>
+            <input type="text" name="Requirement" maxlength="55" value="<?php echo $RequirementS ?>" class='form-control'/>
+            <label>Design Code/Standard</label>
+            <input type="text" name="DesignCode" maxlength="55" value="<?php echo $DesignCodeS ?>" class='form-control'/>
+            <label>Design Spec/Criteria</label>
+            <input type="text" name="DesignSpec" maxlength="55" value="<?php echo $DesignSpecS ?>" class='form-control'/>
+            <lable>Contract No.</lable>
+            <?php
+                $sqlC = "SELECT ContractID, Contract FROM Contract ORDER BY Contract";
+                 //if($result = mysqli_query($link,$sqlL)) {
+                echo "<select name='ContractNo' value='".$ContractNoS."'>";
+                echo "<option value=''></option>";
+                foreach(mysqli_query($link,$sqlC) as $row) {
+                    echo "<option value='$row[ContractID]'";
+                    if($row['ContractID'] == $ContractNoS) echo " selected>$row[Contract]</option>";
+                    else echo ">$row[Contract]</option>";
+                }
+                echo "</select>";
+            ?>
+            <label>Control No.</label>
+            <?php
+                $sqlCN = "SELECT DISTINCT ControlNo FROM SafetyCert ORDER BY ControlNo";
+                 //if($result = mysqli_query($link,$sqlL)) {
+                echo "<select name='ControlNo'' value='".$ControlNoS."' class='form-control'>";
+                echo "<option value=''></option>";
+                foreach(mysqli_query($link,$sqlCN) as $row) {
+                    echo "<option value='$row[ControlNo]'";
+                    if($row['ControlNo'] == $ControlNoS) echo " selected>$row[ControlNo]</option>";
+                    else echo ">$row[ControlNo]</option>";
+                }
+                echo "</select>";
+            ?>
+            <label>Element Group</label>
+            <?php
+                $sqlE = "SELECT EG_ID, ElementGroup FROM ElementGroup ORDER BY ElementGroup";
+                 //if($result = mysqli_query($link,$sqlL)) {
+                echo "<select name='ElementGroup' style='width:100%' value='".$ElementGroupS."' class='form-control'>";
+                echo "<option value=''></option>";
+                foreach(mysqli_query($link,$sqlE) as $row) {
+                    echo "<option value='$row[EG_ID]'";
+                    if($row['EG_ID'] == $ElementGroupS) echo " selected>$row[ElementGroup]</option>";
+                    else echo ">$row[ElementGroup]</option>";
+                }
+                echo "</select>";
+            ?>
+            <label>Certifiable Element</label>
+            <?php
+                $sqlCE = "SELECT CE_ID, CertifiableElement FROM CertifiableElement ORDER BY CertifiableElement";
+                 //if($result = mysqli_query($link,$sqlL)) {
+                echo "<select name='CertElement' style='width:100%' value='".$CertElementS."' class='form-control'>";
+                echo "<option value=''></option>";
+                foreach(mysqli_query($link,$sqlCE) as $row) {
+                    echo "<option value='$row[CE_ID]'";
+                    if($row['CE_ID'] == $CertElementS) echo " selected>$row[CertifiableElement]</option>";
+                    else echo ">$row[CertifiableElement]</option>";
+                }
+                echo "</select>";
+            ?>
+            <button type='submit' value='Submit' class='btn btn-primary btn-lg'>Submit</button>
+        </form>
+        <form action="ViewSC.php">
+            <input type='submit' value='Reset' class='btn btn-primary btn-lg'/>
+        </form>
+    </header>
     
 <?php 
     if($result = mysqli_query($link,$count)) {
@@ -281,16 +264,13 @@ if($_POST['Search'] == NULL) {
                     <td class='svbx-td collapse-xs'>{$row[8]}</td>
                 </tr>";
                     }  
-    echo "</tbody></table><br>";
+    echo "</tbody></table></main>";
     } else {  
         echo "
         <div='container'>
-        <br />
-        <br />
-        <br />
-        <br>Unable to connect<br>
+        <p>Unable to connect</p>
         </div>";
-        echo $sql;
+        echo $sql."</main>";
         //echo mysqli_error();
         //echo "<BR>Def ID: ".$DefID;
       exit();  
