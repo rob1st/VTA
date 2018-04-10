@@ -425,6 +425,10 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     align-items: flex-start;
 }
 
+.flex-row.no-wrap .form-control {
+    width: auto;
+}
+
 .input-label {
     margin: 0;
 }
