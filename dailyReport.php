@@ -96,9 +96,9 @@ echo "
                             <option value='labor'>Labor</option>
                         </select>
                     </div>
-                    <div class='item-margin-right'>
-                        <label id='labelForNumOfEquipOrLabor'>Equipment Number</label>
-                        <input type='number' class='form-control' />
+                    <div class='item-margin-right flex-shrink'>
+                        <label id='labelForNumOfEquipOrLabor'>Equipment No.</label>
+                        <input type='number' class='form-control' style='max-width:110px' />
                     </div>
                     <div class='item-margin-right flex-grow'>
                         <label id='labelForDescOfEquipOrLabor'>Description of Equipment</label>
@@ -108,9 +108,21 @@ echo "
                         <label>Hours</label>
                         <input type='time' class='form-control' />
                     </div>
-                    <div class='item-margin-right flex-shrink'>
-                        <label>Remarks</label>
-                        <button type='button' class='form-control'><i class='typcn typcn-document-text'></i></button>
+                    <div class='item-margin-right flex-shrink' style='position:relative'>
+                        <label>Notes</label>
+                        <button type='button' class='form-control' style='height:40px'><i class='typcn typcn-document-text'></i></button>
+                        <aside
+                            style='
+                                display: none;
+                                position: absolute;
+                                right: 0;
+                                top: 75px;
+                                padding: .25rem;
+                                border: 1px solid #3333;
+                            '
+                        >
+                            <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
+                        </aside>
                     </div>
                 </div>
             </div>
@@ -124,10 +136,10 @@ echo "
         const descLabel = document.getElementById('labelForDescOfEquipOrLabor');
         select.addEventListener('change', event => {
             if (select.value === 'labor') {
-                numLabel.innerText = 'Number of Personnel';
+                numLabel.innerText = '# of Personnel';
                 descLabel.innerText = 'Description of Labor';
             } else {
-                numLabel.innerText = 'Equipment Number';
+                numLabel.innerText = 'Equipment No.';
                 descLabel.innerText = 'Description of Equipment';
             }
         })
