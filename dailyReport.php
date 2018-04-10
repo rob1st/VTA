@@ -86,9 +86,33 @@ echo "
                     <input type='text' class='form-control full-width' />
                 </div>
             </div>
+            <div class='card-body'>
+                <label></label>
+                <select id='selectEquipOrPersons' class='form-control'>
+                    <option value='equipment'>Equipment</option>
+                    <option value='labor'>Labor</option>
+                </select>
+                <label id='labelForNumOfEquipOrPersons'></label>
+                <input type='number' class='form-control' />
+                <label>Description</label>
+                <input type='text' class='form-control' />
+            </div>
         </div>
     </form>
-</main>";
+</main>
+<script>
+    (function() {
+        const select = document.getElementById('selectEquipOrPersons');
+        const label = document.getElementById('labelForNumOfEquipOrPersons');
+        select.addEventListener('change', event => {
+            if (select.value === 'equipment') {
+                label.innerText = 'Equipment Number';
+            } else if (select.value === 'labor') {
+                label.innerText = 'Number of Personnel';
+            } else label.innerText = '';
+        })
+    })()
+</script>";
 ?>
 <?php
 include('fileend.php');
