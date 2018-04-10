@@ -97,12 +97,12 @@ echo "
                         </select>
                     </div>
                     <div class='item-margin-right'>
-                        <label id='labelForNumOfEquipOrPersons'>Equipment Number</label>
+                        <label id='labelForNumOfEquipOrLabor'>Equipment Number</label>
                         <input type='number' class='form-control' />
                     </div>
-                    <div class='item-margin-right'>
-                        <label>Description</label>
-                        <input type='text' class='form-control' />
+                    <div class='item-margin-right flex-grow'>
+                        <label id='labelForDescOfEquipOrLabor'>Description of Equipment</label>
+                        <input type='text' class='form-control full-width' />
                     </div>
                 </div>
             </div>
@@ -112,10 +112,16 @@ echo "
 <script>
     (function() {
         const select = document.getElementById('selectEquipOrPersons');
-        const label = document.getElementById('labelForNumOfEquipOrPersons');
+        const numLabel = document.getElementById('labelForNumOfEquipOrLabor');
+        const descLabel = document.getElementById('labelForDescOfEquipOrLabor');
         select.addEventListener('change', event => {
-            if (select.value === 'labor') label.innerText = 'Number of Personnel';
-            else label.innerText = 'Equipment Number';
+            if (select.value === 'labor') {
+                numLabel.innerText = 'Number of Personnel';
+                descLabel.innerText = 'Description of Labor';
+            } else {
+                numLabel.innerText = 'Equipment Number';
+                descLabel.innerText = 'Description of Equipment';
+            }
         })
     })()
 </script>";
