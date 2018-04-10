@@ -17,7 +17,7 @@ include('filestart.php')
         <fieldset class="form-section">
             <legend class="bg-secondary text-white form-section-heading">Required Information</legend>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Affect Safety Cert</label>
                     <select name='SafetyCert' class="form-control def-input" required>
                         <option value='' disabled selected>Y/N</option>
@@ -25,7 +25,7 @@ include('filestart.php')
                         <option value='N'>No</option>
                     </select>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">System Affected</label>
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
@@ -40,7 +40,7 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">General Location</label>
                     <?php
                         $sqlL = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
@@ -53,13 +53,13 @@ include('filestart.php')
                         echo "</select>";
                     ?>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Specific Location</label>
                     <input type="text" name="SpecLoc" maxlength="55" class="form-control def-input" required/>
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Status</label>
                     <?php
                         $sqlT = "SELECT StatusID, Status FROM Status WHERE StatusID <> '3' ORDER BY StatusID";
@@ -72,7 +72,7 @@ include('filestart.php')
                         echo "</select>";
                     ?>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Severity</label>
                     <?php
                         $sqlS = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
@@ -87,11 +87,11 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">To be resolved by</label>
                     <input type='date' name='DueDate' class="form-control def-input" required/>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Required for</label>
                     <?php
                         $sqlRB = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY ReqByID";
@@ -106,7 +106,7 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Group to resolve</label>
                     <?php
                         $sqlY = "SELECT SystemID, System FROM System ORDER BY System";
@@ -119,7 +119,7 @@ include('filestart.php')
                         echo "</select>";
                     ?>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Identified by</label>
                     <input type="text" name="IdentifiedBy" maxlength="24" class="form-control def-input" required/>
                 </div>
@@ -134,17 +134,17 @@ include('filestart.php')
         <fieldset class="form-section">
             <legend class="bg-secondary text-white form-section-heading">Optional Information</legend>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Spec or Code</label>
                     <input type="text" name="Spec" maxlength="55"  id="" class="form-control def-input"/>
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Action Owner</label>
                     <input type="text" name="ActionOwner" maxlength="24"  id="" class="form-control def-input"/>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Old Id</label>
                     <input type="text" name="OldID" maxlength="24" id="" class="form-control def-input"/>
                 </div>
@@ -159,7 +159,7 @@ include('filestart.php')
         <fieldset class="form-section">
             <legend class="bg-secondary text-white form-section-heading">Closure Information</legend>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Evidence Type</label>
                     <?php
                         $sqlE = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
@@ -174,7 +174,7 @@ include('filestart.php')
                 </div>
             </div>
             <div class="form-subsection form-group">
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Evidence Repository</label>
                     <select name='Repo' id='' class="form-control def-input">
                         <option value='' disabled selected>Choose Repo</option>
@@ -183,7 +183,7 @@ include('filestart.php')
                         <option value='S'>SharePoint</option>
                     </select>
                 </div>
-                <div class="half-container flex-row space-between item-margin-bottom">
+                <div class="half-container item-margin-bottom">
                     <label class="input-label item-margin-right">Repository Number</label>
                     <input type="text" name="EvidenceLink" maxlength="255"  id='' class="form-control def-input"/>
                 </div>
