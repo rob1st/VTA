@@ -68,9 +68,8 @@ echo "
             </fieldset>
         </div>
         
-        <div class='flex-row'>
-            <fieldset id='locAndDescrip'>
-                <select>";
+        <fieldset id='locAndDescrip' class='flex-row'>
+                <select class='form-control'>";
                     if ($result = mysqli_query($link, $sqlLoc)) {
                         while ($row = mysqli_fetch_array($result)) {
                             echo "<option value='{$row[1]}'>{$row[0]}</option>";
