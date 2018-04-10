@@ -91,34 +91,36 @@ echo "
                 <div class='flex-row'>
                     <div class='item-margin-right'>
                         <label>Equip/Labor</label>
-                        <select id='selectEquipOrPersons' class='form-control'>
+                        <select id='selectEquipPersons_1' class='form-control'>
                             <option value='equipment' selected>Equipment</option>
                             <option value='labor'>Labor</option>
                         </select>
                     </div>
                     <div class='item-margin-right flex-shrink'>
-                        <label id='labelForNumOfEquipOrLabor'>Equipment No.</label>
+                        <label id='labelNumEquipLabor_1'>Equipment No.</label>
                         <input type='number' class='form-control' style='max-width:110px' />
                     </div>
                     <div class='item-margin-right flex-grow'>
-                        <label id='labelForDescOfEquipOrLabor'>Description of Equipment</label>
+                        <label id='labelDescEquipLabor_1'>Description of Equipment</label>
                         <input type='text' class='form-control full-width' />
                     </div>
                     <div class='item-margin-right'>
                         <label>Hours</label>
-                        <input type='time' class='form-control' />
+                        <input type='number' class='form-control' style='max-width: 100px'/>
                     </div>
                     <div class='item-margin-right flex-shrink' style='position:relative'>
                         <label>Notes</label>
-                        <button type='button' class='form-control' style='height:40px'><i class='typcn typcn-document-text'></i></button>
+                        <button type='button' id='showNotes_1' class='form-control'><i class='typcn typcn-document-text'></i></button>
                         <aside
+                            id='notesField_1'
                             style='
                                 display: none;
                                 position: absolute;
-                                right: 0;
-                                top: 75px;
-                                padding: .25rem;
+                                right: 46px;
+                                bottom: 0;
                                 border: 1px solid #3333;
+                                padding: .25rem;
+                                background-color: white;
                             '
                         >
                             <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
@@ -131,18 +133,34 @@ echo "
 </main>
 <script>
     (function() {
-        const select = document.getElementById('selectEquipOrPersons');
-        const numLabel = document.getElementById('labelForNumOfEquipOrLabor');
-        const descLabel = document.getElementById('labelForDescOfEquipOrLabor');
-        select.addEventListener('change', event => {
-            if (select.value === 'labor') {
+        // this counter will be used to count input lines
+        let count = 1;
+        
+        // add ev listeners on first rendered line
+        document.getElementById('selectEquipPersons_1')
+            .addEventListener('change', event => {
+                return renderLabelText(event, 1);
+            });
+        document.getElementById('showNotes_1')
+            .addEventListener('click', event => {
+                return showNotesField(event, 1);
+            })
+        function renderLabelText(event, num) {
+            const numLabel = document.getElementById('labelNumEquipLabor_' + num);
+            const descLabel = document.getElementById('labelDescEquipLabor_' + num);
+            if (event.target.value == 'labor') {
                 numLabel.innerText = '# of Personnel';
                 descLabel.innerText = 'Description of Labor';
             } else {
                 numLabel.innerText = 'Equipment No.';
                 descLabel.innerText = 'Description of Equipment';
             }
-        })
+        }
+        function showNotesField(event, num) {
+            const notesField = document.getElementById('notesField_' + num);
+            if (notesField.style.display === 'none') notesField.style.display = 'block';
+            else notesField.style.display = 'none';
+        }
     })()
 </script>";
 ?>
