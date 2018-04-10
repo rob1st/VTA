@@ -563,6 +563,7 @@ select:invalid {
 
 .svbx-th.id-th, .svbx-table .id-td {
     width: 40px;
+    word-break: break-all;
 }
 
 .svbx-th.loc-th, .svbx-table .loc-td {
@@ -582,6 +583,11 @@ select:invalid {
     width: 143px;
 }
 
+.svbx-th.descrip-th, .svbx-table .descrip-td {
+    width: 15%;
+    text-overflow: ellipsis;
+}
+
 .svbx-th.updated-th, .svbx-table .updated-td {
     width: 91px;
 }
@@ -592,6 +598,38 @@ select:invalid {
 
 .svbx-th.del-th, .svbx-table .del-td {
     width: 73px;
+}
+
+.sc-id {
+    width: 6%;
+}
+
+.sc-req {
+    width: 35%;
+}
+
+.sc-code {
+    width: 16%;
+}
+
+.sc-spec {
+    width: 15%;
+}
+
+.sc-contract {
+    width: 7%;
+}
+
+.sc-ctrl {
+    width: 6%;
+}
+
+.sc-el {
+    width: 5%
+}
+
+.sc-cert {
+    width: 5%;
 }
 /* End of Table Menu CSS */
 

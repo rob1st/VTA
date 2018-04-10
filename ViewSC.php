@@ -258,14 +258,14 @@ if($_POST['Search'] == NULL) {
                     <th class='svbx-table-title' colspan='8'>Certification Stage</th>
                 </tr>
                 <tr>
-                    <th class='svbx-th'>ID</th>
-                    <th class='svbx-th collapse-xs'>Safety/Security Requirement</th>
-                    <th class='svbx-th'>Design Codes/Standards</th>
-                    <th class='svbx-th'>Design Specifications/Criteria</th>
-                    <th class='svbx-th collapse-xs'>Contract No.</th>
-                    <th class='svbx-th collapse-xs'>Control No.</th>
-                    <th class='svbx-th collapse-xs'>Element Group</th>
-                    <th class='svbx-th collapse-xs'>Certifiable Element</th>
+                    <th class='svbx-th sc-id'>ID</th>
+                    <th class='svbx-th sc-req collapse-xs'>Safety/Security Requirement</th>
+                    <th class='svbx-th sc-code'>Design Codes/Standards</th>
+                    <th class='svbx-th sc-spec'>Design Specifications/Criteria</th>
+                    <th class='svbx-th sc-contract collapse-xs'>Contract No.</th>
+                    <th class='svbx-th sc ctrl collapse-xs'>Control No.</th>
+                    <th class='svbx-th sc-el collapse-xs'>Element Group</th>
+                    <th class='svbx-th sc-cert collapse-xs'>Certifiable Element</th>
                     
                 </tr>
             </head>
@@ -273,14 +273,14 @@ if($_POST['Search'] == NULL) {
                 while($row = mysqli_fetch_array($result)) { 
                     echo "
                 <tr>
-                    <td class='svbx-td id-th'>{$row[1]}</td>
-                    <td class='svbx-td collapse-xs'>{$row[2]}</td>
-                    <td class='svbx-td'>{$row[3]}</td>
-                    <td class='svbx-td'>{$row[4]}</td>
-                    <td class='svbx-td collapse-xs'>{$row[5]}</td>
-                    <td class='svbx-td collapse-xs'>{$row[6]}</td>
-                    <td class='svbx-td collapse-xs'>{$row[7]}</td>
-                    <td class='svbx-td collapse-xs'>{$row[8]}</td>
+                    <td class='svbx-td sc-id'>{$row[1]}</td>
+                    <td class='svbx-td sc-req collapse-xs'>{$row[2]}</td>
+                    <td class='svbx-td sc-code'>{$row[3]}</td>
+                    <td class='svbx-td sc-spec'>{$row[4]}</td>
+                    <td class='svbx-td sc-contract collapse-xs'>{$row[5]}</td>
+                    <td class='svbx-td sc-ctrl collapse-xs'>{$row[6]}</td>
+                    <td class='svbx-td sc-elcollapse-xs'>{$row[7]}</td>
+                    <td class='svbx-td sc-cert collapse-xs'>{$row[8]}</td>
                 </tr>";
                     }  
     echo "</tbody></table></main>";
