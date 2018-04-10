@@ -104,6 +104,10 @@ ul li {
     justify-content: space-between;
 }
 
+.align-center {
+    align-items: center;
+}
+
 .flex {
     flex-grow: 1; flex-shrink: 1;
 }

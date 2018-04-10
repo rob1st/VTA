@@ -19,7 +19,7 @@ include('filestart.php')
             <div class="form-subsection form-group">
                 <div class="half-container flex-row space-between item-margin-bottom">
                     <label class="input-label item-margin-right">Affect Safety Cert</label>
-                    <select name'SafetyCert' class="form-control def-input" required>
+                    <select name='SafetyCert' class="form-control def-input" required>
                         <option value='' disabled selected>Y/N</option>
                         <option value='Y'>Yes</option>
                         <option value='N'>No</option>
@@ -176,7 +176,7 @@ include('filestart.php')
             <div class="form-subsection form-group">
                 <div class="half-container flex-row space-between item-margin-bottom">
                     <label class="input-label item-margin-right">Evidence Repository</label>
-                    <select name'Repo' id='' class="form-control def-input">
+                    <select name='Repo' id='' class="form-control def-input">
                         <option value='' disabled selected>Choose Repo</option>
                         <option value=''></option>
                         <option value='A'>Aconex</option>

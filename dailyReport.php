@@ -12,28 +12,28 @@ $reptNum = int; // generate this based on db
     <form action='submitDaily.php' method='POST'>
         <div class='flex-row space-between'>
             <fieldset id='dayData' class='card half-container'>
-                <div class='flex-row no-wrap space-between grey-bg'>
-                    <label class='form-section-heading'>Report #</label>
+                <div class='flex-row no-wrap space-between align-center grey-bg'>
+                    <label class='form-section-heading flex-grow item-margin-right'>Report #</label>
                     <input type='text' id='reportNum' class='form-control' />
                 </div>
-                <div class='flex-row no-wrap space-between'>
-                    <label>Contract day</label>
+                <div class='flex-row no-wrap space-between align-center'>
+                    <label class='flex-grow item-margin-right'>Contract day</label>
                     <input type='text' id='contractDay' class='form-control' />
                 </div>
-                <div class='flex-row no-wrap space-between'>
-                    <label>Date</label>
+                <div class='flex-row no-wrap space-between align-center'>
+                    <label class='flex-grow item-margin-right'>Date</label>
                     <input type='text' value='${curDate}' id='curDate' class='form-control' readonly />
                 </div>
-                <div class='flex-row no-wrap space-between'>
-                    <label>Project</label>
+                <div class='flex-row no-wrap space-between align-center'>
+                    <label class='flex-grow item-margin-right'>Project</label>
                     <input type='text' id='projectId' class='form-control' />
                 </div>
-                <div class='flex-row no-wrap space-between'>
-                    <label>Weather</label>
+                <div class='flex-row no-wrap space-between align-center'>
+                    <label class='flex-grow item-margin-right'>Weather</label>
                     <input type='text' id='weatherDescrip' class='form-control' />
                 </div>
-                <div class='flex-row no-wrap space-between'>
-                    <label>Shift Hrs</label>
+                <div class='flex-row no-wrap space-between align-center'>
+                    <label class='flex-grow item-margin-right'>Shift Hrs</label>
                     <input type='text' id='shiftHrs' class='form-control' />
                 </div>
             </fieldset>
