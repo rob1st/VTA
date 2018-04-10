@@ -4,7 +4,7 @@ session_start();
 include('filestart.php');
 $title = "SVBX - Inspector's Daily Report";
 $curDate = date('M j, Y');
-$reptNum = int; // generate this based on db
+$reptNum = 0; // generate this based on db
 
 $link = f_sqlConnect();
 $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on L.LocationID=C.Location group by Location order by L.LocationName";
@@ -18,11 +18,12 @@ echo "
     <form action='submitDaily.php' method='POST'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
-                <div class='card-header grey-bg'>
-                    <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                        <label class='input-label item-margin-right'>Report #</label>
-                        <input type='text' value='${reptNum}' id='reportNum' class='form-control' readonly/>
-                    </div>
+                <div class='card-header grey-bg'>";
+                    if (!$reptNum) {
+                        echo "<h6 class='text-danger'>Unable to retrieve Report Number</h6>
+                                <p>Try refreshing the page</p>";
+                    } else echo "<h6>Report #${reptNum}</h6>";
+echo "
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
@@ -49,7 +50,7 @@ echo "
             </fieldset>
             <fieldset id='safetyData' class='card half-container'>
                 <div class='card-header grey-bg'>
-                    <h5 class='form-section-heading grey-bg'>Safety</h5>
+                    <h6>Safety</h6>
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between'>
