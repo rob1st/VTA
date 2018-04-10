@@ -88,7 +88,7 @@ echo "
                 </div>
             </div>
             <div class='card-body'>
-                <div class='flex-row'>
+                <div id='workInputRow_1' class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
                         <label>Equip/Labor</label>
                         <select id='selectEquipPersons_1' class='form-control'>
@@ -127,6 +127,9 @@ echo "
                         </aside>
                     </div>
                 </div>
+                <div style='text-align: right'>
+                    <button type='button' id='addNewLine' class='btn btn-success'>Add Line</button>
+                </div>
             </div>
         </div>
     </form>
@@ -145,6 +148,12 @@ echo "
             .addEventListener('click', event => {
                 return showNotesField(event, 1);
             })
+        // connect handler to add new line
+        document.getElementById('addNewLine')
+            .addEventListener('click', event => {
+                return addNewLine(event, count);
+            })
+            
         function renderLabelText(event, num) {
             const numLabel = document.getElementById('labelNumEquipLabor_' + num);
             const descLabel = document.getElementById('labelDescEquipLabor_' + num);
@@ -156,10 +165,23 @@ echo "
                 descLabel.innerText = 'Description of Equipment';
             }
         }
+        
         function showNotesField(event, num) {
             const notesField = document.getElementById('notesField_' + num);
             if (notesField.style.display === 'none') notesField.style.display = 'block';
             else notesField.style.display = 'none';
+        }
+        
+        function addNewLine(event, num) {
+            const prevRow = document.getElementById('workInputRow_' + num);
+            num++;
+            const newRow = document.createElement('div')
+            newRow.classList.add('flex-row', 'item-margin-bottom');
+            newRow.id = 'workInputRow_' + num;
+            for (let i = 0; i < 5; i++) {
+                newRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
+            }
+            console.log(newRow);
         }
     })()
 </script>";
