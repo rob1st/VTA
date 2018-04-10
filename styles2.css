@@ -108,6 +108,10 @@ ul li {
     align-items: center;
 }
 
+.align-stretch {
+    align-items: stretch;
+}
+
 .flex {
     flex-grow: 1; flex-shrink: 1;
 }

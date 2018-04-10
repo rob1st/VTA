@@ -10,7 +10,7 @@ $reptNum = int; // generate this based on db
 </header>
 <main class='container main-content'>
     <form action='submitDaily.php' method='POST'>
-        <div class='flex-row space-between'>
+        <div class='flex-row space-between align-stretch'>
             <fieldset id='dayData' class='card half-container'>
                 <div class='card-header grey-bg'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
