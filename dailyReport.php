@@ -104,6 +104,14 @@ echo "
                         <label id='labelForDescOfEquipOrLabor'>Description of Equipment</label>
                         <input type='text' class='form-control full-width' />
                     </div>
+                    <div class='item-margin-right'>
+                        <label>Hours</label>
+                        <input type='time' class='form-control' />
+                    </div>
+                    <div class='item-margin-right flex-shrink'>
+                        <label>Remarks</label>
+                        <button type='button' class='form-control'><i class='typcn typcn-document-text'></i></button>
+                    </div>
                 </div>
             </div>
         </div>
