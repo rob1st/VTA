@@ -68,7 +68,9 @@ echo "
             </fieldset>
         </div>
         
-        <fieldset id='locAndDescrip' class='flex-row'>
+        <div id='locAndDescrip' class='flex-row'>
+            <div class='item-margin-right'>
+                <label>Location</label>
                 <select class='form-control'>";
                     if ($result = mysqli_query($link, $sqlLoc)) {
                         while ($row = mysqli_fetch_array($result)) {
@@ -77,7 +79,11 @@ echo "
                     }
 echo "
                 </select>
-            </fieldset>
+            </div>
+            <div class='flex item-margin-right'>
+                <label>Description of Operation</label>
+                <input type='text' class='form-control full-width' />
+            </div>
         </div>
     </form>
 </main>";

@@ -73,6 +73,9 @@ ul li {
         width: 50%;
     }
 }*/
+.full-width {
+    width: 100%;
+}
 
 .center-element {
     margin-left: auto; margin-right: auto;
@@ -433,6 +436,11 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     width: auto;
 }
 
+.form-control.full-width {
+    width: 100%;
+}
+
+
 .input-label {
     margin: 0;
 }
@@ -448,10 +456,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 select:invalid {
     color: var(--secondary);
-}
-
-.textarea-full-width {
-    width: 100%;
 }
 
 .btn-container {
