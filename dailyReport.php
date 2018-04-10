@@ -16,7 +16,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
 echo "
 <main class='container main-content'>
     <form action='submitDaily.php' method='POST'>
-        <div class='flex-row space-between align-stretch'>
+        <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
                 <div class='card-header grey-bg'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
@@ -68,21 +68,23 @@ echo "
             </fieldset>
         </div>
         
-        <div id='locAndDescrip' class='flex-row'>
-            <div class='item-margin-right'>
-                <label>Location</label>
-                <select class='form-control'>";
-                    if ($result = mysqli_query($link, $sqlLoc)) {
-                        while ($row = mysqli_fetch_array($result)) {
-                            echo "<option value='{$row[1]}'>{$row[0]}</option>";
+        <div class='card item-margin-bottom'>
+            <div id='locAndDescrip' class='card-header grey-bg flex-row'>
+                <div class='item-margin-right'>
+                    <label>Location</label>
+                    <select class='form-control'>";
+                        if ($result = mysqli_query($link, $sqlLoc)) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                            }
                         }
-                    }
 echo "
-                </select>
-            </div>
-            <div class='flex item-margin-right'>
-                <label>Description of Operation</label>
-                <input type='text' class='form-control full-width' />
+                    </select>
+                </div>
+                <div class='flex item-margin-right'>
+                    <label>Description of Operation</label>
+                    <input type='text' class='form-control full-width' />
+                </div>
             </div>
         </div>
     </form>
