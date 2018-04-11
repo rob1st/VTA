@@ -27,6 +27,7 @@
     
     // scripts to show/hide DOM elements
     function renderLabelText(event, num) {
+        console.log(num);
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
         if (event.target.value == 'labor') {
@@ -39,6 +40,7 @@
     }
     
     function showNotesField(event, num) {
+        console.log(num);
         const notesField = document.getElementById('notesField_' + num);
         if (notesField.style.display === 'none') notesField.style.display = 'block';
         else notesField.style.display = 'none';
@@ -46,6 +48,7 @@
     
     // scripts to add/remove DOM elements
     function addTaskToList(ev, num) {
+        console.log(num);
         // IDEA: pre-load the script with the complete DOM node object as arg when I addEventListener
         // BETTER IDEA: make these various handlers props of the DOM object in question
         // BEWARE: event.target may be the <i> icon
@@ -93,7 +96,7 @@
         
         let curLabel;
         let curCtrl;
-        let curEl;
+        let curStr;
         // append divs to firstRow
         for (let i = 0; i < formCtrls.firstRowElements.length; i++) {
             firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
@@ -103,14 +106,16 @@
             curLabel.classList.add('input-label');
             curLabel.innerText = labels.firstRowLabels[i];
             
-            curEl = formCtrls.firstRowElements[i];
-            if (curEl.startsWith('input')) {
+            labels.firstRowLabels[i] = curLabel;
+            
+            curStr = formCtrls.firstRowElements[i];
+            if (curStr.startsWith('input')) {
                 curCtrl = firstRow
                     .children[i]
                     .appendChild(
                         document.createElement(
-                            curEl
-                            .slice(0, curEl.indexOf('['))
+                            curStr
+                            .slice(0, curStr.indexOf('['))
                         )
                     );
                 curCtrl.setAttribute(
@@ -118,39 +123,45 @@
                     formCtrls
                         .firstRowElements[i]
                         .slice(
-                            curEl
-                            .indexOf('[') + 1, curEl.indexOf(']'))
+                            curStr
+                            .indexOf('[') + 1, curStr.indexOf(']'))
                     );
             } else {
                 curCtrl = firstRow
                     .children[i]
                     .appendChild(
-                        document.createElement(curEl)
+                        document.createElement(curStr)
                     )
             }
             curCtrl.classList.add('form-control')
             formCtrls.firstRowElements[i] = curCtrl;
         }
-        
-        const newSelect = formCtrls.firstRowElements[0];
-        newSelect.id = 'selectEquipPersons_' + num;
-        newSelect.addEventListener('change', ev => {
-            return renderLabelText(ev, num);
-        })
-        
-        let curOption = newSelect.appendChild(document.createElement('option'));
-        curOption.setAttribute('value', 'equipment');
-        curOption.innerText = 'Equipment';
-        
-        curOption = newSelect.appendChild(document.createElement('option'));
-        curOption.setAttribute('value', 'labor');
-        curOption.innerText = 'Labor';
-        
-        console.log(newSelect);
-        
         // add some additional attrs to children of firstRow
         firstRow.children[2].classList.add('flex-grow');
         firstRow.children[3].style.position = 'relative';
+
+        // manipulate new <select> element
+        curCtrl = formCtrls.firstRowElements[0];
+        curCtrl.id = 'selectEquipPersons_' + num;
+        curCtrl.addEventListener('change', ev => {
+            return renderLabelText(ev, num);
+        })
+        
+        curCtrl.appendChild(document.createElement('option'));
+        curCtrl.children[0].setAttribute('value', 'equipment');
+        curCtrl.children[0].innerText = 'Equipment';
+        
+        curCtrl.appendChild(document.createElement('option'));
+        curCtrl.children[1].setAttribute('value', 'labor');
+        curCtrl.children[1] = 'Labor';
+        
+        // manipulate new input[number] element
+        labels.firstRowLabels[1].id = 'labelNumEquipLabor_' + num;
+        formCtrls.firstRowElements[1].style.maxWidth = '110px';
+        
+        // manipulate new description input
+        labels.firstRowLabels[2].id = 'labelDescEquipLabor_' + num;
+        formCtrls.firstRowElements[2].classList.add('full-width');
         
         console.log(num, count, prevGroup, newGroup);
     }
