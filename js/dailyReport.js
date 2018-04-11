@@ -198,7 +198,6 @@
             
             curStr = formCtrls.secondRowElements[i];
             if (curStr.startsWith('input')) {
-                console.log(curStr);
                 curCtrl = secondRow
                     .children[i]
                     .appendChild(
@@ -219,10 +218,25 @@
             }
             curCtrl.classList.add('form-control')
             formCtrls.secondRowElements[i] = curCtrl;
-            console.log(curCtrl);
         }
         // add additional attributes to secondRow children
         secondRow.children[0].classList.add('flex-grow');
+        
+        // manipulate new task description input
+        formCtrls.secondRowElements[0].id = 'taskInput_' + num;
+        formCtrls.secondRowElements[0].classList.add('full-width');
+        
+        // manipulate new addTask button
+        curCtrl = formCtrls.secondRowElements[1];
+        curCtrl
+            .appendChild(document.createElement('i'))
+            .classList.add('typcn', 'typcn-chevron-right-outline');
+        curCtrl.id = 'addTask_' + num;
+        curCtrl.classList.remove('form-control');
+        curCtrl.classList.add('btn', 'btn-success', 'block');
+        curCtrl.addEventListener('click', ev => {
+           return addTaskToList(ev, num); 
+        });
         
         console.log(curCtrl);
         console.log(num, count, prevGroup, newGroup);
