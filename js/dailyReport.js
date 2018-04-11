@@ -66,6 +66,7 @@
     }
     
     function addNewLine(event, num) {
+        const parentEl = document.getElementById('workInputList')
         // generic components
         const labels = {
             firstRowLabels: ['Equip/Labor', 'Equip No.', 'Description of equipment', 'Notes'],
@@ -77,7 +78,6 @@
         };
         
         // specific DOM elements
-        const prevGroup = document.getElementById('workInputGroup_' + (num - 1));
         const newGroup = document.createElement('div');
         newGroup.classList.add('form-subsection', 'item-border-bottom', 'item-margin-bottom');
         newGroup.id = 'workInputGroup_' + num;
@@ -247,8 +247,7 @@
         // manipulate new task hours input
         formCtrls.secondRowElements[3].classList.add('full-width');
         
-        console.log(curCtrl);
-        console.log(num, count, prevGroup, newGroup);
+        parentEl.appendChild(newGroup);
     }
     
     function destroyLine(num) {

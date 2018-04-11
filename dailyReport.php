@@ -94,7 +94,7 @@ echo "
                 <input type='text' class='form-control full-width' />
             </div>
         </div>
-        <div>
+        <div id='workInputList'>
             <div id='workInputGroup_1' class='form-subsection item-border-bottom item-margin-bottom'>
                 <div class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
