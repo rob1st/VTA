@@ -155,7 +155,7 @@ echo "
             </div>
         </div>
         <div style='text-align: right'>
-            <button type='button' id='addNewLine' class='btn btn-success'>Add Line</button>
+            <button type='button' id='addLineBtn' class='btn btn-success'>Add Line</button>
         </div>
     </form>
 </main>

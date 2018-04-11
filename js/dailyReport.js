@@ -19,8 +19,9 @@
         })
         
     // connect handler to add new line
-    document.getElementById('addNewLine')
+    document.getElementById('addLineBtn')
         .addEventListener('click', event => {
+            count++
             return addNewLine(event, count);
         })
     
@@ -73,8 +74,7 @@
         };
         
         // specific DOM elements
-        const prevGroup = document.getElementById('workInputGroup_' + num);
-        num++;
+        const prevGroup = document.getElementById('workInputGroup_' + (num - 1));
         const newGroup = document.createElement('div');
         newGroup.classList.add('form-subsection', 'item-border-bottom', 'item-margin-bottom');
         newGroup.id = 'workInputGroup_' + num;
@@ -128,13 +128,31 @@
                         document.createElement(curEl)
                     )
             }
+            curCtrl.classList.add('form-control')
+            formCtrls.firstRowElements[i] = curCtrl;
         }
+        
+        const newSelect = formCtrls.firstRowElements[0];
+        newSelect.id = 'selectEquipPersons_' + num;
+        newSelect.addEventListener('change', ev => {
+            return renderLabelText(ev, num);
+        })
+        
+        let curOption = newSelect.appendChild(document.createElement('option'));
+        curOption.setAttribute('value', 'equipment');
+        curOption.innerText = 'Equipment';
+        
+        curOption = newSelect.appendChild(document.createElement('option'));
+        curOption.setAttribute('value', 'labor');
+        curOption.innerText = 'Labor';
+        
+        console.log(newSelect);
         
         // add some additional attrs to children of firstRow
         firstRow.children[2].classList.add('flex-grow');
         firstRow.children[3].style.position = 'relative';
         
-        console.log(num, prevGroup, newGroup);
+        console.log(num, count, prevGroup, newGroup);
     }
     
     function destroyLine(num) {
