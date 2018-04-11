@@ -4,9 +4,9 @@ include('SQLFunctions.php');
 $link = f_sqlConnect();
 $Role = $_SESSION['Role'];
 $title = "SVBX - New Deficiency";
-    if($Role == 'V') {
-        header('location: unauthorised.php');
-    }
+if($Role == 'V') {
+    header('location: unauthorised.php');
+}
 include('filestart.php')
 ?>
 <header class="container page-header">
