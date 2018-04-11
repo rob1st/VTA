@@ -147,7 +147,7 @@ echo "
                             </select>
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
-                            <label class='input-label' style='word-break: break-all;'>Hours</label>
+                            <label class='input-label'>Hours</label>
                             <input type='number' class='form-control full-width' />
                         </div>
                     </div>

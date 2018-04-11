@@ -221,6 +221,8 @@
         }
         // add additional attributes to secondRow children
         secondRow.children[0].classList.add('flex-grow');
+        secondRow.children[2].style.minWidth = '150px';
+        secondRow.children[3].style.maxWidth = '100px';
         
         // manipulate new task description input
         formCtrls.secondRowElements[0].id = 'taskInput_' + num;
@@ -237,6 +239,13 @@
         curCtrl.addEventListener('click', ev => {
            return addTaskToList(ev, num); 
         });
+        
+        // maniuplate new task select list
+        formCtrls.secondRowElements[2].id = 'taskList_1' + num;
+        formCtrls.secondRowElements[2].classList.add('full-width');
+        
+        // manipulate new task hours input
+        formCtrls.secondRowElements[3].classList.add('full-width');
         
         console.log(curCtrl);
         console.log(num, count, prevGroup, newGroup);
