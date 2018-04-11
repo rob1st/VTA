@@ -130,6 +130,7 @@
                     .appendChild(
                         document.createElement(curStr)
                     )
+                if (curStr === 'button') curCtrl.setAttribute('type', 'button');
             }
             curCtrl.classList.add('form-control')
             formCtrls.firstRowElements[i] = curCtrl;
@@ -215,6 +216,7 @@
                 curCtrl = secondRow
                     .children[i]
                     .appendChild(document.createElement(curStr));
+                if (curStr === 'button') curCtrl.setAttribute('type', 'button');
             }
             curCtrl.classList.add('form-control')
             formCtrls.secondRowElements[i] = curCtrl;
@@ -230,6 +232,7 @@
         
         // manipulate new addTask button
         curCtrl = formCtrls.secondRowElements[1];
+        curCtrl.innerText = 'Add';
         curCtrl
             .appendChild(document.createElement('i'))
             .classList.add('typcn', 'typcn-chevron-right-outline');
