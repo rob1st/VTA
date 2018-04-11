@@ -74,7 +74,11 @@ ul li {
     }
 }*/
 .full-width {
-    width: 100%;
+    width: 100%!important;
+}
+
+.block {
+    display: block!important;
 }
 
 .center-element {
@@ -433,11 +437,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     width: auto;
 }
 
-.form-control.full-width {
-    width: 100%;
-}
-
-
 .input-label {
     margin: 0;
 }
@@ -464,10 +463,6 @@ select:invalid {
     padding: .125rem .3rem;
     font-size: .875rem;
     line-height: 1.2;
-}
-
-.btn.form-control {
-    display: block;
 }
 
 .btn.btn-outline {

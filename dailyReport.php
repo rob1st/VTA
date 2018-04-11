@@ -120,7 +120,7 @@ echo "
                             display: none;
                             position: absolute;
                             right: 46px;
-                            bottom: 0;
+                            bottom: -2px;
                             border: 1px solid #3333;
                             padding: .25rem;
                             background-color: white;
@@ -134,15 +134,15 @@ echo "
                 <div class='flex-row item-margin-bottom'>
                     <div class='flex-grow item-margin-right'>
                         <label class='input-label'>Description of task/activity</label>
-                        <input type='text' class='form-control full-width' />
+                        <input id='taskInput_1' type='text' class='form-control full-width' />
                     </div>
                     <div class='item-margin-right'>
                         <label class='input-label'>Add Task</label>
-                        <button class='btn btn-success form-control'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                        <button type='button' id='addTask_1' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
                     </div>
                     <div class='item-margin-right' style='min-width:150px'>
                         <label class='input-label'>Task/activity</label>
-                        <select id='taskSelect_1' class='form-control full-width'>
+                        <select id='taskList_1' class='form-control full-width'>
                         </select>
                     </div>
                     <div class='item-margin-right' style='max-width: 100px;'>
@@ -164,7 +164,7 @@ echo "
         // this counter will be used to count input lines
         let count = 1;
         
-        // add ev listeners on first rendered line
+        // add ev listeners on default (first) rendered line
         document.getElementById('selectEquipPersons_1')
             .addEventListener('change', event => {
                 return renderLabelText(event, 1);
@@ -173,12 +173,18 @@ echo "
             .addEventListener('click', event => {
                 return showNotesField(event, 1);
             })
+        document.getElementById('addTask_1')
+            .addEventListener('click', event => {
+                return addTaskToList(event, 1);
+            })
+            
         // connect handler to add new line
         document.getElementById('addNewLine')
             .addEventListener('click', event => {
                 return addNewLine(event, count);
             })
-            
+        
+        // scripts to show/hide DOM elements
         function renderLabelText(event, num) {
             const numLabel = document.getElementById('labelNumEquipLabor_' + num);
             const descLabel = document.getElementById('labelDescEquipLabor_' + num);
@@ -195,6 +201,17 @@ echo "
             const notesField = document.getElementById('notesField_' + num);
             if (notesField.style.display === 'none') notesField.style.display = 'block';
             else notesField.style.display = 'none';
+        }
+        
+        // scripts to add/remove DOM elements
+        function addTaskToList(ev, num) {
+            // IDEA: pre-load the script with the complete DOM node object as arg when I addEventListener
+            // BEWARE: event.target may be the <i> icon
+            curInput = document.getElementById('taskInput_' + num);
+            curList = document.getElementById('taskList_' + num);
+            newItem = curInput.value;
+            
+            console.log(curInput.value, curList);
         }
         
         function addNewLine(event, num) {
@@ -224,6 +241,10 @@ echo "
             laborOption.innerText = 'Labor';
             newRow.children[2].classList.add('flex-grow');
             console.log(newRow);
+        }
+        
+        function destroyLine(num) {
+            console.log(num);
         }
     })()
 </script>";
