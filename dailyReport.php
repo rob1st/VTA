@@ -53,17 +53,25 @@ echo "
                     <h6>Safety</h6>
                 </div>
                 <div class='card-body'>
-                    <div class='flex-row no-wrap space-between'>
+                    <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>EIC</label>
                         <input type='text' id='eic' class='form-control' />
                     </div>
-                    <div class='flex-row no-wrap space-between'>
+                    <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>Watchman</label>
                         <input type='text' id='watchman' class='form-control' />
                     </div>
-                    <div class='flex-row no-wrap space-between'>
+                    <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>RAP #</label>
                         <input type='text' id='rapNum' class='form-control' />
+                    </div>
+                    <div class='flex-row no-wrap space-between item-margin-bottom'>
+                        <label class='input-label'>SSWP #</label>
+                        <input type='text' id='sswpNum' class='form-control' />
+                    </div>
+                    <div class='flex-row no-wrap space-between item-margin-bottom'>
+                        <label class='input-label'>TCP #</label>
+                        <input type='text' id='tcpNum' class='form-control' />
                     </div>
                 </div>
             </fieldset>
@@ -72,7 +80,7 @@ echo "
         <div class='card item-margin-bottom'>
             <div id='locAndDescrip' class='card-header grey-bg flex-row'>
                 <div class='item-margin-right'>
-                    <label>Location</label>
+                    <label class='input-label'>Location</label>
                     <select class='form-control'>";
                         if ($result = mysqli_query($link, $sqlLoc)) {
                             while ($row = mysqli_fetch_array($result)) {
@@ -83,48 +91,67 @@ echo "
                     </select>
                 </div>
                 <div class='flex item-margin-right'>
-                    <label>Description of Operation</label>
+                    <label class='input-label'>Description of Operation</label>
                     <input type='text' class='form-control full-width' />
                 </div>
             </div>
             <div class='card-body'>
-                <div id='workInputRow_1' class='flex-row item-margin-bottom'>
-                    <div class='item-margin-right'>
-                        <label>Equip/Labor</label>
-                        <select id='selectEquipPersons_1' class='form-control'>
-                            <option value='equipment' selected>Equipment</option>
-                            <option value='labor'>Labor</option>
-                        </select>
+                <div id=workInputGroup_1' class='form-subsection item-margin-bottom'>
+                    <div class='flex-row item-margin-bottom'>
+                        <div class='item-margin-right'>
+                            <label class='input-label'>Equip/Labor</label>
+                            <select id='selectEquipPersons_1' class='form-control'>
+                                <option value='equipment' selected>Equipment</option>
+                                <option value='labor'>Labor</option>
+                            </select>
+                        </div>
+                        <div class='item-margin-right'>
+                            <label class='input-label' id='labelNumEquipLabor_1'>Equipment No.</label>
+                            <input type='number' class='form-control' style='max-width:110px' />
+                        </div>
+                        <div class='item-margin-right flex-grow'>
+                            <label class='input-label' id='labelDescEquipLabor_1'>Description of Equipment</label>
+                            <input type='text' class='form-control full-width' />
+                        </div>
+                        <div class='item-margin-right' style='position:relative'>
+                            <label class='input-label'>Notes</label>
+                            <button type='button' id='showNotes_1' class='form-control'><i class='typcn typcn-document-text'></i></button>
+                            <aside
+                                id='notesField_1'
+                                style='
+                                    display: none;
+                                    position: absolute;
+                                    right: 46px;
+                                    bottom: 0;
+                                    border: 1px solid #3333;
+                                    padding: .25rem;
+                                    background-color: white;
+                                '
+                            >
+                                <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
+                            </aside>
+                        </div>
                     </div>
-                    <div class='item-margin-right flex-shrink'>
-                        <label id='labelNumEquipLabor_1'>Equipment No.</label>
-                        <input type='number' class='form-control' style='max-width:110px' />
-                    </div>
-                    <div class='item-margin-right flex-grow'>
-                        <label id='labelDescEquipLabor_1'>Description of Equipment</label>
-                        <input type='text' class='form-control full-width' />
-                    </div>
-                    <div class='item-margin-right'>
-                        <label>Hours</label>
-                        <input type='number' class='form-control' style='max-width: 100px'/>
-                    </div>
-                    <div class='item-margin-right flex-shrink' style='position:relative'>
-                        <label>Notes</label>
-                        <button type='button' id='showNotes_1' class='form-control'><i class='typcn typcn-document-text'></i></button>
-                        <aside
-                            id='notesField_1'
-                            style='
-                                display: none;
-                                position: absolute;
-                                right: 46px;
-                                bottom: 0;
-                                border: 1px solid #3333;
-                                padding: .25rem;
-                                background-color: white;
-                            '
-                        >
-                            <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
-                        </aside>
+                    <div class='grey-bg' style='border-radius:.25rem; padding: .625rem 1rem .875rem;'>
+                        <div class='flex-row item-margin-bottom'>
+                            <div class='flex-grow item-margin-right'>
+                                <label class='input-label'>Description of task/activity</label>
+                                <input type='text' class='form-control full-width' />
+                            </div>
+                            <div class='item-margin-right'>
+                                <label class='input-label'>Add Task</label>
+                                <button class='btn btn-success form-control'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                            </div>
+                            <div class='item-margin-right' style='min-width:150px'>
+                                <label class='input-label'>Task/activity</label>
+                                <select id='taskSelect_1' class='form-control full-width'>
+                                </select>
+                            </div>
+                            <div class='item-margin-right' style='max-width: 100px;'>
+                                <label class='input-label' style='word-break: break-all;'>Hours</label>
+                                <input type='number' class='form-control full-width' />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div style='text-align: right'>
