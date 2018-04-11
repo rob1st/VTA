@@ -136,6 +136,8 @@ echo "
 </main>
 <script>
     (function() {
+        // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
+        
         // this counter will be used to count input lines
         let count = 1;
         
@@ -181,6 +183,23 @@ echo "
             for (let i = 0; i < 5; i++) {
                 newRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
             }
+            newRow.children[0]
+                .appendChild(document.createElement('label'))
+                .appendChild(document.createTextNode('Equip/Labor'));
+            const newSelect = newRow.children[0]
+                .appendChild(document.createElement('select'));
+            newSelect.classList.add('form-control');
+            newSelect.id = 'selectEquipPersons_' + num;
+            newSelect.addEventListener('change', event => {
+                return renderLabelText(event, num);
+            })
+            const equipOption = newSelect.appendChild(document.createElement('option'));
+            equipOption.setAttribute('value', 'equipment');
+            equipOption.innerText = 'Equipment';
+            const laborOption = newSelect.appendChild(document.createElement('option'));
+            laborOption.setAttribute('value', 'labor');
+            laborOption.innerText = 'Labor';
+            newRow.children[2].classList.add('flex-grow');
             console.log(newRow);
         }
     })()
