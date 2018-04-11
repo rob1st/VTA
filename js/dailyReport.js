@@ -113,9 +113,8 @@
                 curCtrl = firstRow
                     .children[i]
                     .appendChild(
-                        document.createElement(
-                            curStr
-                            .slice(0, curStr.indexOf('['))
+                        document
+                            .createElement(curStr.slice(0, curStr.indexOf('['))
                         )
                     );
                 curCtrl.setAttribute(
@@ -187,6 +186,35 @@
         curCtrl.setAttribute('rows', '5');
         curCtrl.setAttribute('cols', '30');
         curCtrl.setAttribute('maxlength', '125');
+        
+        // build secondRow
+        for (let i = 0; i < formCtrls.secondRowElements.length; i++) {
+            secondRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
+        // append form control elements to each div
+            curLabel = secondRow.children[i].appendChild(document.createElement('label'));
+            curLabel.classList.add('input-label')
+            curLabel.innerText = labels.secondRowLabels[i];
+            
+            labels.secondRowLabels[i] = curLabel;
+            
+            curStr = formCtrls.secondRowElements[i];
+            if (curStr.startsWith('input')) {
+                console.log(curStr);
+                curCtrl = secondRow
+                    .children[i]
+                    .appendChild(
+                        document
+                            .createElement(curStr.slice(0, curStr.indexOf('[')))
+                    )
+            } else {
+                curCtrl = secondRow
+                    .children[i]
+                    .appendChild(document.createElement(curStr));
+            }
+            console.log(curCtrl);
+        }
+        // add additional attributes to secondRow children
+        secondRow.children[0].classList.add('flex-grow');
         
         console.log(curCtrl);
         console.log(num, count, prevGroup, newGroup);
