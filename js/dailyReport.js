@@ -163,6 +163,32 @@
         labels.firstRowLabels[2].id = 'labelDescEquipLabor_' + num;
         formCtrls.firstRowElements[2].classList.add('full-width');
         
+        // manipulate new notes button
+        curCtrl = formCtrls.firstRowElements[3];
+        curCtrl.id = 'showNotes_' + num;
+        curCtrl
+            .appendChild(document.createElement('i'))
+            .classList.add('typcn', 'typcn-document-text');
+        curCtrl.addEventListener('click', ev => {
+            return showNotesField(ev, num);
+        });
+        
+        curCtrl = curCtrl
+            .insertAdjacentElement('afterend', document.createElement('aside'));
+        curCtrl.id = 'notesField_' + num;
+        curCtrl
+            .setAttribute(
+                'style',
+                'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;'
+            );
+            
+        curCtrl = curCtrl.appendChild(document.createElement('textarea'));
+        curCtrl.classList.add('form-control');
+        curCtrl.setAttribute('rows', '5');
+        curCtrl.setAttribute('cols', '30');
+        curCtrl.setAttribute('maxlength', '125');
+        
+        console.log(curCtrl);
         console.log(num, count, prevGroup, newGroup);
     }
     
