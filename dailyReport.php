@@ -206,12 +206,19 @@ echo "
         // scripts to add/remove DOM elements
         function addTaskToList(ev, num) {
             // IDEA: pre-load the script with the complete DOM node object as arg when I addEventListener
+            // BETTER IDEA: make these various handlers props of the DOM object in question
             // BEWARE: event.target may be the <i> icon
-            curInput = document.getElementById('taskInput_' + num);
-            curList = document.getElementById('taskList_' + num);
-            newItem = curInput.value;
-            
-            console.log(curInput.value, curList);
+            const curInput = document.getElementById('taskInput_' + num);
+            const newItemText = curInput.value.trim();
+            curInput.value = '';
+            if (newItemText) {
+                const curList = document.getElementById('taskList_' + num);
+                const newItem = document.createElement('option')
+                newItem.appendChild(document.createTextNode(newItemText));
+                console.log(curList, newItem);
+            } else {
+                return;
+            }
         }
         
         function addNewLine(event, num) {
