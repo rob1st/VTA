@@ -131,6 +131,14 @@ ul li {
     flex-shrink: 1;
 }
 
+.pad {
+    padding: .625rem 1rem .875rem;
+}
+
+.border-radius {
+    border-radius: .25rem;
+}
+
 .item-margin-right:not(:last-child) {
     margin-right: .75rem;
 }

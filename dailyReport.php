@@ -94,60 +94,62 @@ echo "
                 <input type='text' class='form-control full-width' />
             </div>
         </div>
-        <div id=workInputGroup_1' class='form-subsection item-margin-bottom'>
-            <div class='flex-row item-margin-bottom'>
-                <div class='item-margin-right'>
-                    <label class='input-label'>Equip/Labor</label>
-                    <select id='selectEquipPersons_1' class='form-control'>
-                        <option value='equipment' selected>Equipment</option>
-                        <option value='labor'>Labor</option>
-                    </select>
-                </div>
-                <div class='item-margin-right'>
-                    <label class='input-label' id='labelNumEquipLabor_1'>Equipment No.</label>
-                    <input type='number' class='form-control' style='max-width:110px' />
-                </div>
-                <div class='item-margin-right flex-grow'>
-                    <label class='input-label' id='labelDescEquipLabor_1'>Description of Equipment</label>
-                    <input type='text' class='form-control full-width' />
-                </div>
-                <div class='item-margin-right' style='position:relative'>
-                    <label class='input-label'>Notes</label>
-                    <button type='button' id='showNotes_1' class='form-control'><i class='typcn typcn-document-text'></i></button>
-                    <aside
-                        id='notesField_1'
-                        style='
-                            display: none;
-                            position: absolute;
-                            right: 46px;
-                            bottom: -2px;
-                            border: 1px solid #3333;
-                            padding: .25rem;
-                            background-color: white;
-                        '
-                    >
-                        <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
-                    </aside>
-                </div>
-            </div>
-            <div class='grey-bg' style='border-radius:.25rem; padding: .625rem 1rem .875rem;'>
+        <div>
+            <div id='workInputGroup_1' class='form-subsection item-border-bottom item-margin-bottom'>
                 <div class='flex-row item-margin-bottom'>
-                    <div class='flex-grow item-margin-right'>
-                        <label class='input-label'>Description of task/activity</label>
-                        <input id='taskInput_1' type='text' class='form-control full-width' />
-                    </div>
                     <div class='item-margin-right'>
-                        <label class='input-label'>Add Task</label>
-                        <button type='button' id='addTask_1' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
-                    </div>
-                    <div class='item-margin-right' style='min-width:150px'>
-                        <label class='input-label'>Task/activity</label>
-                        <select id='taskList_1' class='form-control full-width'>
+                        <label class='input-label'>Equip/Labor</label>
+                        <select id='selectEquipPersons_1' class='form-control'>
+                            <option value='equipment' selected>Equipment</option>
+                            <option value='labor'>Labor</option>
                         </select>
                     </div>
-                    <div class='item-margin-right' style='max-width: 100px;'>
-                        <label class='input-label' style='word-break: break-all;'>Hours</label>
-                        <input type='number' class='form-control full-width' />
+                    <div class='item-margin-right'>
+                        <label class='input-label' id='labelNumEquipLabor_1'>Equipment No.</label>
+                        <input type='number' class='form-control' style='max-width:110px' />
+                    </div>
+                    <div class='item-margin-right flex-grow'>
+                        <label class='input-label' id='labelDescEquipLabor_1'>Description of Equipment</label>
+                        <input type='text' class='form-control full-width' />
+                    </div>
+                    <div class='item-margin-right' style='position:relative'>
+                        <label class='input-label'>Notes</label>
+                        <button type='button' id='showNotes_1' class='form-control'><i class='typcn typcn-document-text'></i></button>
+                        <aside
+                            id='notesField_1'
+                            style='
+                                display: none;
+                                position: absolute;
+                                right: 46px;
+                                bottom: -2px;
+                                border: 1px solid #3333;
+                                padding: .25rem;
+                                background-color: white;
+                            '
+                        >
+                            <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
+                        </aside>
+                    </div>
+                </div>
+                <div class='pad border-radius grey-bg'>
+                    <div class='flex-row item-margin-bottom'>
+                        <div class='flex-grow item-margin-right'>
+                            <label class='input-label'>Description of task/activity</label>
+                            <input id='taskInput_1' type='text' class='form-control full-width' />
+                        </div>
+                        <div class='item-margin-right'>
+                            <label class='input-label'>Add Task</label>
+                            <button type='button' id='addTask_1' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                        </div>
+                        <div class='item-margin-right' style='min-width:150px'>
+                            <label class='input-label'>Task/activity</label>
+                            <select id='taskList_1' class='form-control full-width'>
+                            </select>
+                        </div>
+                        <div class='item-margin-right' style='max-width: 100px;'>
+                            <label class='input-label' style='word-break: break-all;'>Hours</label>
+                            <input type='number' class='form-control full-width' />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,104 +159,7 @@ echo "
         </div>
     </form>
 </main>
-<script>
-    (function() {
-        // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
-        
-        // this counter will be used to count input lines
-        let count = 1;
-        
-        // add ev listeners on default (first) rendered line
-        document.getElementById('selectEquipPersons_1')
-            .addEventListener('change', event => {
-                return renderLabelText(event, 1);
-            });
-        document.getElementById('showNotes_1')
-            .addEventListener('click', event => {
-                return showNotesField(event, 1);
-            })
-        document.getElementById('addTask_1')
-            .addEventListener('click', event => {
-                return addTaskToList(event, 1);
-            })
-            
-        // connect handler to add new line
-        document.getElementById('addNewLine')
-            .addEventListener('click', event => {
-                return addNewLine(event, count);
-            })
-        
-        // scripts to show/hide DOM elements
-        function renderLabelText(event, num) {
-            const numLabel = document.getElementById('labelNumEquipLabor_' + num);
-            const descLabel = document.getElementById('labelDescEquipLabor_' + num);
-            if (event.target.value == 'labor') {
-                numLabel.innerText = '# of Personnel';
-                descLabel.innerText = 'Description of Labor';
-            } else {
-                numLabel.innerText = 'Equipment No.';
-                descLabel.innerText = 'Description of Equipment';
-            }
-        }
-        
-        function showNotesField(event, num) {
-            const notesField = document.getElementById('notesField_' + num);
-            if (notesField.style.display === 'none') notesField.style.display = 'block';
-            else notesField.style.display = 'none';
-        }
-        
-        // scripts to add/remove DOM elements
-        function addTaskToList(ev, num) {
-            // IDEA: pre-load the script with the complete DOM node object as arg when I addEventListener
-            // BETTER IDEA: make these various handlers props of the DOM object in question
-            // BEWARE: event.target may be the <i> icon
-            const curInput = document.getElementById('taskInput_' + num);
-            const newItemText = curInput.value.trim();
-            curInput.value = '';
-            if (newItemText) {
-                const curList = document.getElementById('taskList_' + num);
-                const newItem = document.createElement('option')
-                newItem.appendChild(document.createTextNode(newItemText));
-                console.log(curList, newItem);
-            } else {
-                return;
-            }
-        }
-        
-        function addNewLine(event, num) {
-            const prevRow = document.getElementById('workInputRow_' + num);
-            num++;
-            const newRow = document.createElement('div')
-            newRow.classList.add('flex-row', 'item-margin-bottom');
-            newRow.id = 'workInputRow_' + num;
-            for (let i = 0; i < 5; i++) {
-                newRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
-            }
-            newRow.children[0]
-                .appendChild(document.createElement('label'))
-                .appendChild(document.createTextNode('Equip/Labor'));
-            const newSelect = newRow.children[0]
-                .appendChild(document.createElement('select'));
-            newSelect.classList.add('form-control');
-            newSelect.id = 'selectEquipPersons_' + num;
-            newSelect.addEventListener('change', event => {
-                return renderLabelText(event, num);
-            })
-            const equipOption = newSelect.appendChild(document.createElement('option'));
-            equipOption.setAttribute('value', 'equipment');
-            equipOption.innerText = 'Equipment';
-            const laborOption = newSelect.appendChild(document.createElement('option'));
-            laborOption.setAttribute('value', 'labor');
-            laborOption.innerText = 'Labor';
-            newRow.children[2].classList.add('flex-grow');
-            console.log(newRow);
-        }
-        
-        function destroyLine(num) {
-            console.log(num);
-        }
-    })()
-</script>";
+<script src='js/dailyReport.js'></script>";
 ?>
 <?php
 include('fileend.php');
