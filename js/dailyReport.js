@@ -151,7 +151,7 @@
         
         curCtrl.appendChild(document.createElement('option'));
         curCtrl.children[1].setAttribute('value', 'labor');
-        curCtrl.children[1] = 'Labor';
+        curCtrl.children[1].innerText = 'Labor';
         
         // manipulate new input[number] element
         labels.firstRowLabels[1].id = 'labelNumEquipLabor_' + num;
