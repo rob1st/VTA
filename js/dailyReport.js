@@ -119,8 +119,7 @@
                     );
                 curCtrl.setAttribute(
                     'type',
-                    formCtrls
-                        .firstRowElements[i]
+                    curStr
                         .slice(
                             curStr
                             .indexOf('[') + 1, curStr.indexOf(']'))
@@ -206,11 +205,20 @@
                         document
                             .createElement(curStr.slice(0, curStr.indexOf('[')))
                     )
+                curCtrl.setAttribute(
+                    'type',
+                    curStr
+                        .slice(
+                            curStr
+                            .indexOf('[') + 1, curStr.indexOf(']'))
+                    );
             } else {
                 curCtrl = secondRow
                     .children[i]
                     .appendChild(document.createElement(curStr));
             }
+            curCtrl.classList.add('form-control')
+            formCtrls.secondRowElements[i] = curCtrl;
             console.log(curCtrl);
         }
         // add additional attributes to secondRow children
