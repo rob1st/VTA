@@ -244,7 +244,7 @@
         });
         
         // maniuplate new task select list
-        formCtrls.secondRowElements[2].id = 'taskList_1' + num;
+        formCtrls.secondRowElements[2].id = 'taskList_' + num;
         formCtrls.secondRowElements[2].classList.add('full-width');
         
         // manipulate new task hours input
