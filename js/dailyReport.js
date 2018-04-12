@@ -5,9 +5,21 @@
         taskLists: []
     };
     
+    const form = document.forms['dailyReportForm'];
+    
     // this counter will be used to count input lines
     let count = 0;
     
+    // handlers for elements that occur only once
+    form.addEventListener('keypress', event => {
+        if (event.key === 'Enter') form.submit();
+    })
+    document.getElementById('addLineBtn')
+        .addEventListener('click', event => {
+            count++;
+            return addNewLine(event, count);
+        });
+        
     // add ev listeners on default (first) rendered line
     document.getElementById('selectEquipPersons_0')
         .addEventListener('change', event => {
@@ -16,27 +28,27 @@
     document.getElementById('showNotes_0')
         .addEventListener('click', event => {
             return showNotesField(event, 0);
-        })
+        });
     document.getElementById('addTask_0')
         .addEventListener('click', event => {
             return addTaskToList(event, 0);
-        })
+        });
     document.getElementById('taskList_0')
-        .addEventListener('change', event => {
+        .addEventListener('input', event => {
             return handleTaskSelect(event, 0);
-        })
-        
-    // connect handler to add new line
-    document.getElementById('addLineBtn')
-        .addEventListener('click', event => {
-            count++
-            return addNewLine(event, count);
-        })
+        });
+    document.getElementById('taskInput_0')
+        .addEventListener('keypress', event => {
+            event.stopPropagation();
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                return addTaskToList(event, 0);
+            }
+        });
         
     // multi-fcn event handlers
     function handleTaskSelect(ev, num) {
         // get taskList obj from state
-        formState.taskLists[num]
         console.log(ev.target);
         console.log(document.getElementById('hours_' + num));
         
@@ -93,6 +105,8 @@
 
             const curList = document.getElementById('taskList_' + num);
             curList.appendChild(taskList[curKey].domEl);
+            
+            document.getElementById('hours_' + num).focus();
             console.log(formState);
         } else {
             return;

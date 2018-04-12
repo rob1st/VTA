@@ -13,7 +13,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
     <h1 class='page-title'>Inspector's Daily Report</h1>
 </header>
 <main class='container main-content'>
-    <form action='submitDaily.php' method='POST'>
+    <form id='dailyReportForm' action='submitDaily.php' method='POST'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
                 <div class='card-header grey-bg'>
@@ -150,7 +150,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
                             <label class='input-label'>Hours</label>
-                            <input type='number' name='hours_0' class='form-control full-width' />
+                            <input type='number' id='hours_0' name='hours_0' class='form-control full-width' />
                         </div>
                     </div>
                 </div>
