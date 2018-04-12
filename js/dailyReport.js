@@ -29,14 +29,6 @@
         .addEventListener('click', event => {
             return showNotesField(event, 0);
         });
-    document.getElementById('addTask_0')
-        .addEventListener('click', event => {
-            return addTaskToList(event, 0);
-        });
-    document.getElementById('taskList_0')
-        .addEventListener('input', event => {
-            return handleTaskSelect(event, 0);
-        });
     document.getElementById('taskInput_0')
         .addEventListener('keypress', event => {
             event.stopPropagation();
@@ -45,15 +37,56 @@
                 return addTaskToList(event, 0);
             }
         });
+    document.getElementById('hours_0')
+        .addEventListener('keypress', event => {
+            event.stopPropagation();
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                return submitTaskHours(event, 0);
+            }
+        });
+    document.getElementById('addTask_0')
+        .addEventListener('click', event => {
+            return addTaskToList(event, 0);
+        });
+    document.getElementById('taskList_0')
+        .addEventListener('input', event => {
+            return handleTaskSelect(event, 0);
+        });
+    document.getElementById('hours_0')
+        .addEventListener('change', event => {
+            return updateHours(event, 0);
+        });
+    
+    // focus handlers
+    function submitTaskHours(ev, num) {
+        const curList = document.getElementById('taskList_'+ num);
+        const curInput = document.getElementById('taskInput_' + num);
+        const curHrs = document.getElementById('hours_' + num);
+        curHrs.value = '';
+        curList.value = '';
+        curInput.value = '';
+        curInput.focus();
+    }
         
     // multi-fcn event handlers
     function handleTaskSelect(ev, num) {
+        const hrsEl = document.getElementById('hours_' + num);
         // get taskList obj from state
+        const selectedOpt = ev.target.selectedOptions[0].uniqueID;
+        formState.taskLists[num][selectedOpt];
+        
         console.log(ev.target);
         console.log(document.getElementById('hours_' + num));
-        
         // select hours_ form control corresponding to num
-        document.getElementById('hours_' + num).focus();
+        hrsEl.focus();
+    }
+    
+    function updateHours(ev, num) {
+        const curList = document.getElementById('taskList_' + num);
+        const curID = curList.selectedOptions[0].uniqueID;
+        formState.taskLists[num][curID].hrs = ev.target.value;
+        console.log(formState.taskLists[num][curID].hrs);
     }
     
     // scripts to show/hide DOM elements
@@ -94,19 +127,22 @@
         // if text content in task description input instantiate new taskList @ new uniqueID
         if (newItemText) {
             const curKey = newUniqueID(formState.keys);
+            const curList = document.getElementById('taskList_' + num);
+            const curHrs = document.getElementById('hours_' + num);
             
             taskList[curKey] = {
                 textVal: newItemText,
                 hrsVal: null,
                 domEl: document.createElement('option')
             };
-            taskList[curKey].domEl.innerText = taskList[curKey].textVal;
+            taskList[curKey].domEl.innerText = newItemText;
             taskList[curKey].domEl.uniqueID = curKey;
 
-            const curList = document.getElementById('taskList_' + num);
+            // append new option to select element and select it
             curList.appendChild(taskList[curKey].domEl);
+            curList.value = newItemText;
             
-            document.getElementById('hours_' + num).focus();
+            curHrs.focus();
             console.log(formState);
         } else {
             return;
