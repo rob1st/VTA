@@ -17,6 +17,10 @@
         .addEventListener('click', event => {
             return addTaskToList(event, 1);
         })
+    document.getElementById('taskList_1')
+        .addEventListener('change', event => {
+            return handleTaskSelect(event, 1);
+        })
         
     // connect handler to add new line
     document.getElementById('addLineBtn')
@@ -24,6 +28,13 @@
             count++
             return addNewLine(event, count);
         })
+        
+    // multi-fcn event handlers
+    function handleTaskSelect(ev, num) {
+        // grab hours value corresponding to num
+        
+        // select hours_ form control corresponding to num
+    }
     
     // scripts to show/hide DOM elements
     function renderLabelText(event, num) {
@@ -255,5 +266,22 @@
     
     function destroyLine(num) {
         console.log(num);
+    }
+    
+    // utils
+    function newUniqueID(prevKeys) {
+        let uniqueID = (new Date().getTime()).toString(16);
+        let i = 0;
+        if (!prevKeys.includes(uniqueID)) {
+            return uniqueID;
+        } else {
+            while (prevKeys.includes(uniqueID)) {
+                uniqueID = (new Date().getTime()).toString(16);
+                i++;
+                if (i > 99) break;
+            }
+            return uniqueID;
+        }
+        
     }
 })()
