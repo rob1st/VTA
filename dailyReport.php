@@ -12,39 +12,40 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
 <header class='container page-header'>
     <h1 class='page-title'>Inspector's Daily Report</h1>
 </header>
-<?php
-echo "
 <main class='container main-content'>
     <form action='submitDaily.php' method='POST'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
-                <div class='card-header grey-bg'>";
-                    if (!$reptNum) {
-                        echo "<h6 class='text-danger'>Unable to retrieve Report Number</h6>
-                                <p>Try refreshing the page</p>";
-                    } else echo "<h6>Report #${reptNum}</h6>";
-echo "
+                <div class='card-header grey-bg'>
+                    <?php
+                        if (!$reptNum) {
+                            echo "<h6 class='text-danger'>Unable to retrieve Report Number</h6>
+                                    <p>Try refreshing the page</p>";
+                        } else echo "<h6>Report #${reptNum}</h6>";
+                    ?>
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Contract day</label>
-                        <input type='text' id='contractDay' class='form-control' />
+                        <input type='date' id='contractDay' name='contractDay' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Date</label>
-                        <input type='text' value='${curDate}' id='curDate' class='form-control' readonly />
+                        <?php
+                            echo "<input type='text' value='${curDate}' id='curDate' name='curDate' class='form-control' readonly />";
+                        ?>
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Project</label>
-                        <input type='text' id='projectId' class='form-control' />
+                        <input type='text' id='projectId' name='projectId' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Weather</label>
-                        <input type='text' id='weatherDescrip' class='form-control' />
+                        <input type='text' id='weatherDescrip' name='weatherDescrip' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Shift Hrs</label>
-                        <input type='text' id='shiftHrs' class='form-control' />
+                        <input type='text' id='shiftHrs' name='shiftHrs' class='form-control' />
                     </div>
                 </div>
             </fieldset>
@@ -55,23 +56,23 @@ echo "
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>EIC</label>
-                        <input type='text' id='eic' class='form-control' />
+                        <input type='text' id='eic' name='eic' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>Watchman</label>
-                        <input type='text' id='watchman' class='form-control' />
+                        <input type='text' id='watchman' name='watchman' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>RAP #</label>
-                        <input type='text' id='rapNum' class='form-control' />
+                        <input type='text' id='rapNum' name='rapNum' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>SSWP #</label>
-                        <input type='text' id='sswpNum' class='form-control' />
+                        <input type='text' id='sswpNum' name='sswpNum' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>TCP #</label>
-                        <input type='text' id='tcpNum' class='form-control' />
+                        <input type='text' id='tcpNum' name='tcpNum' class='form-control' />
                     </div>
                 </div>
             </fieldset>
@@ -80,18 +81,19 @@ echo "
         <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
             <div class='item-margin-right'>
                 <label class='input-label'>Location</label>
-                <select class='form-control'>";
-                    if ($result = mysqli_query($link, $sqlLoc)) {
-                        while ($row = mysqli_fetch_array($result)) {
-                            echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                <select name='location' class='form-control'>";
+                    <?php
+                        if ($result = mysqli_query($link, $sqlLoc)) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                            }
                         }
-                    }
-echo "
+                    ?>
                 </select>
             </div>
             <div class='flex item-margin-right'>
                 <label class='input-label'>Description of Operation</label>
-                <input type='text' class='form-control full-width' />
+                <input type='text' name='opDesc' class='form-control full-width' />
             </div>
         </div>
         <div id='workInputList'>
@@ -99,18 +101,18 @@ echo "
                 <div class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
                         <label class='input-label'>Equip/Labor</label>
-                        <select id='selectEquipPersons_1' class='form-control'>
+                        <select id='selectEquipPersons_1' name='selectEquipPersons_1' class='form-control'>
                             <option value='equipment' selected>Equipment</option>
                             <option value='labor'>Labor</option>
                         </select>
                     </div>
                     <div class='item-margin-right'>
                         <label class='input-label' id='labelNumEquipLabor_1'>Equipment No.</label>
-                        <input type='number' class='form-control' style='max-width:110px' />
+                        <input type='number' name='numEquip_1' class='form-control' style='max-width:110px' />
                     </div>
                     <div class='item-margin-right flex-grow'>
                         <label class='input-label' id='labelDescEquipLabor_1'>Description of Equipment</label>
-                        <input type='text' class='form-control full-width' />
+                        <input type='text' name='equipDesc_1' class='form-control full-width' />
                     </div>
                     <div class='item-margin-right' style='position:relative'>
                         <label class='input-label'>Notes</label>
@@ -127,7 +129,7 @@ echo "
                                 background-color: white;
                             '
                         >
-                            <textarea rows='5' cols='30' maxlength='125' class='form-control'></textarea>
+                            <textarea name='remarks' rows='5' cols='30' maxlength='125' class='form-control'></textarea>
                         </aside>
                     </div>
                 </div>
@@ -135,7 +137,7 @@ echo "
                     <div class='flex-row item-margin-bottom'>
                         <div class='flex-grow item-margin-right'>
                             <label class='input-label'>Description of task/activity</label>
-                            <input id='taskInput_1' type='text' class='form-control full-width' />
+                            <input id='taskInput_1' name='taskInput_1' type='text' class='form-control full-width' />
                         </div>
                         <div class='item-margin-right'>
                             <label class='input-label'>Add Task</label>
@@ -143,12 +145,12 @@ echo "
                         </div>
                         <div class='item-margin-right' style='min-width:150px'>
                             <label class='input-label'>Task/activity</label>
-                            <select id='taskList_1' class='form-control full-width'>
+                            <select id='taskList_1' name='taskList_1' class='form-control full-width'>
                             </select>
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
                             <label class='input-label'>Hours</label>
-                            <input type='number' class='form-control full-width' />
+                            <input type='number' name='hours_1' class='form-control full-width' />
                         </div>
                     </div>
                 </div>
@@ -157,10 +159,13 @@ echo "
         <div style='text-align: right'>
             <button type='button' id='addLineBtn' class='btn btn-success'>Add Line</button>
         </div>
+        <div class='center-content'>
+            <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
+        </div>
     </form>
 </main>
-<script src='js/dailyReport.js'></script>";
-?>
+<script src='js/dailyReport.js'></script>
 <?php
+MySqli_Close($link);
 include('fileend.php');
 ?>
