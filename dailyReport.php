@@ -97,28 +97,28 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
             </div>
         </div>
         <div id='workInputList'>
-            <div id='workInputGroup_1' class='form-subsection item-border-bottom item-margin-bottom'>
+            <div id='workInputGroup_0' class='form-subsection item-border-bottom item-margin-bottom'>
                 <div class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
                         <label class='input-label'>Equip/Labor</label>
-                        <select id='selectEquipPersons_1' name='selectEquipPersons_1' class='form-control'>
+                        <select id='selectEquipPersons_0' name='selectEquipPersons_0' class='form-control'>
                             <option value='equipment' selected>Equipment</option>
                             <option value='labor'>Labor</option>
                         </select>
                     </div>
                     <div class='item-margin-right'>
-                        <label class='input-label' id='labelNumEquipLabor_1'>Equipment No.</label>
-                        <input type='number' name='numEquip_1' class='form-control' style='max-width:110px' />
+                        <label class='input-label' id='labelNumEquipLabor_0'>Equipment No.</label>
+                        <input type='number' name='numEquip_0' class='form-control' style='max-width:110px' />
                     </div>
                     <div class='item-margin-right flex-grow'>
-                        <label class='input-label' id='labelDescEquipLabor_1'>Description of Equipment</label>
-                        <input type='text' name='equipDesc_1' class='form-control full-width' />
+                        <label class='input-label' id='labelDescEquipLabor_0'>Description of Equipment</label>
+                        <input type='text' name='equipDesc_0' class='form-control full-width' />
                     </div>
                     <div class='item-margin-right' style='position:relative'>
                         <label class='input-label'>Notes</label>
-                        <button type='button' id='showNotes_1' class='form-control'><i class='typcn typcn-document-text'></i></button>
+                        <button type='button' id='showNotes_0' class='form-control'><i class='typcn typcn-document-text'></i></button>
                         <aside
-                            id='notesField_1'
+                            id='notesField_0'
                             style='
                                 display: none;
                                 position: absolute;
@@ -137,20 +137,20 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
                     <div class='flex-row item-margin-bottom'>
                         <div class='flex-grow item-margin-right'>
                             <label class='input-label'>Description of task/activity</label>
-                            <input id='taskInput_1' name='taskInput_1' type='text' class='form-control full-width' />
+                            <input id='taskInput_0' name='taskInput_0' type='text' class='form-control full-width' />
                         </div>
                         <div class='item-margin-right'>
                             <label class='input-label'>Add Task</label>
-                            <button type='button' id='addTask_1' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                            <button type='button' id='addTask_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
                         </div>
                         <div class='item-margin-right' style='min-width:150px'>
                             <label class='input-label'>Task/activity</label>
-                            <select id='taskList_1' name='taskList_1' class='form-control full-width'>
+                            <select id='taskList_0' name='taskList_0' class='form-control full-width'>
                             </select>
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
                             <label class='input-label'>Hours</label>
-                            <input type='number' name='hours_1' class='form-control full-width' />
+                            <input type='number' name='hours_0' class='form-control full-width' />
                         </div>
                     </div>
                 </div>

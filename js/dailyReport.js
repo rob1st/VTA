@@ -1,25 +1,29 @@
 (function() {
     // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
+    const formState = {
+        keys: [],
+        taskLists: []
+    };
     
     // this counter will be used to count input lines
-    let count = 1;
+    let count = 0;
     
     // add ev listeners on default (first) rendered line
-    document.getElementById('selectEquipPersons_1')
+    document.getElementById('selectEquipPersons_0')
         .addEventListener('change', event => {
-            return renderLabelText(event, 1);
+            return renderLabelText(event, 0);
         });
-    document.getElementById('showNotes_1')
+    document.getElementById('showNotes_0')
         .addEventListener('click', event => {
-            return showNotesField(event, 1);
+            return showNotesField(event, 0);
         })
-    document.getElementById('addTask_1')
+    document.getElementById('addTask_0')
         .addEventListener('click', event => {
-            return addTaskToList(event, 1);
+            return addTaskToList(event, 0);
         })
-    document.getElementById('taskList_1')
+    document.getElementById('taskList_0')
         .addEventListener('change', event => {
-            return handleTaskSelect(event, 1);
+            return handleTaskSelect(event, 0);
         })
         
     // connect handler to add new line
@@ -60,17 +64,31 @@
     // scripts to add/remove DOM elements
     function addTaskToList(ev, num) {
         console.log(num);
-        // IDEA: pre-load the script with the complete DOM node object as arg when I addEventListener
-        // BETTER IDEA: make these various handlers props of the DOM object in question
+        // IDEA: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
+        // 1. check formState for existence of index @ num
+        // 2. if it doesn't exist, push a new empty obj
+        // 3. then assign it
+        if (!formState.taskLists[num]) formState.taskLists.push({});
+        let taskList = formState.taskLists[num];
+        
         const curInput = document.getElementById('taskInput_' + num);
         const newItemText = curInput.value.trim();
         curInput.value = '';
+        // if text content in task description input instantiate new taskList @ new uniqueID
         if (newItemText) {
+            const curKey = newUniqueID(formState.keys);
+            
+            taskList[curKey] = {
+                textVal: newItemText,
+                hrsVal: null,
+                domEl: document.createElement('option')
+            };
+            taskList[curKey].domEl.innerText = taskList[curKey].textVal;
+
             const curList = document.getElementById('taskList_' + num);
-            const newItem = document.createElement('option')
-            newItem.appendChild(document.createTextNode(newItemText));
-            curList.appendChild(newItem);
+            curList.appendChild(taskList[curKey].domEl);
+            console.log(formState);
         } else {
             return;
         }
@@ -265,14 +283,18 @@
     }
     
     function destroyLine(num) {
+        // when user destroys line, also destory corresponding formState obj
         console.log(num);
     }
     
     // utils
     function newUniqueID(prevKeys) {
+        // if no prevKeys, set it to an empty array
+        prevKeys = prevKeys || [];
         let uniqueID = (new Date().getTime()).toString(16);
         let i = 0;
         if (!prevKeys.includes(uniqueID)) {
+            formState.keys.push(uniqueID);
             return uniqueID;
         } else {
             while (prevKeys.includes(uniqueID)) {
@@ -280,6 +302,7 @@
                 i++;
                 if (i > 99) break;
             }
+            formState.keys.push(uniqueID);
             return uniqueID;
         }
         
