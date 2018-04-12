@@ -115,6 +115,7 @@
         const newGroup = document.createElement('div');
         newGroup.classList.add('form-subsection', 'item-border-bottom', 'item-margin-bottom');
         newGroup.id = 'workInputGroup_' + num;
+        newGroup.name = 'workInputGroup_' + num;
 
         const firstRow = document.createElement('div');
         firstRow.classList.add('flex-row', 'item-margin-bottom');
@@ -176,6 +177,7 @@
         // manipulate new <select> element
         curCtrl = formCtrls.firstRowElements[0];
         curCtrl.id = 'selectEquipPersons_' + num;
+        curCtrl.name = 'selectEquipPersons_' + num;
         curCtrl.addEventListener('change', ev => {
             return renderLabelText(ev, num);
         })
@@ -190,15 +192,18 @@
         
         // manipulate new input[number] element
         labels.firstRowLabels[1].id = 'labelNumEquipLabor_' + num;
+        labels.firstRowLabels[1].name = 'labelNumEquipLabor_' + num;
         formCtrls.firstRowElements[1].style.maxWidth = '110px';
         
         // manipulate new description input
         labels.firstRowLabels[2].id = 'labelDescEquipLabor_' + num;
+        labels.firstRowLabels[2].name = 'labelDescEquipLabor_' + num;
         formCtrls.firstRowElements[2].classList.add('full-width');
         
         // manipulate new notes button
         curCtrl = formCtrls.firstRowElements[3];
         curCtrl.id = 'showNotes_' + num;
+        curCtrl.name = 'showNotes_' + num;
         curCtrl
             .appendChild(document.createElement('i'))
             .classList.add('typcn', 'typcn-document-text');
@@ -209,6 +214,7 @@
         curCtrl = curCtrl
             .insertAdjacentElement('afterend', document.createElement('aside'));
         curCtrl.id = 'notesField_' + num;
+        curCtrl.name = 'notesField_' + num;
         curCtrl
             .setAttribute(
                 'style',
@@ -262,6 +268,7 @@
         
         // manipulate new task description input
         formCtrls.secondRowElements[0].id = 'taskInput_' + num;
+        formCtrls.secondRowElements[0].name = 'taskInput_' + num;
         formCtrls.secondRowElements[0].classList.add('full-width');
         
         // manipulate new addTask button
@@ -271,6 +278,7 @@
             .appendChild(document.createElement('i'))
             .classList.add('typcn', 'typcn-chevron-right-outline');
         curCtrl.id = 'addTask_' + num;
+        curCtrl.num = 'addTask_' + num;
         curCtrl.classList.remove('form-control');
         curCtrl.classList.add('btn', 'btn-success', 'block');
         curCtrl.addEventListener('click', ev => {
@@ -279,10 +287,13 @@
         
         // maniuplate new task select list
         formCtrls.secondRowElements[2].id = 'taskList_' + num;
+        formCtrls.secondRowElements[2].name = 'taskList_' + num;
         formCtrls.secondRowElements[2].classList.add('full-width');
         
         // manipulate new task hours input
         formCtrls.secondRowElements[3].classList.add('full-width');
+        formCtrls.secondRowElements[3].id = 'hours_' + num;
+        formCtrls.secondRowElements[3].name = 'hours_' + num;
         
         parentEl.appendChild(newGroup);
     }
