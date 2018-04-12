@@ -61,12 +61,21 @@
     // focus handlers
     function submitTaskHours(ev, num) {
         const curList = document.getElementById('taskList_'+ num);
-        const curInput = document.getElementById('taskInput_' + num);
         const curHrs = document.getElementById('hours_' + num);
-        curHrs.value = '';
-        curList.value = '';
-        curInput.value = '';
-        curInput.focus();
+        if (!curList.value.length) {
+            curHrs.value = '';
+            return;
+        } else {
+            const curInput = document.getElementById('taskInput_' + num);
+            const curID = curList.selectedOptions[0].uniqueID;
+    
+            updateHours(ev, num);
+    
+            curHrs.value = '';
+            curList.value = '';
+            curInput.value = '';
+            curInput.focus();
+        }
     }
         
     // multi-fcn event handlers
@@ -86,7 +95,7 @@
         const curList = document.getElementById('taskList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.taskLists[num][curID].hrs = ev.target.value;
-        console.log(formState.taskLists[num][curID].hrs);
+        console.log(formState.taskLists[num][curID]);
     }
     
     // scripts to show/hide DOM elements
