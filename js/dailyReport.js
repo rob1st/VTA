@@ -57,6 +57,25 @@
         .addEventListener('change', event => {
             return updateHours(event, 0);
         });
+    // The Submit handler
+    function handleSubmit() {
+        const endpoint = 'submitDaily.php';
+        const data = new FormData(form);
+        // delete all instances of taskInput
+        // append taskList details to appropriate taskList
+        for (let [index, list] of formState.taskLists) {
+            for (let [key, obj] of list) {
+                let i = 0;
+                data.append('taskDescription_' + index + '_' + i, obj.textVal);
+                data.append('taskHours_' + index + '_' + i, obj.hrsVal);
+                i++;
+            }
+        }
+        window.fetch(endpoint, {
+            method: 'POST',
+            body: data
+        })
+    }
     
     // focus handlers
     function submitTaskHours(ev, num) {
@@ -101,6 +120,7 @@
     
     // scripts to show/hide DOM elements
     function renderLabelText(event, num) {
+        // TODO: this fcn needs to change name attr of text field
         console.log(num);
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);

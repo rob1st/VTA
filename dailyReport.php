@@ -101,7 +101,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
                 <div class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
                         <label class='input-label'>Equip/Labor</label>
-                        <select id='selectEquipPersons_0' name='selectEquipPersons_0' class='form-control'>
+                        <select id='selectEquipPersons_0' name='equipOrPersons_0' class='form-control'>
                             <option value='equipment' selected>Equipment</option>
                             <option value='labor'>Labor</option>
                         </select>
