@@ -35,9 +35,13 @@
         
     // multi-fcn event handlers
     function handleTaskSelect(ev, num) {
-        // grab hours value corresponding to num
+        // get taskList obj from state
+        formState.taskLists[num]
+        console.log(ev.target);
+        console.log(document.getElementById('hours_' + num));
         
         // select hours_ form control corresponding to num
+        document.getElementById('hours_' + num).focus();
     }
     
     // scripts to show/hide DOM elements
@@ -85,6 +89,7 @@
                 domEl: document.createElement('option')
             };
             taskList[curKey].domEl.innerText = taskList[curKey].textVal;
+            taskList[curKey].domEl.uniqueID = curKey;
 
             const curList = document.getElementById('taskList_' + num);
             curList.appendChild(taskList[curKey].domEl);
