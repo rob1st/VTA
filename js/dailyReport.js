@@ -92,9 +92,10 @@
     }
     
     function updateHours(ev, num) {
+        console.log(ev.target);
         const curList = document.getElementById('taskList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
-        formState.taskLists[num][curID].hrs = ev.target.value;
+        formState.taskLists[num][curID].hrsVal = ev.target.value;
         console.log(formState.taskLists[num][curID]);
     }
     
