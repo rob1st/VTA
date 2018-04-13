@@ -84,11 +84,13 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
         <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
             <div class='item-margin-right'>
                 <label class='input-label'>Location</label>
-                <select name='location' class='form-control'>";
+                <select name='location' class='form-control'>
                     <?php
                         if ($result = mysqli_query($link, $sqlLoc)) {
                             while ($row = mysqli_fetch_array($result)) {
-                                echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                                if (strpos($row[0], 'Berryessa') !== false OR strpos($row[0], 'Milpitas') !== false) {
+                                    echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                                }
                             }
                         }
                     ?>
