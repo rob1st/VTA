@@ -160,7 +160,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
             <button type='button' id='addLineBtn' class='btn btn-success'>Add Line</button>
         </div>
         <div class='center-content'>
-            <button type='button' id='submit' class='btn btn-primary btn-lg'>Submit</button>
+            <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
         </div>
     </form>
 </main>

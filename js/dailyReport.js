@@ -39,8 +39,13 @@
     }
     
     // handlers for elements that occur only once
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        return handleSubmit();
+    })
     form.addEventListener('keypress', event => {
-        if (event.key === 'Enter') form.submit();
+        event.preventDefault();
+        if (event.key === 'Enter') return handleSubmit();
     })
     document.getElementById('addLineBtn')
         .addEventListener('click', event => {
@@ -49,12 +54,6 @@
         });
         
     // add ev listeners on default (first) rendered line
-    document.getElementById('submit')
-        .addEventListener('click', event => {
-            event.preventDefault();
-            // considering passing formData and js obj to this as args
-            return handleSubmit();
-        })
     document.getElementById('selectEquipPersons_0')
         .addEventListener('change', event => {
             return renderLabelText(event, 0);
