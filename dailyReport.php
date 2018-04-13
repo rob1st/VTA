@@ -3,7 +3,8 @@ include('SQLFunctions.php');
 session_start();
 include('filestart.php');
 $title = "SVBX - Inspector's Daily Report";
-$curDate = date('M j, Y');
+$curDateText = date('M j, Y');
+$curDateNum = date('Y-m-d');
 $reptNum = 0; // generate this based on db
 
 $link = f_sqlConnect();
@@ -27,12 +28,14 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Contract day</label>
-                        <input type='date' id='contractDay' name='contractDay' class='form-control' />
+                        <?php
+                            echo "<input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' />";
+                        ?>
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Date</label>
                         <?php
-                            echo "<input type='text' value='${curDate}' id='curDate' name='curDate' class='form-control' readonly />";
+                            echo "<input type='text' value='{$curDateText}' id='curDate' name='curDate' class='form-control' readonly />";
                         ?>
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
