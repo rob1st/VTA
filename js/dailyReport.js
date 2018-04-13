@@ -415,7 +415,31 @@
                     } else curCtrl.classList.add(ctrl.classList);
                 }
                 if ('children' in ctrl && ctrl.children) {
-                    
+                    let curChild;
+                    /*tagName: 'textarea',
+                    name: 'remarks',
+                    rows: '5',
+                    cols: '30',
+                    maxlength: '125',
+                    classList: 'form-control'*/
+                    for (let child of ctrl.children) {
+                        for (let [attr, val] of child) {
+                            curChild = curCtrl.appendChild(document.createElement(child.tagName))
+                            if (attr === 'tagName') continue;
+                            else if (attr === 'classList') {
+                                for (let className of attr) {
+                                    curChild.classList.add(className)
+                                }
+                            } else if (attr === 'handlers') {
+                                for (let handler of attr) {
+                                    curChild.addEventListener(handler.event, event => {
+                                        hand
+                                    })
+                                }
+                            }
+                            else curChild.setAttribute(attr, val);
+                        }
+                    }
                 }
                 if ('siblings' in ctrl && ctrl.siblings) {
                     
