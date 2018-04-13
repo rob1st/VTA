@@ -387,95 +387,190 @@
         secondRow.classList.add('flex-row', 'item-margin-bottom');
         subGroup.appendChild(secondRow);
         
-        let label;
-        let curCtrl;
         // append divs to firstRow
         for (let ctrl of formCtrls.firstRow) {
             // for each one append a div.item-margin-right
             const curParent = firstRow.appendChild(document.createElement('div'));
             curParent.classList.add('item-margin-right');
             // then loop over ctrl keys
+            let curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
             for (let prop in ctrl) {
                 // first append label
-                if (prop === 'label') {
-                    if (typeof ctrl[prop] === 'object') {
-                        label = curParent.appendChild(document.createElement('label'));
-                        label.innerText = ctrl.label.innerText;
-                        label.id = ctrl.label.id;
-                    }
-                    else {
-                        curParent.appendChild(document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
-                    }
-                }
-                
-                // then append form control element
-                curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
-                if ('innerText' in ctrl && ctrl.innerText) curCtrl.innerText = ctrl.innerText;
-                if ('classList' in ctrl && ctrl.classList) {
-                    if (typeof ctrl.classList === 'object') {
-                        for (let className of ctrl.classList) {
-                            curCtrl.classList.add(className);
+                if (ctrl[prop]) {
+                    if (prop === 'label') {
+                        if (typeof ctrl[prop] === 'object') {
+                            let label = curCtrl.insertAdjacentElement('beforebegin', document.createElement('label'));
+                            label.innerText = ctrl.label.innerText;
+                            label.id = ctrl.label.id;
                         }
-                    } else curCtrl.classList.add(ctrl.classList);
-                }
-                if ('children' in ctrl && ctrl.children) {
-                    let curChild;
-                    for (let child of ctrl.children) {
-                        curChild = curCtrl.appendChild(document.createElement(child.tagName));
-                        for (let [attr, val] in child) {
-                            if (attr === 'tagName') continue;
-                            else if (attr === 'classList') {
-                                for (let className of attr) {
-                                    curChild.classList.add(className);
-                                }
-                            } else if (attr === 'handlers') {
-                                for (let handler of attr) {
-                                    curChild.addEventListener(handler.event, ev => {
-                                        return handler.fn(ev, num);
-                                    });
-                                }
-                            } else curChild.setAttribute(attr, val);
+                        else {
+                            curCtrl.insertAdjacentElement('beforebegin', document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
                         }
                     }
-                }
-                if ('siblings' in ctrl && ctrl.siblings) {
-                    console.log(ctrl);
-                    let curSib;
-                    let curChild;
-                    for (let sib of ctrl.siblings) {
-                        // console.log(ctrl.siblings.length);
-                        // console.log(sib);
-                        curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
-                        for (let attr in sib) {
-                            if (attr === 'children') {
-                                for (let child of sib[attr]) {
-                                    curChild = curSib.appendChild(document.createElement(child.tagName));
-                                    for (let [childAttr, childAttrVal] in child) {
-                                        if (childAttr === 'tagName') continue;
-                                        else if (childAttr === 'classList') {
-                                            for (let className of childAttr) {
-                                                curChild.classList.add(className);
-                                            }
-                                        } else if (childAttr === 'handler') {
-                                            for (let handler of childAttr) {
-                                                curChild.addEventListener(handler.event, ev => {
-                                                    return handler.fn(ev, num);
-                                                })
-                                            }
-                                        } else curChild.setAttribute(childAttr, childAttrVal)
+                    
+                    // then append form control element
+                    if (prop === 'innerText') curCtrl.innerText = ctrl[prop];
+                    else if (prop === 'classList') {
+                        if (typeof ctrl[prop] === 'object') {
+                            for (let className of ctrl[prop]) {
+                                curCtrl.classList.add(className);
+                            }
+                        } else curCtrl.classList.add(ctrl[prop]);
+                    }
+                    else if (prop === 'children') {
+                        let curChild;
+                        for (let child of ctrl.children) {
+                            curChild = curCtrl.appendChild(document.createElement(child.tagName));
+                            for (let attr in child) {
+                                console.log(attr, child[attr])
+                                if (attr === 'tagName') continue;
+                                else if (attr === 'classList') {
+                                    for (let className of child[attr]) {
+                                        curChild.classList.add(className);
+                                    }
+                                } else if (attr === 'handlers') {
+                                    for (let handler of child[attr]) {
+                                        curChild.addEventListener(handler.event, ev => {
+                                            return handler.fn(ev, num);
+                                        });
+                                    }
+                                } else curChild.setAttribute(attr, child[attr]);
+                            }
+                        }
+                    }
+                    if (prop === 'siblings') {
+                        let curSib;
+                        let curChild;
+                        for (let sib of ctrl.siblings) {
+                            // console.log(ctrl.siblings.length);
+                            // console.log(sib);
+                            curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
+                            for (let attr in sib) {
+                                if (attr === 'children') {
+                                    for (let child of sib[attr]) {
+                                        curChild = curSib.appendChild(document.createElement(child.tagName));
+                                        for (let [childAttr, childAttrVal] in child) {
+                                            if (childAttr === 'tagName') continue;
+                                            else if (childAttr === 'classList') {
+                                                for (let className of childAttr) {
+                                                    curChild.classList.add(className);
+                                                }
+                                            } else if (childAttr === 'handler') {
+                                                for (let handler of childAttr) {
+                                                    curChild.addEventListener(handler.event, ev => {
+                                                        return handler.fn(ev, num);
+                                                    })
+                                                }
+                                            } else curChild.setAttribute(childAttr, childAttrVal)
+                                        }
                                     }
                                 }
-                            }
-                            else {
-                                curSib.setAttribute(attr, sib[attr]);
+                                else {
+                                    curSib.setAttribute(attr, sib[attr]);
+                                }
                             }
                         }
                     }
+                    else curCtrl.setAttribute(prop, ctrl[prop]);
                 }
-                else curCtrl.setAttribute(prop, ctrl[prop]);
-            // }
+            }
         }
-        
+        appendNextRow(formCtrls.secondRow, secondRow, num);
+        parentEl.appendChild(newGroup);
+    }
+    
+    function appendNextRow(elements, row, num) {
+        let label;
+        let curCtrl;
+
+        for (let ctrl of elements) {
+            // for each one append a div.item-margin-right
+            const curParent = row.appendChild(document.createElement('div'));
+            curParent.classList.add('item-margin-right');
+            // then loop over ctrl keys
+            curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
+            for (let prop in ctrl) {
+                // first append label
+                if (ctrl[prop]) {
+                    if (prop === 'label') {
+                        if (typeof ctrl[prop] === 'object') {
+                            label = curCtrl.insertAdjacentElement('beforebegin', document.createElement('label'));
+                            label.innerText = ctrl.label.innerText;
+                            label.id = ctrl.label.id;
+                        }
+                        else {
+                            curCtrl.insertAdjacentElement('beforebegin', document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
+                        }
+                    }
+                    
+                    // then append form control element
+                    if (prop === 'innerText') curCtrl.innerText = ctrl[prop];
+                    else if (prop === 'classList') {
+                        if (typeof ctrl[prop] === 'object') {
+                            for (let className of ctrl[prop]) {
+                                curCtrl.classList.add(className);
+                            }
+                        } else curCtrl.classList.add(ctrl[prop]);
+                    }
+                    else if (prop === 'children') {
+                        let curChild;
+                        for (let child of ctrl.children) {
+                            curChild = curCtrl.appendChild(document.createElement(child.tagName));
+                            for (let attr in child) {
+                                console.log(attr, child[attr])
+                                if (attr === 'tagName') continue;
+                                else if (attr === 'classList') {
+                                    for (let className of child[attr]) {
+                                        curChild.classList.add(className);
+                                    }
+                                } else if (attr === 'handlers') {
+                                    for (let handler of child[attr]) {
+                                        curChild.addEventListener(handler.event, ev => {
+                                            return handler.fn(ev, num);
+                                        });
+                                    }
+                                } else curChild.setAttribute(attr, child[attr]);
+                            }
+                        }
+                    }
+                    if (prop === 'siblings') {
+                        let curSib;
+                        let curChild;
+                        for (let sib of ctrl.siblings) {
+                            // console.log(ctrl.siblings.length);
+                            // console.log(sib);
+                            curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
+                            for (let attr in sib) {
+                                if (attr === 'children') {
+                                    for (let child of sib[attr]) {
+                                        curChild = curSib.appendChild(document.createElement(child.tagName));
+                                        for (let [childAttr, childAttrVal] in child) {
+                                            if (childAttr === 'tagName') continue;
+                                            else if (childAttr === 'classList') {
+                                                for (let className of childAttr) {
+                                                    curChild.classList.add(className);
+                                                }
+                                            } else if (childAttr === 'handler') {
+                                                for (let handler of childAttr) {
+                                                    curChild.addEventListener(handler.event, ev => {
+                                                        return handler.fn(ev, num);
+                                                    })
+                                                }
+                                            } else curChild.setAttribute(childAttr, childAttrVal)
+                                        }
+                                    }
+                                }
+                                else {
+                                    curSib.setAttribute(attr, sib[attr]);
+                                }
+                            }
+                        }
+                    }
+                    else curCtrl.setAttribute(prop, ctrl[prop]);
+                }
+            }
+        }
+    }
         // for (let i = 0; i < formCtrls.firstRowElements.length; i++) {
         //     firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
         // // append form control elements to each div
@@ -637,9 +732,7 @@
         // formCtrls.secondRowElements[3].classList.add('full-width');
         // formCtrls.secondRowElements[3].id = 'hours_' + num;
         // formCtrls.secondRowElements[3].name = 'hours_' + num;
-        
-        parentEl.appendChild(newGroup);
-    }
+
     
     function destroyLine(num) {
         // when user destroys line, also destory corresponding formState obj
