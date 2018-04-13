@@ -493,6 +493,11 @@
         }*/
         appendNextRow(formCtrls.firstRow, firstRow, num);
         appendNextRow(formCtrls.secondRow, secondRow, num);
+        
+        // add some additional classes to particular formCtrl parents
+        newGroup.children[0].children[2].classList.add('flex-grow');
+        newGroup.children[1].children[0].classList.add('flex-grow');
+        
         parentEl.appendChild(newGroup);
     }
     
@@ -540,7 +545,6 @@
                     else if (prop === 'children') {
                         let curChild;
                         for (let child of ctrl.children) {
-                            console.log(child)
                             curChild = curCtrl.appendChild(document.createElement(child.tagName));
                             for (let attr in child) {
                                 if (attr === 'tagName') continue;
