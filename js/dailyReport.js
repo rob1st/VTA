@@ -379,7 +379,7 @@
         newGroup.appendChild(firstRow);
         
         // append second row of inputs within subGroup
-        const subGroup = document.createElement('div')
+        const subGroup = document.createElement('div');
         subGroup.classList.add('pad', 'border-radius', 'grey-bg');
         newGroup.appendChild(subGroup);
         
@@ -389,23 +389,27 @@
         
         let label;
         let curCtrl;
-        let curStr;
         // append divs to firstRow
         for (let ctrl of formCtrls.firstRow) {
             // for each one append a div.item-margin-right
-            const parent = firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
+            const curParent = firstRow.appendChild(document.createElement('div'));
+            curParent.classList.add('item-margin-right');
             // then loop over ctrl keys
-            for (let key of ctrl) {
-                if (typeof ctrl.label === 'object') {
-                    label = parent.appendChild(document.createElement('label'));
-                    label.innerText = ctrl.label.innerText;
-                    label.id = ctrl.label.id;
-                } else parent.appendChild(document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
-                curCtrl = parent.appendChild(document.createElement(ctrl.tagName));
-                if ('type' in ctrl && ctrl.type) curCtrl.setAttribute('type', ctrl.type);
-                if ('id' in ctrl && ctrl.id) curCtrl.setAttribute('id', ctrl.id);
-                if ('name' in ctrl && ctrl.name) curCtrl.setAttribute('name', ctrl.name);
-                if ('style' in ctrl && ctrl.style) curCtrl.setAttribute('style', ctrl.style);
+            for (let prop in ctrl) {
+                // first append label
+                if (prop === 'label') {
+                    if (typeof ctrl[prop] === 'object') {
+                        label = curParent.appendChild(document.createElement('label'));
+                        label.innerText = ctrl.label.innerText;
+                        label.id = ctrl.label.id;
+                    }
+                    else {
+                        curParent.appendChild(document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
+                    }
+                }
+                
+                // then append form control element
+                curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
                 if ('innerText' in ctrl && ctrl.innerText) curCtrl.innerText = ctrl.innerText;
                 if ('classList' in ctrl && ctrl.classList) {
                     if (typeof ctrl.classList === 'object') {
@@ -418,7 +422,7 @@
                     let curChild;
                     for (let child of ctrl.children) {
                         curChild = curCtrl.appendChild(document.createElement(child.tagName));
-                        for (let [attr, val] of child) {
+                        for (let [attr, val] in child) {
                             if (attr === 'tagName') continue;
                             else if (attr === 'classList') {
                                 for (let className of attr) {
@@ -435,198 +439,204 @@
                     }
                 }
                 if ('siblings' in ctrl && ctrl.siblings) {
+                    console.log(ctrl);
                     let curSib;
                     let curChild;
                     for (let sib of ctrl.siblings) {
+                        // console.log(ctrl.siblings.length);
+                        // console.log(sib);
                         curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
-                        for (let [attr, val] of sib) {
+                        for (let attr in sib) {
                             if (attr === 'children') {
-                                for (let child of attr) {
-                                    curChild = sib.appendChild(document.createElement(child.tagName));
-                                    for (let [childAttr, childAttrVal] of child) {
+                                for (let child of sib[attr]) {
+                                    curChild = curSib.appendChild(document.createElement(child.tagName));
+                                    for (let [childAttr, childAttrVal] in child) {
                                         if (childAttr === 'tagName') continue;
                                         else if (childAttr === 'classList') {
                                             for (let className of childAttr) {
-                                                child.classList.add(className);
+                                                curChild.classList.add(className);
                                             }
                                         } else if (childAttr === 'handler') {
                                             for (let handler of childAttr) {
-                                                child.addEventListener(handler.event, ev => {
+                                                curChild.addEventListener(handler.event, ev => {
                                                     return handler.fn(ev, num);
                                                 })
                                             }
-                                        } else child.setAttribute(childAttr, childAttrVal)
+                                        } else curChild.setAttribute(childAttr, childAttrVal)
                                     }
                                 }
                             }
-                            else sib.setAttribute(attr, val);
+                            else {
+                                curSib.setAttribute(attr, sib[attr]);
+                            }
                         }
                     }
                 }
-            }
+                else curCtrl.setAttribute(prop, ctrl[prop]);
+            // }
         }
         
-        for (let i = 0; i < formCtrls.firstRowElements.length; i++) {
-            firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
-        // append form control elements to each div
-            curLabel = firstRow.children[i]
-                .appendChild(document.createElement('label'));
-            curLabel.classList.add('input-label');
-            curLabel.innerText = labels.firstRowLabels[i];
+        // for (let i = 0; i < formCtrls.firstRowElements.length; i++) {
+        //     firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
+        // // append form control elements to each div
+        //     curLabel = firstRow.children[i]
+        //         .appendChild(document.createElement('label'));
+        //     curLabel.classList.add('input-label');
+        //     curLabel.innerText = labels.firstRowLabels[i];
             
-            labels.firstRowLabels[i] = curLabel;
+        //     labels.firstRowLabels[i] = curLabel;
             
-            curStr = formCtrls.firstRowElements[i];
-            if (curStr.startsWith('input')) {
-                curCtrl = firstRow
-                    .children[i]
-                    .appendChild(
-                        document
-                            .createElement(curStr.slice(0, curStr.indexOf('['))
-                        )
-                    );
-                curCtrl.setAttribute(
-                    'type',
-                    curStr
-                        .slice(
-                            curStr
-                            .indexOf('[') + 1, curStr.indexOf(']'))
-                    );
-            } else {
-                curCtrl = firstRow
-                    .children[i]
-                    .appendChild(
-                        document.createElement(curStr)
-                    )
-                if (curStr === 'button') curCtrl.setAttribute('type', 'button');
-            }
-            curCtrl.classList.add('form-control')
-            formCtrls.firstRowElements[i] = curCtrl;
-        }
-        // add some additional attrs to children of firstRow
-        firstRow.children[2].classList.add('flex-grow');
-        firstRow.children[3].style.position = 'relative';
+        //     curStr = formCtrls.firstRowElements[i];
+        //     if (curStr.startsWith('input')) {
+        //         curCtrl = firstRow
+        //             .children[i]
+        //             .appendChild(
+        //                 document
+        //                     .createElement(curStr.slice(0, curStr.indexOf('['))
+        //                 )
+        //             );
+        //         curCtrl.setAttribute(
+        //             'type',
+        //             curStr
+        //                 .slice(
+        //                     curStr
+        //                     .indexOf('[') + 1, curStr.indexOf(']'))
+        //             );
+        //     } else {
+        //         curCtrl = firstRow
+        //             .children[i]
+        //             .appendChild(
+        //                 document.createElement(curStr)
+        //             )
+        //         if (curStr === 'button') curCtrl.setAttribute('type', 'button');
+        //     }
+        //     curCtrl.classList.add('form-control')
+        //     formCtrls.firstRowElements[i] = curCtrl;
+        // }
+        // // add some additional attrs to children of firstRow
+        // firstRow.children[2].classList.add('flex-grow');
+        // firstRow.children[3].style.position = 'relative';
 
-        // manipulate new <select> element
-        curCtrl = formCtrls.firstRowElements[0];
-        curCtrl.id = 'selectEquipPersons_' + num;
-        curCtrl.name = 'selectEquipPersons_' + num;
-        curCtrl.addEventListener('change', ev => {
-            return renderLabelText(ev, num);
-        })
+        // // manipulate new <select> element
+        // curCtrl = formCtrls.firstRowElements[0];
+        // curCtrl.id = 'selectEquipPersons_' + num;
+        // curCtrl.name = 'selectEquipPersons_' + num;
+        // curCtrl.addEventListener('change', ev => {
+        //     return renderLabelText(ev, num);
+        // })
         
-        curCtrl.appendChild(document.createElement('option'));
-        curCtrl.children[0].setAttribute('value', 'equipment');
-        curCtrl.children[0].innerText = 'Equipment';
+        // curCtrl.appendChild(document.createElement('option'));
+        // curCtrl.children[0].setAttribute('value', 'equipment');
+        // curCtrl.children[0].innerText = 'Equipment';
         
-        curCtrl.appendChild(document.createElement('option'));
-        curCtrl.children[1].setAttribute('value', 'labor');
-        curCtrl.children[1].innerText = 'Labor';
+        // curCtrl.appendChild(document.createElement('option'));
+        // curCtrl.children[1].setAttribute('value', 'labor');
+        // curCtrl.children[1].innerText = 'Labor';
         
-        // manipulate new input[number] element
-        labels.firstRowLabels[1].id = 'labelNumEquipLabor_' + num;
-        labels.firstRowLabels[1].name = 'labelNumEquipLabor_' + num;
-        formCtrls.firstRowElements[1].style.maxWidth = '110px';
+        // // manipulate new input[number] element
+        // labels.firstRowLabels[1].id = 'labelNumEquipLabor_' + num;
+        // labels.firstRowLabels[1].name = 'labelNumEquipLabor_' + num;
+        // formCtrls.firstRowElements[1].style.maxWidth = '110px';
         
-        // manipulate new description input
-        labels.firstRowLabels[2].id = 'labelDescEquipLabor_' + num;
-        labels.firstRowLabels[2].name = 'labelDescEquipLabor_' + num;
-        formCtrls.firstRowElements[2].classList.add('full-width');
+        // // manipulate new description input
+        // labels.firstRowLabels[2].id = 'labelDescEquipLabor_' + num;
+        // labels.firstRowLabels[2].name = 'labelDescEquipLabor_' + num;
+        // formCtrls.firstRowElements[2].classList.add('full-width');
         
-        // manipulate new notes button
-        curCtrl = formCtrls.firstRowElements[3];
-        curCtrl.id = 'showNotes_' + num;
-        curCtrl.name = 'showNotes_' + num;
-        curCtrl
-            .appendChild(document.createElement('i'))
-            .classList.add('typcn', 'typcn-document-text');
-        curCtrl.addEventListener('click', ev => {
-            return showNotesField(ev, num);
-        });
+        // // manipulate new notes button
+        // curCtrl = formCtrls.firstRowElements[3];
+        // curCtrl.id = 'showNotes_' + num;
+        // curCtrl.name = 'showNotes_' + num;
+        // curCtrl
+        //     .appendChild(document.createElement('i'))
+        //     .classList.add('typcn', 'typcn-document-text');
+        // curCtrl.addEventListener('click', ev => {
+        //     return showNotesField(ev, num);
+        // });
         
-        curCtrl = curCtrl
-            .insertAdjacentElement('afterend', document.createElement('aside'));
-        curCtrl.id = 'notesField_' + num;
-        curCtrl.name = 'notesField_' + num;
-        curCtrl
-            .setAttribute(
-                'style',
-                'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;'
-            );
+        // curCtrl = curCtrl
+        //     .insertAdjacentElement('afterend', document.createElement('aside'));
+        // curCtrl.id = 'notesField_' + num;
+        // curCtrl.name = 'notesField_' + num;
+        // curCtrl
+        //     .setAttribute(
+        //         'style',
+        //         'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;'
+        //     );
             
-        curCtrl = curCtrl.appendChild(document.createElement('textarea'));
-        curCtrl.classList.add('form-control');
-        curCtrl.setAttribute('rows', '5');
-        curCtrl.setAttribute('cols', '30');
-        curCtrl.setAttribute('maxlength', '125');
+        // curCtrl = curCtrl.appendChild(document.createElement('textarea'));
+        // curCtrl.classList.add('form-control');
+        // curCtrl.setAttribute('rows', '5');
+        // curCtrl.setAttribute('cols', '30');
+        // curCtrl.setAttribute('maxlength', '125');
         
-        // build secondRow
-        for (let i = 0; i < formCtrls.secondRowElements.length; i++) {
-            secondRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
-        // append form control elements to each div
-            curLabel = secondRow.children[i].appendChild(document.createElement('label'));
-            curLabel.classList.add('input-label')
-            curLabel.innerText = labels.secondRowLabels[i];
+        // // build secondRow
+        // for (let i = 0; i < formCtrls.secondRowElements.length; i++) {
+        //     secondRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
+        // // append form control elements to each div
+        //     curLabel = secondRow.children[i].appendChild(document.createElement('label'));
+        //     curLabel.classList.add('input-label')
+        //     curLabel.innerText = labels.secondRowLabels[i];
             
-            labels.secondRowLabels[i] = curLabel;
+        //     labels.secondRowLabels[i] = curLabel;
             
-            curStr = formCtrls.secondRowElements[i];
-            if (curStr.startsWith('input')) {
-                curCtrl = secondRow
-                    .children[i]
-                    .appendChild(
-                        document
-                            .createElement(curStr.slice(0, curStr.indexOf('[')))
-                    )
-                curCtrl.setAttribute(
-                    'type',
-                    curStr
-                        .slice(
-                            curStr
-                            .indexOf('[') + 1, curStr.indexOf(']'))
-                    );
-            } else {
-                curCtrl = secondRow
-                    .children[i]
-                    .appendChild(document.createElement(curStr));
-                if (curStr === 'button') curCtrl.setAttribute('type', 'button');
-            }
-            curCtrl.classList.add('form-control')
-            formCtrls.secondRowElements[i] = curCtrl;
-        }
-        // add additional attributes to secondRow children
-        secondRow.children[0].classList.add('flex-grow');
-        secondRow.children[2].style.minWidth = '150px';
-        secondRow.children[3].style.maxWidth = '100px';
+        //     curStr = formCtrls.secondRowElements[i];
+        //     if (curStr.startsWith('input')) {
+        //         curCtrl = secondRow
+        //             .children[i]
+        //             .appendChild(
+        //                 document
+        //                     .createElement(curStr.slice(0, curStr.indexOf('[')))
+        //             )
+        //         curCtrl.setAttribute(
+        //             'type',
+        //             curStr
+        //                 .slice(
+        //                     curStr
+        //                     .indexOf('[') + 1, curStr.indexOf(']'))
+        //             );
+        //     } else {
+        //         curCtrl = secondRow
+        //             .children[i]
+        //             .appendChild(document.createElement(curStr));
+        //         if (curStr === 'button') curCtrl.setAttribute('type', 'button');
+        //     }
+        //     curCtrl.classList.add('form-control')
+        //     formCtrls.secondRowElements[i] = curCtrl;
+        // }
+        // // add additional attributes to secondRow children
+        // secondRow.children[0].classList.add('flex-grow');
+        // secondRow.children[2].style.minWidth = '150px';
+        // secondRow.children[3].style.maxWidth = '100px';
         
-        // manipulate new task description input
-        formCtrls.secondRowElements[0].id = 'taskInput_' + num;
-        formCtrls.secondRowElements[0].name = 'taskInput_' + num;
-        formCtrls.secondRowElements[0].classList.add('full-width');
+        // // manipulate new task description input
+        // formCtrls.secondRowElements[0].id = 'taskInput_' + num;
+        // formCtrls.secondRowElements[0].name = 'taskInput_' + num;
+        // formCtrls.secondRowElements[0].classList.add('full-width');
         
-        // manipulate new addTask button
-        curCtrl = formCtrls.secondRowElements[1];
-        curCtrl.innerText = 'Add';
-        curCtrl
-            .appendChild(document.createElement('i'))
-            .classList.add('typcn', 'typcn-chevron-right-outline');
-        curCtrl.id = 'addTask_' + num;
-        curCtrl.num = 'addTask_' + num;
-        curCtrl.classList.remove('form-control');
-        curCtrl.classList.add('btn', 'btn-success', 'block');
-        curCtrl.addEventListener('click', ev => {
-           return addTaskToList(ev, num); 
-        });
+        // // manipulate new addTask button
+        // curCtrl = formCtrls.secondRowElements[1];
+        // curCtrl.innerText = 'Add';
+        // curCtrl
+        //     .appendChild(document.createElement('i'))
+        //     .classList.add('typcn', 'typcn-chevron-right-outline');
+        // curCtrl.id = 'addTask_' + num;
+        // curCtrl.num = 'addTask_' + num;
+        // curCtrl.classList.remove('form-control');
+        // curCtrl.classList.add('btn', 'btn-success', 'block');
+        // curCtrl.addEventListener('click', ev => {
+        //   return addTaskToList(ev, num); 
+        // });
         
-        // maniuplate new task select list
-        formCtrls.secondRowElements[2].id = 'taskList_' + num;
-        formCtrls.secondRowElements[2].name = 'taskList_' + num;
-        formCtrls.secondRowElements[2].classList.add('full-width');
+        // // maniuplate new task select list
+        // formCtrls.secondRowElements[2].id = 'taskList_' + num;
+        // formCtrls.secondRowElements[2].name = 'taskList_' + num;
+        // formCtrls.secondRowElements[2].classList.add('full-width');
         
-        // manipulate new task hours input
-        formCtrls.secondRowElements[3].classList.add('full-width');
-        formCtrls.secondRowElements[3].id = 'hours_' + num;
-        formCtrls.secondRowElements[3].name = 'hours_' + num;
+        // // manipulate new task hours input
+        // formCtrls.secondRowElements[3].classList.add('full-width');
+        // formCtrls.secondRowElements[3].id = 'hours_' + num;
+        // formCtrls.secondRowElements[3].name = 'hours_' + num;
         
         parentEl.appendChild(newGroup);
     }
