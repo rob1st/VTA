@@ -142,7 +142,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
                     <div class='flex-row item-margin-bottom'>
                         <div class='flex-grow item-margin-right'>
                             <label class='input-label'>Description of task/activity</label>
-                            <input id='taskInput_0' name='taskInput_0' type='text' class='form-control full-width' />
+                            <input id='taskInput_0' type='text' class='form-control full-width' />
                         </div>
                         <div class='item-margin-right'>
                             <label class='input-label'>Add Task</label>

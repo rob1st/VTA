@@ -6,6 +6,7 @@
     };
     
     const form = document.forms['dailyReportForm'];
+    const submitEvent = new window.Event('submit');
     
     // this counter will be used to count input lines
     let count = 0;
@@ -64,11 +65,7 @@
         });
     document.getElementById('taskInput_0')
         .addEventListener('keypress', event => {
-            event.stopPropagation();
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                return addTaskToList(event, 0);
-            }
+            return submitNewTask(event, 0);
         });
     document.getElementById('hours_0')
         .addEventListener('keypress', event => {
@@ -112,7 +109,7 @@
         }
     }
         
-    // multi-fcn event handlers
+    // handlers that get/set json data
     function handleTaskSelect(ev, num) {
         const hrsEl = document.getElementById('hours_' + num);
         // get taskList obj from state
@@ -133,29 +130,6 @@
         console.log(formState.taskLists[num][curID]);
     }
     
-    // scripts to show/hide DOM elements
-    function renderLabelText(event, num) {
-        // TODO: this fcn needs to change name attr of text field
-        console.log(num);
-        const numLabel = document.getElementById('labelNumEquipLabor_' + num);
-        const descLabel = document.getElementById('labelDescEquipLabor_' + num);
-        if (event.target.value == 'labor') {
-            numLabel.innerText = '# of Personnel';
-            descLabel.innerText = 'Description of Labor';
-        } else {
-            numLabel.innerText = 'Equipment No.';
-            descLabel.innerText = 'Description of Equipment';
-        }
-    }
-    
-    function showNotesField(event, num) {
-        console.log(num);
-        const notesField = document.getElementById('notesField_' + num);
-        if (notesField.style.display === 'none') notesField.style.display = 'block';
-        else notesField.style.display = 'none';
-    }
-    
-    // scripts to add/remove DOM elements
     function addTaskToList(ev, num) {
         console.log(num);
         // IDEA: create a warning if duplicate text entries
@@ -194,8 +168,52 @@
         }
     }
     
+    function handleKeypressEnter(ev, num) {
+        // is it possible I'll get some weird event targets here?
+        ev.stopPropagation();
+        if (ev.key === 'Enter') {
+            ev.preventDefault();
+            if (ev.target.id.includes('taskInput_')) {
+                return addTaskToList(ev, num);
+            }
+            else if (ev.target.id.includes('hours_')) {
+                return submitTaskHours(ev, num);
+            } else ev.target.dispatchEvent(submitEvent);
+        }
+    }
+    function submitNewTask(ev, num) {
+        event.stopPropagation();
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            return addTaskToList(ev, num);
+        }
+    }
+    
+    // scripts to show/hide DOM elements
+    function renderLabelText(event, num) {
+        // TODO: this fcn needs to change name attr of text field
+        console.log(num);
+        const numLabel = document.getElementById('labelNumEquipLabor_' + num);
+        const descLabel = document.getElementById('labelDescEquipLabor_' + num);
+        if (event.target.value == 'labor') {
+            numLabel.innerText = '# of Personnel';
+            descLabel.innerText = 'Description of Labor';
+        } else {
+            numLabel.innerText = 'Equipment No.';
+            descLabel.innerText = 'Description of Equipment';
+        }
+    }
+    
+    function showNotesField(event, num) {
+        console.log(num);
+        const notesField = document.getElementById('notesField_' + num);
+        if (notesField.style.display === 'none') notesField.style.display = 'block';
+        else notesField.style.display = 'none';
+    }
+    
+    // scripts to add/remove DOM elements
     function addNewLine(event, num) {
-        const parentEl = document.getElementById('workInputList')
+        const parentEl = document.getElementById('workInputList');
         // generic components
         const labels = {
             firstRowLabels: ['Equip/Labor', 'Equip No.', 'Description of equipment', 'Notes'],
@@ -205,6 +223,155 @@
             firstRowElements: ['select', 'input[number]', 'input[text]', 'button'],
             secondRowElements: ['input[text]', 'button', 'select', 'input[number]']
         };
+        
+        // formCtrls = {
+        //     firstRow: [
+        //         {
+        //             tagName: 'select',
+        //             label: 'Equip/Labor',
+        //             type: null,
+        //             id: 'selectEquipPersons',
+        //             name: 'equipOrPersons',
+        //             classList: 'form-control',
+        //             style: null,
+        //             handlers: [
+        //                 {
+        //                     event: 'change',
+        //                     fn: renderLabelText
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             tagName: 'input',
+        //             label: 'Equip No.',
+        //             type: 'number',
+        //             id: null,
+        //             name: 'numEquipOrPersons',
+        //             classList: 'form-control',
+        //             style: 'max-width: 110px',
+        //             handlers: null
+        //         },
+        //         {
+        //             tagName: 'input',
+        //             label: 'Description of equipment',
+        //             type: 'text',
+        //             id: null,
+        //             name: 'equipDesc',
+        //             classList: ['form-control', 'full-width'],
+        //             style: null,
+        //             handlers: null
+        //         },
+        //         {
+        //             tagName: 'button',
+        //             label: 'Notes',
+        //             type: 'button',
+        //             id: 'showNotes',
+        //             name: null,
+        //             classList: 'form-control',
+        //             style: null,
+        //             handlers: {
+        //                 event: 'click',
+        //                 fn: showNotesField
+        //             },
+        //             textContent: null,
+        //             children: [
+        //                 {
+        //                     tagName: 'i',
+        //                     classList: ['typcn', 'typcn-document-text']
+        //                 }
+        //             ],
+        //             siblings: [
+        //                 {
+        //                     tagName: 'aside',
+        //                     id: 'notesField',
+        //                     style: 'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;',
+        //                     children: [
+        //                         {
+        //                             tagName: 'textarea',
+        //                             name: 'remarks',
+        //                             rows: '5',
+        //                             cols: '30',
+        //                             maxlength: '125',
+        //                             classList: 'form-control'
+        //                         }
+        //                     ]
+        //                 }
+        //             ]
+        //         }
+        //     ],
+        //     secondRow: [
+        //         {
+        //             tagName: 'input',
+        //             label: 'Description of task/activity',
+        //             type: 'text',
+        //             id: 'taskInput',
+        //             name: null,
+        //             classList: ['form-control', 'full-width'],
+        //             style: null,
+        //             handlers: [
+        //                 {
+        //                     event: 'keypress',
+        //                     fn: submitNewTask
+        //                 }
+        //             ],
+        //             textContent: null
+        //         },
+        //         {
+        //             tagName: 'button',
+        //             label: 'Add Task',
+        //             type: 'button',
+        //             id: 'addTask',
+        //             name: null,
+        //             classList: ['btn', 'btn-success', 'block'],
+        //             style: null,
+        //             handlers: [
+        //                 {
+        //                     event: 'click',
+        //                     fn: addTaskToList
+        //                 }
+        //             ],
+        //             textContent: 'Add',
+        //             children: [
+        //                 {
+        //                     tagName: 'i',
+        //                     classList: ['typcn', 'typcn-chevron-right-outline']
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             tagName: 'select',
+        //             label: 'Task/activity',
+        //             type: null,
+        //             id: 'taskList',
+        //             name: null,
+        //             classList: ['form-control', 'full-width'],
+        //             style: null,
+        //             handlers: [
+        //                 {
+        //                     event: 'input',
+        //                     fn: handleTaskSelect
+        //                 }
+        //             ],
+        //             textContent: null
+        //         },
+        //         {
+        //             tagName: 'input',
+        //             label: 'Hours',
+        //             type: 'number',
+        //             id: 'hours',
+        //             name: 'hours',
+        //             classList: ['form-control', 'full-width'],
+        //             style: null,
+        //             handlers: [
+        //                 {
+        //                     event: 'change',
+        //                     fn: updateHours
+        //                 }
+        //             ],
+        //             textContent: null
+        //         }
+        //     ]
+        // }
         
         // specific DOM elements
         const newGroup = document.createElement('div');
