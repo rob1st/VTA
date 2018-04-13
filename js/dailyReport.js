@@ -405,7 +405,21 @@
                 if ('type' in ctrl && ctrl.type) curCtrl.setAttribute('type', ctrl.type);
                 if ('id' in ctrl && ctrl.id) curCtrl.setAttribute('id', ctrl.id);
                 if ('name' in ctrl && ctrl.name) curCtrl.setAttribute('name', ctrl.name);
-                if ('style' in ctrl && ctr.style) curCtrl.setAttribute('style', ctrl.style);
+                if ('style' in ctrl && ctrl.style) curCtrl.setAttribute('style', ctrl.style);
+                if ('innerText' in ctrl && ctrl.innerText) curCtrl.innerText = ctrl.innerText;
+                if ('classList' in ctrl && ctrl.classList) {
+                    if (typeof ctrl.classList === 'object') {
+                        for (let className of ctrl.classList) {
+                            curCtrl.classList.add(className);
+                        }
+                    } else curCtrl.classList.add(ctrl.classList);
+                }
+                if ('children' in ctrl && ctrl.children) {
+                    
+                }
+                if ('siblings' in ctrl && ctrl.siblings) {
+                    
+                }
             }
         }
         
