@@ -82,6 +82,7 @@
         .addEventListener('click', event => {
             return addTaskToList(event, 0);
         });
+    // I may need more handlers to handle all the cases of selecting an option
     document.getElementById('taskList_0')
         .addEventListener('input', event => {
             return handleTaskSelect(event, 0);
@@ -115,12 +116,12 @@
     function handleTaskSelect(ev, num) {
         const hrsEl = document.getElementById('hours_' + num);
         // get taskList obj from state
-        const selectedOpt = ev.target.selectedOptions[0].uniqueID;
-        formState.taskLists[num][selectedOpt];
+        const selectedOptID = ev.target.selectedOptions[0].uniqueID;
         
         console.log(ev.target);
         console.log(document.getElementById('hours_' + num));
         // select hours_ form control corresponding to num
+        hrsEl.value = formState.taskLists[num][selectedOptID].hrsVal;
         hrsEl.focus();
     }
     
