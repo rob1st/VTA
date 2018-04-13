@@ -203,174 +203,182 @@
     function addNewLine(event, num) {
         const parentEl = document.getElementById('workInputList');
         // generic components
-        const labels = {
-            firstRowLabels: ['Equip/Labor', 'Equip No.', 'Description of equipment', 'Notes'],
-            secondRowLabels: ['Description of task/activity', 'Add task', 'Task/activity', 'Hours']
-        };
-        const formCtrls = {
-            firstRowElements: ['select', 'input[number]', 'input[text]', 'button'],
-            secondRowElements: ['input[text]', 'button', 'select', 'input[number]']
-        };
+
+        // const labels = {
+        //     firstRowLabels: ['Equip/Labor', 'Equip No.', 'Description of equipment', 'Notes'],
+        //     secondRowLabels: ['Description of task/activity', 'Add task', 'Task/activity', 'Hours']
+        // };
+        // const formCtrls = {
+        //     firstRowElements: ['select', 'input[number]', 'input[text]', 'button'],
+        //     secondRowElements: ['input[text]', 'button', 'select', 'input[number]']
+        // };
         
-        // formCtrls = {
-        //     firstRow: [
-        //         {
-        //             tagName: 'select',
-        //             label: 'Equip/Labor',
-        //             type: null,
-        //             id: 'selectEquipPersons',
-        //             name: 'equipOrPersons',
-        //             classList: 'form-control',
-        //             style: null,
-        //             handlers: [
-        //                 {
-        //                     event: 'change',
-        //                     fn: renderLabelText
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             tagName: 'input',
-        //             label: 'Equip No.',
-        //             type: 'number',
-        //             id: null,
-        //             name: 'numEquipOrPersons',
-        //             classList: 'form-control',
-        //             style: 'max-width: 110px',
-        //             handlers: null
-        //         },
-        //         {
-        //             tagName: 'input',
-        //             label: 'Description of equipment',
-        //             type: 'text',
-        //             id: null,
-        //             name: 'equipDesc',
-        //             classList: ['form-control', 'full-width'],
-        //             style: null,
-        //             handlers: null
-        //         },
-        //         {
-        //             tagName: 'button',
-        //             label: 'Notes',
-        //             type: 'button',
-        //             id: 'showNotes',
-        //             name: null,
-        //             classList: 'form-control',
-        //             style: null,
-        //             handlers: {
-        //                 event: 'click',
-        //                 fn: showNotesField
-        //             },
-        //             textContent: null,
-        //             children: [
-        //                 {
-        //                     tagName: 'i',
-        //                     classList: ['typcn', 'typcn-document-text']
-        //                 }
-        //             ],
-        //             siblings: [
-        //                 {
-        //                     tagName: 'aside',
-        //                     id: 'notesField',
-        //                     style: 'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;',
-        //                     children: [
-        //                         {
-        //                             tagName: 'textarea',
-        //                             name: 'remarks',
-        //                             rows: '5',
-        //                             cols: '30',
-        //                             maxlength: '125',
-        //                             classList: 'form-control'
-        //                         }
-        //                     ]
-        //                 }
-        //             ]
-        //         }
-        //     ],
-        //     secondRow: [
-        //         {
-        //             tagName: 'input',
-        //             label: 'Description of task/activity',
-        //             type: 'text',
-        //             id: 'taskInput',
-        //             name: null,
-        //             classList: ['form-control', 'full-width'],
-        //             style: null,
-        //             handlers: [
-        //                 {
-        //                     event: 'keypress',
-        //                     fn: handleKeypressEnter
-        //                 }
-        //             ],
-        //             textContent: null
-        //         },
-        //         {
-        //             tagName: 'button',
-        //             label: 'Add Task',
-        //             type: 'button',
-        //             id: 'addTask',
-        //             name: null,
-        //             classList: ['btn', 'btn-success', 'block'],
-        //             style: null,
-        //             handlers: [
-        //                 {
-        //                     event: 'click',
-        //                     fn: addTaskToList
-        //                 }
-        //             ],
-        //             textContent: 'Add',
-        //             children: [
-        //                 {
-        //                     tagName: 'i',
-        //                     classList: ['typcn', 'typcn-chevron-right-outline']
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             tagName: 'select',
-        //             label: 'Task/activity',
-        //             type: null,
-        //             id: 'taskList',
-        //             name: null,
-        //             classList: ['form-control', 'full-width'],
-        //             style: null,
-        //             handlers: [
-        //                 {
-        //                     event: 'input',
-        //                     fn: handleTaskSelect
-        //                 }
-        //             ],
-        //             textContent: null
-        //         },
-        //         {
-        //             tagName: 'input',
-        //             label: 'Hours',
-        //             type: 'number',
-        //             id: 'hours',
-        //             name: 'hours',
-        //             classList: ['form-control', 'full-width'],
-        //             style: null,
-        //             handlers: [
-        //                 {
-        //                     event: 'change',
-        //                     fn: updateHours
-        //                 }
-        //             ],
-        //             textContent: null
-        //         }
-        //     ]
-        // }
+        const formCtrls = {
+            firstRow: [
+                {
+                    tagName: 'select',
+                    label: 'Equip/Labor',
+                    type: null,
+                    id: 'selectEquipPersons',
+                    name: 'equipOrPersons',
+                    classList: 'form-control',
+                    style: null,
+                    handlers: [
+                        {
+                            event: 'change',
+                            fn: renderLabelText
+                        }
+                    ]
+                },
+                {
+                    tagName: 'input',
+                    label: {
+                        innerText: 'Equip No.',
+                        id: 'labelNumEquipLabor'
+                    },
+                    type: 'number',
+                    id: null,
+                    name: 'numEquipOrPersons',
+                    classList: 'form-control',
+                    style: 'max-width: 110px',
+                    handlers: null
+                },
+                {
+                    tagName: 'input',
+                    label: {
+                        innerText: 'Description of equipment',
+                        id: 'labelDescEquipLabor'
+                    },
+                    type: 'text',
+                    id: null,
+                    name: 'equipDesc',
+                    classList: ['form-control', 'full-width'],
+                    style: null,
+                    handlers: null
+                },
+                {
+                    tagName: 'button',
+                    label: 'Notes',
+                    type: 'button',
+                    id: 'showNotes',
+                    name: null,
+                    classList: 'form-control',
+                    style: null,
+                    handlers: {
+                        event: 'click',
+                        fn: showNotesField
+                    },
+                    innerText: null,
+                    children: [
+                        {
+                            tagName: 'i',
+                            classList: ['typcn', 'typcn-document-text']
+                        }
+                    ],
+                    siblings: [
+                        {
+                            tagName: 'aside',
+                            id: 'notesField',
+                            style: 'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;',
+                            children: [
+                                {
+                                    tagName: 'textarea',
+                                    name: 'remarks',
+                                    rows: '5',
+                                    cols: '30',
+                                    maxlength: '125',
+                                    classList: 'form-control'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            secondRow: [
+                {
+                    tagName: 'input',
+                    label: 'Description of task/activity',
+                    type: 'text',
+                    id: 'taskInput',
+                    name: null,
+                    classList: ['form-control', 'full-width'],
+                    style: null,
+                    handlers: [
+                        {
+                            event: 'keypress',
+                            fn: handleKeypressEnter
+                        }
+                    ],
+                    innerText: null
+                },
+                {
+                    tagName: 'button',
+                    label: 'Add Task',
+                    type: 'button',
+                    id: 'addTask',
+                    name: null,
+                    classList: ['btn', 'btn-success', 'block'],
+                    style: null,
+                    handlers: [
+                        {
+                            event: 'click',
+                            fn: addTaskToList
+                        }
+                    ],
+                    innerText: 'Add',
+                    children: [
+                        {
+                            tagName: 'i',
+                            classList: ['typcn', 'typcn-chevron-right-outline']
+                        }
+                    ]
+                },
+                {
+                    tagName: 'select',
+                    label: 'Task/activity',
+                    type: null,
+                    id: 'taskList',
+                    name: null,
+                    classList: ['form-control', 'full-width'],
+                    style: null,
+                    handlers: [
+                        {
+                            event: 'input',
+                            fn: handleTaskSelect
+                        }
+                    ],
+                    innerText: null
+                },
+                {
+                    tagName: 'input',
+                    label: 'Hours',
+                    type: 'number',
+                    id: 'hours',
+                    name: 'hours',
+                    classList: ['form-control', 'full-width'],
+                    style: null,
+                    handlers: [
+                        {
+                            event: 'change',
+                            fn: updateHours
+                        }
+                    ],
+                    innerText: null
+                }
+            ]
+        }
         
         // specific DOM elements
         const newGroup = document.createElement('div');
         newGroup.classList.add('form-subsection', 'item-border-bottom', 'item-margin-bottom');
         newGroup.id = 'workInputGroup_' + num;
-        newGroup.name = 'workInputGroup_' + num;
 
+        // append first row of inputs
         const firstRow = document.createElement('div');
         firstRow.classList.add('flex-row', 'item-margin-bottom');
         newGroup.appendChild(firstRow);
         
+        // append second row of inputs within subGroup
         const subGroup = document.createElement('div')
         subGroup.classList.add('pad', 'border-radius', 'grey-bg');
         newGroup.appendChild(subGroup);
@@ -379,10 +387,28 @@
         secondRow.classList.add('flex-row', 'item-margin-bottom');
         subGroup.appendChild(secondRow);
         
-        let curLabel;
+        let label;
         let curCtrl;
         let curStr;
         // append divs to firstRow
+        for (let ctrl of formCtrls.firstRow) {
+            // for each one append a div.item-margin-right
+            const parent = firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
+            // then loop over ctrl keys
+            for (let key of ctrl) {
+                if (typeof ctrl.label === 'object') {
+                    label = parent.appendChild(document.createElement('label'));
+                    label.innerText = ctrl.label.innerText;
+                    label.id = ctrl.label.id;
+                } else parent.appendChild(document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
+                curCtrl = parent.appendChild(document.createElement(ctrl.tagName));
+                if ('type' in ctrl && ctrl.type) curCtrl.setAttribute('type', ctrl.type);
+                if ('id' in ctrl && ctrl.id) curCtrl.setAttribute('id', ctrl.id);
+                if ('name' in ctrl && ctrl.name) curCtrl.setAttribute('name', ctrl.name);
+                if ('style' in ctrl && ctr.style) curCtrl.setAttribute('style', ctrl.style);
+            }
+        }
+        
         for (let i = 0; i < formCtrls.firstRowElements.length; i++) {
             firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
         // append form control elements to each div
