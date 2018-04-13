@@ -28,15 +28,20 @@
             }
         }
         // console log the result
-        const jsonData = {}
-        for (let [key, val] of data) {
-            jsonData[key] = val;
-        }
-        console.log(jsonData);
-        // window.fetch(endpoint, {
-        //     method: 'POST',
-        //     body: data
-        // })
+
+        // const jsonData = {}
+        // for (let [key, val] of data) {
+        //     jsonData[key] = val;
+        // }
+
+        // for (let [key, val] of data) console.log(key + ': ' + val);
+        
+        window.fetch(endpoint, {
+            method: 'POST',
+            body: data
+        }).then(res => {
+            if (res.ok) return res.text()
+        }).then(text => document.write(text))
     }
     
     // handlers for elements that occur only once
@@ -422,7 +427,6 @@
                         for (let child of ctrl.children) {
                             curChild = curCtrl.appendChild(document.createElement(child.tagName));
                             for (let attr in child) {
-                                console.log(attr, child[attr])
                                 if (attr === 'tagName') continue;
                                 else if (attr === 'classList') {
                                     for (let className of child[attr]) {
@@ -442,8 +446,6 @@
                         let curSib;
                         let curChild;
                         for (let sib of ctrl.siblings) {
-                            // console.log(ctrl.siblings.length);
-                            // console.log(sib);
                             curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
                             for (let attr in sib) {
                                 if (attr === 'children') {
@@ -517,7 +519,6 @@
                         for (let child of ctrl.children) {
                             curChild = curCtrl.appendChild(document.createElement(child.tagName));
                             for (let attr in child) {
-                                console.log(attr, child[attr])
                                 if (attr === 'tagName') continue;
                                 else if (attr === 'classList') {
                                     for (let className of child[attr]) {
@@ -537,8 +538,6 @@
                         let curSib;
                         let curChild;
                         for (let sib of ctrl.siblings) {
-                            // console.log(ctrl.siblings.length);
-                            // console.log(sib);
                             curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
                             for (let attr in sib) {
                                 if (attr === 'children') {
