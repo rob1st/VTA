@@ -416,33 +416,52 @@
                 }
                 if ('children' in ctrl && ctrl.children) {
                     let curChild;
-                    /*tagName: 'textarea',
-                    name: 'remarks',
-                    rows: '5',
-                    cols: '30',
-                    maxlength: '125',
-                    classList: 'form-control'*/
                     for (let child of ctrl.children) {
+                        curChild = curCtrl.appendChild(document.createElement(child.tagName));
                         for (let [attr, val] of child) {
-                            curChild = curCtrl.appendChild(document.createElement(child.tagName))
                             if (attr === 'tagName') continue;
                             else if (attr === 'classList') {
                                 for (let className of attr) {
-                                    curChild.classList.add(className)
+                                    curChild.classList.add(className);
                                 }
                             } else if (attr === 'handlers') {
                                 for (let handler of attr) {
-                                    curChild.addEventListener(handler.event, event => {
-                                        hand
-                                    })
+                                    curChild.addEventListener(handler.event, ev => {
+                                        return handler.fn(ev, num);
+                                    });
                                 }
-                            }
-                            else curChild.setAttribute(attr, val);
+                            } else curChild.setAttribute(attr, val);
                         }
                     }
                 }
                 if ('siblings' in ctrl && ctrl.siblings) {
-                    
+                    let curSib;
+                    let curChild;
+                    for (let sib of ctrl.siblings) {
+                        curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
+                        for (let [attr, val] of sib) {
+                            if (attr === 'children') {
+                                for (let child of attr) {
+                                    curChild = sib.appendChild(document.createElement(child.tagName));
+                                    for (let [childAttr, childAttrVal] of child) {
+                                        if (childAttr === 'tagName') continue;
+                                        else if (childAttr === 'classList') {
+                                            for (let className of childAttr) {
+                                                child.classList.add(className);
+                                            }
+                                        } else if (childAttr === 'handler') {
+                                            for (let handler of childAttr) {
+                                                child.addEventListener(handler.event, ev => {
+                                                    return handler.fn(ev, num);
+                                                })
+                                            }
+                                        } else child.setAttribute(childAttr, childAttrVal)
+                                    }
+                                }
+                            }
+                            else sib.setAttribute(attr, val);
+                        }
+                    }
                 }
             }
         }
