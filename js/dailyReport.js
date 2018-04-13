@@ -233,6 +233,16 @@
                             event: 'change',
                             fn: renderLabelText
                         }
+                    ],
+                    children: [
+                        {
+                            tagName: 'option',
+                            innerText: 'Equipment'
+                        },
+                        {
+                            tagName: 'option',
+                            innerText: 'Labor'
+                        }
                     ]
                 },
                 {
@@ -269,10 +279,12 @@
                     name: null,
                     classList: 'form-control',
                     style: null,
-                    handlers: {
+                    handlers: [
+                        {
                         event: 'click',
                         fn: showNotesField
-                    },
+                        }
+                    ],
                     innerText: null,
                     children: [
                         {
@@ -393,7 +405,7 @@
         subGroup.appendChild(secondRow);
         
         // append divs to firstRow
-        for (let ctrl of formCtrls.firstRow) {
+        /*for (let ctrl of formCtrls.firstRow) {
             // for each one append a div.item-margin-right
             const curParent = firstRow.appendChild(document.createElement('div'));
             curParent.classList.add('item-margin-right');
@@ -476,7 +488,8 @@
                     else curCtrl.setAttribute(prop, ctrl[prop]);
                 }
             }
-        }
+        }*/
+        appendNextRow(formCtrls.firstRow, firstRow, num);
         appendNextRow(formCtrls.secondRow, secondRow, num);
         parentEl.appendChild(newGroup);
     }
@@ -506,7 +519,7 @@
                     }
                     
                     // then append form control element
-                    if (prop === 'innerText') curCtrl.innerText = ctrl[prop];
+                    else if (prop === 'innerText') curCtrl.innerText = ctrl[prop];
                     else if (prop === 'classList') {
                         if (typeof ctrl[prop] === 'object') {
                             for (let className of ctrl[prop]) {
@@ -514,12 +527,21 @@
                             }
                         } else curCtrl.classList.add(ctrl[prop]);
                     }
+                    else if (prop === 'handlers') {
+                        for (let handler of ctrl[prop]) {
+                            curCtrl.addEventListener(handler.event, ev => {
+                                handler.fn(ev, num);
+                            })
+                        }
+                    }
                     else if (prop === 'children') {
                         let curChild;
                         for (let child of ctrl.children) {
+                            console.log(child)
                             curChild = curCtrl.appendChild(document.createElement(child.tagName));
                             for (let attr in child) {
                                 if (attr === 'tagName') continue;
+                                else if (attr === 'innerText') curChild.innerText = child[attr];
                                 else if (attr === 'classList') {
                                     for (let className of child[attr]) {
                                         curChild.classList.add(className);
@@ -534,7 +556,7 @@
                             }
                         }
                     }
-                    if (prop === 'siblings') {
+                    else if (prop === 'siblings') {
                         let curSib;
                         let curChild;
                         for (let sib of ctrl.siblings) {
