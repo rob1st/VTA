@@ -496,7 +496,7 @@
         
         // add some additional classes to particular formCtrl parents
         newGroup.children[0].children[2].classList.add('flex-grow');
-        newGroup.children[1].children[0].classList.add('flex-grow');
+        newGroup.children[1].children[0].children[0].classList.add('flex-grow');
         
         parentEl.appendChild(newGroup);
     }
