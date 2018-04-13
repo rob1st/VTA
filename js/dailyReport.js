@@ -44,10 +44,9 @@
         event.preventDefault();
         return handleSubmit();
     })
-    form.addEventListener('keypress', event => {
-        event.preventDefault();
-        if (event.key === 'Enter') return handleSubmit();
-    })
+    // form.addEventListener('keypress', event => {
+    //     return handleKeypressEnter()
+    // })
     document.getElementById('addLineBtn')
         .addEventListener('click', event => {
             count++;
@@ -65,15 +64,11 @@
         });
     document.getElementById('taskInput_0')
         .addEventListener('keypress', event => {
-            return submitNewTask(event, 0);
+            return handleKeypressEnter(event, 0);
         });
     document.getElementById('hours_0')
         .addEventListener('keypress', event => {
-            event.stopPropagation();
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                return submitTaskHours(event, 0);
-            }
+            return handleKeypressEnter(event, 0);
         });
     document.getElementById('addTask_0')
         .addEventListener('click', event => {
@@ -181,14 +176,7 @@
             } else ev.target.dispatchEvent(submitEvent);
         }
     }
-    function submitNewTask(ev, num) {
-        event.stopPropagation();
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            return addTaskToList(ev, num);
-        }
-    }
-    
+
     // scripts to show/hide DOM elements
     function renderLabelText(event, num) {
         // TODO: this fcn needs to change name attr of text field
@@ -311,7 +299,7 @@
         //             handlers: [
         //                 {
         //                     event: 'keypress',
-        //                     fn: submitNewTask
+        //                     fn: handleKeypressEnter
         //                 }
         //             ],
         //             textContent: null
