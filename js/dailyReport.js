@@ -10,6 +10,34 @@
     // this counter will be used to count input lines
     let count = 0;
     
+    // The Submit handler
+    function handleSubmit() {
+        const endpoint = 'submitDaily.php';
+        const data = new FormData(form);
+        // delete all instances of taskInput
+        // append taskList details to appropriate taskList
+        for (let [i, id] of formState.taskLists) {
+            data.delete('taskInput_' + i);
+            for (let [key, obj] of id) {
+                let j = 0;
+                // flatten task list data
+                data.append('taskDescription_' + i + '_' + j, obj.textVal);
+                data.append('taskHours_' + i + '_' + j, obj.hrsVal);
+                i++;
+            }
+        }
+        // console log the result
+        const jsonData = {}
+        for (let [key, val] of data) {
+            jsonData[key] = val;
+        }
+        console.log(jsonData);
+        // window.fetch(endpoint, {
+        //     method: 'POST',
+        //     body: data
+        // })
+    }
+    
     // handlers for elements that occur only once
     form.addEventListener('keypress', event => {
         if (event.key === 'Enter') form.submit();
@@ -21,6 +49,12 @@
         });
         
     // add ev listeners on default (first) rendered line
+    document.getElementById('submit')
+        .addEventListener('click', event => {
+            event.preventDefault();
+            // considering passing formData and js obj to this as args
+            return handleSubmit();
+        })
     document.getElementById('selectEquipPersons_0')
         .addEventListener('change', event => {
             return renderLabelText(event, 0);
@@ -57,25 +91,6 @@
         .addEventListener('change', event => {
             return updateHours(event, 0);
         });
-    // The Submit handler
-    function handleSubmit() {
-        const endpoint = 'submitDaily.php';
-        const data = new FormData(form);
-        // delete all instances of taskInput
-        // append taskList details to appropriate taskList
-        for (let [index, list] of formState.taskLists) {
-            for (let [key, obj] of list) {
-                let i = 0;
-                data.append('taskDescription_' + index + '_' + i, obj.textVal);
-                data.append('taskHours_' + index + '_' + i, obj.hrsVal);
-                i++;
-            }
-        }
-        window.fetch(endpoint, {
-            method: 'POST',
-            body: data
-        })
-    }
     
     // focus handlers
     function submitTaskHours(ev, num) {
