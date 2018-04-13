@@ -185,10 +185,10 @@
     // scripts to show/hide DOM elements
     function renderLabelText(event, num) {
         // TODO: this fcn needs to change name attr of text field
-        console.log(num);
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
         if (event.target.value == 'labor') {
+            console.log(event.target.value);
             numLabel.innerText = '# of Personnel';
             descLabel.innerText = 'Description of Labor';
         } else {
@@ -237,11 +237,13 @@
                     children: [
                         {
                             tagName: 'option',
-                            innerText: 'Equipment'
+                            innerText: 'Equipment',
+                            value: 'equipment'
                         },
                         {
                             tagName: 'option',
-                            innerText: 'Labor'
+                            innerText: 'Labor',
+                            value: 'labor'
                         }
                     ]
                 },
@@ -505,13 +507,14 @@
             // then loop over ctrl keys
             curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
             for (let prop in ctrl) {
+                if (prop === 'tagName') continue;
                 // first append label
                 if (ctrl[prop]) {
                     if (prop === 'label') {
                         if (typeof ctrl[prop] === 'object') {
                             label = curCtrl.insertAdjacentElement('beforebegin', document.createElement('label'));
                             label.innerText = ctrl.label.innerText;
-                            label.id = ctrl.label.id;
+                            label.id = ctrl.label.id + '_' + num;
                         }
                         else {
                             curCtrl.insertAdjacentElement('beforebegin', document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
@@ -586,6 +589,9 @@
                                 }
                             }
                         }
+                    }
+                    else if (prop === 'id' || 'name') {
+                        curCtrl.setAttribute(prop, ctrl[prop] + '_' + num);
                     }
                     else curCtrl.setAttribute(prop, ctrl[prop]);
                 }
