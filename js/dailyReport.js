@@ -17,15 +17,20 @@
         const data = new FormData(form);
         // delete all instances of taskInput
         // append taskList details to appropriate taskList
-        for (let [i, id] of formState.taskLists) {
+        console.log('submit data:', data, formState.taskLists);
+        let i = 0;
+        for (let list of formState.taskLists) {
+            let j = 0;
+            console.log('list' + i + ':', list);
             data.delete('taskInput_' + i);
-            for (let [key, obj] of id) {
-                let j = 0;
+            for (let id in list) {
+                const listItem = list[id];
                 // flatten task list data
-                data.append('taskDescription_' + i + '_' + j, obj.textVal);
-                data.append('taskHours_' + i + '_' + j, obj.hrsVal);
-                i++;
+                data.append('taskDescription_' + i + '_' + j, listItem.textVal);
+                data.append('taskHours_' + i + '_' + j, listItem.hrsVal);
+                j++;
             }
+            i++;
         }
         // console log the result
 
@@ -36,17 +41,18 @@
 
         // for (let [key, val] of data) console.log(key + ': ' + val);
         
-        window.fetch(endpoint, {
-            method: 'POST',
-            body: data
-        }).then(res => {
-            if (res.ok) return res.text()
-        }).then(text => document.write(text))
+        // window.fetch(endpoint, {
+        //     method: 'POST',
+        //     body: data
+        // }).then(res => {
+        //     if (res.ok) return res.text()
+        // }).then(text => document.write(text))
     }
     
     // handlers for elements that occur only once
     form.addEventListener('submit', event => {
         event.preventDefault();
+        console.log('submit handler target:', event.target);
         return handleSubmit();
     })
     // form.addEventListener('keypress', event => {
@@ -115,15 +121,14 @@
         // get taskList obj from state
         const selectedOptID = ev.target.selectedOptions[0].uniqueID;
         
-        console.log(ev.target);
-        console.log(document.getElementById('hours_' + num));
+        console.log('handleTaskSelect ev.target', ev.target, 'pertinent hrs el', hrsEl);
         // select hours_ form control corresponding to num
         hrsEl.value = formState.taskLists[num][selectedOptID].hrsVal;
         hrsEl.focus();
     }
     
     function updateHours(ev, num) {
-        console.log(ev.target);
+        console.log('updateHours ev.target', ev.target);
         const curList = document.getElementById('taskList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.taskLists[num][curID].hrsVal = ev.target.value;
@@ -131,7 +136,7 @@
     }
     
     function addTaskToList(ev, num) {
-        console.log(num);
+        console.log('num of cur inputs', num);
         // IDEA: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
         // 1. check formState for existence of index @ num
