@@ -8,6 +8,7 @@
     $link = f_sqlConnect();
     // checks for redundant POSTs
     $check = "SELECT * FROM $table WHERE Description AND Location = '".$_POST['Description']."' & '".$_POST['Location']."'";
+    // what is this for if we already have username(?)
     $UserID = $_SESSION['UserID'];
     $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
     if($result=mysqli_query($link,$user)) 
@@ -33,6 +34,7 @@
       header("location: $duplicate?msg=1");
     }
     else {
+    // what does CURDATE() do(?)
     $sql = "INSERT INTO $table($keys, DateCreated, Created_by) VALUES ('$values', CURDATE(), '$Username')";
     echo '<br>sql: ' .$sql;
     //echo '<br>Num_rows: ' .$num_rows;
