@@ -41,12 +41,12 @@
 
         // for (let [key, val] of data) console.log(key + ': ' + val);
         
-        // window.fetch(endpoint, {
-        //     method: 'POST',
-        //     body: data
-        // }).then(res => {
-        //     if (res.ok) return res.text()
-        // }).then(text => document.write(text))
+        window.fetch(endpoint, {
+            method: 'POST',
+            body: data
+        }).then(res => {
+            if (res.ok) return res.text()
+        }).then(text => document.write(text))
     }
     
     // handlers for elements that occur only once
