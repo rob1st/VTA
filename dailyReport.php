@@ -14,7 +14,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
     <h1 class='page-title'>Inspector's Daily Report</h1>
 </header>
 <main class='container main-content'>
-    <form id='dailyReportForm'><!-- action='submitDaily.php' method='POST'-->
+    <form id='dailyReportForm'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
                 <div class='card-header grey-bg'>

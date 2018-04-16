@@ -6,6 +6,7 @@
     echo '<br>display full contents of the _POST: <br>';
     
     $link = f_sqlConnect();
+    // checks for redundant POSTs
     $check = "SELECT * FROM $table WHERE Description AND Location = '".$_POST['Description']."' & '".$_POST['Location']."'";
     $UserID = $_SESSION['UserID'];
     $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
