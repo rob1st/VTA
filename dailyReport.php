@@ -8,8 +8,27 @@ $curDateNum = date('Y-m-d');
 $reptNum = 0; // generate this based on db
 
 $link = f_sqlConnect();
+$userID = $_SESSION['UserID'];
+// why do this check if $_SESSION already has $Username(?)
+$user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
+if($result=mysqli_query($link,$user)) {
+  /*from the sql results, assign the username that returned to the $username variable*/    
+  while($row = mysqli_fetch_assoc($result)) {
+    $username = $row['Username'];
+  }
+}
+
 $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on L.LocationID=C.Location group by Location order by L.LocationName";
-?>
+
+$authorizedUsers = [
+    'svandevanter',
+    'avallejo',
+    'Superadmin'
+];
+
+if (!in_array($username, $authorizedUsers)) {
+    include 'unauthorized.php';
+} else echo "
 <header class='container page-header'>
     <h1 class='page-title'>Inspector's Daily Report</h1>
 </header>
@@ -17,26 +36,21 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
     <form id='dailyReportForm'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
-                <div class='card-header grey-bg'>
-                    <?php
-                        if (!$reptNum) {
-                            echo "<h6 class='text-danger'>Unable to retrieve Report Number</h6>
-                                    <p>Try refreshing the page</p>";
-                        } else echo "<h6>Report #${reptNum}</h6>";
-                    ?>
+                <div class='card-header grey-bg'>";
+                    if (!$reptNum) {
+                        echo "<h6 class='text-danger'>Unable to retrieve Report Number</h6>
+                                <p>Try refreshing the page</p>";
+                    } else echo "<h6>Report #${reptNum}</h6>";
+echo "
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Contract day</label>
-                        <?php
-                            echo "<input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' />";
-                        ?>
+                            <input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Date</label>
-                        <?php
-                            echo "<input type='text' value='{$curDateText}' id='curDate' name='curDate' class='form-control' readonly />";
-                        ?>
+                        <input type='text' value='{$curDateText}' id='curDate' name='curDate' class='form-control' readonly />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Project</label>
@@ -84,16 +98,15 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
         <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
             <div class='item-margin-right'>
                 <label class='input-label'>Location</label>
-                <select name='location' class='form-control'>
-                    <?php
-                        if ($result = mysqli_query($link, $sqlLoc)) {
-                            while ($row = mysqli_fetch_array($result)) {
-                                if (strpos($row[0], 'Berryessa') !== false OR strpos($row[0], 'Milpitas') !== false) {
-                                    echo "<option value='{$row[1]}'>{$row[0]}</option>";
-                                }
+                <select name='location' class='form-control'>";
+                    if ($result = mysqli_query($link, $sqlLoc)) {
+                        while ($row = mysqli_fetch_array($result)) {
+                            if (strpos($row[0], 'Berryessa') !== false OR strpos($row[0], 'Milpitas') !== false) {
+                                echo "<option value='{$row[1]}'>{$row[0]}</option>";
                             }
                         }
-                    ?>
+                    }
+echo "
                 </select>
             </div>
             <div class='flex item-margin-right'>
@@ -169,8 +182,7 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
         </div>
     </form>
 </main>
-<script src='js/dailyReport.js'></script>
-<?php
+<script src='js/dailyReport.js'></script>";
 MySqli_Close($link);
 include('fileend.php');
 ?>
