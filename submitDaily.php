@@ -47,34 +47,62 @@
         if ($post[$key]) {
             $idrData[$key] = $post[$key];
         }
-        else $idrData[$key] = null;
+        else $idrData[$key] = 'null';
         // destroy in $post any key found in idrCols
         unset($post[$key]);
+        // try unsetting idrID and see if query is accepted
+        unset($idrData['idrID']);
     }
     
-    $keys = array_keys($idrData);
-    $vals = array_values($idrData);
+    $keys = implode(', ', array_keys($idrData));
+    $vals = implode(', ', array_values($idrData));
     
-    if(!f_tableExists($link, $idrTable, DB_Name)) {
+    if (!f_tableExists($link, $idrTable, DB_Name)) {
     // shouldn't this be an error handler like the duplicate check above(?)
         echo 'table "'.$idrTable.'" could not be found';
     } else {
-        // $insertIdrQry = "INSERT INTO $idrTable($keys, DateCreated, Created_by) VALUES ('$values', CURDATE(), '$Username')";
-        echo "
-            <div style='display: flex; flex-flow: row nowrap;'>
-            <ol start='0'>";
-                foreach ($keys as $key) {
-                    echo "<li>$key</li>";
-                }
-        echo "
-            </ol>
-            <ol start='0'>";
-                foreach ($vals as $val) {
-                    echo "<li>$val</li>";
-                }
-        echo "
-            </ol>
-            </div>
-        ";
+        $insertIdrQry = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
     }
+    
+    // this is the line that does actually does the INSERT query
+    if (!$result = $link->query($insertIdrQry)) {
+        echo "
+            <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
+                <h1 style='width: fit-content; color: red'>Unable to create new records in db table \"{$idrTable}\"</h1>
+                <h2 style='width: fit-content; color: #c33'>$link->error</h2>
+                <h3 style='width: fit-content; color: #c33'>$insertIdrQry</h3>";
+                echoAs2OLs(
+                    explode(', ', $keys),
+                    explode(', ', $vals)
+                );
+        echo "</div>";
+    } else {
+        while ($row = $result->fetch_assoc()) {
+            $newIdrID = $row['idrID'];
+        }
+        http_response_code('201');
+        echo "New record created: $newIdrID";
+    }
+?>
+<?php
+// this is all stuff for testing
+// pls destroy before deploy
+function echoAs2OLs($arr1, $arr2) {
+    echo "
+        <div style='display: flex; flex-flow: row nowrap;'>
+        <ol start='0'>";
+            foreach ($arr1 as $key) {
+                echo "<li>$key</li>";
+            }
+    echo "
+        </ol>
+        <ol start='0'>";
+            foreach ($arr2 as $val) {
+                echo "<li>$val</li>";
+            }
+    echo "
+        </ol>
+        </div>
+    ";
+}
 ?>
