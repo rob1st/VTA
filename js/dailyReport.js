@@ -2,7 +2,7 @@
     // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
     const formState = {
         keys: [],
-        taskLists: []
+        actLists: []
     };
     
     const form = document.forms['dailyReportForm'];
@@ -15,19 +15,19 @@
     function handleSubmit() {
         const endpoint = 'submitDaily.php';
         const data = new FormData(form);
-        // delete all instances of taskInput
-        // append taskList details to appropriate taskList
-        console.log('submit data:', data, formState.taskLists);
+        // delete all instances of actInput
+        // append actList details to appropriate actList
+        console.log('submit data:', data, formState.actLists);
         let i = 0;
-        for (let list of formState.taskLists) {
+        for (let list of formState.actLists) {
             let j = 0;
             console.log('list' + i + ':', list);
-            data.delete('taskInput_' + i);
+            data.delete('actInput_' + i);
             for (let id in list) {
                 const listItem = list[id];
-                // flatten task list data
-                data.append('taskDescription_' + i + '_' + j, listItem.textVal);
-                data.append('taskHours_' + i + '_' + j, listItem.hrsVal);
+                // flatten act list data
+                data.append('actDesc_' + i + '_' + j, listItem.textVal);
+                data.append('actHrs_' + i + '_' + j, listItem.hrsVal);
                 j++;
             }
             i++;
@@ -73,7 +73,7 @@
         .addEventListener('click', event => {
             return showNotesField(event, 0);
         });
-    document.getElementById('taskInput_0')
+    document.getElementById('actInput_0')
         .addEventListener('keypress', event => {
             return handleKeypressEnter(event, 0);
         });
@@ -81,14 +81,14 @@
         .addEventListener('keypress', event => {
             return handleKeypressEnter(event, 0);
         });
-    document.getElementById('addTask_0')
+    document.getElementById('addAct_0')
         .addEventListener('click', event => {
-            return addTaskToList(event, 0);
+            return addActToList(event, 0);
         });
     // I may need more handlers to handle all the cases of selecting an option
-    document.getElementById('taskList_0')
+    document.getElementById('actList_0')
         .addEventListener('input', event => {
-            return handleTaskSelect(event, 0);
+            return handleActSelect(event, 0);
         });
     document.getElementById('hours_0')
         .addEventListener('change', event => {
@@ -96,14 +96,14 @@
         });
     
     // focus handlers
-    function submitTaskHours(ev, num) {
-        const curList = document.getElementById('taskList_'+ num);
+    function submitActHrs(ev, num) {
+        const curList = document.getElementById('actList_'+ num);
         const curHrs = document.getElementById('hours_' + num);
         if (!curList.value.length) {
             curHrs.value = '';
             return;
         } else {
-            const curInput = document.getElementById('taskInput_' + num);
+            const curInput = document.getElementById('actInput_' + num);
             const curID = curList.selectedOptions[0].uniqueID;
     
             updateHours(ev, num);
@@ -116,54 +116,54 @@
     }
         
     // handlers that get/set json data
-    function handleTaskSelect(ev, num) {
+    function handleActSelect(ev, num) {
         const hrsEl = document.getElementById('hours_' + num);
-        // get taskList obj from state
+        // get actList obj from state
         const selectedOptID = ev.target.selectedOptions[0].uniqueID;
         
-        console.log('handleTaskSelect ev.target', ev.target, 'pertinent hrs el', hrsEl);
+        console.log('handleActSelect ev.target', ev.target, 'pertinent hrs el', hrsEl);
         // select hours_ form control corresponding to num
-        hrsEl.value = formState.taskLists[num][selectedOptID].hrsVal;
+        hrsEl.value = formState.actLists[num][selectedOptID].hrsVal;
         hrsEl.focus();
     }
     
     function updateHours(ev, num) {
         console.log('updateHours ev.target', ev.target);
-        const curList = document.getElementById('taskList_' + num);
+        const curList = document.getElementById('actList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
-        formState.taskLists[num][curID].hrsVal = ev.target.value;
-        console.log(formState.taskLists[num][curID]);
+        formState.actLists[num][curID].hrsVal = ev.target.value;
+        console.log(formState.actLists[num][curID]);
     }
     
-    function addTaskToList(ev, num) {
+    function addActToList(ev, num) {
         console.log('num of cur inputs', num);
         // IDEA: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
         // 1. check formState for existence of index @ num
         // 2. if it doesn't exist, push a new empty obj
         // 3. then assign it
-        if (!formState.taskLists[num]) formState.taskLists.push({});
-        let taskList = formState.taskLists[num];
+        if (!formState.actLists[num]) formState.actLists.push({});
+        let actList = formState.actLists[num];
         
-        const curInput = document.getElementById('taskInput_' + num);
+        const curInput = document.getElementById('actInput_' + num);
         const newItemText = curInput.value.trim();
         curInput.value = '';
-        // if text content in task description input instantiate new taskList @ new uniqueID
+        // if text content in act description input instantiate new actList @ new uniqueID
         if (newItemText) {
             const curKey = newUniqueID(formState.keys);
-            const curList = document.getElementById('taskList_' + num);
+            const curList = document.getElementById('actList_' + num);
             const curHrs = document.getElementById('hours_' + num);
             
-            taskList[curKey] = {
+            actList[curKey] = {
                 textVal: newItemText,
                 hrsVal: null,
                 domEl: document.createElement('option')
             };
-            taskList[curKey].domEl.innerText = newItemText;
-            taskList[curKey].domEl.uniqueID = curKey;
+            actList[curKey].domEl.innerText = newItemText;
+            actList[curKey].domEl.uniqueID = curKey;
 
             // append new option to select element and select it
-            curList.appendChild(taskList[curKey].domEl);
+            curList.appendChild(actList[curKey].domEl);
             curList.value = newItemText;
             
             curHrs.focus();
@@ -178,11 +178,11 @@
         ev.stopPropagation();
         if (ev.key === 'Enter') {
             ev.preventDefault();
-            if (ev.target.id.includes('taskInput_')) {
-                return addTaskToList(ev, num);
+            if (ev.target.id.includes('actInput_')) {
+                return addActToList(ev, num);
             }
             else if (ev.target.id.includes('hours_')) {
-                return submitTaskHours(ev, num);
+                return submitActHrs(ev, num);
             } else ev.target.dispatchEvent(submitEvent);
         }
     }
@@ -214,17 +214,7 @@
     // scripts to add/remove DOM elements
     function addNewLine(event, num) {
         const parentEl = document.getElementById('workInputList');
-        // generic components
 
-        // const labels = {
-        //     firstRowLabels: ['Equip/Labor', 'Equip No.', 'Description of equipment', 'Notes'],
-        //     secondRowLabels: ['Description of task/activity', 'Add task', 'Task/activity', 'Hours']
-        // };
-        // const formCtrls = {
-        //     firstRowElements: ['select', 'input[number]', 'input[text]', 'button'],
-        //     secondRowElements: ['input[text]', 'button', 'select', 'input[number]']
-        // };
-        
         const formCtrls = {
             firstRow: [
                 {
@@ -325,7 +315,7 @@
                     tagName: 'input',
                     label: 'Description of task/activity',
                     type: 'text',
-                    id: 'taskInput',
+                    id: 'actInput',
                     name: null,
                     classList: ['form-control', 'full-width'],
                     style: null,
@@ -341,14 +331,14 @@
                     tagName: 'button',
                     label: 'Add Task',
                     type: 'button',
-                    id: 'addTask',
+                    id: 'addAct',
                     name: null,
                     classList: ['btn', 'btn-success', 'block'],
                     style: null,
                     handlers: [
                         {
                             event: 'click',
-                            fn: addTaskToList
+                            fn: addActToList
                         }
                     ],
                     innerText: 'Add',
@@ -363,14 +353,14 @@
                     tagName: 'select',
                     label: 'Task/activity',
                     type: null,
-                    id: 'taskList',
+                    id: 'actList',
                     name: null,
                     classList: ['form-control', 'full-width'],
                     style: null,
                     handlers: [
                         {
                             event: 'input',
-                            fn: handleTaskSelect
+                            fn: handleActSelect
                         }
                     ],
                     innerText: null
@@ -380,7 +370,7 @@
                     label: 'Hours',
                     type: 'number',
                     id: 'hours',
-                    name: 'hours',
+                    name: 'actHrs',
                     classList: ['form-control', 'full-width'],
                     style: null,
                     handlers: [
@@ -609,169 +599,7 @@
             }
         }
     }
-        // for (let i = 0; i < formCtrls.firstRowElements.length; i++) {
-        //     firstRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
-        // // append form control elements to each div
-        //     curLabel = firstRow.children[i]
-        //         .appendChild(document.createElement('label'));
-        //     curLabel.classList.add('input-label');
-        //     curLabel.innerText = labels.firstRowLabels[i];
-            
-        //     labels.firstRowLabels[i] = curLabel;
-            
-        //     curStr = formCtrls.firstRowElements[i];
-        //     if (curStr.startsWith('input')) {
-        //         curCtrl = firstRow
-        //             .children[i]
-        //             .appendChild(
-        //                 document
-        //                     .createElement(curStr.slice(0, curStr.indexOf('['))
-        //                 )
-        //             );
-        //         curCtrl.setAttribute(
-        //             'type',
-        //             curStr
-        //                 .slice(
-        //                     curStr
-        //                     .indexOf('[') + 1, curStr.indexOf(']'))
-        //             );
-        //     } else {
-        //         curCtrl = firstRow
-        //             .children[i]
-        //             .appendChild(
-        //                 document.createElement(curStr)
-        //             )
-        //         if (curStr === 'button') curCtrl.setAttribute('type', 'button');
-        //     }
-        //     curCtrl.classList.add('form-control')
-        //     formCtrls.firstRowElements[i] = curCtrl;
-        // }
-        // // add some additional attrs to children of firstRow
-        // firstRow.children[2].classList.add('flex-grow');
-        // firstRow.children[3].style.position = 'relative';
 
-        // // manipulate new <select> element
-        // curCtrl = formCtrls.firstRowElements[0];
-        // curCtrl.id = 'selectEquipPersons_' + num;
-        // curCtrl.name = 'selectEquipPersons_' + num;
-        // curCtrl.addEventListener('change', ev => {
-        //     return renderLabelText(ev, num);
-        // })
-        
-        // curCtrl.appendChild(document.createElement('option'));
-        // curCtrl.children[0].setAttribute('value', 'equipment');
-        // curCtrl.children[0].innerText = 'Equipment';
-        
-        // curCtrl.appendChild(document.createElement('option'));
-        // curCtrl.children[1].setAttribute('value', 'labor');
-        // curCtrl.children[1].innerText = 'Labor';
-        
-        // // manipulate new input[number] element
-        // labels.firstRowLabels[1].id = 'labelNumEquipLabor_' + num;
-        // labels.firstRowLabels[1].name = 'labelNumEquipLabor_' + num;
-        // formCtrls.firstRowElements[1].style.maxWidth = '110px';
-        
-        // // manipulate new description input
-        // labels.firstRowLabels[2].id = 'labelDescEquipLabor_' + num;
-        // labels.firstRowLabels[2].name = 'labelDescEquipLabor_' + num;
-        // formCtrls.firstRowElements[2].classList.add('full-width');
-        
-        // // manipulate new notes button
-        // curCtrl = formCtrls.firstRowElements[3];
-        // curCtrl.id = 'showNotes_' + num;
-        // curCtrl.name = 'showNotes_' + num;
-        // curCtrl
-        //     .appendChild(document.createElement('i'))
-        //     .classList.add('typcn', 'typcn-document-text');
-        // curCtrl.addEventListener('click', ev => {
-        //     return showNotesField(ev, num);
-        // });
-        
-        // curCtrl = curCtrl
-        //     .insertAdjacentElement('afterend', document.createElement('aside'));
-        // curCtrl.id = 'notesField_' + num;
-        // curCtrl.name = 'notesField_' + num;
-        // curCtrl
-        //     .setAttribute(
-        //         'style',
-        //         'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;'
-        //     );
-            
-        // curCtrl = curCtrl.appendChild(document.createElement('textarea'));
-        // curCtrl.classList.add('form-control');
-        // curCtrl.setAttribute('rows', '5');
-        // curCtrl.setAttribute('cols', '30');
-        // curCtrl.setAttribute('maxlength', '125');
-        
-        // // build secondRow
-        // for (let i = 0; i < formCtrls.secondRowElements.length; i++) {
-        //     secondRow.appendChild(document.createElement('div')).classList.add('item-margin-right');
-        // // append form control elements to each div
-        //     curLabel = secondRow.children[i].appendChild(document.createElement('label'));
-        //     curLabel.classList.add('input-label')
-        //     curLabel.innerText = labels.secondRowLabels[i];
-            
-        //     labels.secondRowLabels[i] = curLabel;
-            
-        //     curStr = formCtrls.secondRowElements[i];
-        //     if (curStr.startsWith('input')) {
-        //         curCtrl = secondRow
-        //             .children[i]
-        //             .appendChild(
-        //                 document
-        //                     .createElement(curStr.slice(0, curStr.indexOf('[')))
-        //             )
-        //         curCtrl.setAttribute(
-        //             'type',
-        //             curStr
-        //                 .slice(
-        //                     curStr
-        //                     .indexOf('[') + 1, curStr.indexOf(']'))
-        //             );
-        //     } else {
-        //         curCtrl = secondRow
-        //             .children[i]
-        //             .appendChild(document.createElement(curStr));
-        //         if (curStr === 'button') curCtrl.setAttribute('type', 'button');
-        //     }
-        //     curCtrl.classList.add('form-control')
-        //     formCtrls.secondRowElements[i] = curCtrl;
-        // }
-        // // add additional attributes to secondRow children
-        // secondRow.children[0].classList.add('flex-grow');
-        // secondRow.children[2].style.minWidth = '150px';
-        // secondRow.children[3].style.maxWidth = '100px';
-        
-        // // manipulate new task description input
-        // formCtrls.secondRowElements[0].id = 'taskInput_' + num;
-        // formCtrls.secondRowElements[0].name = 'taskInput_' + num;
-        // formCtrls.secondRowElements[0].classList.add('full-width');
-        
-        // // manipulate new addTask button
-        // curCtrl = formCtrls.secondRowElements[1];
-        // curCtrl.innerText = 'Add';
-        // curCtrl
-        //     .appendChild(document.createElement('i'))
-        //     .classList.add('typcn', 'typcn-chevron-right-outline');
-        // curCtrl.id = 'addTask_' + num;
-        // curCtrl.num = 'addTask_' + num;
-        // curCtrl.classList.remove('form-control');
-        // curCtrl.classList.add('btn', 'btn-success', 'block');
-        // curCtrl.addEventListener('click', ev => {
-        //   return addTaskToList(ev, num); 
-        // });
-        
-        // // maniuplate new task select list
-        // formCtrls.secondRowElements[2].id = 'taskList_' + num;
-        // formCtrls.secondRowElements[2].name = 'taskList_' + num;
-        // formCtrls.secondRowElements[2].classList.add('full-width');
-        
-        // // manipulate new task hours input
-        // formCtrls.secondRowElements[3].classList.add('full-width');
-        // formCtrls.secondRowElements[3].id = 'hours_' + num;
-        // formCtrls.secondRowElements[3].name = 'hours_' + num;
-
-    
     function destroyLine(num) {
         // when user destroys line, also destory corresponding formState obj
         console.log(num);

@@ -55,7 +55,7 @@ if (!in_array($username, $authorizedUsers)) {
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Project</label>
-                        <input type='text' id='projectId' name='project' class='form-control' />
+                        <input type='text' value='SVBX' id='projectId' name='project' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Weather</label>
@@ -111,7 +111,7 @@ echo "
                 </select>
             </div>
             <div class='flex item-margin-right'>
-                <label class='input-label'>Description of Operation</label>
+                <label class='input-label'>Name of operation or discipline</label>
                 <input type='text' name='opDesc' class='form-control full-width' />
             </div>
         </div>
@@ -158,20 +158,20 @@ echo "
                     <div class='flex-row item-margin-bottom'>
                         <div class='flex-grow item-margin-right'>
                             <label class='input-label'>Description of task/activity</label>
-                            <input id='taskInput_0' type='text' class='form-control full-width' />
+                            <input id='actInput_0' type='text' class='form-control full-width' />
                         </div>
                         <div class='item-margin-right'>
                             <label class='input-label'>Add Task</label>
-                            <button type='button' id='addTask_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                            <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
                         </div>
                         <div class='item-margin-right' style='min-width:150px'>
                             <label class='input-label'>Task/activity</label>
-                            <select id='taskList_0' name='taskList_0' class='form-control full-width'>
+                            <select id='actList_0' name='actList_0' class='form-control full-width'>
                             </select>
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
                             <label class='input-label'>Hours</label>
-                            <input type='number' id='hours_0' name='hours_0' class='form-control full-width' />
+                            <input type='number' id='hours_0' name='actHrs_0' class='form-control full-width' />
                         </div>
                     </div>
                 </div>
