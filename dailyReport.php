@@ -119,19 +119,21 @@ echo "
             <div id='workInputGroup_0' class='form-subsection item-border-bottom item-margin-bottom'>
                 <div class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
-                        <label class='input-label'>Equip/Labor</label>
-                        <select id='selectEquipPersons_0' name='equipOrPersons_0' class='form-control'>
-                            <option value='equipment' selected>Equipment</option>
-                            <option value='labor'>Labor</option>
+                        <label class='input-label'>Equip/Labor</label>";
+                // the value of this ctrl will determine whether data goes to equip or labor table
+echo "
+                        <select id='selectEquipLabor_0' name='equipOrLabor_0' class='form-control'>
+                            <option value='labor' selected>Labor</option>
+                            <option value='equipment'>Equipment</option>
                         </select>
                     </div>
                     <div class='item-margin-right'>
-                        <label class='input-label' id='labelNumEquipLabor_0'>Equipment No.</label>
-                        <input type='number' name='numEquip_0' class='form-control' style='max-width:110px' />
+                        <label class='input-label' id='labelNumEquipLabor_0'># of Personnel</label>
+                        <input type='number' id='equipOrLaborNum_0' name='laborNum_0' class='form-control' style='max-width:110px' />
                     </div>
                     <div class='item-margin-right flex-grow'>
-                        <label class='input-label' id='labelDescEquipLabor_0'>Description of Equipment</label>
-                        <input type='text' name='equipDesc_0' class='form-control full-width' />
+                        <label class='input-label' id='labelDescEquipLabor_0'>Description of labor</label>
+                        <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' />
                     </div>
                     <div class='item-margin-right' style='position:relative'>
                         <label class='input-label'>Notes</label>

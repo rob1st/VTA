@@ -65,7 +65,7 @@
         });
         
     // add ev listeners on default (first) rendered line
-    document.getElementById('selectEquipPersons_0')
+    document.getElementById('selectEquipLabor_0')
         .addEventListener('change', event => {
             return renderLabelText(event, 0);
         });
@@ -192,6 +192,8 @@
         // TODO: this fcn needs to change name attr of text field
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
+        const numInput = document.getElementById('equipOrLaborNum_' + num);
+        const descInput = document.getElementById('equipOrLaborDesc_' + num);
         if (event.target.value == 'labor') {
             console.log(event.target.value);
             numLabel.innerText = '# of Personnel';
@@ -229,8 +231,8 @@
                     tagName: 'select',
                     label: 'Equip/Labor',
                     type: null,
-                    id: 'selectEquipPersons',
-                    name: 'equipOrPersons',
+                    id: 'selectEquipLabor',
+                    name: 'equipOrLabor',
                     classList: 'form-control',
                     style: null,
                     handlers: [
@@ -242,25 +244,25 @@
                     children: [
                         {
                             tagName: 'option',
-                            innerText: 'Equipment',
-                            value: 'equipment'
+                            innerText: 'Labor',
+                            value: 'labor'
                         },
                         {
                             tagName: 'option',
-                            innerText: 'Labor',
-                            value: 'labor'
+                            innerText: 'Equipment',
+                            value: 'equipment'
                         }
                     ]
                 },
                 {
                     tagName: 'input',
                     label: {
-                        innerText: 'Equip No.',
+                        innerText: '# of Personnel',
                         id: 'labelNumEquipLabor'
                     },
                     type: 'number',
-                    id: null,
-                    name: 'numEquipOrPersons',
+                    id: 'equipOrLaborDesc',
+                    name: 'laborNum',
                     classList: 'form-control',
                     style: 'max-width: 110px',
                     handlers: null
@@ -268,12 +270,12 @@
                 {
                     tagName: 'input',
                     label: {
-                        innerText: 'Description of equipment',
+                        innerText: 'Description of labor',
                         id: 'labelDescEquipLabor'
                     },
                     type: 'text',
-                    id: null,
-                    name: 'equipDesc',
+                    id: 'equipOrLaborDesc',
+                    name: 'laborDesc',
                     classList: ['form-control', 'full-width'],
                     style: null,
                     handlers: null
