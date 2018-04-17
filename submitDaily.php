@@ -48,16 +48,33 @@
             $idrData[$key] = $post[$key];
         }
         else $idrData[$key] = null;
+        // destroy in $post any key found in idrCols
+        unset($post[$key]);
     }
     
-    $keys = implode(", ", (array_keys($idrData)));
-    $vals = implode("', '", (array_values($idrData)));
+    $keys = array_keys($idrData);
+    $vals = array_values($idrData);
     
     if(!f_tableExists($link, $idrTable, DB_Name)) {
     // shouldn't this be an error handler like the duplicate check above(?)
         echo 'table "'.$idrTable.'" could not be found';
     } else {
         // $insertIdrQry = "INSERT INTO $idrTable($keys, DateCreated, Created_by) VALUES ('$values', CURDATE(), '$Username')";
-        echo "<p>$keys</p><p>$vals</p>";
+        echo "
+            <div style='display: flex; flex-flow: row nowrap;'>
+            <ol start='0'>";
+                foreach ($keys as $key) {
+                    echo "<li>$key</li>";
+                }
+        echo "
+            </ol>
+            <ol start='0'>";
+                foreach ($vals as $val) {
+                    echo "<li>$val</li>";
+                }
+        echo "
+            </ol>
+            </div>
+        ";
     }
 ?>
