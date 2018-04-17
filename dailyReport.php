@@ -9,12 +9,13 @@ $reptNum = 0; // generate this based on db
 
 $link = f_sqlConnect();
 $userID = $_SESSION['UserID'];
+$username = $_SESSION['Username'];
 // why do this check if $_SESSION already has $Username(?)
-$user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
-if($result=mysqli_query($link,$user)) {
+$userQry = 'SELECT firstname, lastname FROM users_enc WHERE UserID = '.$UserID;
+if($result=mysqli_query($link,$userQry)) {
   /*from the sql results, assign the username that returned to the $username variable*/    
   while($row = mysqli_fetch_assoc($result)) {
-    $username = $row['Username'];
+    $userFullName = "{$row['firstname']} {$row['lastname']}";
   }
 }
 
@@ -23,11 +24,11 @@ $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on
 $authorizedUsers = [
     'svandevanter',
     'avallejo',
-    'Superadmin'
+    'superadmin'
 ];
 
 if (!in_array($username, $authorizedUsers)) {
-    include 'unauthorized.php';
+    include 'unauthorised.php';
 } else echo "
 <header class='container page-header'>
     <h1 class='page-title'>Inspector's Daily Report</h1>
@@ -36,33 +37,33 @@ if (!in_array($username, $authorizedUsers)) {
     <form id='dailyReportForm'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
-                <div class='card-header grey-bg'>";
-                    if (!$reptNum) {
-                        echo "<h6 class='text-danger'>Unable to retrieve Report Number</h6>
-                                <p>Try refreshing the page</p>";
-                    } else echo "<h6>Report #${reptNum}</h6>";
-echo "
+                <div class='card-header grey-bg'>
+                    <h6 class='flex-row space-between'>
+                        <span class='item-margin-right'>Inspector Name</span>
+                        <span>{$userFullName}</span>
+                    </h6>
+                    <input type='hidden' name='inspectorID' value='{$userID}' />
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Contract day</label>
-                            <input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' />
+                        <input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Date</label>
-                        <input type='text' value='{$curDateText}' id='curDate' name='curDate' class='form-control' readonly />
+                        <input type='date' value='{$curDateNum}' id='curDate' name='idrDate' class='form-control' readonly />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Project</label>
-                        <input type='text' id='projectId' name='projectId' class='form-control' />
+                        <input type='text' id='projectId' name='project' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Weather</label>
-                        <input type='text' id='weatherDescrip' name='weatherDescrip' class='form-control' />
+                        <input type='text' id='weatherDescrip' name='weather' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Shift Hrs</label>
-                        <input type='text' id='shiftHrs' name='shiftHrs' class='form-control' />
+                        <input type='text' id='shiftHrs' name='shift' class='form-control' />
                     </div>
                 </div>
             </fieldset>
@@ -73,7 +74,7 @@ echo "
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>EIC</label>
-                        <input type='text' id='eic' name='eic' class='form-control' />
+                        <input type='text' id='eic' name='EIC' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>Watchman</label>
@@ -98,7 +99,7 @@ echo "
         <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
             <div class='item-margin-right'>
                 <label class='input-label'>Location</label>
-                <select name='location' class='form-control'>";
+                <select name='locationID' class='form-control'>";
                     if ($result = mysqli_query($link, $sqlLoc)) {
                         while ($row = mysqli_fetch_array($result)) {
                             if (strpos($row[0], 'Berryessa') !== false OR strpos($row[0], 'Milpitas') !== false) {

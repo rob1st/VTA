@@ -35,6 +35,7 @@
     }
     else {
     // what does CURDATE() do(?)
+    // this here is the part that does the work of storing new vals in db
     $sql = "INSERT INTO $table($keys, DateCreated, Created_by) VALUES ('$values', CURDATE(), '$Username')";
     echo '<br>sql: ' .$sql;
     //echo '<br>Num_rows: ' .$num_rows;
