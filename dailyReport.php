@@ -34,6 +34,7 @@ if (!in_array($username, $authorizedUsers)) {
     <h1 class='page-title'>Inspector's Daily Report</h1>
 </header>
 <main class='container main-content'>
+    <h6><span class='text-danger'>*</span><span> = required</span></h6>
     <form id='dailyReportForm'>
         <div class='flex-row space-between align-stretch item-margin-bottom'>
             <fieldset id='dayData' class='card half-container'>
@@ -46,24 +47,24 @@ if (!in_array($username, $authorizedUsers)) {
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                        <label class='input-label item-margin-right'>Contract day</label>
-                        <input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' />
+                        <label class='input-label item-margin-right'>Contract day<span class='text-danger'>*</span></label>
+                        <input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' required />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Date</label>
                         <input type='date' value='{$curDateNum}' id='curDate' name='idrDate' class='form-control' readonly />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                        <label class='input-label item-margin-right'>Project</label>
-                        <input type='text' value='SVBX' id='projectId' name='project' class='form-control' />
+                        <label class='input-label item-margin-right'>Project<span class='text-danger'>*</span></label>
+                        <input type='text' value='SVBX' id='projectId' name='project' class='form-control' required />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                        <label class='input-label item-margin-right'>Weather</label>
-                        <input type='text' id='weatherDescrip' name='weather' class='form-control' />
+                        <label class='input-label item-margin-right'>Weather<span class='text-danger'>*</span></label>
+                        <input type='text' id='weatherDescrip' name='weather' class='form-control' required />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                        <label class='input-label item-margin-right'>Shift Hrs</label>
-                        <input type='text' id='shiftHrs' name='shift' class='form-control' />
+                        <label class='input-label item-margin-right'>Shift Hrs<span class='text-danger'>*</span></label>
+                        <input type='text' id='shiftHrs' name='shift' class='form-control' required />
                     </div>
                 </div>
             </fieldset>
@@ -98,42 +99,40 @@ if (!in_array($username, $authorizedUsers)) {
         
         <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
             <div class='item-margin-right'>
-                <label class='input-label'>Location</label>
-                <select name='locationID' class='form-control'>";
+                <label class='input-label'>Location<span class='text-danger'>*</span></label>
+                <select name='locationID' class='form-control' required>";
                     if ($result = mysqli_query($link, $sqlLoc)) {
                         while ($row = mysqli_fetch_array($result)) {
-                            if (strpos($row[0], 'Berryessa') !== false OR strpos($row[0], 'Milpitas') !== false) {
-                                echo "<option value='{$row[1]}'>{$row[0]}</option>";
-                            }
+                            echo "<option value='{$row[1]}'>{$row[0]}</option>";
                         }
                     }
 echo "
                 </select>
             </div>
             <div class='flex item-margin-right'>
-                <label class='input-label'>Name of operation or discipline</label>
-                <input type='text' name='opDesc' class='form-control full-width' />
+                <label class='input-label'>Name of operation or discipline<span class='text-danger'>*</span></label>
+                <input type='text' name='opDesc' class='form-control full-width' required />
             </div>
         </div>
         <div id='workInputList'>
             <div id='workInputGroup_0' class='form-subsection item-border-bottom item-margin-bottom'>
                 <div class='flex-row item-margin-bottom'>
                     <div class='item-margin-right'>
-                        <label class='input-label'>Equip/Labor</label>";
+                        <label class='input-label'>Equip/Labor<span class='text-danger'>*</span></label>";
                 // the value of this ctrl will determine whether data goes to equip or labor table
 echo "
-                        <select id='selectEquipLabor_0' name='equipOrLabor_0' class='form-control'>
+                        <select id='selectEquipLabor_0' name='equipOrLabor_0' class='form-control' required>
                             <option value='labor' selected>Labor</option>
                             <option value='equipment'>Equipment</option>
                         </select>
                     </div>
                     <div class='item-margin-right'>
-                        <label class='input-label' id='labelNumEquipLabor_0'># of Personnel</label>
-                        <input type='number' id='equipOrLaborNum_0' name='laborNum_0' class='form-control' style='max-width:110px' />
+                        <label class='input-label' id='labelNumEquipLabor_0'># of Personnel<span class='text-danger'>*</span></label>
+                        <input type='number' id='equipOrLaborNum_0' name='laborNum_0' class='form-control' style='max-width:110px' required />
                     </div>
                     <div class='item-margin-right flex-grow'>
-                        <label class='input-label' id='labelDescEquipLabor_0'>Description of labor</label>
-                        <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' />
+                        <label class='input-label' id='labelDescEquipLabor_0'>Description of labor<span class='text-danger'>*</span></label>
+                        <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' required />
                     </div>
                     <div class='item-margin-right' style='position:relative'>
                         <label class='input-label'>Notes</label>
@@ -171,7 +170,7 @@ echo "
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
                             <label class='input-label'>Hours</label>
-                            <input type='number' id='hours_0' name='actHrs_0' class='form-control full-width' />
+                            <input type='number' id='hours_0' class='form-control full-width' />
                         </div>
                     </div>
                 </div>

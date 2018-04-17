@@ -1,7 +1,16 @@
 <?php
     include('SQLFunctions.php');
     session_start();
-    $idrTable = IDR;
+    
+    $post = $_POST;
+    $idrTable = 'IDR';
+        $idrEquipLink = 'idrEquip_link';
+    $equipTable = 'equipment';
+        $idrLaborLink = 'idrLabor_link';
+    $laborTable = 'labor';
+        $equipActLink = 'equipAct_link';
+        $laborActLink = 'laborAct_link';
+    $actTable = 'activity';
     $link = f_sqlConnect();
     
     $numRe = '/\d$/';
@@ -29,31 +38,26 @@
     }
     
     // if no dupe, handle POST data
-    $idrKeys = [
-        'inspectorID', 'contractDay', 'idrDate', 'project', 'weather', 'shift', 'EIC', 'watchman', 'rapNum', 'sswpNum', 'tcpNum', 'locationID', 'opDesc'
-    ];
-    // iterate over $_POST numbered keys and place them in equip or labor
-    foreach ($_POST as $key => $val) {
-        if (preg_match($numRe, $key)) {
-        // if key has a number in it, it belongs to equip, labor, or activity
-            if (strpos('equip', $key)) {
-                $equipKeys .= $key;
-                $equipVals .= $val;
-            } elseif (strpos('labor', $key)) {
-                
-            }
+    // first, qry IDR column names, store them as keys of an array
+    $idrColQry = 'SHOW COLUMNS FROM '.$idrTable;
+    $idrCols = $link->query($idrColQry);
+    
+    while($row = $idrCols->fetch_assoc()){
+        $key = $row['Field'];
+        if ($post[$key]) {
+            $idrData[$key] = $post[$key];
         }
+        else $idrData[$key] = null;
     }
     
-    $keys = implode(", ", (array_keys($_POST)));
-    $values = implode("', '", (array_values($_POST)));
-    $json = json_encode($_POST);
+    $keys = implode(", ", (array_keys($idrData)));
+    $vals = implode("', '", (array_values($idrData)));
     
     if(!f_tableExists($link, $idrTable, DB_Name)) {
     // shouldn't this be an error handler like the duplicate check above(?)
         echo 'table "'.$idrTable.'" could not be found';
     } else {
-        $insertIdrQry = "INSERT INTO $idrTable($keys, DateCreated, Created_by) VALUES ('$values', CURDATE(), '$Username')";
-        echo var_dump($_POST);
+        // $insertIdrQry = "INSERT INTO $idrTable($keys, DateCreated, Created_by) VALUES ('$values', CURDATE(), '$Username')";
+        echo "<p>$keys</p><p>$vals</p>";
     }
 ?>
