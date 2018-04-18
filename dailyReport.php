@@ -43,7 +43,7 @@ if (!in_array($username, $authorizedUsers)) {
                         <span class='item-margin-right'>Inspector Name</span>
                         <span>{$userFullName}</span>
                     </h6>
-                    <input type='hidden' name='inspectorID' value='{$userID}' />
+                    <input type='hidden' name='userID' value='{$userID}' />
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>

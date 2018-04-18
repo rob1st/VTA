@@ -26,9 +26,12 @@
     }
 
     // check for existing submission
-    $check = "SELECT * FROM $idrTable WHERE idrDate AND inspectorID = '{$_POST['idrDate']}' & '{$_POST['inspectorID']}'";
-    if($link->query($check)->num_rows) {
-        echo "<h1 style='padding: 1rem; background-color: #3030369; text-align: center; color: #dc1; font-family: monospace;'>Duplicate record found</h1>";
+    $check = "SELECT * FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (userID={$_POST['userID']})";
+    $result = mysqli_query($link, $check);
+    
+    // currently this dupe checking doesn't work and I can't figure out why
+    if (mysqli_num_rows($result) > 0) {
+        echo "<h1 style='padding: 1rem; background-color: #30303699; text-align: center; color: #ed1; font-family: monospace;'>Duplicate record found</h1>";
     } else {
         // if no dupe, handle POST data
         // first, qry IDR column names, store them as keys of an array
@@ -68,7 +71,7 @@
                 <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
                     <h3>$code</h3>
                     <h1>New record created</h1>
-                    <h3>$result</h3>
+                    <h3>{$link->insert_id}</h3>
                 </div>";
         } else {
             http_response_code(500);
@@ -81,6 +84,11 @@
                 </div>";
         }
     }
+    $typeOfUserID = gettype($_POST['userID']);
+    $typeOfIdrDate = gettype($_POST['idrDate']);
+    echo "
+        <h3>{$_POST['userID']} {$typeOfUserID}</h3>
+        <h3>{$_POST['idrDate']} {$typeOfIdrDate}</h3>";
 ?>
 <?php
 // this is all stuff for testing
