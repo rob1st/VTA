@@ -29,25 +29,23 @@
     $check = "SELECT * FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (userID={$_POST['userID']})";
     $result = mysqli_query($link, $check);
     
-    // currently this dupe checking doesn't work and I can't figure out why
     if (mysqli_num_rows($result) > 0) {
         echo "<h1 style='padding: 1rem; background-color: #30303699; text-align: center; color: #ed1; font-family: monospace;'>Duplicate record found</h1>";
     } else {
         // if no dupe, handle POST data
         // first, qry IDR column names, store them as keys of an array
-        $idrColQry = 'SHOW COLUMNS FROM '.$idrTable;
-        $idrCols = $link->query($idrColQry);
+        $query = 'SHOW COLUMNS FROM '.$idrTable;
+        $result = $link->query($query);
         
-        while($row = $idrCols->fetch_assoc()){
+        while($row = $result->fetch_assoc()){
             $key = $row['Field'];
             if ($post[$key]) {
                 $idrData[$key] = $post[$key];
             }
-            else $idrData[$key] = 'null';
-            // destroy in $post any key found in idrCols
+            // destroy in idrData any key=>val pair not in result
+            else unset($idrData[$key]);
+            // destroy in $post any key found in result
             unset($post[$key]);
-            // try unsetting idrID and see if query is accepted
-            unset($idrData['idrID']);
         }
     
         $keys = implode(", ", array_keys($idrData));
@@ -60,19 +58,46 @@
             echo 'table "'.$idrTable.'" could not be found';
         } else {
         // create INSERT query
-            $insertIdrQry = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
+            $query = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
         }
     
         // this is the block that does actually does the INSERT query
-        if ($result = $link->query($insertIdrQry)) {
+        if ($result = $link->query($query)) {
             http_response_code(201);
             $code = http_response_code();
+            $newIdrID = $link->insert_id;
             echo "
                 <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
                     <h3>$code</h3>
                     <h1>New record created</h1>
-                    <h3>{$link->insert_id}</h3>
-                </div>";
+                    <h3>{$link->insert_id}</h3>";
+                    echoAs2OLs(array_keys($post), array_values($post));
+            echo "</div>";
+            // grab new ID and attach it to equip, labor, activity data
+            $laborData = [];
+            $equipData = [];
+            foreach ($post as $key => $val) {
+                if (strpos($key, 'labor') || strpos($key, 'equip')) {
+                    $num = intval(substr($key, strpos($key, '_') + 1));
+                    if (strpos($key, 'labor')) {
+                        // assign 'labor' vals to 'labor' keys @ num
+                        $labKey = substr($key, 0, strpos('_'));
+                        $laborData[$num][$labKey] = $val;
+                        $laborData[$num]['idrID'] = $newIdrID;
+                    } else {
+                        // assign 'equip' vals to 'equip' keys @ num
+                        $eqKey = substr($key, 0, strpos('_'));
+                        $equipData[$num][$labKey] = $val;
+                        $equipData[$num]['idrID'] = $newIdrID;
+                    }
+                    // and unset $key from $post
+                     unset($post, $key);
+                } else {
+                    // assign 'act' vals to 'act' keys @ actNum, append equip or labor ID to act
+                    // I'll have to do this one after slicing out 'labor' and 'equip' keys/vals
+                    continue;
+                }
+            }
         } else {
             http_response_code(500);
             $code = http_response_code();
