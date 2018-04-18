@@ -23,6 +23,7 @@
             let j = 0;
             console.log('list' + i + ':', list);
             data.delete('actInput_' + i);
+            data.delete('equipOrLabor_' + i);
             for (let id in list) {
                 const listItem = list[id];
                 // flatten act list data
