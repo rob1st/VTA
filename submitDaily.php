@@ -81,13 +81,13 @@
                     $num = intval(substr($key, strpos($key, '_') + 1));
                     if (strpos($key, 'labor')) {
                         // assign 'labor' vals to 'labor' keys @ num
-                        $labKey = substr($key, 0, strpos('_'));
-                        $laborData[$num][$labKey] = $val;
+                        $laborKey = substr($key, 0, strpos('_'));
+                        $laborData[$num][$laborKey] = $val;
                         $laborData[$num]['idrID'] = $newIdrID;
                     } else {
                         // assign 'equip' vals to 'equip' keys @ num
-                        $eqKey = substr($key, 0, strpos('_'));
-                        $equipData[$num][$labKey] = $val;
+                        $equipKey = substr($key, 0, strpos('_'));
+                        $equipData[$num][$equipKey] = $val;
                         $equipData[$num]['idrID'] = $newIdrID;
                     }
                     // and unset $key from $post
