@@ -77,9 +77,7 @@
             $laborData = [];
             $equipData = [];
             foreach ($post as $key => $val) {
-                echo "<p style='margin: 0; font-size: .6rem; color: teal'>foreach $post as $key => $val</p>";
                 if (strpos($key, 'labor') !== false || strpos($key, 'equip') !== false) {
-                    echo "<p style='margin: .1rem 0; color: fuchsia'>strpos 'labor' || 'equip'</p>";
                     $num = intval(substr($key, strpos($key, '_') + 1));
                     if (strpos($key, 'laborOrEquip') !== false) continue;
                     elseif (strpos($key, 'labor') !== false) {
@@ -101,7 +99,29 @@
                     continue;
                 }
             }
-            var_dump($laborData, $equipData);
+            // build labor & equipment queries
+            if (count($laborData)) {
+                // foreach labor data, find associated activity data & parse it to array
+                $query = "INSERT INTO $laborTable ";
+                foreach ($laborData as $subarr) {
+                    $keys = implode(", ", array_keys($subarr));
+                    $vals = implode("', '", array_values($subarr));
+                    $query .= "($keys) VALUES ('$vals')";
+                    echo "<p style='margin: .125rem 0; font-size: .9rem; color: magenta'>$query</p>";
+                }
+                var_dump($laborData);
+            }
+            if (count($equipData)) {
+                // foreach equip data, find associated activity data & parse it to array
+                $query = "INSERT INTO $equipTable";
+                foreach ($equipData as $subarr) {
+                    $keys = implode(", ", array_keys($subarr));
+                    $vals = implode("', '", array_values($subarr));
+                    $query .= "($keys) VALUES ('$vals')";
+                    echo "<p style='margin: .125rem 0; font-size: .9rem; color: green'>$query</p>";
+                }
+                var_dump($equipData);
+            }
         } else {
             http_response_code(500);
             $code = http_response_code();
