@@ -19,78 +19,65 @@
     $userQry = 'SELECT Username FROM users_enc WHERE UserID = '.$userID;
 
     // why do we need this if Username is already stored in $_SESSION(?)
-    if ($result = mysqli_query($link, $userQry)) {
+    if ($result = $link->query($userQry)) {
         while ($row = mysqli_fetch_assoc($result)) {
             $username = $row['Username'];
         }
     }
 
     // check for existing submission
-    $checkQry = "SELECT * FROM $idrTable WHERE reportDate AND inspectorID = '{$_POST['idrDate']}' & '{$_POST['inspectorID']}'";
-    if($check = mysqli_query($link, $checkQry)) {
-        $numRows = mysqli_num_rows($check);
-    }
-    
-    if ($numRows > 0) {
-    // what is this variable(?) I don't see it declared anywhere
-    // shouldn't this be a msg about duplicate record(?)
-      header("location: $duplicate?msg=1");
-    }
-    
-    // if no dupe, handle POST data
-    // first, qry IDR column names, store them as keys of an array
-    $idrColQry = 'SHOW COLUMNS FROM '.$idrTable;
-    $idrCols = $link->query($idrColQry);
-    
-    while($row = $idrCols->fetch_assoc()){
-        $key = $row['Field'];
-        if ($post[$key]) {
-            $idrData[$key] = $post[$key];
+    $check = "SELECT * FROM $idrTable WHERE idrDate AND inspectorID = '{$_POST['idrDate']}' & '{$_POST['inspectorID']}'";
+    if($link->query($check)->num_rows) {
+        echo "<h1 style='padding: 1rem; background-color: #3030369; text-align: center; color: #dc1; font-family: monospace;'>Duplicate record found</h1>";
+    } else {
+        // if no dupe, handle POST data
+        // first, qry IDR column names, store them as keys of an array
+        $idrColQry = 'SHOW COLUMNS FROM '.$idrTable;
+        $idrCols = $link->query($idrColQry);
+        
+        while($row = $idrCols->fetch_assoc()){
+            $key = $row['Field'];
+            if ($post[$key]) {
+                $idrData[$key] = $post[$key];
+            }
+            else $idrData[$key] = 'null';
+            // destroy in $post any key found in idrCols
+            unset($post[$key]);
+            // try unsetting idrID and see if query is accepted
+            unset($idrData['idrID']);
         }
-        else $idrData[$key] = 'null';
-        // destroy in $post any key found in idrCols
-        unset($post[$key]);
-        // try unsetting idrID and see if query is accepted
-        unset($idrData['idrID']);
-    }
     
-    $keys = implode(", ", array_keys($idrData));
-    $vals = implode("', '", array_values($idrData));
+        $keys = implode(", ", array_keys($idrData));
+        $vals = implode("', '", array_values($idrData));
     
-    if (!f_tableExists($link, $idrTable, DB_Name)) {
-    // shouldn't this be an error handler like the duplicate check above(?)
-        echo 'table "'.$idrTable.'" could not be found';
-    } else {
-        $insertIdrQry = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
-    }
+        // currently this fcn, found in SQLFunctions, is broken
+        // don't repair it unless you're ready to deal with the bugs that may produce
+        if (!f_tableExists($link, $idrTable, DB_Name)) {
+        // shouldn't this be an error handler like the duplicate check above(?)
+            echo 'table "'.$idrTable.'" could not be found';
+        } else {
+        // create INSERT query
+            $insertIdrQry = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
+        }
     
-    // this is the line that does actually does the INSERT query
-    if (!$result = $link->query($insertIdrQry)) {
-        echo "
-            <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
-                <h1 style='color: red'>Unable to create new records in table \"{$idrTable}\"</h1>
-                <h2 style='color: #c33'>$link->error</h2>
-                <h3 style='color: #c33'>$insertIdrQry</h3>";
-                echoAs2OLs(
-                    explode(', ', $keys),
-                    explode(', ', $vals)
-                );
-        echo "</div>";
-    } else {
-        if ($result = $link->insert_id) {
-            http_response_code('201');
+        // this is the block that does actually does the INSERT query
+        if ($result = $link->query($insertIdrQry)) {
+            http_response_code(201);
+            $code = http_response_code();
             echo "
                 <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
+                    <h3>$code</h3>
                     <h1>New record created</h1>
                     <h3>$result</h3>
                 </div>";
         } else {
-            $res = http_response_code('500');
+            http_response_code(500);
+            $code = http_response_code();
             echo "
                 <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
-                    <h1 style='color: red;'>New record could not be found</h1>
-                    <h3>$res</h3>
-                    <h3 style='color: #c33;'>$result</h3>
+                    <h3>$code</h3>
+                    <h1>Failed to create new record:</h1>
+                    <h3>$result</h3>
                 </div>";
         }
     }
