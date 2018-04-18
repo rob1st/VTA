@@ -54,8 +54,8 @@
         unset($idrData['idrID']);
     }
     
-    $keys = implode(', ', array_keys($idrData));
-    $vals = implode(', ', array_values($idrData));
+    $keys = implode(", ", array_keys($idrData));
+    $vals = implode("', '", array_values($idrData));
     
     if (!f_tableExists($link, $idrTable, DB_Name)) {
     // shouldn't this be an error handler like the duplicate check above(?)
@@ -68,20 +68,31 @@
     if (!$result = $link->query($insertIdrQry)) {
         echo "
             <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
-                <h1 style='width: fit-content; color: red'>Unable to create new records in db table \"{$idrTable}\"</h1>
-                <h2 style='width: fit-content; color: #c33'>$link->error</h2>
-                <h3 style='width: fit-content; color: #c33'>$insertIdrQry</h3>";
+                <h1 style='color: red'>Unable to create new records in table \"{$idrTable}\"</h1>
+                <h2 style='color: #c33'>$link->error</h2>
+                <h3 style='color: #c33'>$insertIdrQry</h3>";
                 echoAs2OLs(
                     explode(', ', $keys),
                     explode(', ', $vals)
                 );
         echo "</div>";
     } else {
-        while ($row = $result->fetch_assoc()) {
-            $newIdrID = $row['idrID'];
+        if ($result = $link->insert_id) {
+            http_response_code('201');
+            echo "
+                <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
+                    <h1>New record created</h1>
+                    <h3>$result</h3>
+                </div>";
+        } else {
+            $res = http_response_code('500');
+            echo "
+                <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
+                    <h1 style='color: red;'>New record could not be found</h1>
+                    <h3>$res</h3>
+                    <h3 style='color: #c33;'>$result</h3>
+                </div>";
         }
-        http_response_code('201');
-        echo "New record created: $newIdrID";
     }
 ?>
 <?php
