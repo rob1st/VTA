@@ -102,11 +102,10 @@
             // build labor & equipment queries
             if (count($laborData)) {
                 // foreach labor data, find associated activity data & parse it to array
-                $query = "INSERT INTO $laborTable ";
                 foreach ($laborData as $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
-                    $query .= "($keys) VALUES ('$vals')";
+                    $query = "INSERT INTO $laborTable ($keys) VALUES ('$vals')";
                     echo "<p style='margin: .125rem 0; font-size: .9rem; color: magenta'>$query</p>";
                 }
                 var_dump($laborData);
@@ -117,7 +116,7 @@
                 foreach ($equipData as $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
-                    $query .= "($keys) VALUES ('$vals')";
+                    $query = "INSERT INTO $equipTable ($keys) VALUES ('$vals')";
                     echo "<p style='margin: .125rem 0; font-size: .9rem; color: green'>$query</p>";
                 }
                 var_dump($equipData);
