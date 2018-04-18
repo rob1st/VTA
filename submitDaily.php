@@ -81,7 +81,8 @@
                 if (strpos($key, 'labor') !== false || strpos($key, 'equip') !== false) {
                     echo "<p style='margin: .1rem 0; color: fuchsia'>strpos 'labor' || 'equip'</p>";
                     $num = intval(substr($key, strpos($key, '_') + 1));
-                    if (strpos($key, 'labor') !== false) {
+                    if (strpos($key, 'laborOrEquip') !== false) continue;
+                    elseif (strpos($key, 'labor') !== false) {
                         // assign 'labor' vals to 'labor' keys @ num
                         $laborKey = substr($key, 0, strpos($key, '_'));
                         $laborData[$num][$laborKey] = $val;
