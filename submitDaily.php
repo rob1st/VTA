@@ -4,12 +4,8 @@
     
     $post = $_POST;
     $idrTable = 'IDR';
-        $idrEquipLink = 'idrEquip_link';
     $equipTable = 'equipment';
-        $idrLaborLink = 'idrLabor_link';
     $laborTable = 'labor';
-        $equipActLink = 'equipAct_link';
-        $laborActLink = 'laborAct_link';
     $actTable = 'activity';
     $link = f_sqlConnect();
     
@@ -112,7 +108,6 @@
             }
             if (count($equipData)) {
                 // foreach equip data, find associated activity data & parse it to array
-                $query = "INSERT INTO $equipTable";
                 foreach ($equipData as $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));

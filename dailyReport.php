@@ -29,7 +29,8 @@ $authorizedUsers = [
 
 if (!in_array($username, $authorizedUsers)) {
     include 'unauthorised.php';
-} else echo "
+} else {
+echo "
 <header class='container page-header'>
     <h1 class='page-title'>Inspector's Daily Report</h1>
 </header>
@@ -185,6 +186,7 @@ echo "
     </form>
 </main>
 <script src='js/dailyReport.js'></script>";
+}
 MySqli_Close($link);
 include('fileend.php');
 ?>

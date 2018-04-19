@@ -199,9 +199,11 @@
             console.log(event.target.value);
             numLabel.innerText = '# of Personnel';
             descLabel.innerText = 'Description of Labor';
+            numInput.setAttribute('name', 'laborNum_' + num);
         } else {
             numLabel.innerText = 'Equipment No.';
             descLabel.innerText = 'Description of Equipment';
+            numInput.setAttribute('name', 'equipNum_' + num);
         }
     }
     
@@ -252,7 +254,7 @@
                         id: 'labelNumEquipLabor'
                     },
                     type: 'number',
-                    id: 'equipOrLaborDesc',
+                    id: 'equipOrLaborNum',
                     name: 'laborNum',
                     classList: 'form-control',
                     style: 'max-width: 110px',
