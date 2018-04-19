@@ -6,6 +6,8 @@
     $idrTable = 'IDR';
     $equipTable = 'equipment';
     $laborTable = 'labor';
+        $equipActLink = 'equipAct_link';
+        $laborActLink = 'laborAct_link';
     $actTable = 'activity';
     $link = f_sqlConnect();
     
@@ -120,9 +122,12 @@
                     // once data is parsed & committed, rm it from data array
                     unset($laborData[$index]);
                     // after successful INSERT, unset $key, grab insert_key
-                    if ($result = 1) {
+                    if ($result = $link->query($query)) {
                         http_response_code(201);
                         $code = http_response_code();
+                    // store db ID of new record
+                        $newLaborID = $link->insert_id;
+                        echo "<p style='margin: .125rem 0; font-weight: 700; color: royalBlue'>Success! new record created for query: $query</p>";
                     // build queries from activities that fall within same index as labor
                         if (count($actData[$index])) {
                             foreach ($actData[$index] as $key => $val) {
@@ -130,6 +135,8 @@
                                 $actVals = implode("', '", array_values($val));
                                 $actQry = "INSERT INTO $actTable ($actKeys) VALUES ('$actVals')";
                                 echo "<p style='margin: .125rem 0; font-size: .9rem; color: goldenrod'>$actQry</p>";
+                                // // each activity in the db will be ref'd by a linking table
+                                // $linkQry = "INSERT INTO $equipActLink (equipID, activityID) VALUES ('$newLaborID', '$link->insert_id')";
                             }
                         } else continue;
                     } else echo "
@@ -152,9 +159,12 @@
                     // once data is parsed & committed, rm it from data array
                     unset($equipData[$index]);
                     // after successful INSERT, unset $key, grab insert_key
-                    if ($result = 1) {
+                    if ($result = $link->query($query)) {
                         http_response_code(201);
                         $code = http_response_code();
+                    // store db ID of new record
+                        $newEquipID = $link->insert_id;
+                        echo "<p style='margin: .125rem 0; font-weight: 700; color: royalBlue'>Success! new record created for query: $query</p>";
                     // build queries from activities that fall within same index as equip
                         if (count($actData[$index])) {
                             foreach ($actData[$index] as $key => $val) {
@@ -162,6 +172,8 @@
                                 $actVals = implode("', '", array_values($val));
                                 $actQry = "INSERT INTO $actTable ($actKeys) VALUES ('$actVals')";
                                 echo "<p style='margin: .125rem 0; font-size: .9rem; color: goldenrod'>$actQry</p>";
+                                // // each activity in the db will be ref'd by a linking table
+                                // $linkQry = "INSERT INTO $equipActLink (equipID, activityID) VALUES ('$newEquipID', '$link->insert_id')";
                             }
                         } else continue;
                     } else echo "
