@@ -22,9 +22,9 @@
             let j = 0;
             console.log('list' + i + ':', list);
         // delete any data collected from DOM els actInput, actList, actHrs, equipOrLabor_
-            data.delete('actInput_' + i);
-            data.delete('actList_' + i);
-            data.delete('equipOrLabor_' + i);
+            // data.delete('actInput_' + i);
+            // data.delete('actList_' + i);
+            // data.delete('equipOrLabor_' + i);
             for (let id in list) {
                 const listItem = list[id];
                 // flatten act list data
@@ -86,6 +86,7 @@
         });
     document.getElementById('addAct_0')
         .addEventListener('click', event => {
+            console.log('num of cur target: ' + 0, 'ev.target: ' + event.target);
             return addActToList(event, 0);
         });
     // I may need more handlers to handle all the cases of selecting an option
@@ -136,11 +137,11 @@
         const curList = document.getElementById('actList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.actLists[num][curID].hrsVal = ev.target.value;
-        console.log(formState.actLists[num][curID]);
+        console.log(formState);
     }
     
     function addActToList(ev, num) {
-        console.log('num of cur inputs', num);
+        console.log('num of cur input: ' + num, 'ev.target: ' + ev.target);
         // IDEA: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
         // 1. check formState for existence of index @ num
@@ -151,7 +152,7 @@
         
         const curInput = document.getElementById('actInput_' + num);
         const newItemText = curInput.value.trim();
-        curInput.value = '';
+        curInput.value = ''; // my feeling is that this shouldn't get blanked by this fcn, but by the act of submitting value
         // if text content in act description input instantiate new actList @ new uniqueID
         if (newItemText) {
             const curKey = newUniqueID(formState.keys);
@@ -378,7 +379,7 @@
                     label: 'Hours',
                     type: 'number',
                     id: 'hours',
-                    name: 'actHrs',
+                    name: null,
                     classList: ['form-control', 'full-width'],
                     style: null,
                     handlers: [
@@ -415,91 +416,6 @@
         secondRow.classList.add('flex-row', 'item-margin-bottom');
         subGroup.appendChild(secondRow);
         
-        // append divs to firstRow
-        /*for (let ctrl of formCtrls.firstRow) {
-            // for each one append a div.item-margin-right
-            const curParent = firstRow.appendChild(document.createElement('div'));
-            curParent.classList.add('item-margin-right');
-            // then loop over ctrl keys
-            let curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
-            for (let prop in ctrl) {
-                // first append label
-                if (ctrl[prop]) {
-                    if (prop === 'label') {
-                        if (typeof ctrl[prop] === 'object') {
-                            let label = curCtrl.insertAdjacentElement('beforebegin', document.createElement('label'));
-                            label.innerText = ctrl.label.innerText;
-                            label.id = ctrl.label.id;
-                        }
-                        else {
-                            curCtrl.insertAdjacentElement('beforebegin', document.createElement('label')).appendChild(document.createTextNode(ctrl.label));
-                        }
-                    }
-                    
-                    // then append form control element
-                    if (prop === 'innerText') curCtrl.innerText = ctrl[prop];
-                    else if (prop === 'classList') {
-                        if (typeof ctrl[prop] === 'object') {
-                            for (let className of ctrl[prop]) {
-                                curCtrl.classList.add(className);
-                            }
-                        } else curCtrl.classList.add(ctrl[prop]);
-                    }
-                    else if (prop === 'children') {
-                        let curChild;
-                        for (let child of ctrl.children) {
-                            curChild = curCtrl.appendChild(document.createElement(child.tagName));
-                            for (let attr in child) {
-                                if (attr === 'tagName') continue;
-                                else if (attr === 'classList') {
-                                    for (let className of child[attr]) {
-                                        curChild.classList.add(className);
-                                    }
-                                } else if (attr === 'handlers') {
-                                    for (let handler of child[attr]) {
-                                        curChild.addEventListener(handler.event, ev => {
-                                            return handler.fn(ev, num);
-                                        });
-                                    }
-                                } else curChild.setAttribute(attr, child[attr]);
-                            }
-                        }
-                    }
-                    if (prop === 'siblings') {
-                        let curSib;
-                        let curChild;
-                        for (let sib of ctrl.siblings) {
-                            curSib = curCtrl.insertAdjacentElement('afterend', document.createElement(sib.tagName));
-                            for (let attr in sib) {
-                                if (attr === 'children') {
-                                    for (let child of sib[attr]) {
-                                        curChild = curSib.appendChild(document.createElement(child.tagName));
-                                        for (let [childAttr, childAttrVal] in child) {
-                                            if (childAttr === 'tagName') continue;
-                                            else if (childAttr === 'classList') {
-                                                for (let className of childAttr) {
-                                                    curChild.classList.add(className);
-                                                }
-                                            } else if (childAttr === 'handler') {
-                                                for (let handler of childAttr) {
-                                                    curChild.addEventListener(handler.event, ev => {
-                                                        return handler.fn(ev, num);
-                                                    })
-                                                }
-                                            } else curChild.setAttribute(childAttr, childAttrVal)
-                                        }
-                                    }
-                                }
-                                else {
-                                    curSib.setAttribute(attr, sib[attr]);
-                                }
-                            }
-                        }
-                    }
-                    else curCtrl.setAttribute(prop, ctrl[prop]);
-                }
-            }
-        }*/
         appendNextRow(formCtrls.firstRow, firstRow, num);
         appendNextRow(formCtrls.secondRow, secondRow, num);
         
@@ -547,6 +463,7 @@
                     else if (prop === 'handlers') {
                         for (let handler of ctrl[prop]) {
                             curCtrl.addEventListener(handler.event, ev => {
+                                console.log('num of current target: ' + num, 'ev.target: ' + ev.target)
                                 handler.fn(ev, num);
                             })
                         }

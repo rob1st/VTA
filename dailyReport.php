@@ -123,7 +123,7 @@ echo "
                         <label class='input-label'>Equip/Labor<span class='text-danger'>*</span></label>";
                 // the value of this ctrl will determine whether data goes to equip or labor table
 echo "
-                        <select id='selectEquipLabor_0' name='equipOrLabor_0' class='form-control' required>
+                        <select id='selectEquipLabor_0' class='form-control' required>
                             <option value='labor' selected>Labor</option>
                             <option value='equipment'>Equipment</option>
                         </select>
@@ -167,7 +167,7 @@ echo "
                         </div>
                         <div class='item-margin-right' style='min-width:150px'>
                             <label class='input-label'>Task/activity</label>
-                            <select id='actList_0' name='actList_0' class='form-control full-width'>
+                            <select id='actList_0' class='form-control full-width'>
                             </select>
                         </div>
                         <div class='item-margin-right' style='max-width: 100px;'>
