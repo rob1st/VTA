@@ -57,7 +57,7 @@
             $query = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
         }
     
-        // this is the block that does actually does the INSERT query
+        // this is the block that does actually executes the INSERT query
         if ($result = $link->query($query)) {
             http_response_code(201);
             $code = http_response_code();
@@ -118,11 +118,26 @@
                     echo "<p style='margin: .125rem 0; font-size: .9rem; color: magenta'>$query</p>";
                     // once data is parsed & committed, rm it from data array
                     unset($laborData[$index]);
-                    // after run INSERT, unset $key, grab insert_key, search for activities
-                    // and store them in subarrays
-                    // foreach ($actData as $key => $val) {
-                        
-                    // }
+                    // after successful INSERT, unset $key, grab insert_key
+                    if ($result = 1) {
+                        http_response_code(201);
+                        $code = http_response_code();
+                    // build queries from activities that fall within same index as labor
+                        if (count($actData[$index])) {
+                            foreach ($actData[$index] as $key => $val) {
+                                $actKeys = implode(", ", array_keys($val));
+                                $actVals = implode("', '", array_values($val));
+                                $actQry = "INSERT INTO $actTable ($actKeys) VALUES ('$actVals')";
+                                echo "<p style='margin: .125rem 0; font-size: .9rem; color: goldenrod'>$actQry</p>";
+                            }
+                        } else continue;
+                    } else echo "
+                        <div style='display: flex; flex-flow: column nowrap; justify-content: center; align-items: flex-start'>
+                            <h1 style='color: red'>Houston, we have a problem:</h1>
+                            <h3>$query</h3>
+                            <h3>$result</h3>
+                        <div>
+                    ";
                 }
             }
             if (count($equipData)) {
@@ -142,7 +157,7 @@
                 <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
                     <h3>$code</h3>
                     <h1>Failed to create new record:</h1>
-                    <h3>$result</h3>
+                    <h3>db's response: $result</h3>
                 </div>";
         }
     }
