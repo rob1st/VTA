@@ -79,8 +79,8 @@ echo "
                         <input type='text' id='eic' name='EIC' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
-                        <label class='input-label'>Watchman</label>
-                        <input type='text' id='watchman' name='watchman' class='form-control' />
+                        <label class='input-label'>Watchman<span class='text-danger'>*</span></label>
+                        <input type='text' id='watchman' name='watchman' class='form-control' required />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>RAP #</label>
@@ -93,7 +93,8 @@ echo "
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>TCP #</label>
                         <input type='text' id='tcpNum' name='tcpNum' class='form-control' />
-                    </div>
+                    </div>";
+echo "
                 </div>
             </fieldset>
         </div>
