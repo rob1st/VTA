@@ -107,6 +107,7 @@
                 }
             }
             var_dump($actData);
+            echo "<hr style='border-color: #3336;' />";
             // build labor & equipment queries
             if (count($laborData)) {
                 // foreach labor data, find associated activity data & parse it to array
@@ -148,6 +149,28 @@
                     $vals = implode("', '", array_values($subarr));
                     $query = "INSERT INTO $equipTable ($keys) VALUES ('$vals')";
                     echo "<p style='margin: .125rem 0; font-size: .9rem; color: green'>$query</p>";
+                    // once data is parsed & committed, rm it from data array
+                    unset($equipData[$index]);
+                    // after successful INSERT, unset $key, grab insert_key
+                    if ($result = 1) {
+                        http_response_code(201);
+                        $code = http_response_code();
+                    // build queries from activities that fall within same index as equip
+                        if (count($actData[$index])) {
+                            foreach ($actData[$index] as $key => $val) {
+                                $actKeys = implode(", ", array_keys($val));
+                                $actVals = implode("', '", array_values($val));
+                                $actQry = "INSERT INTO $actTable ($actKeys) VALUES ('$actVals')";
+                                echo "<p style='margin: .125rem 0; font-size: .9rem; color: goldenrod'>$actQry</p>";
+                            }
+                        } else continue;
+                    } else echo "
+                        <div style='display: flex; flex-flow: column nowrap; justify-content: center; align-items: flex-start'>
+                            <h1 style='color: red'>Houston, we have a problem:</h1>
+                            <h3>$query</h3>
+                            <h3>$result</h3>
+                        <div>
+                    ";
                 }
             }
         } else {
