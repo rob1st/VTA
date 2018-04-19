@@ -15,19 +15,21 @@
     function handleSubmit() {
         const endpoint = 'submitDaily.php';
         const data = new FormData(form);
-        // delete all instances of actInput
         // append actList details to appropriate actList
         console.log('submit data:', data, formState.actLists);
         let i = 0;
         for (let list of formState.actLists) {
             let j = 0;
             console.log('list' + i + ':', list);
+        // delete any data collected from DOM els actInput, actList, actHrs, equipOrLabor_
             data.delete('actInput_' + i);
+            data.delete('actList_' + i);
             data.delete('equipOrLabor_' + i);
             for (let id in list) {
                 const listItem = list[id];
                 // flatten act list data
                 data.append('actDesc_' + i + '_' + j, listItem.textVal);
+            // append actHrs data from JS objects
                 data.append('actHrs_' + i + '_' + j, listItem.hrsVal);
                 j++;
             }
