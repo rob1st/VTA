@@ -200,10 +200,12 @@
             numLabel.innerText = '# of Personnel';
             descLabel.innerText = 'Description of Labor';
             numInput.setAttribute('name', 'laborNum_' + num);
+            descInput.setAttribute('name', 'laborDesc_' + num);
         } else {
             numLabel.innerText = 'Equipment No.';
             descLabel.innerText = 'Description of Equipment';
             numInput.setAttribute('name', 'equipNum_' + num);
+            descInput.setAttribute('name', 'equipDesc_' + num);
         }
     }
     
