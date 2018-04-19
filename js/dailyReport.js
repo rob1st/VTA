@@ -109,6 +109,7 @@
     
             updateHours(ev, num);
     
+            // reset hours values
             curHrs.value = '';
             curList.value = '';
             curInput.value = '';
@@ -382,6 +383,10 @@
                         {
                             event: 'change',
                             fn: updateHours
+                        },
+                        {
+                            event: 'keypress',
+                            fn: handleKeypressEnter
                         }
                     ],
                     innerText: null
