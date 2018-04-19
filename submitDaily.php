@@ -72,10 +72,12 @@
             // grab new ID and attach it to equip, labor, activity data
             $laborData = [];
             $equipData = [];
+            $actData = [];
             foreach ($post as $key => $val) {
                 if (strpos($key, 'labor') !== false || strpos($key, 'equip') !== false) {
                     $num = intval(substr($key, strpos($key, '_') + 1));
-                    if (strpos($key, 'laborOrEquip') !== false) continue;
+                    // there shouldn't be any laborOrEquip keys submitted, but if one is found, rm it
+                    if (strpos($key, 'laborOrEquip') !== false) unset($post[$key]);
                     elseif (strpos($key, 'labor') !== false) {
                         // assign 'labor' vals to 'labor' keys @ num
                         $laborKey = substr($key, 0, strpos($key, '_'));
@@ -89,32 +91,49 @@
                     }
                     // and unset $key from $post
                      unset($post, $key);
+                } elseif (strpos($key, 'act') !== false) {
+                // assign 'act' vals to 'act' keys @ actNum
+                    echo "<p style='margin: .125rem 0; font-size: .75rem; color: #446;'>strpos($key, 'act') !== false</p>";
+                    // num following 1st '_' in $key is resource number (labor or equip)
+                    $rsrcNum = intval(substr($key, strpos($key, '_') + 1));
+                    // num following 2nd '_' in $key is activity number for that resource
+                    $actNum = intval(substr($key, strpos($key, '_', strpos($key, '_') + 1) + 1));
+                    $actKey = substr($key, 0, strpos($key, '_'));
+                    $actData[$rsrcNum][$actNum][$actKey] = $val;
+                    $actData[$rsrcNum][$actNum]['idrID'] = $newIdrID;
+                    // I'll have to append laborID or equipID after INSERT and retrieval of insert_key
                 } else {
-                    // assign 'act' vals to 'act' keys @ actNum, append equip or labor ID to act
-                    // I'll have to do this one after slicing out 'labor' and 'equip' keys/vals
                     continue;
                 }
             }
+            var_dump($actData);
             // build labor & equipment queries
             if (count($laborData)) {
                 // foreach labor data, find associated activity data & parse it to array
-                foreach ($laborData as $subarr) {
+                var_dump($laborData);
+                foreach ($laborData as $index => $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
                     $query = "INSERT INTO $laborTable ($keys) VALUES ('$vals')";
                     echo "<p style='margin: .125rem 0; font-size: .9rem; color: magenta'>$query</p>";
+                    // once data is parsed & committed, rm it from data array
+                    unset($laborData[$index]);
+                    // after run INSERT, unset $key, grab insert_key, search for activities
+                    // and store them in subarrays
+                    // foreach ($actData as $key => $val) {
+                        
+                    // }
                 }
-                var_dump($laborData);
             }
             if (count($equipData)) {
                 // foreach equip data, find associated activity data & parse it to array
+                var_dump($equipData);
                 foreach ($equipData as $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
                     $query = "INSERT INTO $equipTable ($keys) VALUES ('$vals')";
                     echo "<p style='margin: .125rem 0; font-size: .9rem; color: green'>$query</p>";
                 }
-                var_dump($equipData);
             }
         } else {
             http_response_code(500);
