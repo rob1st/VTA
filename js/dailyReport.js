@@ -19,26 +19,16 @@
         let i = 0;
         for (let list of formState.actLists) {
             let j = 0;
-        // delete any data collected from DOM els actInput, actList, actHrs, equipOrLabor_
-            // data.delete('actInput_' + i);
-            // data.delete('actList_' + i);
-            // data.delete('equipOrLabor_' + i);
             for (let id in list) {
                 const listItem = list[id];
                 // flatten act list data
                 data.append('actDesc_' + i + '_' + j, listItem.textVal);
-            // append actHrs data from JS objects
+                // append actHrs data from JS objects
                 data.append('actHrs_' + i + '_' + j, listItem.hrsVal);
                 j++;
             }
             i++;
         }
-        // console log the result
-
-        // const jsonData = {}
-        // for (let [key, val] of data) {
-        //     jsonData[key] = val;
-        // }
 
         window.fetch(endpoint, {
             method: 'POST',
@@ -53,9 +43,6 @@
         event.preventDefault();
         return handleSubmit();
     })
-    // form.addEventListener('keypress', event => {
-    //     return handleKeypressEnter()
-    // })
     document.getElementById('addLineBtn')
         .addEventListener('click', event => {
             count++;
@@ -83,7 +70,6 @@
         .addEventListener('click', event => {
             return addActToList(event, 0);
         });
-    // I may need more handlers to handle all the cases of selecting an option
     document.getElementById('actList_0')
         .addEventListener('input', event => {
             return handleActSelect(event, 0);
@@ -132,7 +118,7 @@
     }
     
     function addActToList(ev, num) {
-        // IDEA: create a warning if duplicate text entries
+        // TODO: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
         // 1. check formState for existence of index @ num
         // 2. if it doesn't exist, push a new empty obj
@@ -218,7 +204,6 @@
                     label: 'Equip/Labor',
                     type: null,
                     id: 'selectEquipLabor',
-                    name: 'equipOrLabor',
                     classList: 'form-control',
                     style: null,
                     handlers: [

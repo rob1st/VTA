@@ -12,6 +12,7 @@ $userID = $_SESSION['UserID'];
 $username = $_SESSION['Username'];
 // why do this check if $_SESSION already has $Username(?)
 $userQry = 'SELECT firstname, lastname FROM users_enc WHERE UserID = '.$UserID;
+$contractQry = 'SELECT ContractID, Contract FROM Contract';
 if($result=mysqli_query($link,$userQry)) {
   /*from the sql results, assign the username that returned to the $username variable*/    
   while($row = mysqli_fetch_assoc($result)) {
@@ -48,16 +49,20 @@ echo "
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                        <label class='input-label item-margin-right'>Contract day<span class='text-danger'>*</span></label>
-                        <input type='date' value='{$curDateNum}' id='contractDay' name='contractDay' class='form-control' required />
-                    </div>
-                    <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Date</label>
                         <input type='date' value='{$curDateNum}' id='curDate' name='idrDate' class='form-control' readonly />
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Project<span class='text-danger'>*</span></label>
-                        <input type='text' value='SVBX' id='projectId' name='project' class='form-control' required />
+                        <select value='C700' name='project' class='form-control' required>";
+                            if ($result = $link->query($contractQry)) {
+                                while ($row = $result->fetch_array()) {
+                                    echo "<option value ='{$row[0]}'>{$row[1]}</option>";
+                                }
+                            }
+                            
+echo "
+                        </select>
                     </div>
                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                         <label class='input-label item-margin-right'>Weather<span class='text-danger'>*</span></label>
@@ -71,7 +76,7 @@ echo "
             </fieldset>
             <fieldset id='safetyData' class='card half-container'>
                 <div class='card-header grey-bg'>
-                    <h6>Safety</h6>
+                    <h6>Track safety</h6>
                 </div>
                 <div class='card-body'>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
@@ -80,7 +85,7 @@ echo "
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>Watchman<span class='text-danger'>*</span></label>
-                        <input type='text' id='watchman' name='watchman' class='form-control' required />
+                        <input type='text' id='watchman' name='watchman' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
                         <label class='input-label'>RAP #</label>
