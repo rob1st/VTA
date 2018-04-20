@@ -520,7 +520,8 @@
                             }
                         }
                     }
-                    else if (prop === 'id' || 'name') {
+                    else if (prop === 'id' || prop === 'name') {
+                        console.log(prop + ' prop === id || prop === name?');
                         curCtrl.setAttribute(prop, ctrl[prop] + '_' + num);
                     }
                     else curCtrl.setAttribute(prop, ctrl[prop]);
