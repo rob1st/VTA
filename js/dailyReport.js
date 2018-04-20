@@ -16,11 +16,9 @@
         const endpoint = 'submitDaily.php';
         const data = new FormData(form);
         // append actList details to appropriate actList
-        console.log('submit data:', data, formState.actLists);
         let i = 0;
         for (let list of formState.actLists) {
             let j = 0;
-            console.log('list' + i + ':', list);
         // delete any data collected from DOM els actInput, actList, actHrs, equipOrLabor_
             // data.delete('actInput_' + i);
             // data.delete('actList_' + i);
@@ -42,8 +40,6 @@
         //     jsonData[key] = val;
         // }
 
-        // for (let [key, val] of data) console.log(key + ': ' + val);
-        
         window.fetch(endpoint, {
             method: 'POST',
             body: data
@@ -55,7 +51,6 @@
     // handlers for elements that occur only once
     form.addEventListener('submit', event => {
         event.preventDefault();
-        console.log('submit handler target:', event.target);
         return handleSubmit();
     })
     // form.addEventListener('keypress', event => {
@@ -86,7 +81,6 @@
         });
     document.getElementById('addAct_0')
         .addEventListener('click', event => {
-            console.log('num of cur target: ' + 0, 'ev.target: ' + event.target);
             return addActToList(event, 0);
         });
     // I may need more handlers to handle all the cases of selecting an option
@@ -126,22 +120,18 @@
         // get actList obj from state
         const selectedOptID = ev.target.selectedOptions[0].uniqueID;
         
-        console.log('handleActSelect ev.target', ev.target, 'pertinent hrs el', hrsEl);
         // select hours_ form control corresponding to num
         hrsEl.value = formState.actLists[num][selectedOptID].hrsVal;
         hrsEl.focus();
     }
     
     function updateHours(ev, num) {
-        console.log('updateHours ev.target', ev.target);
         const curList = document.getElementById('actList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.actLists[num][curID].hrsVal = ev.target.value;
-        console.log(formState);
     }
     
     function addActToList(ev, num) {
-        console.log('num of cur input: ' + num, 'ev.target: ' + ev.target);
         // IDEA: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
         // 1. check formState for existence of index @ num
@@ -172,7 +162,6 @@
             curList.value = newItemText;
             
             curHrs.focus();
-            console.log(formState);
         } else {
             return;
         }
@@ -200,7 +189,6 @@
         const numInput = document.getElementById('equipOrLaborNum_' + num);
         const descInput = document.getElementById('equipOrLaborDesc_' + num);
         if (event.target.value == 'labor') {
-            console.log(event.target.value);
             numLabel.innerText = '# of Personnel';
             descLabel.innerText = 'Description of Labor';
             numInput.setAttribute('name', 'laborNum_' + num);
@@ -214,7 +202,6 @@
     }
     
     function showNotesField(event, num) {
-        console.log(num);
         const notesField = document.getElementById('notesField_' + num);
         if (notesField.style.display === 'none') notesField.style.display = 'block';
         else notesField.style.display = 'none';
@@ -463,7 +450,6 @@
                     else if (prop === 'handlers') {
                         for (let handler of ctrl[prop]) {
                             curCtrl.addEventListener(handler.event, ev => {
-                                console.log('num of current target: ' + num, 'ev.target: ' + ev.target)
                                 handler.fn(ev, num);
                             })
                         }
@@ -521,7 +507,6 @@
                         }
                     }
                     else if (prop === 'id' || prop === 'name') {
-                        console.log(prop + ' prop === id || prop === name?');
                         curCtrl.setAttribute(prop, ctrl[prop] + '_' + num);
                     }
                     else curCtrl.setAttribute(prop, ctrl[prop]);
@@ -532,7 +517,6 @@
 
     function destroyLine(num) {
         // when user destroys line, also destory corresponding formState obj
-        console.log(num);
     }
     
     // utils
