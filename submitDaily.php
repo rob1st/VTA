@@ -24,11 +24,17 @@
     }
 
     // check for existing submission
-    $check = "SELECT * FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (userID={$_POST['userID']})";
-    $result = mysqli_query($link, $check);
+    $check = "SELECT idrID, idrDate, locationID FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (userID={$_POST['userID']}) AND (locationID={$_POST['locationID']}";
+    $result = $link->query($check);
     
-    if (mysqli_num_rows($result) > 0) {
-        echo "<h1 style='padding: 1rem; background-color: #30303699; text-align: center; color: #ed1; font-family: monospace;'>Duplicate record found</h1>";
+    echo $result;
+    
+    if ($result) {
+        while ($row = $result->fetch_array() > 0) {
+            http_response_code(409);
+            $code = http_response_code();
+            echo "duplicate record found: record # {$row[0]}, record date: {$row[1]}, locationID: {$row[2]}";
+        }
     } else {
         // if no dupe, handle POST data
         // first, qry IDR column names, store them as keys of an array

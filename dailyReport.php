@@ -84,7 +84,7 @@ echo "
                         <input type='text' id='eic' name='EIC' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
-                        <label class='input-label'>Watchman<span class='text-danger'>*</span></label>
+                        <label class='input-label'>Watchman</label>
                         <input type='text' id='watchman' name='watchman' class='form-control' />
                     </div>
                     <div class='flex-row no-wrap space-between item-margin-bottom'>
