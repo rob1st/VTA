@@ -128,7 +128,7 @@
         
         const curInput = document.getElementById('actInput_' + num);
         const newItemText = curInput.value.trim();
-        curInput.value = ''; // my feeling is that this shouldn't get blanked by this fcn, but by the act of submitting value
+        curInput.value = '';
         // if text content in act description input instantiate new actList @ new uniqueID
         if (newItemText) {
             const curKey = newUniqueID(formState.keys);
@@ -169,7 +169,6 @@
 
     // scripts to show/hide DOM elements
     function renderLabelText(event, num) {
-        // TODO: this fcn needs to change name attr of text field
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
         const numInput = document.getElementById('equipOrLaborNum_' + num);
