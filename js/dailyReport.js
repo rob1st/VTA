@@ -96,6 +96,7 @@
             const curID = curList.selectedOptions[0].uniqueID;
     
             updateHours(ev, num);
+
         }
     }
         
@@ -160,6 +161,7 @@
     }
     
     function handleKeypressEnter(ev, num) {
+
         ev.stopPropagation();
         if (ev.key === 'Enter') {
             ev.preventDefault();

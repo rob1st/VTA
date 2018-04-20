@@ -5,6 +5,7 @@ include('filestart.php');
 $title = "SVBX - Inspector's Daily Report";
 $curDateNum = date('Y-m-d');
 
+
 $link = f_sqlConnect();
 $userID = $_SESSION['UserID'];
 $username = $_SESSION['Username'];
