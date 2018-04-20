@@ -10,8 +10,7 @@
         $laborActLink = 'laborAct_link';
     $actTable = 'activity';
     $link = f_sqlConnect();
-    
-    $numRe = '/\d$/';
+    $timestamp = date('Y-m-d H:i:s');
     
     $userID = $_SESSION['UserID'];
     $userQry = 'SELECT Username FROM users_enc WHERE UserID = '.$userID;
@@ -169,7 +168,7 @@
             }
             http_response_code(201);
             $code = http_response_code();
-            echo "new record created: record # {$newIdrID}";
+            echo "new record created: Inspector's Daily Report #{$newIdrID}\n{$timestamp}";
         } else {
             http_response_code(500);
             $code = http_response_code();

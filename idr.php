@@ -3,7 +3,6 @@ include('SQLFunctions.php');
 session_start();
 include('filestart.php');
 $title = "SVBX - Inspector's Daily Report";
-$curDateText = date('M j, Y');
 $curDateNum = date('Y-m-d');
 $reptNum = 0; // generate this based on db
 

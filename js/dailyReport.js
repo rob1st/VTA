@@ -37,9 +37,9 @@
             if (res.ok) return res.text()
         }).then(text => {
             window.alert(
-                'Thank you for your submission' +
-                text
+                `Thank you for your submission\n${text}`
             );
+            return window.location.reload();
         })
     }
     
@@ -120,6 +120,7 @@
         const curList = document.getElementById('actList_' + num);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.actLists[num][curID].hrsVal = ev.target.value;
+        console.log(formState);
     }
     
     function addActToList(ev, num) {
