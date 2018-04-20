@@ -35,7 +35,12 @@
             body: data
         }).then(res => {
             if (res.ok) return res.text()
-        }).then(text => document.write(text))
+        }).then(text => {
+            window.alert(
+                'Thank you for your submission' +
+                text
+            );
+        })
     }
     
     // handlers for elements that occur only once
