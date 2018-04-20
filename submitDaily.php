@@ -27,8 +27,6 @@
     $check = "SELECT idrID, idrDate, locationID FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (userID={$_POST['userID']}) AND (locationID={$_POST['locationID']}";
     $result = $link->query($check);
     
-    echo $result;
-    
     if ($result) {
         while ($row = $result->fetch_array() > 0) {
             http_response_code(409);
@@ -70,13 +68,6 @@
             http_response_code(201);
             $code = http_response_code();
             $newIdrID = $link->insert_id;
-            echo "
-                <div style='max-width: 80%; margin: 2.5rem auto; font-family: monospace; padding: 1.5rem; border: 1px solid #3333;'>
-                    <h3>$code</h3>
-                    <h1>New record created</h1>
-                    <h3>{$link->insert_id}</h3>";
-                    echoAs2OLs(array_keys($post), array_values($post));
-            echo "</div>";
             // grab new ID and attach it to equip, labor, activity data
             $laborData = [];
             $equipData = [];
@@ -113,17 +104,13 @@
                     continue;
                 }
             }
-            var_dump($actData);
-            echo "<hr style='border-color: #3336;' />";
             // build labor & equipment queries
             if (count($laborData)) {
                 // foreach labor data, find associated activity data & parse it to array
-                var_dump($laborData);
                 foreach ($laborData as $index => $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
                     $query = "INSERT INTO $laborTable ($keys) VALUES ('$vals')";
-                    printQueryStr($query);
                     // once data is parsed & committed, rm it from data array
                     unset($laborData[$index]);
                     // after successful INSERT, unset $key, grab insert_key
@@ -132,36 +119,29 @@
                         $code = http_response_code();
                     // store db ID of new record
                         $newLaborID = $link->insert_id;
-                        printQrySuccess($query, $link->insert_id);
                     // build queries from activities that fall within same index as labor
                         if (count($actData[$index])) {
                             foreach ($actData[$index] as $key => $val) {
                                 $actKeys = implode(", ", array_keys($val));
                                 $actVals = implode("', '", array_values($val));
                                 $actQry = "INSERT INTO $actTable ($actKeys) VALUES ('$actVals')";
-                                printQueryStr($actQry);
                                 if ($result = $link->query($actQry)) {
-                                    printQrySuccess($actQry, $link->insert_id);
                                     // each activity in the db will be ref'd by a linking table
                                     $linkQry = "INSERT INTO $laborActLink (laborID, activityID) VALUES ('$newLaborID', '$link->insert_id')";
-                                    printQueryStr($linkQry);
                                     if ($result = $link->query($linkQry)) {
-                                        printQrySuccess($linkQry, $link->insert_id);
-                                    } else printQryErr($linkQry, $link->error);
-                                } else printQryErr($actQry, $link->error);
+                                    } else ;//printQryErr($linkQry, $link->error);
+                                } else ;//printQryErr($actQry, $link->error);
                             }
                         } else continue;
-                    } else printQryErr($query, $link->error);
+                    } else ;//printQryErr($query, $link->error);
                 }
             }
             if (count($equipData)) {
                 // foreach equip data, find associated activity data & parse it to array
-                var_dump($equipData);
                 foreach ($equipData as $index => $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
                     $query = "INSERT INTO $equipTable ($keys) VALUES ('$vals')";
-                    printQueryStr($query);
                     // once data is parsed & committed, rm it from data array
                     unset($equipData[$index]);
                     // after successful INSERT, unset $key, grab insert_key
@@ -170,39 +150,33 @@
                         $code = http_response_code();
                     // store db ID of new record
                         $newEquipID = $link->insert_id;
-                        printQrySuccess($query, $link->insert_id);
                     // build queries from activities that fall within same index as equip
                         if (count($actData[$index])) {
                             foreach ($actData[$index] as $key => $val) {
                                 $actKeys = implode(", ", array_keys($val));
                                 $actVals = implode("', '", array_values($val));
                                 $actQry = "INSERT INTO $actTable ($actKeys) VALUES ('$actVals')";
-                                printQueryStr($actQry);
                                 if ($result = $link->query($actQry)) {
-                                    printQrySuccess($actQry, $link->insert_id);
                                     // each activity in the db will be ref'd by a linking table
                                     $linkQry = "INSERT INTO $equipActLink (equipID, activityID) VALUES ('$newEquipID', '$link->insert_id')";
-                                    printQueryStr($linkQry);
                                     if ($result = $link->query($linkQry)) {
-                                        printQrySuccess($linkQry, $link->insert_id);
-                                    } else printQryErr($linkQry, $link->error);
-                                } else printQryErr($actQry, $link->error);
+                                    } else ;//printQryErr($linkQry, $link->error);
+                                } else ;//printQryErr($actQry, $link->error);
                             }
                         } else continue;
-                    } else printQryErr($query, $link->error);
+                    } else ;//printQryErr($query, $link->error);
                 }
             }
+            http_response_code(201);
+            $code = http_response_code();
+            echo "new record created: record # {$newIdrID}";
         } else {
             http_response_code(500);
             $code = http_response_code();
-            printQryErr($query, $link->error);
         }
     }
     $typeOfUserID = gettype($_POST['userID']);
     $typeOfIdrDate = gettype($_POST['idrDate']);
-    echo "
-        <h3>{$_POST['userID']} {$typeOfUserID}</h3>
-        <h3>{$_POST['idrDate']} {$typeOfIdrDate}</h3>";
 ?>
 <?php
 // this is all stuff for testing
