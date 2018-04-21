@@ -87,7 +87,6 @@
     // focus handlers
     function submitActHrs(ev, num) {
         const curList = document.getElementById('actList_'+ num);
-        console.log(curList.selectedOptions);
         const curHrs = document.getElementById('hours_' + num);
         if (!curList.value.trim().length) {
             curHrs.value = '';
@@ -114,7 +113,6 @@
     
     function updateHours(ev, num) {
         const curList = document.getElementById('actList_' + num);
-        console.log(curList.selectedOptions);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.actLists[num][curID].hrsVal = ev.target.value;
             
@@ -165,7 +163,6 @@
     function handleKeypressEnter(ev, num) {
 
         ev.stopPropagation();
-        console.log(ev.target);
         if (ev.key === 'Enter') {
             ev.preventDefault();
             if (ev.target.id.includes('actInput_')) {
