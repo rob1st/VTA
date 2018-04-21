@@ -87,8 +87,9 @@
     // focus handlers
     function submitActHrs(ev, num) {
         const curList = document.getElementById('actList_'+ num);
+        console.log(curList.selectedOptions);
         const curHrs = document.getElementById('hours_' + num);
-        if (!curList.value.length) {
+        if (!curList.value.trim().length) {
             curHrs.value = '';
             return;
         } else {
@@ -96,12 +97,6 @@
             const curID = curList.selectedOptions[0].uniqueID;
     
             updateHours(ev, num);
-    
-            // reset hours values
-            curHrs.value = '';
-            curList.value = '';
-            curInput.value = '';
-            curInput.focus();
         }
     }
         
@@ -118,8 +113,13 @@
     
     function updateHours(ev, num) {
         const curList = document.getElementById('actList_' + num);
+        console.log(curList.selectedOptions);
         const curID = curList.selectedOptions[0].uniqueID;
         formState.actLists[num][curID].hrsVal = ev.target.value;
+            
+        // reset hours values
+        resetActInputs(ev, num);
+
         console.log(formState);
     }
     
@@ -151,7 +151,9 @@
 
             // append new option to select element and select it
             curList.appendChild(actList[curKey].domEl);
-            curList.value = newItemText;
+            for (let opt of curList.options) {
+                if (opt.value === newItemText) curList.selectedIndex = opt.index
+            }
             
             curHrs.focus();
         } else {
@@ -160,8 +162,8 @@
     }
     
     function handleKeypressEnter(ev, num) {
-        // is it possible I'll get some weird event targets here?
         ev.stopPropagation();
+        console.log(ev.target);
         if (ev.key === 'Enter') {
             ev.preventDefault();
             if (ev.target.id.includes('actInput_')) {
@@ -173,7 +175,7 @@
         }
     }
 
-    // scripts to show/hide DOM elements
+    // handlers to show/hide DOM elements
     function renderLabelText(event, num) {
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
@@ -198,7 +200,18 @@
         else notesField.style.display = 'none';
     }
     
-    // scripts to add/remove DOM elements
+    // handlers to add/remove DOM elements
+    function resetActInputs(event, num) {
+        const curHrs = document.getElementById('hours_' + num);
+        const curList = document.getElementById('actList_'+ num);
+        const curInput = document.getElementById('actInput_' + num);
+
+        curHrs.value = '';
+        curList.value = '';
+        curInput.value = '';
+        curInput.focus();
+    }
+    
     function addNewLine(event, num) {
         const parentEl = document.getElementById('workInputList');
 
