@@ -80,7 +80,7 @@ echo "
                 // reviewer's view
                 echo "
                 <h3 style='text-align: center; font-style: italic;'>Review</h3>
-                <div class='row'>
+                <div class='row item-margin-bottom'>
                     <div class='col-md-6'>
                         <div class='card'>
                             <div class='card-header'>
@@ -141,7 +141,7 @@ echo "
                         </div>
                     </div>
                 </div>
-                <div class='row'>
+                <div class='row item-margin-bottom'>
                     <div class='col-6'>
                         <h4 id='location'></h4>
                     </div>
@@ -154,7 +154,7 @@ echo "
                     $linkingT = 'laborAct_link';
                     $resourceT = 'labor';
                     $resourceID = 'laborID';
-                    echo "<div id='laborResults' class='row'>";
+                    echo "<div id='laborResults' class='row item-margin-bottom'>";
                     while ($row = $laborResult->fetch_assoc()) {
                         $actQry = "SELECT * FROM (($linkingT link
                             JOIN $resourceT rsrc ON
@@ -192,7 +192,7 @@ echo "
                     $linkingT = 'equipAct_link';
                     $resourceT = 'equipment';
                     $resourceID = 'equipID';
-                    echo "<div id='equipResults' class='row'>";
+                    echo "<div id='equipResults' class='row item-margin-bottom'>";
                     while ($row = $equipResult->fetch_assoc()) {
                         $actQry = "SELECT * FROM (($linkingT link
                             JOIN $resourceT rsrc ON
@@ -215,18 +215,23 @@ echo "
                     echo "</div>";
                 }
                 echo "
-                <div class='row'>
-                    <div class='col-12'>
-                        <textarea id='commentBox' name='comment' class='form-control'></textarea>
+                <hr />
+                <div class='row item-margin-bottom'>
+                    <div class='col-md-6 offset-md-3'>
+                        <label>Comment</label>
+                        <textarea id='commentBox' name='comment' class='form-control' rows='5'></textarea>
                     </div>
                 </div>
-                <div class='row'>
-                    <div class='col-12'>
+                <div class='row item-margin-bottom'>
+                    <div class='col center-content'>
                         <button class='btn btn-lg btn-primary'>Approve</button>
-                        <button class='btn btn-lg btn-primary'>Request revisions</button>
                     </div>
                 </div>
-                ";
+                <div class='row item-margin-bottom'>
+                    <div class='col center-content'>
+                        <button class='btn btn-light text-secondary' style='text-decoration: underline'>Request revisions</button>
+                    </div>
+                </div>";
             }
         }
     } elseif ($view === 'lookback') {
