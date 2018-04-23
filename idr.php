@@ -83,7 +83,7 @@ echo "
                 <div class='row item-margin-bottom'>
                     <div class='col-md-6'>
                         <div class='card'>
-                            <div class='card-header'>
+                            <div class='card-header grey-bg'>
                                 <h6 class='flex-row space-between'>
                                     <span>Inspector Name</span>
                                     <span>{$row['firstname']} {$row['lastname']}</span>
@@ -113,7 +113,7 @@ echo "
                     </div>
                     <div class='col-md-6'>
                         <div class='card'>
-                            <div class='card-header'><h6>Track safety</h6></div>
+                            <div class='card-header grey-bg'><h6>Track safety</h6></div>
                             <div class='card-body'>
                                 <ul>";
                                 $safety = [
@@ -144,16 +144,14 @@ echo "
                         </div>
                     </div>
                 </div>
-                <div class='row'>
-                    <div class='col-6'>
-                        <p class='grey-bg pad'>
-                            <span class='font-weight-bold'>Location: </span><span>{$row['locationName']}</span>
-                        </p>
+                <div class='row grey-bg pad item-margin-bottom'>
+                    <div class='col-4'>
+                        <span class='d-block'>Location</span>
+                        <span class='d-block border-radius thin-grey-border pad-less'>{$row['locationName']}</span>
                     </div>
-                    <div class='col-6'>
-                        <p class='grey-bg pad'>
-                            <span class='font-weight-bold'>Operation/Discipline: </span><span>{$row['opDesc']}</span>
-                        </p>
+                    <div class='col-8'>
+                        <span class='d-block'>Operation/Discipline</span>
+                        <span class='d-block border-radius thin-grey-border pad-less'>{$row['opDesc']}</span>
                     </div>
                 </div>";
                 // iterate over results and display as nested <ul>s
@@ -161,7 +159,6 @@ echo "
                     $linkingT = 'laborAct_link';
                     $resourceT = 'labor';
                     $resourceID = 'laborID';
-                    echo "<div id='laborResults' class='row item-margin-bottom'>";
                     while ($row = $laborResult->fetch_assoc()) {
                         $actQry = "SELECT * FROM (($linkingT link
                             JOIN $resourceT rsrc ON
@@ -171,29 +168,36 @@ echo "
                             link.activityID=a.activityID)";
         
                         echo "
-                        <ul>
-                            <li>
-                                <span style='color: grey; font-style: bold'>description of labor:</span>
-                                <span> {$row['laborDesc']}, </span>
-                                <span style='color: grey; font-style: bold'>number of personnel:</span>
-                                <span> {$row['laborNum']}</span>
-                            </li>";
+                        <div class='row'>
+                            <p class='col-4'>
+                                <span class='d-block text-secondary'>Number of personnel:</span>
+                                <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborNum']}</span>
+                            </p>
+                            <p class='col-8'>
+                                <span class='d-block text-secondary'>Description of labor:</span>
+                                <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborDesc']}</span>
+                            </p>
+                        </div>";
                         if ($actResult = $link->query($actQry)) {
-                            echo "<ul>";
-                            while ($row = $actResult->fetch_assoc()) {
-                                echo "
-                                <li>
-                                    <span style='color: grey; font-style: bold'>task:</span>
-                                    <span> {$row['actDesc']}, </span>
-                                    <span style='color: grey; font-style: bold'>hours:</span>
-                                    <span> {$row['actHrs']}</span>
-                                </li>";
-                            }
-                            echo "</ul>";
+                            echo "
+                            <div class='row'>
+                                <ul class='col'>";
+                                while ($row = $actResult->fetch_assoc()) {
+                                    echo "
+                                    <li class='row striped'>
+                                        <p class='col-7 offset-1'>
+                                            <span>task:</span>
+                                            <span> {$row['actDesc']}</span>
+                                        </p>
+                                        <p class='col-3'>
+                                            <span>hours:</span>
+                                            <span>{$row['actHrs']}</span>
+                                        </p>
+                                    </li>";
+                                }
+                            echo "</ul></div>";
                         }
-                        echo "</ul>";
                     }
-                    echo "</div>";
                 }
                 if ($equipResult) {
                     $linkingT = 'equipAct_link';
