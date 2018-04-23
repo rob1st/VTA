@@ -144,12 +144,16 @@ echo "
                         </div>
                     </div>
                 </div>
-                <div class='row item-margin-bottom'>
+                <div class='row'>
                     <div class='col-6'>
-                        <h4 id='location'></h4>
+                        <p class='grey-bg pad'>
+                            <span class='font-weight-bold'>Location: </span><span>{$row['locationName']}</span>
+                        </p>
                     </div>
                     <div class='col-6'>
-                        <h4 id='discipline'></h4>
+                        <p class='grey-bg pad'>
+                            <span class='font-weight-bold'>Operation/Discipline: </span><span>{$row['opDesc']}</span>
+                        </p>
                     </div>
                 </div>";
                 // iterate over results and display as nested <ul>s
