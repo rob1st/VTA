@@ -4,6 +4,7 @@ session_start();
 include('filestart.php');
 $title = "SVBX - Inspector's Daily Report";
 $curDateNum = date('Y-m-d');
+$timestamp = date('H-i-s').' '.$curDateNum;
 
 $link = f_sqlConnect();
 $userID = $_SESSION['UserID'];
@@ -227,22 +228,60 @@ echo "
                 }
                 echo "
                 <hr />
-                <div class='row item-margin-bottom'>
-                    <div class='col-md-6 offset-md-3'>
-                        <label>Comment</label>
-                        <textarea id='commentBox' name='comment' class='form-control' rows='5'></textarea>
+                <form>
+                    <input type='hidden' name='idrID' value='$idrID' />
+                    <div class='row item-margin-bottom'>
+                        <div class='col-md-6 offset-md-3'>
+                            <label>Comment</label>
+                            <textarea id='commentBox' name='comment' class='form-control' rows='5'></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class='row item-margin-bottom'>
-                    <div class='col center-content'>
-                        <button class='btn btn-lg btn-primary'>Approve</button>
+                    <div class='row item-margin-bottom'>
+                        <div class='col center-content'>
+                            <button type='button' class='btn btn-lg btn-primary' onclick='return submitAndApprove(event)'>Approve</button>
+                        </div>
                     </div>
-                </div>
-                <div class='row item-margin-bottom'>
-                    <div class='col center-content'>
-                        <button class='btn btn-light text-secondary' style='text-decoration: underline'>Request revisions</button>
+                    <div class='row item-margin-bottom'>
+                        <div class='col center-content'>
+                            <button type='button' class='btn btn-light text-secondary' onclick='return submitNoApprove(event)'><u>Request revisions</u></button>
+                        </div>
                     </div>
-                </div>";
+                </form>
+                <script>
+                const comment = document.forms[0]['comment'].value;
+                
+                function submitAndApprove(ev) {
+                    const formData = new FormData(document.forms[0]);
+                    formData.append('approve', 'true');
+                    window.fetch('submitIdrReview.php',
+                        {
+                            method: 'POST',
+                            body: formData
+                        }
+                    ).then(res => {
+                        if (res.ok) return res.text()
+                    })
+                    .then(text => {
+                        window.location.href='stats.php'
+                    })
+                }
+                
+                function submitNoApprove(ev) {
+                    const formData = new FormData(document.forms[0]);
+                    formData.append('approve', 'false');
+                    window.fetch('submitIdrReview.php',
+                        {
+                            method: 'POST',
+                            body: formData
+                        }
+                    ).then(res => {
+                        if (res.ok) return res.text()
+                    })
+                    .then(text => {
+                        window.location.href='stats.php'
+                    })
+                }
+                </script>";
             }
         }
     } elseif ($view === 'lookback') {
