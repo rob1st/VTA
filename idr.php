@@ -4,7 +4,6 @@ session_start();
 include('filestart.php');
 $title = "SVBX - Inspector's Daily Report";
 $curDateNum = date('Y-m-d');
-$timestamp = date('H-i-s').' '.$curDateNum;
 
 $link = f_sqlConnect();
 $userID = $_SESSION['UserID'];
@@ -44,7 +43,7 @@ OR (((IDR i
 // determine view
 if ($idrID = $_GET['idrID']) {
     $view = $_GET['view'];
-    $idrQry = "SELECT idrID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
+    $idrQry = "SELECT idrID, UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
         FROM (((IDR i
         JOIN users_enc u ON
         i.userID=u.UserID)
@@ -269,6 +268,14 @@ echo "
                 function submitNoApprove(ev) {
                     const formData = new FormData(document.forms[0]);
                     formData.append('approve', 'false');
+                    
+                }
+                
+                function submitReview(ev, approval) {
+                    ev.preventDefault();
+                    const formData = new FormData(document.forms[0]);
+                    formData.append('userID', {$row['UserID']});
+                    formData.append('approve', approval);
                     window.fetch('submitIdrReview.php',
                         {
                             method: 'POST',
