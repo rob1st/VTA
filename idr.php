@@ -43,7 +43,15 @@ OR (((IDR i
 // determine view
 if ($idrID = $_GET['idrID']) {
     $view = $_GET['view'];
-    $idrQry = "SELECT * FROM IDR WHERE idrID=$idrID";
+    $idrQry = "SELECT idrID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
+        FROM (((IDR i
+        JOIN users_enc u ON
+        i.userID=u.UserID)
+        JOIN Location l ON
+        i.locationID=l.locationID)
+        JOIN Contract c ON
+        i.project=c.ContractID)
+        WHERE i.idrID=$idrID";
     $laborQry = "SELECT * FROM labor WHERE idrID=$idrID";
     $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
 
@@ -67,91 +75,143 @@ echo "
     if ($view === 'comment') {
         echo "<h1 style='color: chartreuse; text-align: center;'>Comment View</h1>";
     } elseif ($view === 'review') {
-    echo "
-    <h1 style='color: aquamarine; text-align: center;'>Review View</h1>
-    <div class='row'>
-        <div class='col-md-6'>
-            <div class='card'>
-                <div class='card-header'></div>
-                <div class='card-body'></div>
-            </div>
-        </div>
-        <div class='col-md-6'>
-            <div class='card'>
-                <div class='card-header'></div>
-                <div class='card-body'></div>
-            </div>
-        </div>
-    </div>
-    <div class='row'>
-        <div class='col-6'>
-            <h4 id='location'></h4>
-        </div>
-        <div class='col-6'>
-            <h4 id='discipline'></h4>
-        </div>
-    </div>";
-        // iterate over results and display as nested <ul>s
-        if ($laborResult) {
-            $linkingT = 'laborAct_link';
-            $resourceT = 'labor';
-            $resourceID = 'laborID';
-            echo "<div id='laborResults' class='row'>";
-            while ($row = $laborResult->fetch_assoc()) {
-                $actQry = "SELECT * FROM (($linkingT link
-                    JOIN $resourceT rsrc ON
-                    link.{$resourceID}=rsrc.{$resourceID}
-                    AND rsrc.{$resourceID}={$row[$resourceID]})
-                    join activity a on
-                    link.activityID=a.activityID)";
-
+        if ($result = $link->query($idrQry)) {
+            while ($row = $result->fetch_assoc()) {
+                // reviewer's view
                 echo "
-                <ul>
-                    <li>$actQry</li>
-                    <li>$linkingT</li>
-                    <li>$resourceT</li>
-                    <li>$resourceID</li>
-                    <li>labor: {$row['laborDesc']}, number: {$row['laborNum']}</li>";
-                if ($actResult = $link->query($actQry)) {
-                    echo "<ul>";
-                    while ($row = $actResult->fetch_assoc()) {
-                        echo "<li>activity: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
+                <h3 style='text-align: center; font-style: italic;'>Review</h3>
+                <div class='row'>
+                    <div class='col-md-6'>
+                        <div class='card'>
+                            <div class='card-header'>
+                                <h6 class='flex-row space-between'>
+                                    <span>Inspector Name</span>
+                                    <span>{$row['firstname']} {$row['lastname']}</span>
+                                </h6>
+                            </div>
+                            <div class='card-body'>
+                                <ul>
+                                    <li class='flex-row space-between'>
+                                        <span>date</span>
+                                        <span>{$row['idrDate']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>project</span>
+                                        <span>{$row['Contract']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>weather</span>
+                                        <span>{$row['weather']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>shift hours</span>
+                                        <span>{$row['shift']}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class='card'>
+                            <div class='card-header'><h6>Track safety</h6></div>
+                            <div class='card-body'>
+                                <ul>
+                                    <li class='flex-row space-between'>
+                                        <span>EIC</span>
+                                        <span>{$row['EIC']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>Watchman</span>
+                                        <span>{$row['watchman']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>Rap #</span>
+                                        <span>{$row['rapNum']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>SSWP #</span>
+                                        <span>{$row['sswpNum']}</span>
+                                    </li>
+                                    <li class='flex-row space-between'>
+                                        <span>TCP #</span>
+                                        <span>{$row['tcpNum']}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-6'>
+                        <h4 id='location'></h4>
+                    </div>
+                    <div class='col-6'>
+                        <h4 id='discipline'></h4>
+                    </div>
+                </div>";
+                // iterate over results and display as nested <ul>s
+                if ($laborResult) {
+                    $linkingT = 'laborAct_link';
+                    $resourceT = 'labor';
+                    $resourceID = 'laborID';
+                    echo "<div id='laborResults' class='row'>";
+                    while ($row = $laborResult->fetch_assoc()) {
+                        $actQry = "SELECT * FROM (($linkingT link
+                            JOIN $resourceT rsrc ON
+                            link.{$resourceID}=rsrc.{$resourceID}
+                            AND rsrc.{$resourceID}={$row[$resourceID]})
+                            join activity a on
+                            link.activityID=a.activityID)";
+        
+                        echo "
+                        <ul>
+                            <li>$actQry</li>
+                            <li>$linkingT</li>
+                            <li>$resourceT</li>
+                            <li>$resourceID</li>
+                            <li>labor: {$row['laborDesc']}, number: {$row['laborNum']}</li>";
+                        if ($actResult = $link->query($actQry)) {
+                            echo "<ul>";
+                            while ($row = $actResult->fetch_assoc()) {
+                                echo "<li>activity: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
+                            }
+                            echo "</ul>";
+                        }
+                        echo "</ul>";
                     }
-                    echo "</ul>";
+                    echo "</div>";
                 }
-                echo "</ul>";
-            }
-            echo "</div>";
-        }
-        if ($equipResult) {
-            $linkingT = 'equipAct_link';
-            $resourceT = 'equipment';
-            $resourceID = 'equipID';
-            echo "<div id='equipResults' class='row'>";
-            while ($row = $equipResult->fetch_assoc()) {
-                $actQry = "SELECT * FROM (($linkingT link
-                    JOIN $resourceT rsrc ON
-                    link.{$resourceID}=rsrc.{$resourceID}
-                    AND rsrc.{$resourceID}={$row[$resourceID]})
-                    join activity a on
-                    link.activityID=a.activityID)";
-                echo "
-                <ul>
-                    <li>$actQry</li>
-                    <li>$linkingT</li>
-                    <li>$resourceT</li>
-                    <li>$resourceID</li>
-                    <li>equip: {$row['equipDesc']}, number: {$row['equipNum']}</li>";
-                if ($actResult = $link->query($actQry)) {
-                    echo "<ul>";
-                    while ($row = $actResult->fetch_assoc()) {
-                        echo "<li>activity: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
+                if ($equipResult) {
+                    $linkingT = 'equipAct_link';
+                    $resourceT = 'equipment';
+                    $resourceID = 'equipID';
+                    echo "<div id='equipResults' class='row'>";
+                    while ($row = $equipResult->fetch_assoc()) {
+                        $actQry = "SELECT * FROM (($linkingT link
+                            JOIN $resourceT rsrc ON
+                            link.{$resourceID}=rsrc.{$resourceID}
+                            AND rsrc.{$resourceID}={$row[$resourceID]})
+                            join activity a on
+                            link.activityID=a.activityID)";
+                        echo "
+                        <ul>
+                            <li>$actQry</li>
+                            <li>$linkingT</li>
+                            <li>$resourceT</li>
+                            <li>$resourceID</li>
+                            <li>equip: {$row['equipDesc']}, number: {$row['equipNum']}</li>";
+                        if ($actResult = $link->query($actQry)) {
+                            echo "<ul>";
+                            while ($row = $actResult->fetch_assoc()) {
+                                echo "<li>activity: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
+                            }
+                            echo "</ul>";
+                        }
+                        echo "</ul>";
                     }
-                    echo "</ul>";
+                    echo "</div>";
                 }
-                echo "</ul>";
             }
-            echo "</div>";
         }
     } elseif ($view === 'lookback') {
         echo "<h1 style='color: darkOrange; text-align: center;'>Lookback View</h1>";
