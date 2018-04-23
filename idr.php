@@ -23,14 +23,16 @@ if($result=mysqli_query($link,$userQry)) {
 // determine view
 if ($idrID = $_GET['idrID']) {
     $idrQry = "SELECT * FROM IDR WHERE idrID=$idrID";
-    $laborQry = "SELECT * FROM (((IDR i
-        join labor l on i.idrID=l.idrID)
-        join laborAct_link lal on lal.laborID=l.laborID)
-        join activity a on lal.activityID=a.activityID) WHERE idrID=$idrID";
-    $equipQry = "SELECT * FROM (((IDR i
-        join equipment e on i.idrID=e.idrID)
-        join equipAct_link eal on eal.equipID=e.equipID)
-        join activity a on eal.activityID=a.activityID) WHERE idrID=$idrID";
+    $laborQry = "SELECT * FROM ((laborAct_link link
+        join labor l on
+        l.laborID=link.laborID
+        and l.idrID=1)
+        join activity a on link.activityID=a.activityID)";
+    $equipQry = "SELECT * FROM ((equipAct_link link
+        join equipment e on
+        e.equipID=link.equipID
+        and e.idrID=1)
+        join activity a on link.activityID=a.activityID)";
     if ($result = $link->query($idrQry)) {
         $view = $_GET['view'];
     }
@@ -47,9 +49,11 @@ echo "
     </header>
     <main class='container main-content'>
 ";
-    if ($view = 'comment') {
-    } elseif ($view = 'review') {
+    if ($view === 'comment') {
+        echo "<h1 style='color: chartreuse; text-align: center;'>Comment View</h1>";
+    } elseif ($view === 'review') {
     echo "
+    <h1 style='color: aquamarine; text-align: center;'>Review View</h1>
     <div class='row'>
         <div class='col-md-6'>
             <div class='card'>
@@ -63,11 +67,22 @@ echo "
                 <div class='card-body'></div>
             </div>
         </div>
+        <div class='row'>
+            <div class='col-6'>
+                <h4 id='location'></h4>
+            </div>
+            <div class='col-6'>
+                <h4 id='discipline'></h4>
+            </div>
+        </div>";
+        // iterate over results and display as nested <ul>s
+echo "
     </div>
     ";
-    } elseif ($view = 'lookback') {
-        
+    } elseif ($view === 'lookback') {
+        echo "<h1 style='color: darkOrange; text-align: center;'>Lookback View</h1>";
     } else {
+    // initial input view
     echo "
         <h6><span class='text-danger'>*</span><span> = required</span></h6>
         <form id='dailyReportForm'>
