@@ -79,7 +79,7 @@ echo "
             while ($row = $result->fetch_assoc()) {
                 // reviewer's view
                 echo "
-                <h3 style='text-align: center; font-style: italic;'>Review</h3>
+                <h3 class='center-content font-italic'>Review</h3>
                 <div class='row item-margin-bottom'>
                     <div class='col-md-6'>
                         <div class='card'>
@@ -92,7 +92,7 @@ echo "
                             <div class='card-body'>
                                 <ul>
                                     <li class='flex-row space-between'>
-                                        <span>date</span>
+                                        <span style='font-style: bold'>date</span>
                                         <span>{$row['idrDate']}</span>
                                     </li>
                                     <li class='flex-row space-between'>
@@ -115,27 +115,30 @@ echo "
                         <div class='card'>
                             <div class='card-header'><h6>Track safety</h6></div>
                             <div class='card-body'>
-                                <ul>
-                                    <li class='flex-row space-between'>
-                                        <span>EIC</span>
-                                        <span>{$row['EIC']}</span>
-                                    </li>
-                                    <li class='flex-row space-between'>
-                                        <span>Watchman</span>
-                                        <span>{$row['watchman']}</span>
-                                    </li>
-                                    <li class='flex-row space-between'>
-                                        <span>Rap #</span>
-                                        <span>{$row['rapNum']}</span>
-                                    </li>
-                                    <li class='flex-row space-between'>
-                                        <span>SSWP #</span>
-                                        <span>{$row['sswpNum']}</span>
-                                    </li>
-                                    <li class='flex-row space-between'>
-                                        <span>TCP #</span>
-                                        <span>{$row['tcpNum']}</span>
-                                    </li>
+                                <ul>";
+                                $safety = [
+                                    EIC => $row['EIC'],
+                                    Watchman => $row['watchman'],
+                                    'Rap #' => $row['rapNum'],
+                                    'SSWP #' => $row['sswpNum'],
+                                    'TCP #' => $row['tcpNum']
+                                ];
+                                foreach ($safety as $key => $val) {
+                                    if (!$val) {
+                                        echo "
+                                        <li class='flex-row space-between'>
+                                            <span style='font-style: bold'>$key</span>
+                                            <span class='text-secondary font-italic'>none</span>
+                                        </li>";
+                                    } else {
+                                        echo "
+                                        <li class='flex-row space-between'>
+                                            <span style='font-style: bold'>$key</span>
+                                            <span>$val</span>
+                                        </li>";
+                                    }
+                                }
+echo "
                                 </ul>
                             </div>
                         </div>
