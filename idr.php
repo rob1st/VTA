@@ -165,15 +165,22 @@ echo "
         
                         echo "
                         <ul>
-                            <li>$actQry</li>
-                            <li>$linkingT</li>
-                            <li>$resourceT</li>
-                            <li>$resourceID</li>
-                            <li>labor: {$row['laborDesc']}, number: {$row['laborNum']}</li>";
+                            <li>
+                                <span style='color: grey; font-style: bold'>description of labor:</span>
+                                <span> {$row['laborDesc']}, </span>
+                                <span style='color: grey; font-style: bold'>number of personnel:</span>
+                                <span> {$row['laborNum']}</span>
+                            </li>";
                         if ($actResult = $link->query($actQry)) {
                             echo "<ul>";
                             while ($row = $actResult->fetch_assoc()) {
-                                echo "<li>activity: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
+                                echo "
+                                <li>
+                                    <span style='color: grey; font-style: bold'>task:</span>
+                                    <span> {$row['actDesc']}, </span>
+                                    <span style='color: grey; font-style: bold'>hours:</span>
+                                    <span> {$row['actHrs']}</span>
+                                </li>";
                             }
                             echo "</ul>";
                         }
@@ -195,15 +202,11 @@ echo "
                             link.activityID=a.activityID)";
                         echo "
                         <ul>
-                            <li>$actQry</li>
-                            <li>$linkingT</li>
-                            <li>$resourceT</li>
-                            <li>$resourceID</li>
-                            <li>equip: {$row['equipDesc']}, number: {$row['equipNum']}</li>";
+                            <li>descriptoin of equipment: {$row['equipDesc']}, number of equipment: {$row['equipNum']}</li>";
                         if ($actResult = $link->query($actQry)) {
                             echo "<ul>";
                             while ($row = $actResult->fetch_assoc()) {
-                                echo "<li>activity: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
+                                echo "<li>task: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
                             }
                             echo "</ul>";
                         }
@@ -211,6 +214,19 @@ echo "
                     }
                     echo "</div>";
                 }
+                echo "
+                <div class='row'>
+                    <div class='col-12'>
+                        <textarea id='commentBox' name='comment' class='form-control'></textarea>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-12'>
+                        <button class='btn btn-lg btn-primary'>Approve</button>
+                        <button class='btn btn-lg btn-primary'>Request revisions</button>
+                    </div>
+                </div>
+                ";
             }
         }
     } elseif ($view === 'lookback') {
