@@ -408,6 +408,7 @@
         
         // add some additional classes to particular formCtrl parents
         newGroup.children[0].children[2].classList.add('flex-grow');
+        newGroup.children[0].children[3].style.position = 'relative';
         newGroup.children[1].children[0].children[0].classList.add('flex-grow');
         
         parentEl.appendChild(newGroup);
@@ -488,7 +489,6 @@
                                             if (childAttr === 'tagName') continue;
                                             else if (childAttr === 'name') curChild.setAttribute(childAttr, `${child[childAttr]}_${num}`);
                                             else if (childAttr === 'classList') {
-                                                console.log(child, childAttr);
                                                 if (typeof child[childAttr] !== 'string') {
                                                     for (let className of childAttr) {
                                                         curChild.classList.add(childAttr[className]);
@@ -504,6 +504,7 @@
                                         }
                                     }
                                 }
+                                else if (attr === 'name' || attr === 'id') curSib.setAttribute(attr, `${sib[attr]}_${num}`);
                                 else {
                                     curSib.setAttribute(attr, sib[attr]);
                                 }
