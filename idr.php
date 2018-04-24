@@ -43,7 +43,7 @@ OR (((IDR i
 // determine view
 if ($idrID = $_GET['idrID']) {
     $view = $_GET['view'];
-    $idrQry = "SELECT idrID, UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
+    $idrQry = "SELECT idrID, i.userID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
         FROM (((IDR i
         JOIN users_enc u ON
         i.userID=u.UserID)
@@ -247,50 +247,40 @@ echo "
                     </div>
                 </form>
                 <script>
-                const comment = document.forms[0]['comment'].value;
-                
-                function submitAndApprove(ev) {
-                    const formData = new FormData(document.forms[0]);
-                    formData.append('approve', 'true');
-                    window.fetch('submitIdrReview.php',
-                        {
-                            method: 'POST',
-                            body: formData
-                        }
-                    ).then(res => {
-                        if (res.ok) return res.text()
-                    })
-                    .then(text => {
-                        window.location.href='stats.php'
-                    })
-                }
-                
-                function submitNoApprove(ev) {
-                    const formData = new FormData(document.forms[0]);
-                    formData.append('approve', 'false');
+                    function submitAndApprove(ev) {
+                        console.log(submitAndApprove.name, ev.target);
+                        submitReview(ev, 'true');
+                    }
                     
-                }
-                
-                function submitReview(ev, approval) {
-                    ev.preventDefault();
-                    const formData = new FormData(document.forms[0]);
-                    formData.append('userID', {$row['UserID']});
-                    formData.append('approve', approval);
-                    window.fetch('submitIdrReview.php',
-                        {
-                            method: 'POST',
-                            body: formData
-                        }
-                    ).then(res => {
-                        if (res.ok) return res.text()
-                    })
-                    .then(text => {
-                        window.location.href='stats.php'
-                    })
-                }
+                    function submitNoApprove(ev) {
+                        console.log(submitNoApprove.name, ev.target);
+                        submitReview(ev, 'false');
+                    }
+                    
+                    function submitReview(ev, approval) {
+                        ev.preventDefault();
+                        const formData = new FormData(document.forms[0]);
+                        formData.append('userID', {$userID});
+                        formData.append('approve', approval);
+                        window.fetch('submitIdrReview.php',
+                            {
+                                method: 'POST',
+                                body: formData
+                            }
+                        ).then(res => {
+                            if (res.ok) return res.text();
+                            else return window.alert(res.text());
+                        })
+                        .then(text => {
+                            window.alert(text);
+                            if (!text.toLowerCase().includes('problem')) {
+                                return window.location.href='stats.php';
+                            }
+                        })
+                    }
                 </script>";
             }
-        }
+        } else echo "<p class='text-danger'>There was a problem retrieving the report data</p>";
     } elseif ($view === 'lookback') {
         echo "<h1 style='color: darkOrange; text-align: center;'>Lookback View</h1>";
     } else {

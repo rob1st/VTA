@@ -1,5 +1,5 @@
 <?php
-include('SQLFunctions');
+include('SQLFunctions.php');
 session_start();
 
 $timestamp = date('H-i-s').' '.$curDateNum;
