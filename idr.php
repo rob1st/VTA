@@ -43,41 +43,49 @@ OR (((IDR i
 // determine view
 if ($idrID = $_GET['idrID']) {
     $view = $_GET['view'];
-    $idrQry = "SELECT idrID, i.userID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
-        FROM (((IDR i
-        JOIN users_enc u ON
-        i.userID=u.UserID)
-        JOIN Location l ON
-        i.locationID=l.locationID)
-        JOIN Contract c ON
-        i.project=c.ContractID)
-        WHERE i.idrID=$idrID";
-    $laborQry = "SELECT * FROM labor WHERE idrID=$idrID";
-    $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
-
-    if ($result = $link->query($idrQry)) {
-        $laborResult = $link->query($laborQry);
-        $equipResult = $link->query($equipQry);
-    }
 }
 
 $sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on L.LocationID=C.Location group by Location order by L.LocationName";
 
 if ($userAuth < 1) {
+    // view is unauthorized to view
     include 'unauthorised.php';
 } else {
-echo "
-    <header class='container page-header'>
-        <h1 class='page-title'>Inspector's Daily Report</h1>
-    </header>
-    <main class='container main-content'>
-";
-    if ($view === 'comment') {
-        echo "<h1 style='color: chartreuse; text-align: center;'>Comment View</h1>";
-    } elseif ($view === 'review') {
+    // view is authorized at some level
+    echo "
+        <header class='container page-header'>
+            <h1 class='page-title'>Inspector's Daily Report</h1>
+        </header>
+        <main class='container main-content'>
+    ";
+    if ($idrID = $_GET['idrID']) {
+        $idrQry = "SELECT idrID, i.userID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, locationName, opDesc, approvedBy
+            FROM (((IDR i
+            JOIN users_enc u ON
+            i.userID=u.UserID)
+            JOIN Location l ON
+            i.locationID=l.locationID)
+            JOIN Contract c ON
+            i.project=c.ContractID)
+            WHERE i.idrID=$idrID";
+        $laborQry = "SELECT * FROM labor WHERE idrID=$idrID";
+        $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
+        
         if ($result = $link->query($idrQry)) {
+            
+            $laborResult = $link->query($laborQry);
+            $equipResult = $link->query($equipQry);
+            
             while ($row = $result->fetch_assoc()) {
-                // reviewer's view
+                if ($row['approvedBy']
+                    && ($row['i.userID'] == $userID
+                    || $userAuth > 1))
+                {
+                    // review view w/ comments, not Approve btn
+                } elseif ($row['i.userID'] == $userID) {
+                    // edit current IDR view
+                } elseif ($userAuth > 1) {
+                // review view
                 echo "
                 <h3 class='center-content font-italic'>Review</h3>
                 <div class='row item-margin-bottom'>
@@ -312,9 +320,8 @@ echo "
                 </script>";
             }
         } else echo "<p class='text-danger'>There was a problem retrieving the report data</p>";
-    } elseif ($view === 'lookback') {
-        echo "<h1 style='color: darkOrange; text-align: center;'>Lookback View</h1>";
-    } else {
+echo "</main>";
+} else {
     // initial input view
     echo "
         <h6><span class='text-danger'>*</span><span> = required</span></h6>
@@ -474,9 +481,8 @@ echo "
             </div>
         </form>
     <script src='js/dailyReport.js'></script>";
-    }
-echo "</main>";
 }
+
 MySqli_Close($link);
 include('fileend.php');
 ?>
