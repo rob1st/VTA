@@ -304,10 +304,12 @@ echo "
                         </div>
                         <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                             <label class='input-label item-margin-right'>Project<span class='text-danger'>*</span></label>
-                            <select value='C700' name='project' class='form-control' required>";
+                            <select name='project' class='form-control' required>";
                                 if ($result = $link->query($contractQry)) {
                                     while ($row = $result->fetch_array()) {
-                                        echo "<option value ='{$row[0]}'>{$row[1]}</option>";
+                                        if ($row[1] === 'C700') $default='selected';
+                                        else $default = '';
+                                        echo "<option value ='{$row[0]}' $default>{$row[1]}</option>";
                                     }
                                 }
                                 

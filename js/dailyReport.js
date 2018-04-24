@@ -484,19 +484,23 @@
                                 if (attr === 'children') {
                                     for (let child of sib[attr]) {
                                         curChild = curSib.appendChild(document.createElement(child.tagName));
-                                        for (let [childAttr, childAttrVal] in child) {
+                                        for (let childAttr in child) {
                                             if (childAttr === 'tagName') continue;
+                                            else if (childAttr === 'name') curChild.setAttribute(childAttr, `${child[childAttr]}_${num}`);
                                             else if (childAttr === 'classList') {
-                                                for (let className of childAttr) {
-                                                    curChild.classList.add(className);
-                                                }
+                                                console.log(child, childAttr);
+                                                if (typeof child[childAttr] !== 'string') {
+                                                    for (let className of childAttr) {
+                                                        curChild.classList.add(childAttr[className]);
+                                                    }
+                                                } else curChild.classList.add(child[childAttr]);
                                             } else if (childAttr === 'handler') {
                                                 for (let handler of childAttr) {
                                                     curChild.addEventListener(handler.event, ev => {
                                                         return handler.fn(ev, num);
                                                     })
                                                 }
-                                            } else curChild.setAttribute(childAttr, childAttrVal)
+                                            } else curChild.setAttribute(childAttr, child[childAttr])
                                         }
                                     }
                                 }
