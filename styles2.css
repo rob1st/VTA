@@ -131,6 +131,10 @@ ul li {
     flex-shrink: 1;
 }
 
+.margin-none {
+    margin: 0;
+}
+
 .pad {
     padding: .625rem 1rem .875rem;
 }

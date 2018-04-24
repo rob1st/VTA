@@ -145,11 +145,11 @@ echo "
                     </div>
                 </div>
                 <div class='row grey-bg pad item-margin-bottom'>
-                    <div class='col-4'>
+                    <div class='col-6'>
                         <span class='d-block'>Location</span>
                         <span class='d-block border-radius thin-grey-border pad-less'>{$row['locationName']}</span>
                     </div>
-                    <div class='col-8'>
+                    <div class='col-6'>
                         <span class='d-block'>Operation/Discipline</span>
                         <span class='d-block border-radius thin-grey-border pad-less'>{$row['opDesc']}</span>
                     </div>
@@ -170,7 +170,7 @@ echo "
                         echo "
                         <div class='row'>
                             <p class='col-4'>
-                                <span class='d-block text-secondary'>Number of personnel:</span>
+                                <span class='d-block text-secondary'># personnel:</span>
                                 <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborNum']}</span>
                             </p>
                             <p class='col-8'>
@@ -184,13 +184,13 @@ echo "
                                 <ul class='col'>";
                                 while ($row = $actResult->fetch_assoc()) {
                                     echo "
-                                    <li class='row striped'>
-                                        <p class='col-7 offset-1'>
-                                            <span>task:</span>
+                                    <li class='row striped pad-less'>
+                                        <p class='col-6 offset-md-1 mb-0'>
+                                            <span class='text-secondary font-italic mr-md-2'>task:</span>
                                             <span> {$row['actDesc']}</span>
                                         </p>
-                                        <p class='col-3'>
-                                            <span>hours:</span>
+                                        <p class='col-2 offset-md-1 mb-0'>
+                                            <span class='text-secondary font-italic mr-md-2'>hours:</span>
                                             <span>{$row['actHrs']}</span>
                                         </p>
                                     </li>";
@@ -214,7 +214,7 @@ echo "
                         echo "
                         <div class='row'>
                             <p class='col-4'>
-                                <span class='d-block text-secondary'>Number of equipment:</span>
+                                <span class='d-block text-secondary'># equipment:</span>
                                 <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipNum']}</span>
                             </p>
                             <p class='col-8'>
@@ -228,13 +228,13 @@ echo "
                                 <ul class='col'>";
                                 while ($row = $actResult->fetch_assoc()) {
                                     echo "
-                                    <li class='row striped'>
-                                        <p class='col-7 offset-1'>
-                                            <span>task:</span>
+                                    <li class='row striped pad-less'>
+                                        <p class='col-6 offset-md-1 mb-0'>
+                                            <span class='text-secondary font-italic mr-md-2'>task:</span>
                                             <span> {$row['actDesc']}</span>
                                         </p>
-                                        <p class='col-3'>
-                                            <span>hours:</span>
+                                        <p class='col-2 offset-md-1 mb-0'>
+                                            <span class='text-secondary font-italic mr-md-2'>hours:</span>
                                             <span>{$row['actHrs']}</span>
                                         </p>
                                     </li>";
