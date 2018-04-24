@@ -247,6 +247,7 @@ echo "
                 <hr />
                 <form>
                     <input type='hidden' name='idrID' value='$idrID' />
+                    <input type='hidden' name='userID' value='$userID' />
                     <div class='row item-margin-bottom'>
                         <div class='col-md-6 offset-md-3'>
                             <label>Comment</label>
