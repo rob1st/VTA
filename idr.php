@@ -203,7 +203,6 @@ echo "
                     $linkingT = 'equipAct_link';
                     $resourceT = 'equipment';
                     $resourceID = 'equipID';
-                    echo "<div id='equipResults' class='row item-margin-bottom'>";
                     while ($row = $equipResult->fetch_assoc()) {
                         $actQry = "SELECT * FROM (($linkingT link
                             JOIN $resourceT rsrc ON
@@ -211,19 +210,38 @@ echo "
                             AND rsrc.{$resourceID}={$row[$resourceID]})
                             join activity a on
                             link.activityID=a.activityID)";
+        
                         echo "
-                        <ul>
-                            <li>descriptoin of equipment: {$row['equipDesc']}, number of equipment: {$row['equipNum']}</li>";
+                        <div class='row'>
+                            <p class='col-4'>
+                                <span class='d-block text-secondary'>Number of equipment:</span>
+                                <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipNum']}</span>
+                            </p>
+                            <p class='col-8'>
+                                <span class='d-block text-secondary'>Description of equipment:</span>
+                                <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipDesc']}</span>
+                            </p>
+                        </div>";
                         if ($actResult = $link->query($actQry)) {
-                            echo "<ul>";
-                            while ($row = $actResult->fetch_assoc()) {
-                                echo "<li>task: {$row['actDesc']}, hours: {$row['actHrs']}</li>";
-                            }
-                            echo "</ul>";
+                            echo "
+                            <div class='row'>
+                                <ul class='col'>";
+                                while ($row = $actResult->fetch_assoc()) {
+                                    echo "
+                                    <li class='row striped'>
+                                        <p class='col-7 offset-1'>
+                                            <span>task:</span>
+                                            <span> {$row['actDesc']}</span>
+                                        </p>
+                                        <p class='col-3'>
+                                            <span>hours:</span>
+                                            <span>{$row['actHrs']}</span>
+                                        </p>
+                                    </li>";
+                                }
+                            echo "</ul></div>";
                         }
-                        echo "</ul>";
                     }
-                    echo "</div>";
                 }
                 echo "
                 <hr />

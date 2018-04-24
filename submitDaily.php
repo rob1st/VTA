@@ -78,11 +78,13 @@
                     if (strpos($key, 'equipOrLabor') !== false) unset($post[$key]);
                     elseif (strpos($key, 'labor') !== false) {
                         // assign 'labor' vals to 'labor' keys @ num
+                        // clean '_$num' out of any numbered $keys
                         $laborKey = substr($key, 0, strpos($key, '_'));
                         $laborData[$num][$laborKey] = $val;
                         $laborData[$num]['idrID'] = $newIdrID;
                     } else {
                         // assign 'equip' vals to 'equip' keys @ num
+                        // clean '_$num' out of any numbered $keys
                         $equipKey = substr($key, 0, strpos($key, '_'));
                         $equipData[$num][$equipKey] = $val;
                         $equipData[$num]['idrID'] = $newIdrID;
@@ -109,6 +111,7 @@
                 foreach ($laborData as $index => $subarr) {
                     $keys = implode(", ", array_keys($subarr));
                     $vals = implode("', '", array_values($subarr));
+                    // 
                     $query = "INSERT INTO $laborTable ($keys) VALUES ('$vals')";
                     // once data is parsed & committed, rm it from data array
                     unset($laborData[$index]);
