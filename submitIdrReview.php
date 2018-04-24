@@ -30,7 +30,7 @@ if ($idrID = intval($_POST['idrID'])) {
                 $typeofUserID = gettype($userID);
                 http_response_code(201);
                 $code = http_response_code();
-                echo "Daily report approved\nreport #{$idrID}\napproved by user #{$userID}, {$typeofUserID}";
+                echo "Daily report approved\nreport #{$idrID}\n{$timestamp}";
                 return;
             }
         }

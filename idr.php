@@ -178,6 +178,12 @@ echo "
                                 <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborDesc']}</span>
                             </p>
                         </div>";
+                        if ($row['laborNotes']) {
+                            echo "
+                            <div class='row'>
+                                <p class='col-12 mb-2 thin-grey-border'>{$row['laborNotes']}</p>
+                            </div>";
+                        }
                         if ($actResult = $link->query($actQry)) {
                             echo "
                             <div class='row'>
@@ -222,6 +228,12 @@ echo "
                                 <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipDesc']}</span>
                             </p>
                         </div>";
+                        if ($row['equipNotes']) {
+                            echo "
+                            <div class='row'>
+                                <p class='col-12 thin-grey-border'>{$row['equipNotes']}</p>
+                            </div>";
+                        }
                         if ($actResult = $link->query($actQry)) {
                             echo "
                             <div class='row'>
@@ -427,7 +439,7 @@ echo "
                                     background-color: white;
                                 '
                             >
-                                <textarea name='remarks_0' rows='5' cols='30' maxlength='125' class='form-control'></textarea>
+                                <textarea name='laborNotes_0' id='notes_0' rows='5' cols='30' maxlength='125' class='form-control'></textarea>
                             </aside>
                         </div>
                     </div>

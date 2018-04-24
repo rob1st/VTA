@@ -178,16 +178,19 @@
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
         const numInput = document.getElementById('equipOrLaborNum_' + num);
         const descInput = document.getElementById('equipOrLaborDesc_' + num);
+        const textarea = document.getElementById('notes_' + num);
         if (event.target.value == 'labor') {
             numLabel.innerText = '# of Personnel';
             descLabel.innerText = 'Description of Labor';
             numInput.setAttribute('name', 'laborNum_' + num);
             descInput.setAttribute('name', 'laborDesc_' + num);
+            textarea.setAttribute('name', 'laborNotes_' + num);
         } else {
             numLabel.innerText = 'Equipment No.';
             descLabel.innerText = 'Description of Equipment';
             numInput.setAttribute('name', 'equipNum_' + num);
             descInput.setAttribute('name', 'equipDesc_' + num);
+            textarea.setAttribute('name', 'equipNotes_' + num);
         }
     }
     
@@ -295,7 +298,8 @@
                             children: [
                                 {
                                     tagName: 'textarea',
-                                    name: 'remarks',
+                                    id: 'notes',
+                                    name: 'laborNotes',
                                     rows: '5',
                                     cols: '30',
                                     maxlength: '125',
@@ -487,7 +491,7 @@
                                         curChild = curSib.appendChild(document.createElement(child.tagName));
                                         for (let childAttr in child) {
                                             if (childAttr === 'tagName') continue;
-                                            else if (childAttr === 'name') curChild.setAttribute(childAttr, `${child[childAttr]}_${num}`);
+                                            else if (childAttr === 'name' || childAttr === 'id') curChild.setAttribute(childAttr, `${child[childAttr]}_${num}`);
                                             else if (childAttr === 'classList') {
                                                 if (typeof child[childAttr] !== 'string') {
                                                     for (let className of childAttr) {
