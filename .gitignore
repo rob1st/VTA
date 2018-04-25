@@ -9,5 +9,7 @@ error_log
 old_*
 mail.php
 
-# don't push this to remote
+# don't push dependencies to remote
 node_modules
+composer.phar
+/vendor/
