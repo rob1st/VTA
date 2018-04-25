@@ -7,7 +7,6 @@ php.ini
 check.php
 error_log
 old_*
-mail.php
 
 # don't push dependencies to remote
 node_modules

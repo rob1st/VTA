@@ -1,5 +1,6 @@
 <?php
     include('SQLFunctions.php');
+    include 'mailer.php';
     session_start();
     
     $post = $_POST;
@@ -181,14 +182,16 @@
             }
             http_response_code(201);
             $code = http_response_code();
+            $reviewLink = "https://{$_SERVER['HTTP_HOST']}/idr.php?idrID={$newIdrID}&view=review";
+            // mail a notification to myself FOR TESTING PURPOSES ONLY
+            mailer('colin.king-bailey@vta.org', 'new IDR submitted', "New Inspector Daily Report submitted. Please visit {$reviewLink} to review report.");
             echo "new record created: Inspector's Daily Report #{$newIdrID}\n{$timestamp}";
+            $link->close();
         } else {
             http_response_code(500);
             $code = http_response_code();
         }
     }
-    $typeOfUserID = gettype($_POST['userID']);
-    $typeOfIdrDate = gettype($_POST['idrDate']);
 ?>
 <?php
 // this is all stuff for testing
