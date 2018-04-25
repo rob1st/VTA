@@ -11,6 +11,11 @@
     $actTable = 'activity';
     $link = f_sqlConnect();
     $timestamp = date('Y-m-d H:i:s');
+    $editableUntil = new DateTime($timestamp);
+    // an IDR is editable until 1 AM on the day after its creation
+    $editableUntil->
+        setDate($editableUntil->format('Y'), $editableUntil-> format('m'), $editableUntil->format('j') + 1)->
+        setTime('01', '59', '59');
     
     $userID = $_SESSION['UserID'];
     $userQry = 'SELECT Username FROM users_enc WHERE UserID = '.$userID;

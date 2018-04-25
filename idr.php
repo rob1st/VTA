@@ -72,16 +72,14 @@ if ($userAuth < 1) {
         $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
         
         if ($result = $link->query($idrQry)) {
-            
             $laborResult = $link->query($laborQry);
             $equipResult = $link->query($equipQry);
             
             while ($row = $result->fetch_assoc()) {
-                if ($row['approvedBy']
-                    && ($row['i.userID'] == $userID
-                    || $userAuth > 1))
-                {
-                    // review view w/ comments, not Approve btn
+                if (!$row['approvedBy']) {
+                    if ($row['i.userID'] === $userID) {
+                    elseif ($userAuth > 1)) {
+                        // review view w/ comments + Approve btn
                 } elseif ($row['i.userID'] == $userID) {
                     // edit current IDR view
                 } elseif ($userAuth > 1) {

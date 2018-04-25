@@ -5,27 +5,57 @@
 <body>
 <?php
 session_start();
+require 'SQLFunctions.php';
+
+$link = f_sqlConnect();
+
 $dir = new DirectoryIterator('/home/ubuntu/workspace/');
 ?>
 <?php
-$arr = [
-    corn => 0
-];
-$val = isset($arr['val']);
 echo "<pre>";
 var_dump($_SESSION);
 echo "</pre>";
-echo "<pre style='font-size: 2rem; color: orangeRed;'>$val</pre>"
 ?>
-<ol>
 <?php
-foreach ($dir as $file) {
-    $content = file_get_contents($file->getPathname());
-    if (strpos($content, $string) !== false) {
-        echo "<li>{$file}</li>";
+if ($idrID = $_GET['idrID']) {
+    $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, LocationName, opDesc, approvedBy
+    FROM (((IDR i
+    JOIN users_enc u ON
+    i.UserID=u.UserID)
+    JOIN Location l ON
+    i.LocationID=l.LocationID)
+    JOIN Contract c ON
+    i.ContractID=c.ContractID)
+    WHERE i.idrID=$idrID";
+
+    if ($result = $link->query($idrQry)) {
+        while($row = $result->fetch_assoc()) {
+            $idrDate = new DateTime($row['idrDate']);
+            $idrDate->
+                setDate($idrDate->format('Y'), $idrDate->format('m'), $idrDate->format('j') + 1)->
+                setTime('12', '59', '59');
+            echo "
+            <p style='font-size: .85rem; color: orangeRed;'>{$row['idrDate']}</p>
+            <pre style='color: magenta'>";
+            echo $idrDate->format($idrDate::W3C);
+            echo "</pre>";
+        }
+    } else {
+        echo "</pre>";
+        echo "<pre style='color: crimson'>";
+        var_dump($link);
+        echo "</pre>";
     }
+} else {
+    echo "<ol style='color: grey'>";
+    foreach ($dir as $file) {
+        $content = file_get_contents($file->getPathname());
+        if (strpos($content, $string) !== false) {
+            echo "<li>{$file}</li>";
+        }
+    }
+    echo "</ol>";
 }
 ?>
-</ol>
 </body>
 </html>
