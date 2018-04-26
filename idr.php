@@ -70,6 +70,7 @@ if ($userAuth < 1) {
         <main class='container main-content'>
     ";
     if ($idrID = $_GET['idrID']) {
+        echo "<h3 class='text-center text-primary'>$idrID</h3>";
         $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, LocationName, opDesc, approvedBy, editableUntil
             FROM (((IDR i
             JOIN users_enc u ON
@@ -83,13 +84,14 @@ if ($userAuth < 1) {
         $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
         
         if ($result = $link->query($idrQry)) {
-            $numRows = intval($link->num_rows);
+            $numRows = intval($result->num_rows);
+            echo "<h3 class='text-center'>$numRows</h3>";
             $laborResult = $link->query($laborQry);
             $equipResult = $link->query($equipQry);
             
             if ($numRows) {
                 while ($row = $result->fetch_assoc()) {
-                    $expiry = new Date($row['editableUntil']);
+                    $expiry = new DateTime($row['editableUntil']);
                     echo "<p class='text-warning text-center>{$expiry->format($expiry::W3C)}</p>";
                     
                     if (($row['approvedBy'] &&
@@ -508,8 +510,13 @@ if ($userAuth < 1) {
                 http_response_code(404);
                 $code = http_response_code();
                 echo "
-                <p class='text-light text-center bg-info pad'>No report found here</p>
-                <p class='text-primary text-center'>$numRows</p>";
+                <div class='row'>
+                    <div class='col-md-6 offset-md-3'>
+                        <h4 class='text-center'>$code</h4>
+                        <p class='text-light text-center bg-info pad'>No report found here</p>
+                        <p class='text-primary text-center'>$numRows</p>
+                    </div>
+                </div>";
                 return;
             }
         } else {
