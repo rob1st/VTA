@@ -53,6 +53,11 @@
             // destroy in $post any key found in result
             unset($post[$key]);
         }
+        
+        // append timestamp and editableUntil to $idrData;
+        $idrData['editableUntil'] = $editableUntil;
+        // will MySQL automatically timestamp my entries(?)
+        $idrData['timestamp'] = $timestamp;
     
         $keys = implode(", ", array_keys($idrData));
         $vals = implode("', '", array_values($idrData));
