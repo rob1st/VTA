@@ -56,7 +56,7 @@ if ($idrID = $_GET['idrID']) {
     $view = $_GET['view'];
 }
 
-$sqlLoc = "SELECT LocationID, LocationName FROM Location ORDER BY LocaitonID";
+$locQry = "SELECT LocationID, LocationName FROM Location ORDER BY LocationID";
 
 if ($userAuth < 1) {
     // view is unauthorized to view
@@ -358,7 +358,7 @@ if ($userAuth < 1) {
                                 .then(text => {
                                     window.alert(text);
                                     if (!text.toLowerCase().includes('problem')) {
-                                        return window.location.href='stats.php';
+                                        return window.location.reload();
                                     }
                                 })
                             }
@@ -440,7 +440,7 @@ if ($userAuth < 1) {
                                 <div class='item-margin-right'>
                                     <label class='input-label'>Location<span class='text-danger'>*</span></label>
                                     <select name='LocationID' class='form-control' required>";
-                                        if ($result = $link->query($sqlLoc)) {
+                                        if ($result = $link->query($locQry)) {
                                             while ($row = $result->fetch_assoc()) {
                                                 echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
                                             }
@@ -636,7 +636,7 @@ if ($userAuth < 1) {
                     <div class='item-margin-right'>
                         <label class='input-label'>Location<span class='text-danger'>*</span></label>
                         <select name='LocationID' class='form-control' required>";
-                            if ($result = $link->query($sqlLoc)) {
+                            if ($result = $link->query($locQry)) {
                                 while ($row = $result->fetch_assoc()) {
                                     echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
                                 }
