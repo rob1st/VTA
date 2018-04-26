@@ -188,8 +188,9 @@
                 }
             }
             http_response_code(201);
+            header("Location: /idr.php?idrID={$newIdrID}");
             $code = http_response_code();
-            echo "new record created: Inspector's Daily Report #{$newIdrID}\n{$timestamp}";
+            echo "new record created: Inspector's Daily Report #{$newIdrID}\nhttps://{$_SERVER['HTTP_HOST']}/idr.php?idrID={$newIdrID}\n{$timestamp}";
         } else {
             http_response_code(500);
             $code = http_response_code();

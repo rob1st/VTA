@@ -34,12 +34,20 @@
             method: 'POST',
             body: data
         }).then(res => {
-            if (res.ok) return res.text()
-        }).then(text => {
-            window.alert(
-                `Thank you for your submission\n${text}`
-            );
-            return window.location.reload();
+            if (res.ok) {
+                if (res.headers.get('Location') && res.status === 201) {
+                    window.location.href = res.headers.get('Location');
+                    return res.text()
+                } else {
+                    return 'No redirect was provided'
+                }
+            }
+        }).then(body => {
+            if (body.includes('problem')) {
+                window.alert(`There was a problem with the redirect url:\n${body}`);
+                window.location.reload();
+            }
+            else window.alert(`Thank you for your submission\n${body}`);
         })
     }
     
