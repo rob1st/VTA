@@ -70,12 +70,10 @@ if ($userAuth < 1) {
         <main class='container main-content'>
     ";
     if ($idrID = $_GET['idrID']) {
-        $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, LocationName, opDesc, approvedBy, editableUntil
-            FROM (((IDR i
+        $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, approvedBy, editableUntil
+            FROM ((IDR i
             JOIN users_enc u ON
             i.UserID=u.UserID)
-            JOIN Location l ON
-            i.LocationID=l.LocationID)
             JOIN Contract c ON
             i.ContractID=c.ContractID)
             WHERE i.idrID=$idrID";
