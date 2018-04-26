@@ -122,7 +122,7 @@ if ($userAuth < 1) {
                                                 <span>{$row['idrDate']}</span>
                                             </li>
                                             <li class='flex-row space-between'>
-                                                <span>project</span>
+                                                <span>Contract</span>
                                                 <span>{$row['Contract']}</span>
                                             </li>
                                             <li class='flex-row space-between'>
@@ -384,8 +384,8 @@ if ($userAuth < 1) {
                                             <input type='date' value='{$curDateNum}' id='curDate' class='form-control' readonly />
                                         </div>
                                         <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                                            <label class='input-label item-margin-right'>Project<span class='text-danger'>*</span></label>
-                                            <select name='project' class='form-control' required>";
+                                            <label class='input-label item-margin-right'>Contract<span class='text-danger'>*</span></label>
+                                            <select name='ContractID' class='form-control' required>";
                                                 if ($result = $link->query($contractQry)) {
                                                     while ($row = $result->fetch_array()) {
                                                         if ($row[1] === 'C700') $default='selected';
@@ -580,7 +580,7 @@ if ($userAuth < 1) {
                                 <input type='date' value='{$curDateNum}' id='curDate' class='form-control' readonly />
                             </div>
                             <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                                <label class='input-label item-margin-right'>Project<span class='text-danger'>*</span></label>
+                                <label class='input-label item-margin-right'>Contract<span class='text-danger'>*</span></label>
                                 <select name='ContractID' class='form-control' required>";
                                     if ($result = $link->query($contractQry)) {
                                         while ($row = $result->fetch_array()) {
