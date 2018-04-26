@@ -638,7 +638,7 @@ if ($userAuth < 1) {
                         <div class='flex-row item-margin-bottom'>
                             <div class='item-margin-right'>
                                 <label class='input-label'>Location<span class='text-danger'>*</span></label>
-                                <select name='laborLocationID_01' class='form-control' required>";
+                                <select id='locationID_0' name='laborLocationID_0' class='form-control' required>";
                                 if ($result = $link->query($locQry)) {
                                     $locJSON = array();
                                     while ($row = $result->fetch_assoc()) {
