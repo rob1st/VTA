@@ -77,14 +77,22 @@ if ($userAuth < 1) {
             JOIN Contract c ON
             i.ContractID=c.ContractID)
             WHERE i.idrID=$idrID";
-        $laborQry = "SELECT * FROM labor WHERE idrID=$idrID";
-        $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
+        $laborQry = "SELECT laborID, laborNum, laborDesc, idrID, laborNotes, LocationName FROM
+            labor la JOIN
+            Location L ON
+            la.LocationID=L.LocationID
+            WHERE la.idrID=$idrID";
+        $equipQry = "SELECT equipID, equipNum, equipDesc, idrID, equipNotes, LocationName FROM
+            equipment e JOIN
+            Location L ON
+            e.LocationID=L.LocationID
+            WHERE e.idrID=$idrID";
         
         if ($result = $link->query($idrQry)) {
             echo "<h2 class='text-center text-info'>$userID</h2>";
             $numRows = intval($result->num_rows);
-            $laborResult = $link->query($laborQry);
-            $equipResult = $link->query($equipQry);
+            // $laborResult = $link->query($laborQry);
+            // $equipResult = $link->query($equipQry);
             
             if ($numRows) {
                 while ($row = $result->fetch_assoc()) {
@@ -161,23 +169,14 @@ if ($userAuth < 1) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class='row grey-bg pad item-margin-bottom'>
-                            <div class='col-6'>
-                                <span class='d-block'>Location</span>
-                                <span class='d-block border-radius thin-grey-border pad-less'>{$row['LocationName']}</span>
-                            </div>
-                            <div class='col-6'>
-                                <span class='d-block'>Operation/Discipline</span>
-                                <span class='d-block border-radius thin-grey-border pad-less'>{$row['opDesc']}</span>
-                            </div>
                         </div>";
                         // iterate over results and display as nested <ul>s
-                        if ($laborResult) {
+                        if ($result = $link->query($laborQry)) {
+                            echo intval($result->num_rows);
                             $linkingT = 'laborAct_link';
                             $resourceT = 'labor';
                             $resourceID = 'laborID';
-                            while ($row = $laborResult->fetch_assoc()) {
+                            while ($row = $result->fetch_assoc()) {
                                 $actQry = "SELECT * FROM (($linkingT link
                                     JOIN $resourceT rsrc ON
                                     link.{$resourceID}=rsrc.{$resourceID}
@@ -187,11 +186,15 @@ if ($userAuth < 1) {
                 
                                 echo "
                                 <div class='row'>
-                                    <p class='col-4'>
+                                    <p class='col-md-4'>
+                                        <span class='d-block text-secondary'>Location</span>
+                                        <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['LocationName']}</span>
+                                    </p>
+                                    <p class='col-md-2'>
                                         <span class='d-block text-secondary'># personnel:</span>
                                         <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborNum']}</span>
                                     </p>
-                                    <p class='col-8'>
+                                    <p class='col-md-6'>
                                         <span class='d-block text-secondary'>Description of labor:</span>
                                         <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborDesc']}</span>
                                     </p>
@@ -222,12 +225,12 @@ if ($userAuth < 1) {
                                     echo "</ul></div>";
                                 }
                             }
-                        }
-                        if ($equipResult) {
+                        } else echo "<pre style='font-size: 2rem; color: orangeRed;'>{$result->error}</pre>";
+                        if ($result = $link->query($equipQry)) {
                             $linkingT = 'equipAct_link';
                             $resourceT = 'equipment';
                             $resourceID = 'equipID';
-                            while ($row = $equipResult->fetch_assoc()) {
+                            while ($row = $result->fetch_assoc()) {
                                 $actQry = "SELECT * FROM (($linkingT link
                                     JOIN $resourceT rsrc ON
                                     link.{$resourceID}=rsrc.{$resourceID}
