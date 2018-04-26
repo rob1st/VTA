@@ -70,7 +70,6 @@ if ($userAuth < 1) {
         <main class='container main-content'>
     ";
     if ($idrID = $_GET['idrID']) {
-        echo "<h3 class='text-center text-primary'>$idrID</h3>";
         $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, LocationName, opDesc, approvedBy, editableUntil
             FROM (((IDR i
             JOIN users_enc u ON
@@ -84,15 +83,14 @@ if ($userAuth < 1) {
         $equipQry = "SELECT * FROM equipment WHERE idrID=$idrID";
         
         if ($result = $link->query($idrQry)) {
+            echo "<h2 class='text-center text-info'>$userID</h2>";
             $numRows = intval($result->num_rows);
-            echo "<h3 class='text-center'>$numRows</h3>";
             $laborResult = $link->query($laborQry);
             $equipResult = $link->query($equipQry);
             
             if ($numRows) {
                 while ($row = $result->fetch_assoc()) {
                     $expiry = new DateTime($row['editableUntil']);
-                    echo "<p class='text-warning text-center>{$expiry->format($expiry::W3C)}</p>";
                     
                     if (($row['approvedBy'] &&
                     ($row['i.UserID'] === $userID || $userAuth > 1))
@@ -277,6 +275,7 @@ if ($userAuth < 1) {
                                 }
                             }
                         }
+                        // comment & Approve elements
                         echo "
                         <hr />
                         <form>
@@ -287,7 +286,9 @@ if ($userAuth < 1) {
                                     <label>Comment</label>
                                     <textarea id='commentBox' name='comment' class='form-control' rows='5'></textarea>
                                 </div>
-                            </div>
+                            </div>";
+                        if (!$row['approvedBy'] && $userAuth > 1) {
+                            echo "
                             <div class='row item-margin-bottom'>
                                 <div class='col center-content'>
                                     <button type='button' class='btn btn-lg btn-primary' onclick='return submitAndApprove(event)'>Approve</button>
@@ -297,8 +298,38 @@ if ($userAuth < 1) {
                                 <div class='col center-content'>
                                     <button type='button' class='btn btn-light text-secondary' onclick='return submitNoApprove(event)'><u>Request revisions</u></button>
                                 </div>
-                            </div>
-                        </form>
+                            </div>";
+                        } else {
+                            echo "
+                            <div class='row item-margin-bottom'>
+                                <div class='col center-content'>
+                                    <button type='button' class='btn btn-lg btn-primary' onclick='return submitNoApprove(event)'><u>Submit comment</u></button>
+                                </div>
+                            </div>";
+                        }
+                        echo "
+                        </form>";
+                        // query for comments
+                        $commentQry = "SELECT idrCommentID, commentDate, firstname, lastname, idrID, comment FROM
+                            idrComments ic JOIN
+                            users_enc ue ON
+                            ic.userID = ue.userID
+                            AND idrID=$idrID";
+                        if ($result = $link->query($commentQry)) {
+                            echo "<h4 class='text-center text-warn bg-info pad'>{$result->num_rows}</h4>";
+                            while ($row = $result->fetch_assoc()) {
+                                echo "
+                                <div class='row'>
+                                    <div class='col-md-8 offset-md-2'>
+                                        <blockquote class='blockquote'>
+                                            <p>{$row['comment']}</p>
+                                        </blockquote>
+                                        <footer class='blockquote-footer'>{$row['firstname']} {$row['lastname']}, <cite class='title'>{$row['commentDate']}</cite></footer>
+                                    </div>
+                                </div>";
+                            }
+                        } else echo "<pre class='text-danger'>{$result->error}</pre>";
+                        echo "
                         <script>
                             function submitAndApprove(ev) {
                                 console.log(submitAndApprove.name, ev.target);
