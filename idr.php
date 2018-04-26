@@ -632,26 +632,23 @@ if ($userAuth < 1) {
                     </fieldset>
                 </div>
                 
-                <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
-                    <div class='item-margin-right'>
-                        <label class='input-label'>Location<span class='text-danger'>*</span></label>
-                        <select name='LocationID' class='form-control' required>";
-                            if ($result = $link->query($locQry)) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
-                                }
-                            }
-        echo "
-                        </select>
-                    </div>
-                    <div class='flex item-margin-right'>
-                        <label class='input-label'>Name of operation or discipline<span class='text-danger'>*</span></label>
-                        <input type='text' name='opDesc' class='form-control full-width' required />
-                    </div>
-                </div>
                 <div id='workInputList'>
                     <div id='workInputGroup_0' class='form-subsection item-border-bottom item-margin-bottom'>
                         <div class='flex-row item-margin-bottom'>
+                            <div class='item-margin-right'>
+                                <label class='input-label'>Location<span class='text-danger'>*</span></label>
+                                <select name='laborLocationID_01' class='form-control' required>";
+                                if ($result = $link->query($locQry)) {
+                                    $locJSON = array();
+                                    while ($row = $result->fetch_assoc()) {
+                                        $locJSON[$row['LocationID']] = $row['LocationName'];
+                                        echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
+                                    }
+                                    $locJSON = json_encode($locJSON);
+                                }
+        echo "
+                                </select>
+                            </div>
                             <div class='item-margin-right'>
                                 <label class='input-label'>Equip/Labor<span class='text-danger'>*</span></label>";
                         // the value of this ctrl will determine whether data goes to equip or labor table
@@ -719,6 +716,9 @@ if ($userAuth < 1) {
                 </div>
             </form>
         </main>
+        <script>
+            var locJSON = $locJSON;
+        </script>;
         <script src='js/dailyReport.js'></script>";
     }
 }

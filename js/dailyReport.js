@@ -1,4 +1,5 @@
 (function() {
+    console.log(window.locJSON);
     // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
     const formState = {
         keys: [],
@@ -182,18 +183,21 @@
 
     // handlers to show/hide DOM elements
     function renderLabelText(event, num) {
+        const locInput = document.getElementById('locationID_' + num);
         const numLabel = document.getElementById('labelNumEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
         const numInput = document.getElementById('equipOrLaborNum_' + num);
         const descInput = document.getElementById('equipOrLaborDesc_' + num);
         const textarea = document.getElementById('notes_' + num);
         if (event.target.value == 'labor') {
+            locInput.setAttribute('name', 'laborLocationID_' + num);
             numLabel.innerText = '# of Personnel';
             descLabel.innerText = 'Description of Labor';
             numInput.setAttribute('name', 'laborNum_' + num);
             descInput.setAttribute('name', 'laborDesc_' + num);
             textarea.setAttribute('name', 'laborNotes_' + num);
         } else {
+            locInput.setAttribute('name', 'equipLocationID_' + num);
             numLabel.innerText = 'Equipment No.';
             descLabel.innerText = 'Description of Equipment';
             numInput.setAttribute('name', 'equipNum_' + num);
@@ -222,9 +226,29 @@
     
     function addNewLine(event, num) {
         const parentEl = document.getElementById('workInputList');
+        const locChildEls = [];
+        for (let id in window.locJSON) {
+            locChildEls.push(
+                {
+                    tagName: 'option',
+                    innerText: window.locJSON[id],
+                    value: id
+                }
+            );
+        }
 
         const formCtrls = {
             firstRow: [
+                {
+                    tagName: 'select',
+                    label: 'Location',
+                    type: null,
+                    id: 'locationID',
+                    name: 'laborLocationID',
+                    classList: 'form-control',
+                    style: null,
+                    children: locChildEls
+                },
                 {
                     tagName: 'select',
                     label: 'Equip/Labor',
@@ -419,8 +443,8 @@
         appendNextRow(formCtrls.secondRow, secondRow, num);
         
         // add some additional classes to particular formCtrl parents
-        newGroup.children[0].children[2].classList.add('flex-grow');
-        newGroup.children[0].children[3].style.position = 'relative';
+        newGroup.children[0].children[3].classList.add('flex-grow');
+        newGroup.children[0].children[4].style.position = 'relative';
         newGroup.children[1].children[0].children[0].classList.add('flex-grow');
         
         parentEl.appendChild(newGroup);

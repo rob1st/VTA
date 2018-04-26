@@ -37,6 +37,7 @@ if ($idrID = $_GET['idrID']) {
                 setDate($expiry->format('Y'), $expiry->format('m'), $expiry->format('j') + 1)->
                 setTime('12', '59', '59');
             $timeLeft = $d->diff($expiry);
+            
             echo "
             <p style='font-size: .85rem; color: orangeRed;'>{$row['idrDate']}</p>
             <pre style='color: magenta'>";
@@ -54,6 +55,16 @@ if ($idrID = $_GET['idrID']) {
         echo "</pre>";
     }
 } else {
+    $locJSON = [
+        1 => 'Milpitas',
+        2 => 'Berryess',
+        3 => 'PTC'
+    ];
+    $locJSON = json_encode($locJSON);
+    echo "<pre style='color: green'>";
+    echo $locJSON;
+    echo "</pre>";
+
     echo "<ol style='color: grey'>";
     foreach ($dir as $file) {
         $content = file_get_contents($file->getPathname());
