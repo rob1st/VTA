@@ -56,7 +56,7 @@ if ($idrID = $_GET['idrID']) {
     $view = $_GET['view'];
 }
 
-$sqlLoc = "SELECT L.LocationName, C.Location FROM CDL C inner join Location L on L.LocationID=C.Location group by Location order by L.LocationName";
+$sqlLoc = "SELECT LocationID, LocationName FROM Location ORDER BY LocaitonID";
 
 if ($userAuth < 1) {
     // view is unauthorized to view
@@ -169,7 +169,7 @@ if ($userAuth < 1) {
                         <div class='row grey-bg pad item-margin-bottom'>
                             <div class='col-6'>
                                 <span class='d-block'>Location</span>
-                                <span class='d-block border-radius thin-grey-border pad-less'>{$row['locationName']}</span>
+                                <span class='d-block border-radius thin-grey-border pad-less'>{$row['LocationName']}</span>
                             </div>
                             <div class='col-6'>
                                 <span class='d-block'>Operation/Discipline</span>
@@ -408,10 +408,10 @@ if ($userAuth < 1) {
                             <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
                                 <div class='item-margin-right'>
                                     <label class='input-label'>Location<span class='text-danger'>*</span></label>
-                                    <select name='locationID' class='form-control' required>";
-                                        if ($result = mysqli_query($link, $sqlLoc)) {
-                                            while ($row = mysqli_fetch_array($result)) {
-                                                echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                                    <select name='LocationID' class='form-control' required>";
+                                        if ($result = $link->query($sqlLoc)) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
                                             }
                                         }
                     echo "
@@ -606,8 +606,8 @@ if ($userAuth < 1) {
                         <label class='input-label'>Location<span class='text-danger'>*</span></label>
                         <select name='LocationID' class='form-control' required>";
                             if ($result = $link->query($sqlLoc)) {
-                                while ($row = $result->fetch_array()) {
-                                    echo "<option value='{$row[1]}'>{$row[0]}</option>";
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
                                 }
                             }
         echo "
