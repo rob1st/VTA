@@ -15,7 +15,7 @@
     // an IDR is editable until 1 AM on the day after its creation
     $editableUntil->
         setDate($editableUntil->format('Y'), $editableUntil-> format('m'), $editableUntil->format('j') + 1)->
-        setTime('01', '59', '59');
+        setTime('00', '59', '59');
     
     $userID = $_SESSION['UserID'];
     $userQry = 'SELECT Username FROM users_enc WHERE UserID = '.$userID;
@@ -28,7 +28,7 @@
     }
 
     // check for existing submission
-    $check = "SELECT idrID, idrDate, locationID FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (userID={$_POST['userID']}) AND (locationID={$_POST['locationID']}";
+    $check = "SELECT idrID, idrDate, LocationID FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (UserID={$_POST['UserID']}) AND (LocationID={$_POST['LocationID']}";
     $result = $link->query($check);
     
     if ($result) {
@@ -55,9 +55,7 @@
         }
         
         // append timestamp and editableUntil to $idrData;
-        $idrData['editableUntil'] = $editableUntil;
-        // will MySQL automatically timestamp my entries(?)
-        $idrData['timestamp'] = $timestamp;
+        $idrData['editableUntil'] = $editableUntil->format($editableUntil::W3C);
     
         $keys = implode(", ", array_keys($idrData));
         $vals = implode("', '", array_values($idrData));
@@ -197,7 +195,7 @@
             $code = http_response_code();
         }
     }
-    $typeOfUserID = gettype($_POST['userID']);
+    $typeOfUserID = gettype($_POST['UserID']);
     $typeOfIdrDate = gettype($_POST['idrDate']);
 ?>
 <?php

@@ -533,7 +533,7 @@ if ($userAuth < 1) {
                                 <span class='item-margin-right'>Inspector Name</span>
                                 <span>{$userFullName}</span>
                             </h6>
-                            <input type='hidden' name='userID' value='{$userID}' />
+                            <input type='hidden' name='UserID' value='{$userID}' />
                         </div>
                         <div class='card-body'>
                             <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
@@ -542,7 +542,7 @@ if ($userAuth < 1) {
                             </div>
                             <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
                                 <label class='input-label item-margin-right'>Project<span class='text-danger'>*</span></label>
-                                <select name='project' class='form-control' required>";
+                                <select name='ContractID' class='form-control' required>";
                                     if ($result = $link->query($contractQry)) {
                                         while ($row = $result->fetch_array()) {
                                             if ($row[1] === 'C700') $default='selected';
@@ -597,9 +597,9 @@ if ($userAuth < 1) {
                 <div id='locAndDescrip' class='flex-row grey-bg form-section-heading'>
                     <div class='item-margin-right'>
                         <label class='input-label'>Location<span class='text-danger'>*</span></label>
-                        <select name='locationID' class='form-control' required>";
-                            if ($result = mysqli_query($link, $sqlLoc)) {
-                                while ($row = mysqli_fetch_array($result)) {
+                        <select name='LocationID' class='form-control' required>";
+                            if ($result = $link->query($sqlLoc)) {
+                                while ($row = $result->fetch_array()) {
                                     echo "<option value='{$row[1]}'>{$row[0]}</option>";
                                 }
                             }
