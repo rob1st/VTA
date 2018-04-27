@@ -8,6 +8,8 @@
     const form = document.forms['dailyReportForm'];
     const submitEvent = new window.Event('submit');
     
+    const activities = [];
+    
     // this counter will be used to count input lines
     let count = 0;
     
@@ -144,41 +146,77 @@
     }
     
     function addActToList(ev, num) {
-        // TODO: create a warning if duplicate text entries
         // BEWARE: event.target may be the <i> icon
-        // 1. check formState for existence of index @ num
-        // 2. if it doesn't exist, push a new empty obj
-        // 3. then assign it
-        if (!formState.actLists[num]) formState.actLists.push({});
-        let actList = formState.actLists[num];
+        const curGrp = document.getElementById('workInputGroup_' + num);
+        const curDesc = document.getElementById('actInput_' + num);
+        const curNum = document.getElementById('numEquipOrLabor_' + num);
+        const curHrs = document.getElementById('hours_' + num);
         
-        const curInput = document.getElementById('actInput_' + num);
-        const newItemText = curInput.value.trim();
-        curInput.value = '';
-        // if text content in act description input instantiate new actList @ new uniqueID
-        if (newItemText) {
-            const curKey = newUniqueID(formState.keys);
-            const curList = document.getElementById('actList_' + num);
-            const curHrs = document.getElementById('hours_' + num);
-            
-            actList[curKey] = {
-                textVal: newItemText,
-                hrsVal: null,
-                domEl: document.createElement('option')
-            };
-            actList[curKey].domEl.innerText = newItemText;
-            actList[curKey].domEl.uniqueID = curKey;
-
-            // append new option to select element and select it
-            curList.appendChild(actList[curKey].domEl);
-            for (let opt of curList.options) {
-                if (opt.value === newItemText) curList.selectedIndex = opt.index
-            }
-            
-            curHrs.focus();
-        } else {
+        if (!curDesc.value.trim() || !curNum.value.trim() || !curHrs.value.trim()) {
             return;
+        } else {
+            // QUESTION: how does a new line get its Act number?
+            // ANSWER: use an array of numbers to keep track of what activity # I'm at for each labor or equip index
+            if (!activities[num]) {
+                activities[num] = 0;
+            }
+            activities[num] += activities[num].length;
+        
+            const newActLine = curGrp.appendChild('div');
+            const col1 = newActLine.appendChild('div');
+            const col2 = newActLine.appendChild('div');
+            const col3 = newActLine.appendChild('div');
+            const actDesc = col1.appendChild('input');
+            const actNum = col2.appendChild('input');
+            const actHrs = col3.appendChild('input');
+            newActLine.classList.add('row', 'pad-less', 'blue-striped', 'item-border-bottom');
+            col1.classList.add('col-md-6');
+            col2.classList.add('col-md-3');
+            col3.classList.add('col-md-3');
+            actDesc.classList.add('form-control', 'asleep');
+            actDesc.setAttribute('name', `actDesc_${num}_${activities[num]}`);
+            actDesc.innerText = curDesc.value;
+            actNum.classList.add('form-control', 'asleep');
+            actNum.setAttribute('name', `actNum_${num}_${activities[num]}`);
+            actNum.innerText = curNum.value;
+            actHrs.classList.add('form-control', 'asleep');
+            actHrs.setAttribute('name', `actHrs_${num}_${activities[num]}`);
+            actHrs.innerText = curHrs.value;
         }
+        
+        // // 1. check formState for existence of index @ num
+        // // 2. if it doesn't exist, push a new empty obj
+        // // 3. then assign it
+        // if (!formState.actLists[num]) formState.actLists.push({});
+        // let actList = formState.actLists[num];
+        
+        // const curInput = document.getElementById('actInput_' + num);
+        // const newItemText = curInput.value.trim();
+        // curInput.value = '';
+        // // if text content in act description input instantiate new actList @ new uniqueID
+        // if (newItemText) {
+        //     const curKey = newUniqueID(formState.keys);
+        //     const curList = document.getElementById('actList_' + num);
+        //     const curHrs = document.getElementById('hours_' + num);
+            
+        //     actList[curKey] = {
+        //         textVal: newItemText,
+        //         hrsVal: null,
+        //         domEl: document.createElement('option')
+        //     };
+        //     actList[curKey].domEl.innerText = newItemText;
+        //     actList[curKey].domEl.uniqueID = curKey;
+
+        //     // append new option to select element and select it
+        //     curList.appendChild(actList[curKey].domEl);
+        //     for (let opt of curList.options) {
+        //         if (opt.value === newItemText) curList.selectedIndex = opt.index
+        //     }
+            
+        //     curHrs.focus();
+        // } else {
+        //     return;
+        // }
     }
     
     function handleKeypressEnter(ev, num) {
