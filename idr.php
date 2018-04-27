@@ -659,13 +659,13 @@ if ($userAuth < 1) {
                                     <option value='equipment'>Equipment</option>
                                 </select>
                             </div>
-                            <div class='item-margin-right'>
-                                <label class='input-label' id='labelNumEquipLabor_0'># of Personnel<span class='text-danger'>*</span></label>
-                                <input type='number' id='equipOrLaborNum_0' name='laborNum_0' class='form-control' style='max-width:110px' required />
-                            </div>
                             <div class='item-margin-right flex-grow'>
                                 <label class='input-label' id='labelDescEquipLabor_0'>Description of labor<span class='text-danger'>*</span></label>
                                 <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' required />
+                            </div>
+                            <div class='item-margin-right'>
+                                <label class='input-label' id='labelTotalEquipLabor_0'>Tot. Personnel<span class='text-danger'>*</span></label>
+                                <input type='number' id='equipOrLaborTotal_0' name='laborTotal_0' class='form-control' style='max-width:110px' required />
                             </div>
                             <div class='item-margin-right' style='position:relative'>
                                 <label class='input-label'>Notes</label>
@@ -693,17 +693,16 @@ if ($userAuth < 1) {
                                     <input id='actInput_0' type='text' class='form-control full-width' />
                                 </div>
                                 <div class='item-margin-right'>
-                                    <label class='input-label'>Add Task</label>
-                                    <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
-                                </div>
-                                <div class='item-margin-right' style='min-width:150px'>
-                                    <label class='input-label'>Task/activity</label>
-                                    <select id='actList_0' class='form-control full-width'>
-                                    </select>
+                                    <label id='labelNumEquipLabor_0' class='input-label'># of personnel</label>
+                                    <input type='number' id='numEquipOrLabor_0' name='numLabor_0' class='form-control'/>
                                 </div>
                                 <div class='item-margin-right' style='max-width: 100px;'>
                                     <label class='input-label'>Hours</label>
                                     <input type='number' id='hours_0' class='form-control full-width' />
+                                </div>
+                                <div class='item-margin-right'>
+                                    <label class='input-label'>Add Task</label>
+                                    <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
                                 </div>
                             </div>
                         </div>

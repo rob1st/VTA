@@ -100,10 +100,10 @@
         .addEventListener('click', event => {
             return addActToList(event, 0);
         });
-    document.getElementById('actList_0')
-        .addEventListener('input', event => {
-            return handleActSelect(event, 0);
-        });
+    // document.getElementById('actList_0')
+    //     .addEventListener('input', event => {
+    //         return handleActSelect(event, 0);
+    //     });
     document.getElementById('hours_0')
         .addEventListener('change', event => {
             return updateHours(event, 0);
@@ -117,23 +117,20 @@
             curHrs.value = '';
             return;
         } else {
-            const curInput = document.getElementById('actInput_' + num);
-            const curID = curList.selectedOptions[0].uniqueID;
-    
             updateHours(ev, num);
         }
     }
         
     // handlers that get/set json data
-    function handleActSelect(ev, num) {
-        const hrsEl = document.getElementById('hours_' + num);
-        // get actList obj from state
-        const selectedOptID = ev.target.selectedOptions[0].uniqueID;
+    // function handleActSelect(ev, num) {
+    //     const hrsEl = document.getElementById('hours_' + num);
+    //     // get actList obj from state
+    //     const selectedOptID = ev.target.selectedOptions[0].uniqueID;
         
-        // select hours_ form control corresponding to num
-        hrsEl.value = formState.actLists[num][selectedOptID].hrsVal;
-        hrsEl.focus();
-    }
+    //     // select hours_ form control corresponding to num
+    //     hrsEl.value = formState.actLists[num][selectedOptID].hrsVal;
+    //     hrsEl.focus();
+    // }
     
     function updateHours(ev, num) {
         const curList = document.getElementById('actList_' + num);
@@ -200,24 +197,30 @@
     // handlers to show/hide DOM elements
     function renderLabelText(event, num) {
         const locInput = document.getElementById('locationID_' + num);
-        const numLabel = document.getElementById('labelNumEquipLabor_' + num);
+        const totLabel = document.getElementById('labelTotalEquipLabor_' + num);
         const descLabel = document.getElementById('labelDescEquipLabor_' + num);
-        const numInput = document.getElementById('equipOrLaborNum_' + num);
+        const numLabel = document.getElementById('labelNumEquipLabor_' + num);
+        const totInput = document.getElementById('equipOrLaborTotal_' + num);
         const descInput = document.getElementById('equipOrLaborDesc_' + num);
+        const numInput = document.getElementById('numEquipOrLabor_' + num);
         const textarea = document.getElementById('notes_' + num);
         if (event.target.value == 'labor') {
             locInput.setAttribute('name', 'laborLocationID_' + num);
-            numLabel.innerText = '# of Personnel';
+            totLabel.innerText = 'Tot. personnel';
             descLabel.innerText = 'Description of Labor';
-            numInput.setAttribute('name', 'laborNum_' + num);
+            numLabel.innerText = '# of personnel';
+            totInput.setAttribute('name', 'laborTotal_' + num);
             descInput.setAttribute('name', 'laborDesc_' + num);
+            numInput.setAttribute('name', 'laborNum_' + num);
             textarea.setAttribute('name', 'laborNotes_' + num);
         } else {
             locInput.setAttribute('name', 'equipLocationID_' + num);
-            numLabel.innerText = 'Equipment No.';
+            totLabel.innerText = 'Tot. equipment';
             descLabel.innerText = 'Description of Equipment';
-            numInput.setAttribute('name', 'equipNum_' + num);
+            numLabel.innerText = '# of equip.';
+            totInput.setAttribute('name', 'equipTotal_' + num);
             descInput.setAttribute('name', 'equipDesc_' + num);
+            numInput.setAttribute('name', 'equipNum_' + num);
             textarea.setAttribute('name', 'equipNotes_' + num);
         }
     }
@@ -253,6 +256,26 @@
             );
         }
 
+        /* each of these element objects takes:
+            {
+                tagName: '...',
+                label: '...' || [],
+                type: '...',
+                id: '...',
+                name: '...',
+                classList: '...' || [],
+                style: '...',
+                innerText: '...',
+                handlers: [
+                    {
+                        event: '',
+                        fn: function
+                    }
+                ],
+                siblings: [{}],
+                children: [{}]
+            }
+        */
         const formCtrls = {
             firstRow: [
                 {
@@ -294,19 +317,6 @@
                 {
                     tagName: 'input',
                     label: {
-                        innerText: '# of Personnel',
-                        id: 'labelNumEquipLabor'
-                    },
-                    type: 'number',
-                    id: 'equipOrLaborNum',
-                    name: 'laborNum',
-                    classList: 'form-control',
-                    style: 'max-width: 110px',
-                    handlers: null
-                },
-                {
-                    tagName: 'input',
-                    label: {
                         innerText: 'Description of labor',
                         id: 'labelDescEquipLabor'
                     },
@@ -315,6 +325,19 @@
                     name: 'laborDesc',
                     classList: ['form-control', 'full-width'],
                     style: null,
+                    handlers: null
+                },
+                {
+                    tagName: 'input',
+                    label: {
+                        innerText: 'Tot. personnel',
+                        id: 'labelTotalEquipLabor'
+                    },
+                    type: 'number',
+                    id: 'equipOrLaborTotal',
+                    name: 'laborTotal',
+                    classList: 'form-control',
+                    style: 'max-width: 110px',
                     handlers: null
                 },
                 {
@@ -327,8 +350,8 @@
                     style: null,
                     handlers: [
                         {
-                        event: 'click',
-                        fn: showNotesField
+                            event: 'click',
+                            fn: showNotesField
                         }
                     ],
                     innerText: null,
@@ -376,42 +399,19 @@
                     innerText: null
                 },
                 {
-                    tagName: 'button',
-                    label: 'Add Task',
-                    type: 'button',
-                    id: 'addAct',
-                    name: null,
-                    classList: ['btn', 'btn-success', 'block'],
+                    tagName: 'input',
+                    label: {
+                        innerText: '# of personnel',
+                        id: 'labelNumEquipLabor'
+                    },
+                    type: 'number',
+                    id: 'numEquipOrLabor',
+                    name: 'numLabor',
+                    classList: 'form-control',
                     style: null,
-                    handlers: [
-                        {
-                            event: 'click',
-                            fn: addActToList
-                        }
-                    ],
-                    innerText: 'Add',
-                    children: [
-                        {
-                            tagName: 'i',
-                            classList: ['typcn', 'typcn-chevron-right-outline']
-                        }
-                    ]
-                },
-                {
-                    tagName: 'select',
-                    label: 'Task/activity',
-                    type: null,
-                    id: 'actList',
-                    name: null,
-                    classList: ['form-control', 'full-width'],
-                    style: null,
-                    handlers: [
-                        {
-                            event: 'input',
-                            fn: handleActSelect
-                        }
-                    ],
-                    innerText: null
+                    handlers: null,
+                    innerText: null,
+                    children: null
                 },
                 {
                     tagName: 'input',
@@ -432,6 +432,28 @@
                         }
                     ],
                     innerText: null
+                },
+                {
+                    tagName: 'button',
+                    label: 'Add Task',
+                    type: 'button',
+                    id: 'addAct',
+                    name: null,
+                    classList: ['btn', 'btn-success', 'block'],
+                    style: null,
+                    handlers: [
+                        {
+                            event: 'click',
+                            fn: addActToList
+                        }
+                    ],
+                    innerText: 'Add',
+                    children: [
+                        {
+                            tagName: 'i',
+                            classList: ['typcn', 'typcn-chevron-right-outline']
+                        }
+                    ]
                 }
             ]
         }
@@ -459,7 +481,7 @@
         appendNextRow(formCtrls.secondRow, secondRow, num);
         
         // add some additional classes to particular formCtrl parents
-        newGroup.children[0].children[3].classList.add('flex-grow');
+        newGroup.children[0].children[2].classList.add('flex-grow');
         newGroup.children[0].children[4].style.position = 'relative';
         newGroup.children[1].children[0].children[0].classList.add('flex-grow');
         
