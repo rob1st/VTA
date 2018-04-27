@@ -322,10 +322,10 @@ if ($userAuth < 1) {
                                 echo "
                                 <div class='row'>
                                     <div class='col-md-8 offset-md-2'>
-                                        <blockquote class='blockquote'>
-                                            <p>{$row['comment']}</p>
+                                        <blockquote class='blockquote pad border-radius thin-grey-border'>
+                                            <p class='mb-2'>{$row['comment']}</p>
+                                            <footer class='blockquote-footer'>{$row['firstname']} {$row['lastname']}, <cite class='title'>{$row['commentDate']}</cite></footer>
                                         </blockquote>
-                                        <footer class='blockquote-footer'>{$row['firstname']} {$row['lastname']}, <cite class='title'>{$row['commentDate']}</cite></footer>
                                     </div>
                                 </div>";
                             }
@@ -376,7 +376,7 @@ if ($userAuth < 1) {
                                             <span class='item-margin-right'>Inspector Name</span>
                                             <span>{$userFullName}</span>
                                         </h6>
-                                        <input type='hidden' name='userID' value='{$userID}' />
+                                        <input type='hidden' name='UserID' value='{$userID}' />
                                     </div>
                                     <div class='card-body'>
                                         <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
@@ -711,6 +711,12 @@ if ($userAuth < 1) {
                 </div>
                 <div style='text-align: right'>
                     <button type='button' id='addLineBtn' class='btn btn-success'>Add Line</button>
+                </div>
+                <div class='row item-margin-bottom'>
+                    <div class='col-md-6 offset-md-3'>
+                        <label>Comment</label>
+                        <textarea id='commentBox' name='comment' class='form-control' rows='5'></textarea>
+                    </div>
                 </div>
                 <div class='center-content'>
                     <button type='submit' class='btn btn-primary btn-lg'>Submit</button>

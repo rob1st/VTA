@@ -70,7 +70,7 @@
             $query = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
         }
     
-        // this is the block that does actually executes the INSERT query
+        // this is the block that actually executes the INSERT query
         if ($result = $link->query($query)) {
             http_response_code(201);
             $code = http_response_code();
@@ -79,6 +79,21 @@
             $laborData = [];
             $equipData = [];
             $actData = [];
+            // test for comment and insert if present
+            if ($comment = $post['comment']) {
+                $commentQry = "INSERT idrComments (userID, comment, idrID)
+                    VALUES ('{$_POST['UserID']}', '{$_POST['comment']}', '{$newIdrID}')";
+                if ($result = $link->query($commentQry)) {
+                    http_response_code(201);
+                    $code = http_response_code();
+                }
+                else {
+                    http_response_code(500);
+                    $code = http_response_code();
+                    echo "There was a problem adding your comment";
+                    return;
+                }
+            }
             foreach ($post as $key => $val) {
                 // parse flattened POST data to nested arrays
                 // first, check for labor and equip keys
@@ -228,8 +243,6 @@
             $code = http_response_code();
         }
     }
-    $typeOfUserID = gettype($_POST['UserID']);
-    $typeOfIdrDate = gettype($_POST['idrDate']);
 ?>
 <?php
 // this is all stuff for testing
