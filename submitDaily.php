@@ -87,6 +87,10 @@
                     // there shouldn't be any equipOrLabor keys submitted, but if one is found, rm it
                     if (strpos($key, 'equipOrLabor') !== false) unset($post[$key]);
                     elseif (strpos($key, 'labor') !== false) {
+                        // if key includes 'Location', grab the 'Location...' part of the string
+                        if (strpos($key, 'Location') !== false) {
+                            $key = substr($key, strpos($key, 'Location'));
+                        }
                         // assign 'labor' vals to 'labor' keys @ array[num]
                         // clean '_$num' out of any numbered $key
                         $laborKey = substr($key, 0, strpos($key, '_'));
@@ -98,6 +102,10 @@
                         // unset $key from $post once it's parsed to array
                         unset($post, $key);
                     } else {
+                        // if key includes 'Location', grab the 'Location...' part of the string
+                        if (strpos($key, 'Location') !== false) {
+                            $key = substr($key, strpos($key, 'Location'));
+                        }
                         // assign 'equip' vals to 'equip' keys @ array[num]
                         // clean '_$num' out of any numbered $key
                         $equipKey = substr($key, 0, strpos($key, '_'));
@@ -137,9 +145,9 @@
                     if ($result = $link->query($query)) {
                         http_response_code(201);
                         $code = http_response_code();
-                    // store db ID of new record
+                        // store db ID of new record
                         $newLaborID = $link->insert_id;
-                    // build queries from activities that fall within same index as labor
+                        // build queries from activities that fall within same index as labor
                         if (count($actData[$index])) {
                             foreach ($actData[$index] as $key => $val) {
                                 $actKeys = implode(", ", array_keys($val));
@@ -150,10 +158,22 @@
                                     $linkQry = "INSERT INTO $laborActLink (laborID, activityID) VALUES ('$newLaborID', '$link->insert_id')";
                                     if ($result = $link->query($linkQry)) {
                                     } else ;//printQryErr($linkQry, $link->error);
-                                } else ;//printQryErr($actQry, $link->error);
+                                } else {
+                                    http_response_code(500);
+                                    error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error, 0);
+                                    error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error."\n", 3, '../error_log.log');
+                                    echo __FILE__.': '.__LINE__.': '.$link->error;
+                                    return;
+                                }
                             }
                         } else continue;
-                    } else ;//printQryErr($query, $link->error);
+                    } else {
+                        http_response_code(500);
+                        error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error, 0);
+                        error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error."\n", 3, '../error_log.log');
+                        echo __FILE__.': '.__LINE__.': '.$link->error;
+                        return;
+                    }
                 }
             }
             if (count($equipData)) {
@@ -181,10 +201,22 @@
                                     $linkQry = "INSERT INTO $equipActLink (equipID, activityID) VALUES ('$newEquipID', '$link->insert_id')";
                                     if ($result = $link->query($linkQry)) {
                                     } else ;//printQryErr($linkQry, $link->error);
-                                } else ;//printQryErr($actQry, $link->error);
+                                } else {
+                                    http_response_code(500);
+                                    error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error, 0);
+                                    error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error."\n", 3, '../error_log.log');
+                                    echo __FILE__.': '.__LINE__.': '.$link->error;
+                                    return;
+                                }
                             }
                         } else continue;
-                    } else ;//printQryErr($query, $link->error);
+                    } else {
+                        http_response_code(500);
+                        error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error, 0);
+                        error_log(__FILE__.': '.__LINE.': '.http_response_code().': '.$link->error."\n", 3, '../error_log.log');
+                        echo __FILE__.': '.__LINE__.': '.$link->error;
+                        return;
+                    }
                 }
             }
             http_response_code(201);

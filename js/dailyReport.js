@@ -1,5 +1,4 @@
 (function() {
-    console.log(window.locJSON);
     // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
     const formState = {
         keys: [],
@@ -40,15 +39,32 @@
                     window.location.href = res.headers.get('Location');
                     return res.text()
                 } else {
-                    return 'No redirect was provided'
+                    // no Location, no New Record status (although php may have created some new records)
+                    window.alert('There was a problem with the redirect and/or INSERT');
+                    throw Error(`${res.status} ${res.headers['Content-Type']} ${res.headers['Content-Length']} ${res.headers['Location']}`);
                 }
+            } else if (res.status === 500) {
+                console.log('status equals 500', res.status);
+                return res.text();
             }
-        }).then(body => {
-            if (body.includes('problem')) {
-                window.alert(`There was a problem with the redirect url:\n${body}`);
-                window.location.reload();
+            else {
+                console.log(res.status);
+                throw Error(res.statusText);
             }
-            else window.alert(`Thank you for your submission\n${body}`);
+        }).then(text => {
+            if (!text.then) {
+                console.log(text);
+                window.alert(`Thank you for your submission\n${text}`);
+            } else {
+                // text is an unresolved promise. try to resolve it with another `then`
+                text.then(body => {
+                    window.alert('There was a problem with the request');
+                    console.error('Is it still a Promise?', body);
+                });
+            }
+        }).catch(err => {
+            window.alert('There was a problem with the request:\n' + err);
+            console.error(err);
         })
     }
     
