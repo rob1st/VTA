@@ -493,25 +493,23 @@ if ($userAuth < 1) {
                                             </aside>
                                         </div>
                                     </div>
-                                    <div class='pad border-radius grey-bg'>
-                                        <div class='flex-row item-margin-bottom'>
-                                            <div class='flex-grow item-margin-right'>
-                                                <label class='input-label'>Description of task/activity</label>
-                                                <input id='actInput_0' type='text' class='form-control full-width' />
-                                            </div>
-                                            <div class='item-margin-right'>
-                                                <label class='input-label'>Add Task</label>
-                                                <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
-                                            </div>
-                                            <div class='item-margin-right' style='min-width:150px'>
-                                                <label class='input-label'>Task/activity</label>
-                                                <select id='actList_0' class='form-control full-width'>
-                                                </select>
-                                            </div>
-                                            <div class='item-margin-right' style='max-width: 100px;'>
-                                                <label class='input-label'>Hours</label>
-                                                <input type='number' id='hours_0' class='form-control full-width' />
-                                            </div>
+                                    <div class='flex-row item-margin-bottom pad border-radius grey-bg'>
+                                        <div class='flex-grow item-margin-right'>
+                                            <label class='input-label'>Description of task/activity</label>
+                                            <input id='actInput_0' type='text' class='form-control full-width' />
+                                        </div>
+                                        <div class='item-margin-right'>
+                                            <label class='input-label'>Add Task</label>
+                                            <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                                        </div>
+                                        <div class='item-margin-right' style='min-width:150px'>
+                                            <label class='input-label'>Task/activity</label>
+                                            <select id='actList_0' class='form-control full-width'>
+                                            </select>
+                                        </div>
+                                        <div class='item-margin-right' style='max-width: 100px;'>
+                                            <label class='input-label'>Hours</label>
+                                            <input type='number' id='hours_0' class='form-control full-width' />
                                         </div>
                                     </div>
                                 </div>
@@ -686,24 +684,22 @@ if ($userAuth < 1) {
                                 </aside>
                             </div>
                         </div>
-                        <div class='pad border-radius grey-bg'>
-                            <div class='flex-row item-margin-bottom'>
-                                <div class='flex-grow item-margin-right'>
-                                    <label class='input-label'>Description of task/activity</label>
-                                    <input id='actInput_0' type='text' class='form-control full-width' />
-                                </div>
-                                <div class='item-margin-right'>
-                                    <label id='labelNumEquipLabor_0' class='input-label'># of personnel</label>
-                                    <input type='number' id='numEquipOrLabor_0' name='numLabor_0' class='form-control'/>
-                                </div>
-                                <div class='item-margin-right' style='max-width: 100px;'>
-                                    <label class='input-label'>Hours</label>
-                                    <input type='number' id='hours_0' class='form-control full-width' />
-                                </div>
-                                <div class='item-margin-right'>
-                                    <label class='input-label'>Add Task</label>
-                                    <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
-                                </div>
+                        <div class='flex-row item-margin-bottom pad border-radius grey-bg'>
+                            <div class='flex-grow item-margin-right'>
+                                <label class='input-label'>Description of task/activity</label>
+                                <input id='actInput_0' type='text' class='form-control full-width' />
+                            </div>
+                            <div class='item-margin-right'>
+                                <label id='labelNumEquipLabor_0' class='input-label'># of personnel</label>
+                                <input type='number' id='numEquipOrLabor_0' name='numLabor_0' class='form-control'/>
+                            </div>
+                            <div class='item-margin-right' style='max-width: 100px;'>
+                                <label class='input-label'>Hours</label>
+                                <input type='number' id='hours_0' class='form-control full-width' />
+                            </div>
+                            <div class='item-margin-right'>
+                                <label class='input-label'>Add Task</label>
+                                <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
                             </div>
                         </div>
                     </div>

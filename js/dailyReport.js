@@ -8,7 +8,7 @@
     const form = document.forms['dailyReportForm'];
     const submitEvent = new window.Event('submit');
     
-    const activities = [];
+    const activityCount = [];
     
     // this counter will be used to count input lines
     let count = 0;
@@ -106,10 +106,10 @@
     //     .addEventListener('input', event => {
     //         return handleActSelect(event, 0);
     //     });
-    document.getElementById('hours_0')
-        .addEventListener('change', event => {
-            return updateHours(event, 0);
-        });
+    // document.getElementById('hours_0')
+    //     .addEventListener('change', event => {
+    //         return updateHours(event, 0);
+    //     });
     
     // focus handlers
     function submitActHrs(ev, num) {
@@ -147,6 +147,7 @@
     
     function addActToList(ev, num) {
         // BEWARE: event.target may be the <i> icon
+        console.log('num@addActToList=', num);
         const curGrp = document.getElementById('workInputGroup_' + num);
         const curDesc = document.getElementById('actInput_' + num);
         const curNum = document.getElementById('numEquipOrLabor_' + num);
@@ -157,31 +158,35 @@
         } else {
             // QUESTION: how does a new line get its Act number?
             // ANSWER: use an array of numbers to keep track of what activity # I'm at for each labor or equip index
-            if (!activities[num]) {
-                activities[num] = 0;
+            if (!activityCount[num]) {
+                activityCount[num] = 0;
             }
-            activities[num] += activities[num].length;
+            activityCount[num] += 1;
         
-            const newActLine = curGrp.appendChild('div');
-            const col1 = newActLine.appendChild('div');
-            const col2 = newActLine.appendChild('div');
-            const col3 = newActLine.appendChild('div');
-            const actDesc = col1.appendChild('input');
-            const actNum = col2.appendChild('input');
-            const actHrs = col3.appendChild('input');
+            console.log('curGrp=', curGrp);
+            const newActLine = curGrp.appendChild(document.createElement('div'));
+            const col1 = newActLine.appendChild(document.createElement('div'));
+            const col2 = newActLine.appendChild(document.createElement('div'));
+            const col3 = newActLine.appendChild(document.createElement('div'));
+            col1.appendChild(document.createElement('label')).appendChild(document.createTextNode('Task/activity'));
+            const actDesc = col1.appendChild(document.createElement('input'));
+            col2.appendChild(document.createElement('label')).appendChild(document.createTextNode('# of personnel'));
+            const actNum = col2.appendChild(document.createElement('input'));
+            col3.appendChild(document.createElement('label')).appendChild(document.createTextNode('Hours'));
+            const actHrs = col3.appendChild(document.createElement('input'));
             newActLine.classList.add('row', 'pad-less', 'blue-striped', 'item-border-bottom');
             col1.classList.add('col-md-6');
             col2.classList.add('col-md-3');
             col3.classList.add('col-md-3');
-            actDesc.classList.add('form-control', 'asleep');
-            actDesc.setAttribute('name', `actDesc_${num}_${activities[num]}`);
-            actDesc.innerText = curDesc.value;
-            actNum.classList.add('form-control', 'asleep');
-            actNum.setAttribute('name', `actNum_${num}_${activities[num]}`);
-            actNum.innerText = curNum.value;
-            actHrs.classList.add('form-control', 'asleep');
-            actHrs.setAttribute('name', `actHrs_${num}_${activities[num]}`);
-            actHrs.innerText = curHrs.value;
+            actDesc.classList.add('form-control', 'subtle');
+            actDesc.setAttribute('name', `actDesc_${num}_${activityCount[num]}`);
+            actDesc.value = curDesc.value;
+            actNum.classList.add('form-control', 'subtle');
+            actNum.setAttribute('name', `actNum_${num}_${activityCount[num]}`);
+            actNum.value = curNum.value;
+            actHrs.classList.add('form-control', 'subtle');
+            actHrs.setAttribute('name', `actHrs_${num}_${activityCount[num]}`);
+            actHrs.value = curHrs.value;
         }
         
         // // 1. check formState for existence of index @ num
@@ -226,9 +231,10 @@
             if (ev.target.id.includes('actInput_')) {
                 return addActToList(ev, num);
             }
-            else if (ev.target.id.includes('hours_')) {
-                return submitActHrs(ev, num);
-            } else ev.target.dispatchEvent(submitEvent);
+            // else if (ev.target.id.includes('hours_')) {
+            //     return submitActHrs(ev, num);
+            // }
+            else ev.target.dispatchEvent(submitEvent);
         }
     }
 
@@ -459,16 +465,16 @@
                     name: null,
                     classList: ['form-control', 'full-width'],
                     style: null,
-                    handlers: [
-                        {
-                            event: 'change',
-                            fn: updateHours
-                        },
-                        {
-                            event: 'keypress',
-                            fn: handleKeypressEnter
-                        }
-                    ],
+                    handlers: null
+                    // [{
+                    //         event: 'change',
+                    //         fn: updateHours
+                    //     },
+                    //     {
+                    //         event: 'keypress',
+                    //         fn: handleKeypressEnter
+                    //     }]
+                    ,
                     innerText: null
                 },
                 {
@@ -506,14 +512,9 @@
         firstRow.classList.add('flex-row', 'item-margin-bottom');
         newGroup.appendChild(firstRow);
         
-        // append second row of inputs within subGroup
-        const subGroup = document.createElement('div');
-        subGroup.classList.add('pad', 'border-radius', 'grey-bg');
-        newGroup.appendChild(subGroup);
-        
         const secondRow = document.createElement('div');
-        secondRow.classList.add('flex-row', 'item-margin-bottom');
-        subGroup.appendChild(secondRow);
+        secondRow.classList.add('flex-row', 'item-margin-bottom', 'pad', 'border-radius', 'grey-bg');
+        newGroup.appendChild(secondRow);
         
         appendNextRow(formCtrls.firstRow, firstRow, num);
         appendNextRow(formCtrls.secondRow, secondRow, num);

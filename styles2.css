@@ -475,11 +475,16 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     margin: 0;
 }
 
-.form-control.asleep {
+.form-control.subtle {
     box-shadow: none;
     outline: none;
     border: none;
     background: transparent;
+}
+
+.form-control.subtle:focus {
+    border: 1px solid #ced4da;
+    background-color: #fff;
 }
 
 .def-input {
