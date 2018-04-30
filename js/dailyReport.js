@@ -177,18 +177,18 @@
             
             let label = col1.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('Task/activity'));
-            label.classList.add('input-label', 'item-margin-right');
+            label.classList.add('input-label', 'item-margin-right', 'required');
             const actDesc = col1.appendChild(document.createElement('input'));
             
             label = col2.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('# pers.'));
             label.setAttribute('id', `numRsrcLabel_${num}_${activityCount[num]}`);
-            label.classList.add('input-label', 'item-margin-right');
+            label.classList.add('input-label', 'item-margin-right', 'required');
             const numRsrcs = col2.appendChild(document.createElement('input'));
             
             label = col3.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('Hours'))
-            label.classList.add('input-label', 'item-margin-right');
+            label.classList.add('input-label', 'item-margin-right', 'required');
             const actHrs = col3.appendChild(document.createElement('input'));
             newActLine.classList.add('row', 'pad-less', 'blue-striped', 'item-border-bottom');
             col1.classList.add('col-md-6', 'flex-row', 'align-center');
@@ -204,40 +204,6 @@
             actHrs.setAttribute('name', `actHrs_${num}_${activityCount[num]}`);
             actHrs.value = curHrs.value;
         }
-        
-        // // 1. check formState for existence of index @ num
-        // // 2. if it doesn't exist, push a new empty obj
-        // // 3. then assign it
-        // if (!formState.actLists[num]) formState.actLists.push({});
-        // let actList = formState.actLists[num];
-        
-        // const curInput = document.getElementById('actInput_' + num);
-        // const newItemText = curInput.value.trim();
-        // curInput.value = '';
-        // // if text content in act description input instantiate new actList @ new uniqueID
-        // if (newItemText) {
-        //     const curKey = newUniqueID(formState.keys);
-        //     const curList = document.getElementById('actList_' + num);
-        //     const curHrs = document.getElementById('hours_' + num);
-            
-        //     actList[curKey] = {
-        //         textVal: newItemText,
-        //         hrsVal: null,
-        //         domEl: document.createElement('option')
-        //     };
-        //     actList[curKey].domEl.innerText = newItemText;
-        //     actList[curKey].domEl.uniqueID = curKey;
-
-        //     // append new option to select element and select it
-        //     curList.appendChild(actList[curKey].domEl);
-        //     for (let opt of curList.options) {
-        //         if (opt.value === newItemText) curList.selectedIndex = opt.index
-        //     }
-            
-        //     curHrs.focus();
-        // } else {
-        //     return;
-        // }
     }
     
     function handleKeypressEnter(ev, num) {
@@ -297,18 +263,6 @@
         if (notesField.style.display === 'none') notesField.style.display = 'block';
         else notesField.style.display = 'none';
     }
-    
-    // handlers to add/remove DOM elements
-    // function resetActInputs(event, num) {
-    //     const curHrs = document.getElementById('hours_' + num);
-    //     const curList = document.getElementById('actList_'+ num);
-    //     const curInput = document.getElementById('actInput_' + num);
-
-    //     curHrs.value = '';
-    //     curList.value = '';
-    //     curInput.value = '';
-    //     curInput.focus();
-    // }
     
     function addNewLine(event, num) {
         const parentEl = document.getElementById('workInputList');
@@ -468,7 +422,7 @@
                 {
                     tagName: 'input',
                     label: {
-                        innerText: '# of personnel',
+                        innerText: '# persons',
                         id: 'labelNumEquipLabor'
                     },
                     type: 'number',
@@ -537,8 +491,8 @@
         firstRow.children[0].classList.add('col-md-2', 'pl-1', 'pr-1');
         firstRow.children[1].classList.add('col-md-2', 'pl-1', 'pr-1');
         firstRow.children[2].classList.add('col-md-5', 'pl-1', 'pr-1');
-        firstRow.children[3].classList.add('col-md-2', 'pl-1', 'pr-1');
-        firstRow.children[4].classList.add('col-md-1', 'pl-1', 'pr-1');
+        firstRow.children[3].classList.add('col-md-2', 'pl-1', 'pr-1', 'mw-50');
+        firstRow.children[4].classList.add('col-md-1', 'pl-1', 'pr-1', 'flex-column', 'align-end', 'mw-50');
         secondRow.children[0].classList.add('col-md-6', 'pl-1', 'pr-1', 'item-margin-bottom');
         secondRow.children[1].classList.add('col-md-3', 'pl-1', 'pr-1', 'mw-33', 'item-margin-bottom');
         secondRow.children[2].classList.add('col-md-2', 'pl-1', 'pr-1', 'mw-33', 'item-margin-bottom');

@@ -456,6 +456,11 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     box-shadow: 0 0 2px 1px var(--yellow);
 }
 
+.required:after {
+    color: var(--danger);
+    content: '*';
+}
+
 .form-section-heading {
     margin: 0;
     margin-bottom: .875rem;
