@@ -125,6 +125,10 @@ ul li {
     align-items: center;
 }
 
+.align-end {
+    align-items: flex-end;
+}
+
 .align-stretch {
     align-items: stretch;
 }

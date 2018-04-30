@@ -513,11 +513,11 @@ if ($userAuth < 1) {
                                 <label class='input-label' id='labelDescEquipLabor_0'>Description of labor<span class='text-danger'>*</span></label>
                                 <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' required>
                             </div>
-                            <div class='col-md-2 pl-1 pr-1'>
+                            <div class='col-md-2 pl-1 pr-1 mw-50'>
                                 <label class='input-label' id='labelTotalEquipLabor_0'>Tot. Personnel<span class='text-danger'>*</span></label>
                                 <input type='number' id='equipOrLaborTotal_0' name='laborTotal_0' class='form-control' required>
                             </div>
-                            <div class='col-md-1 pl-1 pr-1' style='position:relative'>
+                            <div class='col-md-1 pl-1 pr-1 flex-column align-end mw-50'>
                                 <label class='input-label'>Notes</label>
                                 <button type='button' id='showNotes_0' class='form-control' style='width: 40px'><i class='typcn typcn-document-text'></i></button>
                                 <aside
@@ -525,9 +525,10 @@ if ($userAuth < 1) {
                                     style='
                                         display: none;
                                         position: absolute;
-                                        right: 46px;
+                                        right: 50px;
                                         bottom: -2px;
                                         border: 1px solid #3333;
+                                        width: 260px; 
                                         padding: .25rem;
                                         background-color: white;
                                     '
