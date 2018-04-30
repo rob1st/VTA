@@ -644,7 +644,7 @@ if ($userAuth < 1) {
                 <form class='col-12' id='dailyReportForm'>
                     <div class='row item-margin-bottom'>
                         <div class='col-md-6' id='dayData'>
-                            <div class='card'>
+                            <div class='card h-100'>
                                 <div class='card-header grey-bg'>
                                     <h6 class='flex-row space-between'>
                                         <span class='item-margin-right'>Inspector Name</span>
@@ -653,37 +653,52 @@ if ($userAuth < 1) {
                                     <input type='hidden' name='UserID' value='{$userID}' />
                                 </div>
                                 <div class='card-body'>
-                                    <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                                        <label class='input-label item-margin-right'>Date</label>
-                                        <input type='date' value='{$curDateNum}' id='curDate' class='form-control' readonly />
+                                    <div class='row item-margin-bottom'>
+                                        <div class='col-6'>
+                                            <label class='input-label item-margin-right'>Date</label>
+                                        </div>
+                                        <div class='col-6'>
+                                            <input type='date' value='{$curDateNum}' id='curDate' class='form-control' readonly />
+                                        </div>
                                     </div>
-                                    <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                                        <label class='input-label item-margin-right required'>Contract</label>
-                                        <select name='ContractID' class='form-control' required>";
-                                            if ($result = $link->query($contractQry)) {
-                                                while ($row = $result->fetch_array()) {
-                                                    if ($row[1] === 'C700') $default='selected';
-                                                    else $default = '';
-                                                    echo "<option value ='{$row[0]}' $default>{$row[1]}</option>";
+                                    <div class='row item-margin-bottom'>
+                                        <div class='col-6'>
+                                            <label class='input-label item-margin-right required'>Contract</label>
+                                        </div>
+                                        <div class='col-6'>
+                                            <select name='ContractID' class='form-control' required>";
+                                                if ($result = $link->query($contractQry)) {
+                                                    while ($row = $result->fetch_array()) {
+                                                        if ($row[1] === 'C700') $default='selected';
+                                                        else $default = '';
+                                                        echo "<option value ='{$row[0]}' $default>{$row[1]}</option>";
+                                                    }
                                                 }
-                                            }
-                                            
                 echo "
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                                        <label class='input-label item-margin-right required'>Weather</label>
-                                        <input type='text' id='weatherDescrip' name='weather' class='form-control' required />
+                                    <div class='row item-margin-bottom'>
+                                        <div class='col-6'>
+                                            <label class='input-label item-margin-right required'>Weather</label>
+                                        </div>
+                                        <div class='col-6'>
+                                            <input type='text' id='weatherDescrip' name='weather' class='form-control' required />
+                                        </div>
                                     </div>
-                                    <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
-                                        <label class='input-label item-margin-right required'>Shift Hrs</label>
-                                        <input type='text' id='shiftHrs' name='shift' class='form-control' required />
+                                    <div class='row item-margin-bottom'>
+                                        <div class='col-6'>
+                                            <label class='input-label item-margin-right required'>Shift Hrs</label>
+                                        </div>
+                                        <div class='col-6'>
+                                            <input type='text' id='shiftHrs' name='shift' class='form-control' required />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class='col-md-6' id='safetyData'>
-                            <div class='card'>
+                            <div class='card h-100'>
                                 <div class='card-header grey-bg'>
                                     <h6>Track safety</h6>
                                 </div>

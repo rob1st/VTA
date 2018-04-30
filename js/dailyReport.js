@@ -147,6 +147,8 @@
         const curDesc = document.getElementById('actInput_' + num);
         const curNum = document.getElementById('numEquipOrLabor_' + num);
         const curHrs = document.getElementById('hours_' + num);
+        const equipOrPersons = document.getElementById('selectEquipLabor_' + num).value === 'equipment' ?
+            'equip.' : 'pers.';
         
         if (!curDesc.value.trim() || !curNum.value.trim() || !curHrs.value.trim()) {
             return;
@@ -174,7 +176,7 @@
             const actDesc = col1.appendChild(document.createElement('input'));
             
             label = col2.appendChild(document.createElement('label'));
-            label.appendChild(document.createTextNode('# pers.'));
+            label.appendChild(document.createTextNode('# ' + equipOrPersons));
             label.setAttribute('id', `numRsrcLabel_${num}_${activityCount[num]}`);
             label.classList.add('input-label', 'item-margin-right', 'required');
             const numRsrcs = col2.appendChild(document.createElement('input'));
@@ -232,9 +234,11 @@
             totInput.setAttribute('name', 'laborTotal_' + num);
             descInput.setAttribute('name', 'laborDesc_' + num);
             textarea.setAttribute('name', 'laborNotes_' + num);
-            for (let row of actList.children) {
-                const curLabel = row.children[1].querySelector('label');
-                curLabel.innerText = '# pers.';
+            if (actList) {
+                for (let row of actList.children) {
+                    const curLabel = row.children[1].querySelector('label');
+                    curLabel.innerText = '# pers.';
+                }
             }
         } else {
             locInput.setAttribute('name', 'equipLocationID_' + num);
@@ -244,9 +248,11 @@
             totInput.setAttribute('name', 'equipTotal_' + num);
             descInput.setAttribute('name', 'equipDesc_' + num);
             textarea.setAttribute('name', 'equipNotes_' + num);
-            for (let row of actList.children) {
-                const curLabel = row.children[1].querySelector('label');
-                curLabel.innerText = '# equip.';
+            if (actList) {
+                for (let row of actList.children) {
+                    const curLabel = row.children[1].querySelector('label');
+                    curLabel.innerText = '# equip.';
+                }
             }
         }
     }
@@ -379,7 +385,7 @@
                         {
                             tagName: 'aside',
                             id: 'notesField',
-                            style: 'display: block; position: absolute; right: 50px; bottom: -2px; border: 1px solid rgba(51, 51, 51, 0.2); width: 260px; padding: 0.25rem; background-color: white;',
+                            style: 'display: none; position: absolute; right: 50px; bottom: -2px; border: 1px solid rgba(51, 51, 51, 0.2); width: 260px; padding: 0.25rem; background-color: white;',
                             children: [
                                 {
                                     tagName: 'textarea',
