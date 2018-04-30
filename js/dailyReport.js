@@ -1,9 +1,9 @@
 (function() {
     // TODO: make a fn to prevent more than 2-3 lines being added if lines are left empty
-    const formState = {
-        keys: [],
-        actLists: []
-    };
+    // const formState = {
+    //     keys: [],
+    //     actLists: []
+    // };
     
     const form = document.forms['dailyReportForm'];
     const submitEvent = new window.Event('submit');
@@ -18,19 +18,19 @@
         const endpoint = 'submitDaily.php';
         const data = new FormData(form);
         // append actList details to appropriate actList
-        let i = 0;
-        for (let list of formState.actLists) {
-            let j = 0;
-            for (let id in list) {
-                const listItem = list[id];
-                // flatten act list data
-                data.append('actDesc_' + i + '_' + j, listItem.textVal);
-                // append actHrs data from JS objects
-                data.append('actHrs_' + i + '_' + j, listItem.hrsVal);
-                j++;
-            }
-            i++;
-        }
+        // let i = 0;
+        // for (let list of formState.actLists) {
+        //     let j = 0;
+        //     for (let id in list) {
+        //         const listItem = list[id];
+        //         // flatten act list data
+        //         data.append('actDesc_' + i + '_' + j, listItem.textVal);
+        //         // append actHrs data from JS objects
+        //         data.append('actHrs_' + i + '_' + j, listItem.hrsVal);
+        //         j++;
+        //     }
+        //     i++;
+        // }
 
         window.fetch(endpoint, {
             method: 'POST',
@@ -112,16 +112,16 @@
     //     });
     
     // focus handlers
-    function submitActHrs(ev, num) {
-        const curList = document.getElementById('actList_'+ num);
-        const curHrs = document.getElementById('hours_' + num);
-        if (!curList.value.trim().length) {
-            curHrs.value = '';
-            return;
-        } else {
-            updateHours(ev, num);
-        }
-    }
+    // function submitActHrs(ev, num) {
+    //     const curList = document.getElementById('actList_'+ num);
+    //     const curHrs = document.getElementById('hours_' + num);
+    //     if (!curList.value.trim().length) {
+    //         curHrs.value = '';
+    //         return;
+    //     } else {
+    //         updateHours(ev, num);
+    //     }
+    // }
         
     // handlers that get/set json data
     // function handleActSelect(ev, num) {
@@ -134,21 +134,22 @@
     //     hrsEl.focus();
     // }
     
-    function updateHours(ev, num) {
-        const curList = document.getElementById('actList_' + num);
-        const curID = curList.selectedOptions[0].uniqueID;
-        formState.actLists[num][curID].hrsVal = ev.target.value;
+    // function updateHours(ev, num) {
+    //     const curList = document.getElementById('actList_' + num);
+    //     const curID = curList.selectedOptions[0].uniqueID;
+    //     formState.actLists[num][curID].hrsVal = ev.target.value;
             
-        // reset hours values
-        resetActInputs(ev, num);
+    //     // reset hours values
+    //     resetActInputs(ev, num);
 
 
-    }
+    // }
     
     function addActToList(ev, num) {
         // BEWARE: event.target may be the <i> icon
         console.log('num@addActToList=', num);
-        const curGrp = document.getElementById('workInputGroup_' + num);
+        const curGrp = document.getElementById('workInputGroup_' + num).children[1];
+        let curList = document.getElementById('activityList_' + num);
         const curDesc = document.getElementById('actInput_' + num);
         const curNum = document.getElementById('numEquipOrLabor_' + num);
         const curHrs = document.getElementById('hours_' + num);
@@ -164,27 +165,38 @@
             activityCount[num] += 1;
         
             console.log('curGrp=', curGrp);
-            const newActLine = curGrp.appendChild(document.createElement('div'));
+            if (!curList) {
+                curList = curGrp.appendChild(document.createElement('div'));
+                curList.setAttribute('id', 'activityList_' + num);
+                curList.classList.add('col-12');
+            }
+            const newActLine = curList.appendChild(document.createElement('div'));
             const col1 = newActLine.appendChild(document.createElement('div'));
             const col2 = newActLine.appendChild(document.createElement('div'));
             const col3 = newActLine.appendChild(document.createElement('div'));
-            col1.appendChild(document.createElement('label')).appendChild(document.createTextNode('Task/activity'));
+            let label = col1.appendChild(document.createElement('label'));
+            label.appendChild(document.createTextNode('Task/activity'));
+            label.classList.add('input-label', 'item-margin-right');
             const actDesc = col1.appendChild(document.createElement('input'));
-            col2.appendChild(document.createElement('label')).appendChild(document.createTextNode('# of personnel'));
+            label = col2.appendChild(document.createElement('label'));
+            label.appendChild(document.createTextNode('# pers.'));
+            label.classList.add('input-label', 'item-margin-right');
             const actNum = col2.appendChild(document.createElement('input'));
-            col3.appendChild(document.createElement('label')).appendChild(document.createTextNode('Hours'));
+            label = col3.appendChild(document.createElement('label'));
+            label.appendChild(document.createTextNode('Hours'))
+            label.classList.add('input-label', 'item-margin-right');
             const actHrs = col3.appendChild(document.createElement('input'));
             newActLine.classList.add('row', 'pad-less', 'blue-striped', 'item-border-bottom');
-            col1.classList.add('col-md-6');
-            col2.classList.add('col-md-3');
-            col3.classList.add('col-md-3');
+            col1.classList.add('col-md-6', 'flex-row', 'align-center');
+            col2.classList.add('col-md-3', 'mw-50', 'flex-row', 'align-center');
+            col3.classList.add('col-md-3', 'mw-50', 'flex-row', 'align-center');
             actDesc.classList.add('form-control', 'subtle');
             actDesc.setAttribute('name', `actDesc_${num}_${activityCount[num]}`);
             actDesc.value = curDesc.value;
-            actNum.classList.add('form-control', 'subtle');
+            actNum.classList.add('form-control', 'subtle', 'mw-33');
             actNum.setAttribute('name', `actNum_${num}_${activityCount[num]}`);
             actNum.value = curNum.value;
-            actHrs.classList.add('form-control', 'subtle');
+            actHrs.classList.add('form-control', 'subtle', 'mw-33');
             actHrs.setAttribute('name', `actHrs_${num}_${activityCount[num]}`);
             actHrs.value = curHrs.value;
         }
@@ -276,16 +288,16 @@
     }
     
     // handlers to add/remove DOM elements
-    function resetActInputs(event, num) {
-        const curHrs = document.getElementById('hours_' + num);
-        const curList = document.getElementById('actList_'+ num);
-        const curInput = document.getElementById('actInput_' + num);
+    // function resetActInputs(event, num) {
+    //     const curHrs = document.getElementById('hours_' + num);
+    //     const curList = document.getElementById('actList_'+ num);
+    //     const curInput = document.getElementById('actInput_' + num);
 
-        curHrs.value = '';
-        curList.value = '';
-        curInput.value = '';
-        curInput.focus();
-    }
+    //     curHrs.value = '';
+    //     curList.value = '';
+    //     curInput.value = '';
+    //     curInput.focus();
+    // }
     
     function addNewLine(event, num) {
         const parentEl = document.getElementById('workInputList');
@@ -381,7 +393,7 @@
                     id: 'equipOrLaborTotal',
                     name: 'laborTotal',
                     classList: 'form-control',
-                    style: 'max-width: 110px',
+                    style: null,
                     handlers: null
                 },
                 {
@@ -391,7 +403,7 @@
                     id: 'showNotes',
                     name: null,
                     classList: 'form-control',
-                    style: null,
+                    style: 'width: 40px',
                     handlers: [
                         {
                             event: 'click',
@@ -465,16 +477,7 @@
                     name: null,
                     classList: ['form-control', 'full-width'],
                     style: null,
-                    handlers: null
-                    // [{
-                    //         event: 'change',
-                    //         fn: updateHours
-                    //     },
-                    //     {
-                    //         event: 'keypress',
-                    //         fn: handleKeypressEnter
-                    //     }]
-                    ,
+                    handlers: null,
                     innerText: null
                 },
                 {
@@ -504,25 +507,31 @@
         
         // specific DOM elements
         const newGroup = document.createElement('div');
-        newGroup.classList.add('form-subsection', 'item-border-bottom', 'item-margin-bottom');
-        newGroup.id = 'workInputGroup_' + num;
+        newGroup.classList.add('col-12', 'item-border-bottom', 'item-margin-bottom');
+        newGroup.setAttribute('id', 'workInputGroup_' + num);
 
         // append first row of inputs
         const firstRow = document.createElement('div');
-        firstRow.classList.add('flex-row', 'item-margin-bottom');
+        firstRow.classList.add('row', 'item-margin-bottom');
         newGroup.appendChild(firstRow);
         
         const secondRow = document.createElement('div');
-        secondRow.classList.add('flex-row', 'item-margin-bottom', 'pad', 'border-radius', 'grey-bg');
+        secondRow.classList.add('row', 'item-margin-bottom', 'pad', 'border-radius', 'grey-bg');
         newGroup.appendChild(secondRow);
         
         appendNextRow(formCtrls.firstRow, firstRow, num);
         appendNextRow(formCtrls.secondRow, secondRow, num);
         
         // add some additional classes to particular formCtrl parents
-        newGroup.children[0].children[2].classList.add('flex-grow');
-        newGroup.children[0].children[4].style.position = 'relative';
-        newGroup.children[1].children[0].children[0].classList.add('flex-grow');
+        firstRow.children[0].classList.add('col-md-2', 'pl-1', 'pr-1');
+        firstRow.children[1].classList.add('col-md-2', 'pl-1', 'pr-1');
+        firstRow.children[2].classList.add('col-md-5', 'pl-1', 'pr-1');
+        firstRow.children[3].classList.add('col-md-2', 'pl-1', 'pr-1');
+        firstRow.children[4].classList.add('col-md-1', 'pl-1', 'pr-1');
+        secondRow.children[0].classList.add('col-md-6', 'pl-1', 'pr-1', 'item-margin-bottom');
+        secondRow.children[1].classList.add('col-md-3', 'pl-1', 'pr-1', 'mw-33', 'item-margin-bottom');
+        secondRow.children[2].classList.add('col-md-2', 'pl-1', 'pr-1', 'mw-33', 'item-margin-bottom');
+        secondRow.children[3].classList.add('col-md-1', 'pl-1', 'pr-1', 'mw-33', 'item-margin-bottom');
         
         parentEl.appendChild(newGroup);
     }
@@ -534,7 +543,6 @@
         for (let ctrl of elements) {
             // for each one append a div.item-margin-right
             const curParent = row.appendChild(document.createElement('div'));
-            curParent.classList.add('item-margin-right');
             // then loop over ctrl keys
             curCtrl = curParent.appendChild(document.createElement(ctrl.tagName));
             for (let prop in ctrl) {

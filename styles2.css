@@ -12,8 +12,8 @@
     --tenth-trans-grey: #00000018;
     --yellow: #feb24c;
     --vta-bright-blue: #3eb4e6;
-    --vta-bright-blue-quarter-trans: #3eb4e63f;
-    --vta-bright-blue-tenth-trans: #3eb4e618;
+    --vta-bright-blue-tone-1: #64c3eb;
+    --vta-bright-blue-tone-2: #8bd2f0;
     --vta-blue: #0072c6;
     --vta-dark-blue: #03528B;
 }
@@ -77,6 +77,14 @@ ul li {
 }*/
 .full-width {
     width: 100%!important;
+}
+
+.mw-33 {
+    max-width: 33%;
+}
+
+.mw-50 {
+    max-width: 50%;
 }
 
 .block {
@@ -174,11 +182,11 @@ ul li {
 }
 
 .blue-striped {
-    background-color: var(--vta-bright-blue-tenth-trans);
+    background-color: var(--vta-bright-blue-tone-2);
 }
 
 .blue-striped:nth-child(2n+1) {
-    background-color: var(--vta-bright-blue-quarter-trans);
+    background-color: var(--vta-bright-blue-tone-1);
 }
 
 /* Navbar */
@@ -478,7 +486,7 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 .form-control.subtle {
     box-shadow: none;
     outline: none;
-    border: none;
+    border: 1px solid transparent;
     background: transparent;
 }
 
