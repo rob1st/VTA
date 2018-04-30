@@ -93,13 +93,15 @@ if ($userAuth < 1) {
             $numRows = intval($result->num_rows);
             
             if ($numRows) {
+                echo "<h2 class='text-warning'>numRows $numRows</h2>";
                 while ($row = $result->fetch_assoc()) {
                     $expiry = new DateTime($row['editableUntil']);
                     
                     if (($row['approvedBy'] &&
-                    ($row['i.UserID'] === $userID || $userAuth > 1))
+                    ($row['UserID'] === $userID || $userAuth > 1))
                     || (!$row['approvedBy'] && $userAuth > 1))
                     {
+                        echo "<h2 class='text-primary'>Review view</h2>";
                         // review view + comments
                         // + Approve btn if $userAuth > 1
                         echo "
@@ -374,17 +376,185 @@ if ($userAuth < 1) {
                                 })
                             }
                         </script>";
-                    } elseif (!$row['approvedBy'] && $userID === $row['i.UserID']) {
+                    } elseif (!$row['approvedBy'] && $userID === $row['UserID']) {
+                        echo "<h2 class='text-secondary'>Editable Until view</h2>";
                         // IDR editable until midnight after $timestamp
+                        echo "
+                        <h6><span class='text-danger'>*</span><span> = required</span></h6>
+                        <form id='dailyReportForm'>
+                            <div class='flex-row space-between align-stretch item-margin-bottom'>
+                                <fieldset id='dayData' class='card half-container'>
+                                    <div class='card-header grey-bg'>
+                                        <h6 class='flex-row space-between'>
+                                            <span class='item-margin-right'>Inspector Name</span>
+                                            <span>{$row['firstname']} {$row['lastname']}</span>
+                                        </h6>
+                                        <input type='hidden' name='UserID' value='{$userID}' />
+                                    </div>
+                                    <div class='card-body'>
+                                        <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
+                                            <label class='input-label item-margin-right'>Date</label>
+                                            <input type='date' value='{$curDateNum}' id='curDate' class='form-control' readonly />
+                                        </div>
+                                        <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
+                                            <label class='input-label item-margin-right'>Contract<span class='text-danger'>*</span></label>
+                                            <select name='ContractID' class='form-control' required>";
+                                                if ($result = $link->query($contractQry)) {
+                                                    while ($row = $result->fetch_array()) {
+                                                        if ($row[1] === 'C700') $default='selected';
+                                                        else $default = '';
+                                                        echo "<option value ='{$row[0]}' $default>{$row[1]}</option>";
+                                                    }
+                                                }
+                                                
+                        echo "
+                                            </select>
+                                        </div>
+                                        <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
+                                            <label class='input-label item-margin-right'>Weather<span class='text-danger'>*</span></label>
+                                            <input type='text' id='weatherDescrip' name='weather' class='form-control' required />
+                                        </div>
+                                        <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
+                                            <label class='input-label item-margin-right'>Shift Hrs<span class='text-danger'>*</span></label>
+                                            <input type='text' id='shiftHrs' name='shift' class='form-control' required />
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset id='safetyData' class='card half-container'>
+                                    <div class='card-header grey-bg'>
+                                        <h6>Track safety</h6>
+                                    </div>
+                                    <div class='card-body'>
+                                        <div class='flex-row no-wrap space-between item-margin-bottom'>
+                                            <label class='input-label'>EIC</label>
+                                            <input type='text' id='eic' name='EIC' class='form-control' />
+                                        </div>
+                                        <div class='flex-row no-wrap space-between item-margin-bottom'>
+                                            <label class='input-label'>Watchman</label>
+                                            <input type='text' id='watchman' name='watchman' class='form-control' />
+                                        </div>
+                                        <div class='flex-row no-wrap space-between item-margin-bottom'>
+                                            <label class='input-label'>RAP #</label>
+                                            <input type='text' id='rapNum' name='rapNum' class='form-control' />
+                                        </div>
+                                        <div class='flex-row no-wrap space-between item-margin-bottom'>
+                                            <label class='input-label'>SSWP #</label>
+                                            <input type='text' id='sswpNum' name='sswpNum' class='form-control' />
+                                        </div>
+                                        <div class='flex-row no-wrap space-between item-margin-bottom'>
+                                            <label class='input-label'>TCP #</label>
+                                            <input type='text' id='tcpNum' name='tcpNum' class='form-control' />
+                                        </div>";
+                        echo "
+                                    </div>
+                                </fieldset>
+                            </div>
+                            
+                            <div id='workInputList' class='row item-margin-bottom'>
+                                <div id='workInputGroup_0' class='col-12 item-border-bottom item-margin-bottom'>
+                                    <div class='row item-margin-bottom'>
+                                        <div class='col-md-2 pl-1 pr-1'>
+                                            <label class='input-label'>Location<span class='text-danger'>*</span></label>
+                                            <select id='locationID_0' name='laborLocationID_0' class='form-control' required>";
+                                            if ($result = $link->query($locQry)) {
+                                                $locJSON = array();
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $locJSON[$row['LocationID']] = $row['LocationName'];
+                                                    echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
+                                                }
+                                                $locJSON = json_encode($locJSON);
+                                            }
+                        echo "
+                                            </select>
+                                        </div>
+                                        <div class='col-md-2 pl-1 pr-1'>
+                                            <label class='input-label'>Equip/Labor<span class='text-danger'>*</span></label>
+                                            <select id='selectEquipLabor_0' class='form-control' required>
+                                                <option value='labor' selected>Labor</option>
+                                                <option value='equipment'>Equipment</option>
+                                            </select>
+                                        </div>
+                                        <div class='col-md-5 pl-1 pr-1'>
+                                            <label class='input-label' id='labelDescEquipLabor_0'>Description of labor<span class='text-danger'>*</span></label>
+                                            <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' required>
+                                        </div>
+                                        <div class='col-md-2 pl-1 pr-1 mw-50'>
+                                            <label class='input-label' id='labelTotalEquipLabor_0'>Tot. Personnel<span class='text-danger'>*</span></label>
+                                            <input type='number' id='equipOrLaborTotal_0' name='laborTotal_0' class='form-control' required>
+                                        </div>
+                                        <div class='col-md-1 pl-1 pr-1 flex-column align-end mw-50'>
+                                            <label class='input-label'>Notes</label>
+                                            <button type='button' id='showNotes_0' class='form-control' style='width: 40px'><i class='typcn typcn-document-text'></i></button>
+                                            <aside
+                                                id='notesField_0'
+                                                style='
+                                                    display: none;
+                                                    position: absolute;
+                                                    right: 50px;
+                                                    bottom: -2px;
+                                                    border: 1px solid #3333;
+                                                    width: 260px; 
+                                                    padding: .25rem;
+                                                    background-color: white;
+                                                '
+                                            >
+                                                <textarea name='laborNotes_0' id='notes_0' rows='5' cols='30' maxlength='125' class='form-control'></textarea>
+                                            </aside>
+                                        </div>
+                                    </div>
+                                    <div class='row item-margin-bottom pad border-radius grey-bg'>
+                                        <div class='col-md-6 pl-1 pr-1 item-margin-bottom'>
+                                            <label class='input-label'>Description of task/activity</label>
+                                            <input id='actInput_0' type='text' class='form-control full-width' />
+                                        </div>
+                                        <div class='col-md-3 pl-1 pr-1 mw-33 item-margin-bottom'>
+                                            <label id='labelNumEquipLabor_0' class='input-label'># persons</label>
+                                            <input type='number' id='numEquipOrLabor_0' class='form-control'/>
+                                        </div>
+                                        <div class='col-md-2 pl-1 pr-1 mw-33 item-margin-bottom'>
+                                            <label class='input-label'>Hours</label>
+                                            <input type='number' id='hours_0' class='form-control full-width' />
+                                        </div>
+                                        <div class='col-md-1 pl-1 pr-1 mw-33 item-margin-bottom'>
+                                            <label class='input-label'>Add Task</label>
+                                            <button type='button' id='addAct_0' class='btn btn-success block'>Add<i class='typcn typcn-chevron-right-outline'></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style='text-align: right'>
+                                <button type='button' id='addLineBtn' class='btn btn-success'>Add Line</button>
+                            </div>
+                            <div class='row item-margin-bottom'>
+                                <div class='col-md-6 offset-md-3'>
+                                    <label>Comment</label>
+                                    <textarea id='commentBox' name='comment' class='form-control' rows='5'></textarea>
+                                </div>
+                            </div>
+                            <div class='center-content'>
+                                <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
+                            </div>
+                        </form>
+                    </main>
+                    <script>
+                        var locJSON = $locJSON;
+                    </script>;
+                    <script src='js/dailyReport.js'></script>";
                     } else {
                         http_response_code(401);
                         $code = http_response_code();
+                        echo "<pre>";
+                        var_dump($userID);
+                        echo "</pre>";
+                        echo "<pre>";
+                        var_dump($row);
+                        echo "</pre>";
                         echo "
                         <ul>
                             <li>$code</li>
                             <li>$role</li>
                             <li>$userAuth</li>
-                            <li>{$row['i.UserID']} === $userID</li>
+                            <li>{$row['UserID']} === $userID</li>
                             <li>{$row['approvedBy']}</li>
                         </ul>";
                         return;
