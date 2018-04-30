@@ -242,11 +242,11 @@ if ($userAuth < 1) {
                                         <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['LocationName']}</span>
                                     </p>
                                     <p class='col-md-2'>
-                                        <span class='d-block text-secondary'># personnel:</span>
+                                        <span class='d-block text-secondary'># equipment:</span>
                                         <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipTotal']}</span>
                                     </p>
                                     <p class='col-md-6'>
-                                        <span class='d-block text-secondary'>Description of labor:</span>
+                                        <span class='d-block text-secondary'>Description of equip:</span>
                                         <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipDesc']}</span>
                                     </p>
                                 </div>";
