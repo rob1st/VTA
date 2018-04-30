@@ -386,7 +386,7 @@
                         {
                             tagName: 'aside',
                             id: 'notesField',
-                            style: 'display: none; position: absolute; right: 46px; bottom: -2px; border: 1px solid #3333; padding: .25rem; background-color: white;',
+                            style: 'display: block; position: absolute; right: 50px; bottom: -2px; border: 1px solid rgba(51, 51, 51, 0.2); width: 260px; padding: 0.25rem; background-color: white;',
                             children: [
                                 {
                                     tagName: 'textarea',
