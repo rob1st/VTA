@@ -533,7 +533,7 @@ if ($userAuth < 1) {
                             </div>
                             <div class='col-md-3 pl-1 pr-1 mw-33 item-margin-bottom'>
                                 <label id='labelNumEquipLabor_0' class='input-label'># persons</label>
-                                <input type='number' id='numEquipOrLabor_0' name='numLabor_0' class='form-control'/>
+                                <input type='number' id='numEquipOrLabor_0' class='form-control'/>
                             </div>
                             <div class='col-md-2 pl-1 pr-1 mw-33 item-margin-bottom'>
                                 <label class='input-label'>Hours</label>

@@ -38,7 +38,7 @@
         }).then(res => {
             if (res.ok) {
                 if (res.headers.get('Location') && res.status === 201) {
-                    // window.location.href = res.headers.get('Location');
+                    window.location.href = res.headers.get('Location');
                     return res.text()
                 } else {
                     // no Location || no New Record status (although php may have created some new records)
@@ -267,7 +267,6 @@
             numLabel.innerText = '# of personnel';
             totInput.setAttribute('name', 'laborTotal_' + num);
             descInput.setAttribute('name', 'laborDesc_' + num);
-            numInput.setAttribute('name', 'laborNum_' + num);
             textarea.setAttribute('name', 'laborNotes_' + num);
         } else {
             locInput.setAttribute('name', 'equipLocationID_' + num);
@@ -276,7 +275,6 @@
             numLabel.innerText = '# of equip.';
             totInput.setAttribute('name', 'equipTotal_' + num);
             descInput.setAttribute('name', 'equipDesc_' + num);
-            numInput.setAttribute('name', 'equipNum_' + num);
             textarea.setAttribute('name', 'equipNotes_' + num);
         }
     }
@@ -462,7 +460,7 @@
                     },
                     type: 'number',
                     id: 'numEquipOrLabor',
-                    name: 'numLabor',
+                    name: null,
                     classList: 'form-control',
                     style: null,
                     handlers: null,
