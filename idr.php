@@ -77,12 +77,12 @@ if ($userAuth < 1) {
             JOIN Contract c ON
             i.ContractID=c.ContractID)
             WHERE i.idrID=$idrID";
-        $laborQry = "SELECT laborID, laborNum, laborDesc, idrID, laborNotes, LocationName FROM
+        $laborQry = "SELECT laborID, laborTotal, laborDesc, idrID, laborNotes, LocationName FROM
             labor la JOIN
             Location L ON
             la.LocationID=L.LocationID
             WHERE la.idrID=$idrID";
-        $equipQry = "SELECT equipID, equipNum, equipDesc, idrID, equipNotes, LocationName FROM
+        $equipQry = "SELECT equipID, equipTotal, equipDesc, idrID, equipNotes, LocationName FROM
             equipment e JOIN
             Location L ON
             e.LocationID=L.LocationID
@@ -91,8 +91,6 @@ if ($userAuth < 1) {
         if ($result = $link->query($idrQry)) {
             echo "<h2 class='text-center text-info'>$userID</h2>";
             $numRows = intval($result->num_rows);
-            // $laborResult = $link->query($laborQry);
-            // $equipResult = $link->query($equipQry);
             
             if ($numRows) {
                 while ($row = $result->fetch_assoc()) {
@@ -192,7 +190,7 @@ if ($userAuth < 1) {
                                     </p>
                                     <p class='col-md-2'>
                                         <span class='d-block text-secondary'># personnel:</span>
-                                        <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborNum']}</span>
+                                        <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['laborTotal']}</span>
                                     </p>
                                     <p class='col-md-6'>
                                         <span class='d-block text-secondary'>Description of labor:</span>
@@ -216,7 +214,11 @@ if ($userAuth < 1) {
                                                     <span class='text-secondary font-italic mr-md-2'>task:</span>
                                                     <span> {$row['actDesc']}</span>
                                                 </p>
-                                                <p class='col-2 offset-md-1 mb-0'>
+                                                <p class='col-2 mb-0'>
+                                                    <span class='text-secondary font-italic mr-md-2'># pers.:</span>
+                                                    <span> {$row['numResources']}</span>
+                                                </p>
+                                                <p class='col-2 mb-0'>
                                                     <span class='text-secondary font-italic mr-md-2'>hours:</span>
                                                     <span>{$row['actHrs']}</span>
                                                 </p>
@@ -225,7 +227,7 @@ if ($userAuth < 1) {
                                     echo "</ul></div>";
                                 }
                             }
-                        } else echo "<pre style='font-size: 2rem; color: orangeRed;'>{$result->error}</pre>";
+                        } else echo "<pre style='font-size: 2rem; color: orangeRed;'>{$link->error}</pre>";
                         if ($result = $link->query($equipQry)) {
                             $linkingT = 'equipAct_link';
                             $resourceT = 'equipment';
@@ -240,12 +242,16 @@ if ($userAuth < 1) {
                 
                                 echo "
                                 <div class='row'>
-                                    <p class='col-4'>
-                                        <span class='d-block text-secondary'># equipment:</span>
-                                        <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipNum']}</span>
+                                    <p class='col-md-4'>
+                                        <span class='d-block text-secondary'>Location</span>
+                                        <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['LocationName']}</span>
                                     </p>
-                                    <p class='col-8'>
-                                        <span class='d-block text-secondary'>Description of equipment:</span>
+                                    <p class='col-md-2'>
+                                        <span class='d-block text-secondary'># personnel:</span>
+                                        <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipTotal']}</span>
+                                    </p>
+                                    <p class='col-md-6'>
+                                        <span class='d-block text-secondary'>Description of labor:</span>
                                         <span class='d-block border-radius thin-grey-border grey-bg pad-less'>{$row['equipDesc']}</span>
                                     </p>
                                 </div>";
@@ -266,7 +272,11 @@ if ($userAuth < 1) {
                                                     <span class='text-secondary font-italic mr-md-2'>task:</span>
                                                     <span> {$row['actDesc']}</span>
                                                 </p>
-                                                <p class='col-2 offset-md-1 mb-0'>
+                                                <p class='col-2 mb-0'>
+                                                    <span class='text-secondary font-italic mr-md-2'># equip.:</span>
+                                                    <span> {$row['numResources']}</span>
+                                                </p>
+                                                <p class='col-2 mb-0'>
                                                     <span class='text-secondary font-italic mr-md-2'>hours:</span>
                                                     <span>{$row['actHrs']}</span>
                                                 </p>
@@ -275,7 +285,7 @@ if ($userAuth < 1) {
                                     echo "</ul></div>";
                                 }
                             }
-                        }
+                        } else echo "<pre style='font-size: 2rem; color: orangeRed;'>{$link->error}</pre>";
                         // comment & Approve elements
                         echo "
                         <hr />
