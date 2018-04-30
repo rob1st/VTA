@@ -67,8 +67,7 @@ if ($userAuth < 1) {
         <header class='container page-header'>
             <h1 class='page-title'>Inspector's Daily Report</h1>
         </header>
-        <main class='container main-content'>
-    ";
+        <main class='container main-content'>";
     if ($idrID = $_GET['idrID']) {
         $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, approvedBy, editableUntil
             FROM ((IDR i
@@ -102,7 +101,7 @@ if ($userAuth < 1) {
                         <h3 class='center-content font-italic'>Review</h3>
                         <div class='row item-margin-bottom'>
                             <div class='col-md-6'>
-                                <div class='card'>
+                                <div class='card h-100'>
                                     <div class='card-header grey-bg'>
                                         <h6 class='flex-row space-between'>
                                             <span>Inspector Name</span>
@@ -132,7 +131,7 @@ if ($userAuth < 1) {
                                 </div>
                             </div>
                             <div class='col-md-6'>
-                                <div class='card'>
+                                <div class='card h-100'>
                                     <div class='card-header grey-bg'><h6>Track safety</h6></div>
                                     <div class='card-body'>
                                         <ul>";
@@ -166,7 +165,6 @@ if ($userAuth < 1) {
                         </div>";
                         // iterate over results and display as nested <ul>s
                         if ($result = $link->query($laborQry)) {
-                            echo intval($result->num_rows);
                             $linkingT = 'laborAct_link';
                             $resourceT = 'labor';
                             $resourceID = 'laborID';
@@ -285,7 +283,7 @@ if ($userAuth < 1) {
                         // comment & Approve elements
                         echo "
                         <hr />
-                        <form>
+                        <form class='item-margin-bottom'>
                             <input type='hidden' name='idrID' value='$idrID' />
                             <input type='hidden' name='userID' value='$userID' />
                             <div class='row item-margin-bottom'>
