@@ -174,14 +174,18 @@
             const col1 = newActLine.appendChild(document.createElement('div'));
             const col2 = newActLine.appendChild(document.createElement('div'));
             const col3 = newActLine.appendChild(document.createElement('div'));
+            
             let label = col1.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('Task/activity'));
             label.classList.add('input-label', 'item-margin-right');
             const actDesc = col1.appendChild(document.createElement('input'));
+            
             label = col2.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('# pers.'));
+            label.setAttribute('id', `numRsrcLabel_${num}_${activityCount[num]}`);
             label.classList.add('input-label', 'item-margin-right');
             const numRsrcs = col2.appendChild(document.createElement('input'));
+            
             label = col3.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('Hours'))
             label.classList.add('input-label', 'item-margin-right');
@@ -260,6 +264,7 @@
         const descInput = document.getElementById('equipOrLaborDesc_' + num);
         const numInput = document.getElementById('numEquipOrLabor_' + num);
         const textarea = document.getElementById('notes_' + num);
+        const actList = document.getElementById('activityList_' + num);
         if (event.target.value == 'labor') {
             locInput.setAttribute('name', 'laborLocationID_' + num);
             totLabel.innerText = 'Tot. personnel';
@@ -268,6 +273,10 @@
             totInput.setAttribute('name', 'laborTotal_' + num);
             descInput.setAttribute('name', 'laborDesc_' + num);
             textarea.setAttribute('name', 'laborNotes_' + num);
+            for (let row of actList.children) {
+                const curLabel = row.children[1].querySelector('label');
+                curLabel.innerText = '# pers.';
+            }
         } else {
             locInput.setAttribute('name', 'equipLocationID_' + num);
             totLabel.innerText = 'Tot. equipment';
@@ -276,6 +285,10 @@
             totInput.setAttribute('name', 'equipTotal_' + num);
             descInput.setAttribute('name', 'equipDesc_' + num);
             textarea.setAttribute('name', 'equipNotes_' + num);
+            for (let row of actList.children) {
+                const curLabel = row.children[1].querySelector('label');
+                curLabel.innerText = '# equip.';
+            }
         }
     }
     
