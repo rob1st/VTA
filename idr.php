@@ -89,16 +89,13 @@ if ($userAuth < 1) {
             WHERE e.idrID=$idrID";
         
         if ($result = $link->query($idrQry)) {
-            echo "<h2 class='text-center text-info'>$userID</h2>";
             $numRows = intval($result->num_rows);
             
             if ($numRows) {
-                echo "<h2 class='text-warning'>numRows $numRows</h2>";
                 while ($row = $result->fetch_assoc()) {
                     $expiry = new DateTime($row['editableUntil']);
                     
                     if ($row['UserID'] === $userID || $userAuth > 1) {
-                        echo "<h2 class='text-primary'>Review view</h2>";
                         // review view + comments
                         // + Approve btn if $userAuth > 1
                         echo "
@@ -326,7 +323,6 @@ if ($userAuth < 1) {
                             ic.userID = ue.userID
                             AND idrID=$idrID";
                         if ($result = $link->query($commentQry)) {
-                            echo "<h4 class='text-center text-warn bg-info pad'>{$result->num_rows}</h4>";
                             while ($row = $result->fetch_assoc()) {
                                 echo "
                                 <div class='row'>
@@ -342,12 +338,10 @@ if ($userAuth < 1) {
                         echo "
                         <script>
                             function submitAndApprove(ev) {
-                                console.log(submitAndApprove.name, ev.target);
                                 submitReview(ev, 'true');
                             }
                             
                             function submitNoApprove(ev) {
-                                console.log(submitNoApprove.name, ev.target);
                                 submitReview(ev, 'false');
                             }
                             

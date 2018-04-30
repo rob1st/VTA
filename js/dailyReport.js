@@ -46,27 +46,22 @@
                     throw Error(`${res.status} ${res.headers['Content-Type']} ${res.headers['Content-Length']} ${res.headers['Location']}`);
                 }
             } else if (res.status === 500) {
-                console.log('status equals 500', res.status);
                 return res.text();
             }
             else {
-                console.log(res.status);
                 throw Error(res.statusText);
             }
         }).then(text => {
             if (!text.then) {
-                console.log(text);
                 window.alert(`Thank you for your submission\n${text}`);
             } else {
                 // text is an unresolved promise. try to resolve it with another `then`
                 text.then(body => {
                     window.alert('There was a problem with the request');
-                    console.error('Is it still a Promise?', body);
                 });
             }
         }).catch(err => {
             window.alert('There was a problem with the request:\n' + err);
-            console.error(err);
         })
     }
     
@@ -147,7 +142,6 @@
     
     function addActToList(ev, num) {
         // BEWARE: event.target may be the <i> icon
-        console.log('num@addActToList=', num);
         const curGrp = document.getElementById('workInputGroup_' + num).children[1];
         let curList = document.getElementById('activityList_' + num);
         const curDesc = document.getElementById('actInput_' + num);
@@ -164,7 +158,6 @@
             }
             activityCount[num] += 1;
         
-            console.log('curGrp=', curGrp);
             if (!curList) {
                 curList = curGrp.appendChild(document.createElement('div'));
                 curList.setAttribute('id', 'activityList_' + num);
