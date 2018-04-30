@@ -38,10 +38,10 @@
         }).then(res => {
             if (res.ok) {
                 if (res.headers.get('Location') && res.status === 201) {
-                    window.location.href = res.headers.get('Location');
+                    // window.location.href = res.headers.get('Location');
                     return res.text()
                 } else {
-                    // no Location, no New Record status (although php may have created some new records)
+                    // no Location || no New Record status (although php may have created some new records)
                     window.alert('There was a problem with the redirect and/or INSERT');
                     throw Error(`${res.status} ${res.headers['Content-Type']} ${res.headers['Content-Length']} ${res.headers['Location']}`);
                 }
@@ -181,7 +181,7 @@
             label = col2.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('# pers.'));
             label.classList.add('input-label', 'item-margin-right');
-            const actNum = col2.appendChild(document.createElement('input'));
+            const numRsrcs = col2.appendChild(document.createElement('input'));
             label = col3.appendChild(document.createElement('label'));
             label.appendChild(document.createTextNode('Hours'))
             label.classList.add('input-label', 'item-margin-right');
@@ -193,9 +193,9 @@
             actDesc.classList.add('form-control', 'subtle');
             actDesc.setAttribute('name', `actDesc_${num}_${activityCount[num]}`);
             actDesc.value = curDesc.value;
-            actNum.classList.add('form-control', 'subtle', 'mw-33');
-            actNum.setAttribute('name', `actNum_${num}_${activityCount[num]}`);
-            actNum.value = curNum.value;
+            numRsrcs.classList.add('form-control', 'subtle', 'mw-33');
+            numRsrcs.setAttribute('name', `numResources_${num}_${activityCount[num]}`);
+            numRsrcs.value = curNum.value;
             actHrs.classList.add('form-control', 'subtle', 'mw-33');
             actHrs.setAttribute('name', `actHrs_${num}_${activityCount[num]}`);
             actHrs.value = curHrs.value;

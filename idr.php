@@ -501,11 +501,11 @@ if ($userAuth < 1) {
                             </div>
                             <div class='col-md-5 pl-1 pr-1'>
                                 <label class='input-label' id='labelDescEquipLabor_0'>Description of labor<span class='text-danger'>*</span></label>
-                                <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' required />
+                                <input type='text' id='equipOrLaborDesc_0' name='laborDesc_0' class='form-control full-width' required>
                             </div>
                             <div class='col-md-2 pl-1 pr-1'>
                                 <label class='input-label' id='labelTotalEquipLabor_0'>Tot. Personnel<span class='text-danger'>*</span></label>
-                                <input type='number' id='equipOrLaborTotal_0' name='laborTotal_0' class='form-control' required />
+                                <input type='number' id='equipOrLaborTotal_0' name='laborTotal_0' class='form-control' required>
                             </div>
                             <div class='col-md-1 pl-1 pr-1' style='position:relative'>
                                 <label class='input-label'>Notes</label>

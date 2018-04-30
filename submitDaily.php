@@ -132,7 +132,7 @@
                     }
                 }
                 // next, check for act keys
-                elseif (strpos($key, 'act') !== false) {
+                elseif (strpos($key, 'act') !== false || strpos($key, 'numResources') !== false) {
                     // assign 'act' vals to 'act' keys @ array[actNum]
                     // num following 1st '_' in $key is resource number (labor or equip)
                     $rsrcNum = intval(substr($key, strpos($key, '_') + 1, strpos($key, '_', strpos($key, '_') + 1) - (strpos($key, '_') + 1)));
