@@ -31,64 +31,74 @@ include('filestart.php');
                 <div class='row item-margin-bottom'>
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Def #</label>
-                        <select name='DefID' class='form-control'>";
-                        if ($result = $link->query('SELECT DefID from CDL')) {
-                            while ($row = $result->fetch_array()) {
-                                echo "<option value='{$row[0]}'>{$row[0]}</option>";
+                        <select name='DefID' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT DefID from CDL')) {
+                                while ($row = $result->fetch_array()) {
+                                    echo "<option value='{$row[0]}'>{$row[0]}</option>";
+                                }
+                                $result->close();
                             }
-                        }
         echo "
                         </select>
                     </div>
                     <div class='col-6 col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Status</label>
-                        <select name='Status' class='form-control'>";
-                        if ($result = $link->query('SELECT StatusID, Status from Status')) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['StatusID']}'>{$row['Status']}</option>";
+                        <select name='Status' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT StatusID, Status from Status')) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['StatusID']}'>{$row['Status']}</option>";
+                                }
+                                $result->close();
                             }
-                        }
         echo "
                         </select>
                     </div>
                     <div class='col-xs-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Safety cert</label>
                         <select name='SafetyCert' class='form-control'>
+                            <option value='' selected></option>
                             <option value='1'>Yes</option>
                             <option value='2'>No</option>
                         </select>
                     </div>
                     <div class='col-xs-6 col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Severity</label>
-                        <select name='Severity' class='form-control'>";
-                        if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
-                            while($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['SeverityID']}'>{$row['SeverityName']}</option>";
+                        <select name='Severity' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
+                                while($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['SeverityID']}'>{$row['SeverityName']}</option>";
+                                }
+                                $result->close();
                             }
-                        }
         echo "
                         </select>
                     </div>
                     <div class='col-xs-12 col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>System</label>
-                        <select name='SystemAffected' class='form-control'>";
-                        if ($result = $link->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['SystemID']}'>{$row['System']}</option>";
+                        <select name='SystemAffected' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['SystemID']}'>{$row['System']}</option>";
+                                }
+                                $result->close();
                             }
-                        }
         echo "
                         </select>
                     </div>
                     <div class='col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>Group to resolve</label>
-                        <select name='GroupToResolve' class='form-control'>";
-                        if ($result = $link->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['SystemID']}'>{$row['System']}</option>";
+                        <select name='GroupToResolve' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['SystemID']}'>{$row['System']}</option>";
+                                }
+                                $result->close();
                             }
-                            $result->close();
-                        }
                         
         echo "
                         </select>
@@ -101,38 +111,42 @@ include('filestart.php');
                     </div>
                     <div class='col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Location</label>
-                        <select name='Location' class='form-control'>";
-                        if ($result = $link->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
+                        <select name='Location' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
+                                }
+                                $result->close();
                             }
-                        }
         echo "
                         </select>
                     </div>
                     <div class='col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Specific location</label>
-                        <select name='SpecLoc' class='form-control'>";
-                        if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
-                            while ($row = $result->fetch_row()) {
-                                if ($row[0]) {
-                                    echo "<option value='$row[0]'>$row[0]</option>";
-                                } else echo "<option value=''>none</option>";
+                        <select name='SpecLoc' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
+                                while ($row = $result->fetch_row()) {
+                                    if ($row[0]) {
+                                        echo "<option value='$row[0]'>$row[0]</option>";
+                                    } else echo "<option value=''>none</option>";
+                                }
+                                $result->close();
                             }
-                            $result->close();
-                        }
         echo "
                         </select>
                     </div>
                     <div class='col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Identified By</label>
-                        <select name='IdentifiedBy' class='form-control'>";
-                        if ($result = $link->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
-                            while ($row = $result->fetch_array()) {
-                                echo "<option value='{$row[0]}'>{$row[0]}</option>";
+                        <select name='IdentifiedBy' class='form-control'>
+                            <option value='' selected></option>";
+                            if ($result = $link->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
+                                while ($row = $result->fetch_array()) {
+                                    echo "<option value='{$row[0]}'>{$row[0]}</option>";
+                                }
+                                $result->close();
                             }
-                            $result->close();
-                        }
         echo "
                         </select>
                     </div>
