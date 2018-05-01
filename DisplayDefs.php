@@ -3,17 +3,162 @@ include('session.php');
 include('SQLFunctions.php');
 $title = "View Deficiencies";
 $link = f_sqlConnect();
-$CDL = file_get_contents("CDList.sql");
 $Role = $_SESSION['Role'];
 include('filestart.php');
+
+// search function
+$AND = 0;
+
+if($_POST['Search'] == NULL) {
+    $sql = file_get_contents("CDList.sql");
+    $count = "SELECT COUNT(*) FROM CDL";
+} else {
+    $search = true;
+    
+    $DefIDS = $_POST['DefID'];
+    $SafetyCertS = $_POST['SafetyCert'];
+    $SystemAffectedS = $_POST['SystemAffected'];
+    $LocationS = $_POST['Location'];
+    $SpecLocS = $_POST['SpecLoc'];
+    $StatusS = $_POST['Status'];
+    $SeverityS = $_POST['Severity'];
+    $GroupToResolveS = $_POST['GroupToResolve'];
+    $IdentifiedByS = $_POST['IdentifiedBy'];
+    $DescriptionS = $_POST['Description'];
+    
+    $sql = "SELECT 
+                A.DefID,
+                L.LocationName, 
+                S.SeverityName, 
+                A.DateCreated, 
+                Y.System, 
+                A.Description 
+            FROM 
+                CDL A 
+            LEFT JOIN 
+                Location L 
+            ON 
+                L.LocationID = A.Location
+            LEFT JOIN 
+                Severity S 
+            ON 
+                S.SeverityID = A.Severity
+            LEFT JOIN 
+                System Y
+            ON 
+                Y.SystemID = A.SystemAffected";
+    $count = "SELECT COUNT(*) FROM CDL A";
+    
+    if($DefIDS <> NULL) {
+       $DefIDSQL = " WHERE A.DefID = '".$DefIDS."'";
+       $AND = 1;
+    } else {
+        $DefIDSQL = "";
+    }
+    if($SafetyCertS <> NULL) {
+        if($AND == 1) {
+           $SafetyCertSQL = " AND A.SafetyCert = '".$SafetyCertS."'"; 
+       } else {
+       $SafetyCertSQL = " WHERE A.SafetyCert = '".$RequirementS."'";
+       $AND = 1;
+       }
+    } else {
+        $SafetyCertSQL = "";
+    }
+    if($SystemAffectedS <> NULL) {
+        if($AND == 1) {
+           $SystemAffectedSQL = " AND A.SystemAffected = '".$DesignCodeS."'";
+        } else {
+           $SystemAffectedSQL = " WHERE A.SystemAffected = '".$DesignCodeS."'";
+           $AND = 1;
+       }
+    } else {
+        $SystemAffectedSQL = "";
+    }
+    if($GroupToResolveS <> NULL) {
+        if($AND == 1) {
+           $GroupToResolveSQL = " AND A.GroupToResolve = '".$DesignCodeS."'";
+        } else {
+           $GroupToResolveSQL = " WHERE A.GroupToResolve = '".$DesignCodeS."'";
+           $AND = 1;
+       }
+    } else {
+        $GroupToResolveSQL = "";
+    }
+    if($LocationS <> NULL) {
+        if($AND == 1) {
+            $LocationSQL = " AND A.Location = '".$LocationS."'";
+        } else {
+            $LocationSQL = " WHERE A.Location = '".$LocationS."'";
+            $AND = 1;
+        }
+    } else {
+        $LocationSQL = "";
+    }
+    if($SpecLocS <> NULL) {
+       if($AND == 1) {
+            $SpecLocSQL = " AND A.SpecLoc LIKE '%".$SpecLocS."%'";
+        } else {
+            $SpecLocSQL = " WHERE A.SpecLoc LIKE '%".$SpecLocS."%'";
+            $AND = 1;
+        }
+    } else {
+        $SpecLocSQL = "";
+    }
+    if($StatusS <> 0) {
+       if($AND == 1) {
+            $StatusSQL = " AND A.Status = '".$StatusS."'";
+        } else {
+            $StatusSQL = " WHERE A.Status = '".$StatusS."'";
+            $AND = 1;
+        }
+    } else {
+        $StatusSQL = "";
+    }
+    if($SeverityS <> 0) {
+       if($AND == 1) {
+            $SeveryitySQL = " AND A.Severity = '".$SeverityS."'";
+        } else {
+            $SeveritySQL = " WHERE A.Severity = '".$SeverityS."'";
+            $AND = 1;
+        }
+    } else {
+        $SeveritySQL = "";
+    }
+    if($IdentifiedByS <> NULL) {
+       if($AND == 1) {
+            $IdentifiedBySQL = " AND A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
+        } else {
+            $IdentifiedBySQL = " WHERE A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
+            $AND = 1;
+        }
+    } else {
+        $IdentifiedBySQL = "";
+    }
+    if($DescriptionS <> NULL) {
+       if($AND == 1) {
+            $DescriptionSQL = " AND A.Description LIKE '%".$DescriptionS."%'";
+        } else {
+            $DescriptionSQL = " WHERE A.Description LIKE '%".$DescriptionS."%'";
+            $AND = 1;
+        }
+    } else {
+        $DescriptionSQL = "";
+    }
+    $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+}
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
+    <?php
+        // if ($search) $class = 'text-danger';
+        // else $class = 'text-primary';
+        echo "<h6 class='$class'>{$_POST['Search']}: $sql</h6>";
+    ?>
 </header>
 <?php     
-    if($result = $link->query($CDL)) {
-        $cdlResult = $result;
-        echo "
+    echo "
         <main class='container main-content'>
             <div class='card heading-card'>
                 <div class='card-body grey-bg item-margin-right page-heading-panel'>
@@ -27,7 +172,8 @@ include('filestart.php');
 
             // search form
         echo "
-            <form class='item-margin-bottom'>
+            <form action='DisplayDefs.php' method='POST' class='item-margin-bottom'>
+                <h5>Search deficiencies</h5>
                 <div class='row item-margin-bottom'>
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Def #</label>
@@ -148,11 +294,12 @@ include('filestart.php');
                         </select>
                     </div>
                     <div class='col-sm-1 pl-1 pr-1 pt-2 flex-column justify-end'>
-                        <button type='submit' class='btn btn-primary'>Search</button>
+                        <button name='Search' value='search' type='submit' class='btn btn-primary'>Search</button>
                     </div>
                 </div>
             </form>";
             
+    if($result = $link->query($sql)) {
         /*    <ul class='def-nav'>
             $self = $_SERVER['PHP_SELF'];
             $defNavLinks = array(
@@ -193,7 +340,7 @@ include('filestart.php');
                     }
                 } echo "</tr></thead><tbody>";
                 
-            while($row = $cdlResult->fetch_array()) {
+            while($row = $result->fetch_array()) {
                 echo "
                     <tr class='svbx-tr'>
                         <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
@@ -221,10 +368,12 @@ include('filestart.php');
                         </td></tr>";
                 }
             }
-        echo "</tbody></table></main>";
+        echo "</tbody></table>";
+        $result->close();
     } elseif($link->error) {
         echo "<main class='container main-content error-display'>Error: $link->error";
     }
+    echo "</main>";
                     
 mysqli_close($link);
     
