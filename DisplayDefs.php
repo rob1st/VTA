@@ -23,12 +23,15 @@ include('filestart.php');
                     }
         echo "
                 </div>
-            </div>
+            </div>";
 
-            <form>
-                <div class='row'>
-                        <label>Deficiency #</label>
-                        <select type='number' name='DefID' class='form-control'>";
+            // search form
+        echo "
+            <form class='item-margin-bottom'>
+                <div class='row item-margin-bottom'>
+                    <div class='col-6 col-sm-1 pl-1 pr-1'>
+                        <label class='input-label'>Def #</label>
+                        <select name='DefID' class='form-control'>";
                         if ($result = $link->query('SELECT DefID from CDL')) {
                             while ($row = $result->fetch_array()) {
                                 echo "<option value='{$row[0]}'>{$row[0]}</option>";
@@ -36,25 +39,9 @@ include('filestart.php');
                         }
         echo "
                         </select>
-                        <label>Location</label>
-                        <select name='Location' class='form-control'>";
-                        if ($result = $link->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
-                            }
-                        }
-        echo "
-                        </select>
-                        <label>Severity</label>
-                        <select name='Severity' class='form-control'>";
-                        if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
-                            while($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['SeverityID']}'>{$row['SeverityName']}</option>";
-                            }
-                        }
-        echo "
-                        </select>
-                        <label>Status</label>
+                    </div>
+                    <div class='col-6 col-sm-2 pl-1 pr-1'>
+                        <label class='input-label'>Status</label>
                         <select name='Status' class='form-control'>";
                         if ($result = $link->query('SELECT StatusID, Status from Status')) {
                             while ($row = $result->fetch_assoc()) {
@@ -63,7 +50,27 @@ include('filestart.php');
                         }
         echo "
                         </select>
-                        <label>System</label>
+                    </div>
+                    <div class='col-xs-6 col-sm-1 pl-1 pr-1'>
+                        <label class='input-label'>Safety cert</label>
+                        <select name='SafetyCert' class='form-control'>
+                            <option value='1'>Yes</option>
+                            <option value='2'>No</option>
+                        </select>
+                    </div>
+                    <div class='col-xs-6 col-sm-2 pl-1 pr-1'>
+                        <label class='input-label'>Severity</label>
+                        <select name='Severity' class='form-control'>";
+                        if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
+                            while($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['SeverityID']}'>{$row['SeverityName']}</option>";
+                            }
+                        }
+        echo "
+                        </select>
+                    </div>
+                    <div class='col-xs-12 col-sm-3 pl-1 pr-1'>
+                        <label class='input-label'>System</label>
                         <select name='SystemAffected' class='form-control'>";
                         if ($result = $link->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
                             while ($row = $result->fetch_assoc()) {
@@ -72,16 +79,9 @@ include('filestart.php');
                         }
         echo "
                         </select>
-                        <label>Description</label>
-                        <input type='text' name='Description' class='form-control'>
-                        <label>Safety cert</label>
-                        <select name='SafetyCert' class='form-control'>
-                            <option value='1'>Yes</option>
-                            <option value='2'>No</option>
-                        </select>
-                        <label>Specific location</label>
-                        <input type='text' name='SpecLoc' class='form-control'>
-                        <label>Group to resolve</label>
+                    </div>
+                    <div class='col-sm-3 pl-1 pr-1'>
+                        <label class='input-label'>Group to resolve</label>
                         <select name='GroupToResolve' class='form-control'>";
                         if ($result = $link->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
                             while ($row = $result->fetch_assoc()) {
@@ -89,9 +89,43 @@ include('filestart.php');
                             }
                             $result->close();
                         }
+                        
         echo "
                         </select>
-                        <label>Identified By</label>
+                    </div>
+                </div>
+                <div class='row item-margin-bottom'>
+                    <div class='col-sm-5 pl-1 pr-1'>
+                        <label class='input-label'>Description</label>
+                        <input type='text' name='Description' class='form-control'>
+                    </div>
+                    <div class='col-sm-2 pl-1 pr-1'>
+                        <label class='input-label'>Location</label>
+                        <select name='Location' class='form-control'>";
+                        if ($result = $link->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
+                            }
+                        }
+        echo "
+                        </select>
+                    </div>
+                    <div class='col-sm-2 pl-1 pr-1'>
+                        <label class='input-label'>Specific location</label>
+                        <select name='SpecLoc' class='form-control'>";
+                        if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
+                            while ($row = $result->fetch_row()) {
+                                if ($row[0]) {
+                                    echo "<option value='$row[0]'>$row[0]</option>";
+                                } else echo "<option value=''>none</option>";
+                            }
+                            $result->close();
+                        }
+        echo "
+                        </select>
+                    </div>
+                    <div class='col-sm-2 pl-1 pr-1'>
+                        <label class='input-label'>Identified By</label>
                         <select name='IdentifiedBy' class='form-control'>";
                         if ($result = $link->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
                             while ($row = $result->fetch_array()) {
@@ -101,11 +135,14 @@ include('filestart.php');
                         }
         echo "
                         </select>
-                        <button type='submit' class='btn btn-primary'>Search</button>
+                    </div>
+                    <div class='col-sm-1 pl-1 pr-1'>
+                        <button type='submit' class='btn btn-primary' style='position: relative; top: 1.5rem'>Search</button>
+                    </div>
                 </div>
-            </form>
+            </form>";
             
-            <ul class='def-nav'>";
+        /*    <ul class='def-nav'>
             $self = $_SERVER['PHP_SELF'];
             $defNavLinks = array(
                   'All' => 'DisplayDefs.php',
@@ -123,7 +160,7 @@ include('filestart.php');
                     <li class='item-margin-right flex'>
                         <a href='$fileName' class='btn btn-sm btn-outline def-nav-btn{$extraClass}'>$linkText</a>
                     </li>";
-            }
+            }*/
         echo "
             </ul>
             <table class='table table-striped table-responsive svbx-table'>
