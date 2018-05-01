@@ -55,7 +55,7 @@ include('filestart.php');
         echo "
                         </select>
                     </div>
-                    <div class='col-xs-6 col-sm-1 pl-1 pr-1'>
+                    <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Safety cert</label>
                         <select name='SafetyCert' class='form-control'>
                             <option value='' selected></option>
@@ -63,7 +63,7 @@ include('filestart.php');
                             <option value='2'>No</option>
                         </select>
                     </div>
-                    <div class='col-xs-6 col-sm-2 pl-1 pr-1'>
+                    <div class='col-6 col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Severity</label>
                         <select name='Severity' class='form-control'>
                             <option value='' selected></option>";
@@ -76,7 +76,7 @@ include('filestart.php');
         echo "
                         </select>
                     </div>
-                    <div class='col-xs-12 col-sm-3 pl-1 pr-1'>
+                    <div class='col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>System</label>
                         <select name='SystemAffected' class='form-control'>
                             <option value='' selected></option>";
@@ -124,13 +124,10 @@ include('filestart.php');
                     </div>
                     <div class='col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Specific location</label>
-                        <select name='SpecLoc' class='form-control'>
-                            <option value='' selected></option>";
+                        <select name='SpecLoc' class='form-control'>";
                             if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
                                 while ($row = $result->fetch_row()) {
-                                    if ($row[0]) {
-                                        echo "<option value='$row[0]'>$row[0]</option>";
-                                    } else echo "<option value=''>none</option>";
+                                    echo "<option value='$row[0]'>$row[0]</option>";
                                 }
                                 $result->close();
                             }
@@ -150,8 +147,8 @@ include('filestart.php');
         echo "
                         </select>
                     </div>
-                    <div class='col-sm-1 pl-1 pr-1'>
-                        <button type='submit' class='btn btn-primary' style='position: relative; top: 1.5rem'>Search</button>
+                    <div class='col-sm-1 pl-1 pr-1 pt-2 flex-column justify-end'>
+                        <button type='submit' class='btn btn-primary'>Search</button>
                     </div>
                 </div>
             </form>";
