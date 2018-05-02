@@ -65,7 +65,7 @@ if($_POST['Search'] == NULL) {
         if($AND == 1) {
            $SafetyCertSQL = " AND A.SafetyCert = '".$SafetyCertS."'"; 
        } else {
-       $SafetyCertSQL = " WHERE A.SafetyCert = '".$RequirementS."'";
+       $SafetyCertSQL = " WHERE A.SafetyCert = '".$SafetyCertS."'";
        $AND = 1;
        }
     } else {
@@ -73,9 +73,9 @@ if($_POST['Search'] == NULL) {
     }
     if($SystemAffectedS <> NULL) {
         if($AND == 1) {
-           $SystemAffectedSQL = " AND A.SystemAffected = '".$DesignCodeS."'";
+           $SystemAffectedSQL = " AND A.SystemAffected = '".$SystemAffectedS."'";
         } else {
-           $SystemAffectedSQL = " WHERE A.SystemAffected = '".$DesignCodeS."'";
+           $SystemAffectedSQL = " WHERE A.SystemAffected = '".$SystemAffectedS."'";
            $AND = 1;
        }
     } else {
@@ -158,9 +158,14 @@ if($_POST['Search'] == NULL) {
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
     <?php
-        // if ($search) $class = 'text-danger';
-        // else $class = 'text-primary';
-        echo "<h6 class='$class'>{$_POST['Search']}: $sql</h6>";
+        if ($search) $class = 'text-primary';
+        else $class = 'text-warning';
+        echo "
+            <h6 class='$class' style='font-family: monospace'>";
+            var_dump($_POST);
+        echo "</h6>
+            <h6>$count</h6>
+            <h6 class='$class'>{$_POST['Search']}: $sql</h6>";
     ?>
 </header>
 <?php     
