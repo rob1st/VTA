@@ -7,7 +7,17 @@ $Role = $_SESSION['Role'];
 include('filestart.php');
 
 // search function
-$AND = 0;
+// $AND = 0;
+    
+function concatSqlStr($arr, $table, $initStr) {
+    $joiner = 'WHERE';
+    $qStr = $initStr || '';
+    foreach ($arr as $key => $val) {
+        $qStr .= " $joiner $table.$key='{$val}'";
+        $joiner = 'AND';
+    }
+    return $qStr;
+}
 
 if($_POST['Search'] == NULL) {
     $sql = file_get_contents("CDList.sql");
@@ -15,16 +25,19 @@ if($_POST['Search'] == NULL) {
 } else {
     $search = true;
     
-    $DefIDS = $_POST['DefID'];
-    $SafetyCertS = $_POST['SafetyCert'];
-    $SystemAffectedS = $_POST['SystemAffected'];
-    $LocationS = $_POST['Location'];
-    $SpecLocS = $_POST['SpecLoc'];
-    $StatusS = $_POST['Status'];
-    $SeverityS = $_POST['Severity'];
-    $GroupToResolveS = $_POST['GroupToResolve'];
-    $IdentifiedByS = $_POST['IdentifiedBy'];
-    $DescriptionS = $_POST['Description'];
+    // $DefIDSQL = $_POST['DefID'] && " A.DefID={$_POST['DefID']}";
+    // $SafetyCertS = $_POST['SafetyCert'] && " A.SafetyCert={$_POST['SafetyCert']}";
+    // $SystemAffectedS = $_POST['SystemAffected'];
+    // $LocationS = $_POST['Location'];
+    // $SpecLocS = $_POST['SpecLoc'];
+    // $StatusS = $_POST['Status'];
+    // $SeverityS = $_POST['Severity'];
+    // $GroupToResolveS = $_POST['GroupToResolve'];
+    // $IdentifiedByS = $_POST['IdentifiedBy'];
+    // $DescriptionS = $_POST['Description'];
+    
+    $postData = array_filter($_POST);
+    unset($postData['Search']);
     
     $sql = "SELECT 
                 A.DefID,
@@ -55,104 +68,106 @@ if($_POST['Search'] == NULL) {
                 Y.SystemID = A.SystemAffected";
     $count = "SELECT COUNT(*) FROM CDL A";
     
-    if($DefIDS <> NULL) {
-       $DefIDSQL = " WHERE A.DefID = '".$DefIDS."'";
-       $AND = 1;
-    } else {
-        $DefIDSQL = "";
-    }
-    if($SafetyCertS <> NULL) {
-        if($AND == 1) {
-           $SafetyCertSQL = " AND A.SafetyCert = '".$SafetyCertS."'"; 
-       } else {
-       $SafetyCertSQL = " WHERE A.SafetyCert = '".$SafetyCertS."'";
-       $AND = 1;
-       }
-    } else {
-        $SafetyCertSQL = "";
-    }
-    if($SystemAffectedS <> NULL) {
-        if($AND == 1) {
-           $SystemAffectedSQL = " AND A.SystemAffected = '".$SystemAffectedS."'";
-        } else {
-           $SystemAffectedSQL = " WHERE A.SystemAffected = '".$SystemAffectedS."'";
-           $AND = 1;
-       }
-    } else {
-        $SystemAffectedSQL = "";
-    }
-    if($GroupToResolveS <> NULL) {
-        if($AND == 1) {
-           $GroupToResolveSQL = " AND A.GroupToResolve = '".$DesignCodeS."'";
-        } else {
-           $GroupToResolveSQL = " WHERE A.GroupToResolve = '".$DesignCodeS."'";
-           $AND = 1;
-       }
-    } else {
-        $GroupToResolveSQL = "";
-    }
-    if($LocationS <> NULL) {
-        if($AND == 1) {
-            $LocationSQL = " AND A.Location = '".$LocationS."'";
-        } else {
-            $LocationSQL = " WHERE A.Location = '".$LocationS."'";
-            $AND = 1;
-        }
-    } else {
-        $LocationSQL = "";
-    }
-    if($SpecLocS <> NULL) {
-       if($AND == 1) {
-            $SpecLocSQL = " AND A.SpecLoc LIKE '%".$SpecLocS."%'";
-        } else {
-            $SpecLocSQL = " WHERE A.SpecLoc LIKE '%".$SpecLocS."%'";
-            $AND = 1;
-        }
-    } else {
-        $SpecLocSQL = "";
-    }
-    if($StatusS <> 0) {
-       if($AND == 1) {
-            $StatusSQL = " AND A.Status = '".$StatusS."'";
-        } else {
-            $StatusSQL = " WHERE A.Status = '".$StatusS."'";
-            $AND = 1;
-        }
-    } else {
-        $StatusSQL = "";
-    }
-    if($SeverityS <> 0) {
-       if($AND == 1) {
-            $SeveryitySQL = " AND A.Severity = '".$SeverityS."'";
-        } else {
-            $SeveritySQL = " WHERE A.Severity = '".$SeverityS."'";
-            $AND = 1;
-        }
-    } else {
-        $SeveritySQL = "";
-    }
-    if($IdentifiedByS <> NULL) {
-       if($AND == 1) {
-            $IdentifiedBySQL = " AND A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
-        } else {
-            $IdentifiedBySQL = " WHERE A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
-            $AND = 1;
-        }
-    } else {
-        $IdentifiedBySQL = "";
-    }
-    if($DescriptionS <> NULL) {
-       if($AND == 1) {
-            $DescriptionSQL = " AND A.Description LIKE '%".$DescriptionS."%'";
-        } else {
-            $DescriptionSQL = " WHERE A.Description LIKE '%".$DescriptionS."%'";
-            $AND = 1;
-        }
-    } else {
-        $DescriptionSQL = "";
-    }
-    $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
-    $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    $sql .= concatSqlStr($postData, 'A');
+    
+    // if($DefIDS <> NULL) {
+    //   $DefIDSQL = " WHERE A.DefID = '".$DefIDS."'";
+    //   $AND = 1;
+    // } else {
+    //     $DefIDSQL = "";
+    // }
+    // if($SafetyCertS <> NULL) {
+    //     if($AND == 1) {
+    //       $SafetyCertSQL = " AND A.SafetyCert = '".$SafetyCertS."'"; 
+    //   } else {
+    //       $SafetyCertSQL = " WHERE A.SafetyCert = '".$SafetyCertS."'";
+    //       $AND = 1;
+    //   }
+    // } else {
+    //     $SafetyCertSQL = "";
+    // }
+    // if($SystemAffectedS <> NULL) {
+    //     if($AND == 1) {
+    //       $SystemAffectedSQL = " AND A.SystemAffected = '".$SystemAffectedS."'";
+    //     } else {
+    //       $SystemAffectedSQL = " WHERE A.SystemAffected = '".$SystemAffectedS."'";
+    //       $AND = 1;
+    //   }
+    // } else {
+    //     $SystemAffectedSQL = "";
+    // }
+    // if($GroupToResolveS <> NULL) {
+    //     if($AND == 1) {
+    //       $GroupToResolveSQL = " AND A.GroupToResolve = '".$DesignCodeS."'";
+    //     } else {
+    //       $GroupToResolveSQL = " WHERE A.GroupToResolve = '".$DesignCodeS."'";
+    //       $AND = 1;
+    //   }
+    // } else {
+    //     $GroupToResolveSQL = "";
+    // }
+    // if($LocationS <> NULL) {
+    //     if($AND == 1) {
+    //         $LocationSQL = " AND A.Location = '".$LocationS."'";
+    //     } else {
+    //         $LocationSQL = " WHERE A.Location = '".$LocationS."'";
+    //         $AND = 1;
+    //     }
+    // } else {
+    //     $LocationSQL = "";
+    // }
+    // if($SpecLocS <> NULL) {
+    //   if($AND == 1) {
+    //         $SpecLocSQL = " AND A.SpecLoc LIKE '%".$SpecLocS."%'";
+    //     } else {
+    //         $SpecLocSQL = " WHERE A.SpecLoc LIKE '%".$SpecLocS."%'";
+    //         $AND = 1;
+    //     }
+    // } else {
+    //     $SpecLocSQL = "";
+    // }
+    // if($StatusS <> 0) {
+    //   if($AND == 1) {
+    //         $StatusSQL = " AND A.Status = '".$StatusS."'";
+    //     } else {
+    //         $StatusSQL = " WHERE A.Status = '".$StatusS."'";
+    //         $AND = 1;
+    //     }
+    // } else {
+    //     $StatusSQL = "";
+    // }
+    // if($SeverityS <> 0) {
+    //   if($AND == 1) {
+    //         $SeveryitySQL = " AND A.Severity = '".$SeverityS."'";
+    //     } else {
+    //         $SeveritySQL = " WHERE A.Severity = '".$SeverityS."'";
+    //         $AND = 1;
+    //     }
+    // } else {
+    //     $SeveritySQL = "";
+    // }
+    // if($IdentifiedByS <> NULL) {
+    //   if($AND == 1) {
+    //         $IdentifiedBySQL = " AND A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
+    //     } else {
+    //         $IdentifiedBySQL = " WHERE A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
+    //         $AND = 1;
+    //     }
+    // } else {
+    //     $IdentifiedBySQL = "";
+    // }
+    // if($DescriptionS <> NULL) {
+    //   if($AND == 1) {
+    //         $DescriptionSQL = " AND A.Description LIKE '%".$DescriptionS."%'";
+    //     } else {
+    //         $DescriptionSQL = " WHERE A.Description LIKE '%".$DescriptionS."%'";
+    //         $AND = 1;
+    //     }
+    // } else {
+    //     $DescriptionSQL = "";
+    // }
+    // $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    // $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
 }
 ?>
 <header class="container page-header">
