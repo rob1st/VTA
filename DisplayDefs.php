@@ -11,10 +11,16 @@ include('filestart.php');
     
 function concatSqlStr($arr, $table, $initStr = '') {
     $joiner = 'WHERE';
+    $equality = '=';
     $qStr = $initStr;
     foreach ($arr as $key => $val) {
-        $qStr .= " $joiner $table.$key='{$val}'";
+        if (strpos(strtolower($key), 'description') !== false) {
+            $equality = ' LIKE ';
+            $val = "%{$val}%";
+        }
+        $qStr .= " $joiner $table.{$key}{$equality}'{$val}'";
         $joiner = 'AND';
+        $equality = '=';
     }
     return $qStr;
 }
