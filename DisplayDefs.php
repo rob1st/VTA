@@ -257,7 +257,7 @@ if($_POST['Search'] == NULL) {
                     </div>
                 </div>
                 <div class='row item-margin-bottom'>
-                    <div class='col-sm-5 pl-1 pr-1'>
+                    <div class='col-sm-4 pl-1 pr-1'>
                         <label class='input-label'>Description</label>
                         <input type='text' name='Description' class='form-control'>
                     </div>
@@ -299,9 +299,9 @@ if($_POST['Search'] == NULL) {
         echo "
                         </select>
                     </div>
-                    <div class='col-sm-1 pl-1 pr-1 pt-2 flex-column justify-end'>
-                        <button name='Search' value='search' type='submit' class='btn btn-primary'>Search</button>
-                        <button name='Reset' value='reset' type='button' class='btn btn-primary'>Resert</button>
+                    <div class='col-sm-2 pl-1 pr-1 pt-2 flex-row justify-center align-end'>
+                        <button name='Search' value='search' type='submit' class='btn btn-primary item-margin-right'>Search</button>
+                        <button name='Reset' value='reset' type='button' class='btn btn-primary item-margin-right' onclick='return resetSearch(event)'>Reset</button>
                     </div>
                 </div>
             </form>";
@@ -381,6 +381,13 @@ if($_POST['Search'] == NULL) {
         echo "<main class='container main-content error-display'>Error: $link->error";
     }
     echo "</main>";
+    echo "
+    <script>
+        function resetSearch(ev) {
+            ev.target.form.reset();
+            ev.target.form.submit();
+        }
+    </script>";
                     
 mysqli_close($link);
     
