@@ -9,9 +9,9 @@ include('filestart.php');
 // search function
 // $AND = 0;
     
-function concatSqlStr($arr, $table, $initStr) {
+function concatSqlStr($arr, $table, $initStr = '') {
     $joiner = 'WHERE';
-    $qStr = $initStr || '';
+    $qStr = $initStr;
     foreach ($arr as $key => $val) {
         $qStr .= " $joiner $table.$key='{$val}'";
         $joiner = 'AND';
@@ -25,16 +25,16 @@ if($_POST['Search'] == NULL) {
 } else {
     $search = true;
     
-    // $DefIDSQL = $_POST['DefID'] && " A.DefID={$_POST['DefID']}";
-    // $SafetyCertS = $_POST['SafetyCert'] && " A.SafetyCert={$_POST['SafetyCert']}";
-    // $SystemAffectedS = $_POST['SystemAffected'];
-    // $LocationS = $_POST['Location'];
-    // $SpecLocS = $_POST['SpecLoc'];
-    // $StatusS = $_POST['Status'];
-    // $SeverityS = $_POST['Severity'];
-    // $GroupToResolveS = $_POST['GroupToResolve'];
-    // $IdentifiedByS = $_POST['IdentifiedBy'];
-    // $DescriptionS = $_POST['Description'];
+    /* $DefIDSQL = $_POST['DefID'] && " A.DefID={$_POST['DefID']}";
+    $SafetyCertS = $_POST['SafetyCert'] && " A.SafetyCert={$_POST['SafetyCert']}";
+    $SystemAffectedS = $_POST['SystemAffected'];
+    $LocationS = $_POST['Location'];
+    $SpecLocS = $_POST['SpecLoc'];
+    $StatusS = $_POST['Status'];
+    $SeverityS = $_POST['Severity'];
+    $GroupToResolveS = $_POST['GroupToResolve'];
+    $IdentifiedByS = $_POST['IdentifiedBy'];
+    $DescriptionS = $_POST['Description']; */
     
     $postData = array_filter($_POST);
     unset($postData['Search']);
@@ -48,139 +48,134 @@ if($_POST['Search'] == NULL) {
                 Y.System, 
                 A.Description,
                 A.LastUpdated
-            FROM 
-                CDL A 
-            LEFT JOIN 
-                Location L 
-            ON 
-                L.LocationID = A.Location
-            LEFT JOIN 
-                Severity S 
-            ON 
-                S.SeverityID = A.Severity
-            LEFT JOIN
-                Status T
-            ON
-                T.StatusID = A.Status
-            LEFT JOIN 
-                System Y
-            ON 
-                Y.SystemID = A.SystemAffected";
+            FROM CDL A 
+            LEFT JOIN Location L 
+            ON L.LocationID = A.Location
+            LEFT JOIN Severity S 
+            ON S.SeverityID = A.Severity
+            LEFT JOIN Status T
+            ON T.StatusID = A.Status
+            LEFT JOIN System Y
+            ON Y.SystemID = A.SystemAffected";
     $count = "SELECT COUNT(*) FROM CDL A";
     
     $sql .= concatSqlStr($postData, 'A');
+    $count .= concatSqlStr($postData, 'A');
     
-    // if($DefIDS <> NULL) {
-    //   $DefIDSQL = " WHERE A.DefID = '".$DefIDS."'";
-    //   $AND = 1;
-    // } else {
-    //     $DefIDSQL = "";
-    // }
-    // if($SafetyCertS <> NULL) {
-    //     if($AND == 1) {
-    //       $SafetyCertSQL = " AND A.SafetyCert = '".$SafetyCertS."'"; 
-    //   } else {
-    //       $SafetyCertSQL = " WHERE A.SafetyCert = '".$SafetyCertS."'";
-    //       $AND = 1;
-    //   }
-    // } else {
-    //     $SafetyCertSQL = "";
-    // }
-    // if($SystemAffectedS <> NULL) {
-    //     if($AND == 1) {
-    //       $SystemAffectedSQL = " AND A.SystemAffected = '".$SystemAffectedS."'";
-    //     } else {
-    //       $SystemAffectedSQL = " WHERE A.SystemAffected = '".$SystemAffectedS."'";
-    //       $AND = 1;
-    //   }
-    // } else {
-    //     $SystemAffectedSQL = "";
-    // }
-    // if($GroupToResolveS <> NULL) {
-    //     if($AND == 1) {
-    //       $GroupToResolveSQL = " AND A.GroupToResolve = '".$DesignCodeS."'";
-    //     } else {
-    //       $GroupToResolveSQL = " WHERE A.GroupToResolve = '".$DesignCodeS."'";
-    //       $AND = 1;
-    //   }
-    // } else {
-    //     $GroupToResolveSQL = "";
-    // }
-    // if($LocationS <> NULL) {
-    //     if($AND == 1) {
-    //         $LocationSQL = " AND A.Location = '".$LocationS."'";
-    //     } else {
-    //         $LocationSQL = " WHERE A.Location = '".$LocationS."'";
-    //         $AND = 1;
-    //     }
-    // } else {
-    //     $LocationSQL = "";
-    // }
-    // if($SpecLocS <> NULL) {
-    //   if($AND == 1) {
-    //         $SpecLocSQL = " AND A.SpecLoc LIKE '%".$SpecLocS."%'";
-    //     } else {
-    //         $SpecLocSQL = " WHERE A.SpecLoc LIKE '%".$SpecLocS."%'";
-    //         $AND = 1;
-    //     }
-    // } else {
-    //     $SpecLocSQL = "";
-    // }
-    // if($StatusS <> 0) {
-    //   if($AND == 1) {
-    //         $StatusSQL = " AND A.Status = '".$StatusS."'";
-    //     } else {
-    //         $StatusSQL = " WHERE A.Status = '".$StatusS."'";
-    //         $AND = 1;
-    //     }
-    // } else {
-    //     $StatusSQL = "";
-    // }
-    // if($SeverityS <> 0) {
-    //   if($AND == 1) {
-    //         $SeveryitySQL = " AND A.Severity = '".$SeverityS."'";
-    //     } else {
-    //         $SeveritySQL = " WHERE A.Severity = '".$SeverityS."'";
-    //         $AND = 1;
-    //     }
-    // } else {
-    //     $SeveritySQL = "";
-    // }
-    // if($IdentifiedByS <> NULL) {
-    //   if($AND == 1) {
-    //         $IdentifiedBySQL = " AND A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
-    //     } else {
-    //         $IdentifiedBySQL = " WHERE A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
-    //         $AND = 1;
-    //     }
-    // } else {
-    //     $IdentifiedBySQL = "";
-    // }
-    // if($DescriptionS <> NULL) {
-    //   if($AND == 1) {
-    //         $DescriptionSQL = " AND A.Description LIKE '%".$DescriptionS."%'";
-    //     } else {
-    //         $DescriptionSQL = " WHERE A.Description LIKE '%".$DescriptionS."%'";
-    //         $AND = 1;
-    //     }
-    // } else {
-    //     $DescriptionSQL = "";
-    // }
-    // $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
-    // $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    /* if($DefIDS <> NULL) {
+      $DefIDSQL = " WHERE A.DefID = '".$DefIDS."'";
+      $AND = 1;
+    } else {
+        $DefIDSQL = "";
+    }
+    if($SafetyCertS <> NULL) {
+        if($AND == 1) {
+          $SafetyCertSQL = " AND A.SafetyCert = '".$SafetyCertS."'"; 
+      } else {
+          $SafetyCertSQL = " WHERE A.SafetyCert = '".$SafetyCertS."'";
+          $AND = 1;
+      }
+    } else {
+        $SafetyCertSQL = "";
+    }
+    if($SystemAffectedS <> NULL) {
+        if($AND == 1) {
+          $SystemAffectedSQL = " AND A.SystemAffected = '".$SystemAffectedS."'";
+        } else {
+          $SystemAffectedSQL = " WHERE A.SystemAffected = '".$SystemAffectedS."'";
+          $AND = 1;
+      }
+    } else {
+        $SystemAffectedSQL = "";
+    }
+    if($GroupToResolveS <> NULL) {
+        if($AND == 1) {
+          $GroupToResolveSQL = " AND A.GroupToResolve = '".$DesignCodeS."'";
+        } else {
+          $GroupToResolveSQL = " WHERE A.GroupToResolve = '".$DesignCodeS."'";
+          $AND = 1;
+      }
+    } else {
+        $GroupToResolveSQL = "";
+    }
+    if($LocationS <> NULL) {
+        if($AND == 1) {
+            $LocationSQL = " AND A.Location = '".$LocationS."'";
+        } else {
+            $LocationSQL = " WHERE A.Location = '".$LocationS."'";
+            $AND = 1;
+        }
+    } else {
+        $LocationSQL = "";
+    }
+    if($SpecLocS <> NULL) {
+      if($AND == 1) {
+            $SpecLocSQL = " AND A.SpecLoc LIKE '%".$SpecLocS."%'";
+        } else {
+            $SpecLocSQL = " WHERE A.SpecLoc LIKE '%".$SpecLocS."%'";
+            $AND = 1;
+        }
+    } else {
+        $SpecLocSQL = "";
+    }
+    if($StatusS <> 0) {
+      if($AND == 1) {
+            $StatusSQL = " AND A.Status = '".$StatusS."'";
+        } else {
+            $StatusSQL = " WHERE A.Status = '".$StatusS."'";
+            $AND = 1;
+        }
+    } else {
+        $StatusSQL = "";
+    }
+    if($SeverityS <> 0) {
+      if($AND == 1) {
+            $SeveryitySQL = " AND A.Severity = '".$SeverityS."'";
+        } else {
+            $SeveritySQL = " WHERE A.Severity = '".$SeverityS."'";
+            $AND = 1;
+        }
+    } else {
+        $SeveritySQL = "";
+    }
+    if($IdentifiedByS <> NULL) {
+      if($AND == 1) {
+            $IdentifiedBySQL = " AND A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
+        } else {
+            $IdentifiedBySQL = " WHERE A.IdentifiedBy LIKE '%".$IdentifiedByS."%'";
+            $AND = 1;
+        }
+    } else {
+        $IdentifiedBySQL = "";
+    }
+    if($DescriptionS <> NULL) {
+      if($AND == 1) {
+            $DescriptionSQL = " AND A.Description LIKE '%".$DescriptionS."%'";
+        } else {
+            $DescriptionSQL = " WHERE A.Description LIKE '%".$DescriptionS."%'";
+            $AND = 1;
+        }
+    } else {
+        $DescriptionSQL = "";
+    }*/
+    /*
+    $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    */
 }
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
     <?php
-        if ($search) $class = 'text-primary';
-        else $class = 'text-warning';
+        if ($search) $class = 'primary';
+        else $class = 'warning';
         echo "
-            <h6 class='$class' style='font-family: monospace'>";
-            var_dump($_POST);
-        echo "</h6>
+            <a class='btn btn-$class' data-toggle='collapse' href='#POSTvardump' role='button' aria-expanded='true' aria-controls='POSTvardump'>POST:</a>
+            <pre id='POSTvardump' class='collapse show text-$class' data-toggle='collapse'>";
+            var_dump($postData);
+        echo "</pre>
             <h6>$count</h6>
-            <h6 class='$class'>{$_POST['Search']}: $sql</h6>";
+            <h6 class='text-$class'>{$_POST['Search']}: $sql</h6>";
     ?>
 </header>
 <?php     
@@ -196,7 +191,7 @@ if($_POST['Search'] == NULL) {
                 </div>
             </div>";
 
-            // search form
+        // search form
         echo "
             <form action='DisplayDefs.php' method='POST' class='item-margin-bottom'>
                 <h5>Search deficiencies</h5>
@@ -204,10 +199,11 @@ if($_POST['Search'] == NULL) {
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Def #</label>
                         <select name='DefID' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT DefID from CDL')) {
                                 while ($row = $result->fetch_array()) {
-                                    echo "<option value='{$row[0]}'>{$row[0]}</option>";
+                                    $select = ($postData['DefID'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[0]}</option>";
                                 }
                                 $result->close();
                             }
@@ -217,10 +213,11 @@ if($_POST['Search'] == NULL) {
                     <div class='col-6 col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Status</label>
                         <select name='Status' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT StatusID, Status from Status')) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='{$row['StatusID']}'>{$row['Status']}</option>";
+                                while ($row = $result->fetch_array()) {
+                                    $select = ($postData['Status'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[1]}</option>";
                                 }
                                 $result->close();
                             }
@@ -230,7 +227,7 @@ if($_POST['Search'] == NULL) {
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Safety cert</label>
                         <select name='SafetyCert' class='form-control'>
-                            <option value='' selected></option>
+                            <option value=''></option>
                             <option value='1'>Yes</option>
                             <option value='2'>No</option>
                         </select>
@@ -238,10 +235,11 @@ if($_POST['Search'] == NULL) {
                     <div class='col-6 col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Severity</label>
                         <select name='Severity' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
-                                while($row = $result->fetch_assoc()) {
-                                    echo "<option value='{$row['SeverityID']}'>{$row['SeverityName']}</option>";
+                                while($row = $result->fetch_array()) {
+                                    $select = ($postData['Severity'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[1]}</option>";
                                 }
                                 $result->close();
                             }
@@ -251,10 +249,11 @@ if($_POST['Search'] == NULL) {
                     <div class='col-6 col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>System</label>
                         <select name='SystemAffected' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='{$row['SystemID']}'>{$row['System']}</option>";
+                                while ($row = $result->fetch_array()) {
+                                    $select = ($postData['SystemAffected'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[1]}</option>";
                                 }
                                 $result->close();
                             }
@@ -264,10 +263,11 @@ if($_POST['Search'] == NULL) {
                     <div class='col-6 col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>Group to resolve</label>
                         <select name='GroupToResolve' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='{$row['SystemID']}'>{$row['System']}</option>";
+                                while ($row = $result->fetch_array()) {
+                                    $select = ($postData['GroupToResolve'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[1]}</option>";
                                 }
                                 $result->close();
                             }
@@ -279,15 +279,16 @@ if($_POST['Search'] == NULL) {
                 <div class='row item-margin-bottom'>
                     <div class='col-sm-4 pl-1 pr-1'>
                         <label class='input-label'>Description</label>
-                        <input type='text' name='Description' class='form-control'>
+                        <input type='text' name='Description' class='form-control' value='{$postDate['Description']}'>
                     </div>
                     <div class='col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Location</label>
                         <select name='Location' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
-                                while ($row = $result->fetch_assoc()) {
-                                    echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
+                                while ($row = $result->fetch_array()) {
+                                    $select = ($postData['Location'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[1]}</option>";
                                 }
                                 $result->close();
                             }
@@ -299,7 +300,8 @@ if($_POST['Search'] == NULL) {
                         <select name='SpecLoc' class='form-control'>";
                             if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
                                 while ($row = $result->fetch_row()) {
-                                    echo "<option value='$row[0]'>$row[0]</option>";
+                                    $select = ($postData['SpecLoc'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='$row[0]' $select>$row[0]</option>";
                                 }
                                 $result->close();
                             }
@@ -309,10 +311,11 @@ if($_POST['Search'] == NULL) {
                     <div class='col-sm-2 pl-1 pr-1'>
                         <label class='input-label'>Identified By</label>
                         <select name='IdentifiedBy' class='form-control'>
-                            <option value='' selected></option>";
+                            <option value=''></option>";
                             if ($result = $link->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
-                                while ($row = $result->fetch_array()) {
-                                    echo "<option value='{$row[0]}'>{$row[0]}</option>";
+                                while ($row = $result->fetch_row()) {
+                                    $select = ($postData['IdentifiedBy'] === $row[0]) ? 'selected' : '';
+                                    echo "<option value='{$row[0]}' $select>{$row[0]}</option>";
                                 }
                                 $result->close();
                             }

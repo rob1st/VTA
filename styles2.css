@@ -200,6 +200,7 @@ ul li {
 }
 
 .navbar-vta-blue {
+    background-color: #03528B;
     background-color: var(--vta-dark-blue);
     color: white;
 }
