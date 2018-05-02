@@ -30,9 +30,11 @@ if($_POST['Search'] == NULL) {
                 A.DefID,
                 L.LocationName, 
                 S.SeverityName, 
-                A.DateCreated, 
+                A.DateCreated,
+                T.Status,
                 Y.System, 
-                A.Description 
+                A.Description,
+                A.LastUpdated
             FROM 
                 CDL A 
             LEFT JOIN 
@@ -43,6 +45,10 @@ if($_POST['Search'] == NULL) {
                 Severity S 
             ON 
                 S.SeverityID = A.Severity
+            LEFT JOIN
+                Status T
+            ON
+                T.StatusID = A.Status
             LEFT JOIN 
                 System Y
             ON 
@@ -222,7 +228,7 @@ if($_POST['Search'] == NULL) {
         echo "
                         </select>
                     </div>
-                    <div class='col-sm-3 pl-1 pr-1'>
+                    <div class='col-6 col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>System</label>
                         <select name='SystemAffected' class='form-control'>
                             <option value='' selected></option>";
@@ -235,7 +241,7 @@ if($_POST['Search'] == NULL) {
         echo "
                         </select>
                     </div>
-                    <div class='col-sm-3 pl-1 pr-1'>
+                    <div class='col-6 col-sm-3 pl-1 pr-1'>
                         <label class='input-label'>Group to resolve</label>
                         <select name='GroupToResolve' class='form-control'>
                             <option value='' selected></option>";
@@ -295,6 +301,7 @@ if($_POST['Search'] == NULL) {
                     </div>
                     <div class='col-sm-1 pl-1 pr-1 pt-2 flex-column justify-end'>
                         <button name='Search' value='search' type='submit' class='btn btn-primary'>Search</button>
+                        <button name='Reset' value='reset' type='button' class='btn btn-primary'>Resert</button>
                     </div>
                 </div>
             </form>";

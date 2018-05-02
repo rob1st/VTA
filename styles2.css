@@ -123,6 +123,10 @@ ul li {
     align-items: stretch;
 }
 
+.align-end {
+    align-items: flex-end;
+}
+
 .flex {
     flex-grow: 1; flex-shrink: 1;
 }
