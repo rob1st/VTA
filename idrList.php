@@ -23,22 +23,22 @@ include 'filestart.php';
 </header>
 <main class='container main-content'>
     <!--tab controls-->
-    <div class='row'>
-        <div class='col-6'>
-            <h4 class='text-center'><a role='button' href='#allReports'>All Reports</a></h4>
-        </div>
+    <ul class='nav nav-tabs' role='tablist'>
+        <li class='active' role='presentation'>
+            <a href='#allReports' aria-controls='allReports' role='tab' data-toggle='tab'>All Reports</a>
+        </li>
         <?php
             // render My IDRs button only if user has IDRs of their own
             if ($myIDRs) {
                 echo "
-                    <div class='col-6'>
-                        <h4 class='text-center'><a role='button' href='#myReports'>My Reports</a></h4>
-                    </div>";
+                    <li role='presentation'>
+                        <a href='#myReports' aria-controls='myReports' role='tab' data-toggle='tab'>My Reports</a>
+                    </li>";
             }
         ?>
-    </div>
-    <div id='allReports' class='row'>
-        <div class='col-12'>
+    </ul>
+    <div class='tab-content'>
+        <div role='tabpanel' id='allReports' class='tab-pane active'>
             <?php
                 // if user is admin or super, query for all IDRs
                 if ($role === 'S' || $role === 'A') {
@@ -55,27 +55,25 @@ include 'filestart.php';
                 }
             ?>
         </div>
-    </div>
-    <?php
-        // if user has an IDRs of their own render them under My IDRs tab
-        if ($myIDRs) {
-            if ($myIDRs === $errorMsg['myIDRs']) echo "<h4 class='text-secondary'>{$errorMsg['myIDRs']}</h4>";
-            elseif ($myIDRs->num_rows) {
-                echo "
-                    <div id='myReports' class='row'>
-                        <div class='col-12'>
+        <?php
+            // if user has an IDRs of their own render them under My IDRs tab
+            if ($myIDRs) {
+                if ($myIDRs === $errorMsg['myIDRs']) echo "<h4 class='text-secondary'>{$errorMsg['myIDRs']}</h4>";
+                elseif ($myIDRs->num_rows) {
+                    echo "
+                        <div role='tabpanel' id='myReports' class='tab-pane'>
                             <ul>";
                             while ($row = $myIDRs->fetch_assoc()) {
                                 printf("<li><a href='%s'>%s</a></li>", "/idr.php?idrID={$row['idrID']}", $row['idrDate']);
                             }
-                echo "
+                    echo "
                             </ul>
-                        </div>
-                    </div>";
-                $myIDRs->close();
+                        </div>";
+                    $myIDRs->close();
+                }
             }
-        }
-    ?>
+        ?>
+    </div>
 </main>
 <?php
 include 'fileend.php';
