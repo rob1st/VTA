@@ -6,14 +6,32 @@ $userID = $_SESSION['UserID'];
 $role = $_SESSION['Role'];
 
 $link = f_sqlConnect();
-$qry = "SELECT idrID, UserID, idrDate FROM IDR";
+$qry = "SELECT userid, username, firstname, lastname, viewidr FROM users_enc where userid='$userID'";
+
+if ($result = $link->query($qry)) {
+        $row = $result->fetch_assoc();
+        $userFullName = $row['firstname'].' '.$row['lastname'];
+        $authLvl = [
+            'V' => 0,
+            'U' => 1,
+            'A' => 2,
+            'S' => 3
+        ];
+        $idrAuth = intval($row['viewidr']) || $authLvl[$role];
+        $result->close();
+} elseif ($link->error) {
+    $userFullName = 'Unable to retrieve user account information';
+    $idrAuth = 0;
+}
+    
+$qry = "SELECT idrID, i.UserID, idrDate, Username FROM IDR i JOIN users_enc u on i.UserID=u.UserID";
 
 $errorMsg = [
     'myIDRs' => 'Unable to retrieve reports for user',
     'idrList' => 'There was a problem retrieving report list'
 ];
 
-$myIDRs = $link->query("$qry WHERE UserID='$userID'");
+$myIDRs = $link->query("$qry WHERE i.UserID='$userID'");
 if ($link->error) $myIDRs = $errorMsg['myIDRs'];
 
 include 'filestart.php';
@@ -29,7 +47,7 @@ include 'filestart.php';
         </li>
         <?php
             // render My IDRs button only if user has IDRs of their own
-            if ($myIDRs) {
+            if ($myIDRs->num_rows) {
                 echo "
                     <li role='presentation'>
                         <a href='#myReports' aria-controls='myReports' role='tab' data-toggle='tab'>My Reports</a>
@@ -46,7 +64,7 @@ include 'filestart.php';
                         if ($result->num_rows) {
                             echo "<ul>";
                             while ($row = $result->fetch_assoc()) {
-                                printf("<li><a href='%s'>%s <span class='text-danger font-italic'>%s</span></a></li>", "/idr.php?idrID={$row['idrID']}", $row['idrDate'], $row['UserID']);
+                                printf("<li><a href='%s'>%s <span class='text-secondary font-italic'>%s</span></a></li>", "/idr.php?idrID={$row['idrID']}", $row['idrDate'], $row['Username']);
                             }
                             echo "</ul>";
                         } else echo "<h4>That's strange. No reports were found. I suspect something's up.</h4>";
