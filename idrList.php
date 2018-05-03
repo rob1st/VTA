@@ -12,17 +12,6 @@ $errorMsg = [
     'idrList' => 'There was a problem retrieving report list'
 ];
 
-// first find out if user has an IDRs of their own
-if ($result = $link->query("$qry WHERE UserID='$userID'")) {
-    if ($result->num_rows) {
-        $myIDRs = [];
-        while ($row = $result->fetch_row()) {
-             array_push($myIDRs, $row);
-        }
-    } else $myIDRs = null;
-    $result->close();
-} elseif ($link->error) $myIDRs = $errorMsg['myIDRs'];
-
 include 'filestart.php';
 ?>
 <header class='container page-header'>
@@ -31,12 +20,13 @@ include 'filestart.php';
 <main class='container main-content'>
     <div class='row'>
         <div class='col-6'>
-            <a role='button' href='#allReports'>All Reports</a>
+            <h4 class='text-center'><a role='button' href='#allReports'>All Reports</a></h4>
         </div>
         <div class='col-6'>
-            <a role='button' href='#myReports'>My Reports</a>
+            <h4 class='text-center'><a role='button' href='#myReports'>My Reports</a></h4>
         </div>
-    <div id='allReports'>
+    </div>
+    <div id='allReports' class='row'>
         <div class='col-12'>
             <?php
                 // if user is admin or super, query for all IDRs
@@ -49,22 +39,31 @@ include 'filestart.php';
                             }
                             echo "</ul>";
                         } else echo "<h4>That's strange. No reports were found. I suspect something's up.</h4>";
+                        $result->close();
                     } elseif ($link->error) echo "<h4>{$errorMsg['idrList']}</h4>";
                 }
             ?>
         </div>
     </div>
-    <div id='myReports' class='row'>
-        <div class='col-12'>
-            <?php
-                if ($myIDRs) {
-                    if ($myIDRs === $errorMsg['myIDRs']) {
-                        
-                    }
-                }
-            ?>
-        </div>
-    </div>
+    <?php
+        // if user has an IDRs of their own render a button to show them
+        if ($result = $link->query("$qry WHERE UserID='$userID'")) {
+            if ($result->num_rows) {
+                echo "
+                    <div id='myReports' class='row'>
+                        <div class='col-12'>
+                            <ul>";
+                            while ($row = $result->fetch_assoc()) {
+                                printf("<li><a href='%s'>%s</a></li>", "/idr.php?idrID={$row['idrID']}", $row['idrDate']);
+                            }
+                echo "
+                            </ul>
+                        </div>
+                    </div>";
+            }
+            $result->close();
+        } elseif ($link->error) echo "<h4 class='text-secondary'>{$errorMsg['myIDRs']}</h4>";
+    ?>
 </main>
 <?php
 include 'fileend.php';
