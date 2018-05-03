@@ -16,6 +16,8 @@
     --vta-bright-blue-tone-2: #8bd2f0;
     --vta-blue: #0072c6;
     --vta-dark-blue: #03528B;
+    --quarter-trans-vta-dark-blue: #03528B40;
+    --tenth-trans-vta-dark-blue: #03528B20;
 }
 
 body {
@@ -175,12 +177,24 @@ ul li {
     padding: .625rem 1rem .875rem;
 }
 
+.pad-more {
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
 .pad-less {
     padding: .375rem .75rem .5rem;
 }
 
+.box-shadow {
+    box-shadow: 1px 1px 8px 2px var(--tenth-trans-vta-dark-blue);
+}
+
 .border-radius {
     border-radius: .25rem;
+}
+
+.no-border-radius {
+    border-radius: 0;
 }
 
 .thin-grey-border {
@@ -191,8 +205,16 @@ ul li {
     margin-right: .75rem;
 }
 
+.item-margin-right:last-child {
+    margin-bottom: 0;
+}
+
 .item-margin-bottom:not(:last-child) {
     margin-bottom: .875rem;
+}
+
+.item-margin-bottom:last-child {
+    margin-bottom: 0;
 }
 
 .item-border-bottom:not(:last-child) {
