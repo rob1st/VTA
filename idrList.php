@@ -44,15 +44,15 @@ include 'filestart.php';
     <div class='row'>
         <div class='col-sm-10 col-md-6 offset-sm-1 offset-md-3'>
             <!--tab controls-->
-            <ul class='nav nav-tabs' role='tablist'>
-                <li class='active' role='presentation'>
+            <ul class='nav nav-tabs no-border' role='tablist'>
+                <li class='border-dark-blue pl-3 pr-3 text-dark-blue active' role='presentation'>
                     <a href='#allReports' aria-controls='allReports' role='tab' data-toggle='tab' class='h4'>All Reports</a>
                 </li>
                 <?php
                     // render My IDRs button only if user has IDRs of their own
                     if ($myIDRs->num_rows) {
                         echo "
-                            <li role='presentation'>
+                            <li class='border-dark-blue pl-3 pr-3 text-secondary' role='presentation'>
                                 <a href='#myReports' aria-controls='myReports' role='tab' data-toggle='tab' class='h4'>My Reports</a>
                             </li>";
                     }

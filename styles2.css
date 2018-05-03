@@ -189,6 +189,10 @@ ul li {
     box-shadow: 1px 1px 8px 2px var(--tenth-trans-vta-dark-blue);
 }
 
+.border-dark-blue {
+    border-color: var(--vta-dark-blue);
+}
+
 .border-radius {
     border-radius: .25rem;
 }
@@ -233,6 +237,14 @@ hr.thick-grey-line {
     border-bottom: 1px solid var(--quarter-trans-grey);
 }
 
+.border-trans {
+    border-color: transparent;
+}
+
+.no-border {
+    border: none;
+}
+
 .grey-bg {
     background-color: var(--bs-jumbo-grey);
 }
@@ -247,6 +259,10 @@ hr.thick-grey-line {
 
 .blue-striped:nth-child(2n+1) {
     background-color: var(--vta-bright-blue-tone-1);
+}
+
+.text-dark-blue {
+    color: var(--vta-dark-blue);
 }
 
 /* Navbar */
@@ -269,6 +285,19 @@ hr.thick-grey-line {
     background-color: #03528B;
     background-color: var(--vta-dark-blue);
     color: white;
+}
+
+.nav-tabs a[role="tab"]:hover {
+    text-decoration: none;
+}
+
+.nav-tabs>li.active {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+
+.nav-tabs>li.active.border-dark-blue {
+    color: var(--vta-dark-blue);
 }
 
 /* Page Header */
