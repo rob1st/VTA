@@ -43,45 +43,57 @@
     echo '
         <main class="container main-content">
             <div class="card item-margin-bottom no-border-radius box-shadow">
-                <ul class="card-body item-margin-bottom pad-more">
-                    <li class="item-margin-bottom"><a href="UpdateProfile.php">Update Profile</a></li>
-                    <li class="item-margin-bottom"><a href="UpdatePassword.php">Change Password</a></li>
-                </ul>
+                <div class="card-body pad-more">
+                    <h4 class="text-secondary">Manage your account</h4>
+                    <hr class="thick-grey-line" />
+                    <ul class="item-margin-bottom">
+                        <li class="item-margin-bottom"><a href="UpdateProfile.php">Update Profile</a></li>
+                        <li class="item-margin-bottom"><a href="UpdatePassword.php">Change Password</a></li>
+                    </ul>
+                </div>
             </div>
     ';
     echo "
             <div class='card item-margin-bottom no-border-radius box-shadow'>
-                <ul class='card-body item-margin-bottom pad-more'>";
-                // data views
-                if ($role == 'A' OR $role == 'S') {
-                    foreach ($adminLinks['views'] as $href => $text) {
-                        printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
-                    }
-                    if ($role == 'S') {
-                        foreach ($superLinks['views'] as $href => $text) {
+                <div class='card-body pad-more'>
+                    <h4 class='text-secondary'>Data views</h4>
+                    <hr class='thick-grey-line' />
+                    <ul class='item-margin-bottom'>";
+                    // data views
+                    if ($role == 'A' OR $role == 'S') {
+                        foreach ($adminLinks['views'] as $href => $text) {
                             printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
                         }
-                    }
-                }
-    echo '
-                </ul>
-            </div>';
-            // data management links
-            if ($role === 'A' || $role === 'S') {
-                echo '
-                    <div class="card item-margin-bottom no-border-radius box-shadow">
-                        <ul class="card-body item-margin-bottom pad-more">';
-                        foreach ($adminLinks['forms'] as $href => $text) {
-                            printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
-                        }
-                        if ($role === 'S') {
-                            foreach ($superLinks['forms'] as $href => $text) {
+                        if ($role == 'S') {
+                            foreach ($superLinks['views'] as $href => $text) {
                                 printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
                             }
                         }
-                echo '
+                    }
+    echo "
                     </ul>
-                </div>';
+                </div>
+            </div>";
+            // data management links
+            if ($role === 'A' || $role === 'S') {
+                echo "
+                    <div class='card item-margin-bottom no-border-radius box-shadow'>
+                        <div class='card-body pad-more'>
+                            <h4 class='text-secondary'>Manage data</h4>
+                            <hr class='thick-grey-line' />
+                            <ul class='item-margin-bottom'>";
+                            foreach ($adminLinks['forms'] as $href => $text) {
+                                printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
+                            }
+                            if ($role === 'S') {
+                                foreach ($superLinks['forms'] as $href => $text) {
+                                    printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
+                                }
+                            }
+                echo '
+                            </ul>
+                        </div>
+                    </div>';
             }
     echo '
         <div class="center-content"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div>

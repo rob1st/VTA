@@ -201,6 +201,10 @@ ul li {
     border: 1px solid var(--quarter-trans-grey);
 }
 
+hr.thick-grey-line {
+    border-top: 2px solid var(--quarter-trans-grey);
+}
+
 .item-margin-right:not(:last-child) {
     margin-right: .75rem;
 }
