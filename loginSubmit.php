@@ -43,14 +43,13 @@
         $password = $_POST['Password'];
         $Password = filter_var($password, FILTER_SANITIZE_STRING);
         
-        $query = "SELECT UserID, Password, Role, secQ, viewIDR FROM users_enc WHERE Username = '".$Username."'";
+        $query = "SELECT UserID, Password, Role, secQ FROM users_enc WHERE Username = '".$Username."'";
         if($result=mysqli_query($link,$query)) {
             while($row = mysqli_fetch_assoc($result)) {
                 $set_password = $row['Password'];
                 $set_UserID = $row['UserID'];
                 $set_Role = $row['Role'];
                 $set_SecQ = $row['secQ'];
-                $viewIDR = $row['viewIDR'];
             }
         } else {
             $message = "User does not exist";

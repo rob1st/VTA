@@ -1,18 +1,54 @@
 <?php
-    include('session.php');
+    include 'session.php';
+    include 'SQLFunctions.php';
+    
     $role = $_SESSION['Role'];
-    $viewIDR = $_SESSION['viewIDR'];
+    $userID = $_SESSION['UserID'];
     $username = $_SESSION['Username'];
-    if ($role == 'S') $roleT = 'Super Admin';
-    elseif ($role == 'A') $roleT = 'Admin';
-    elseif ($role == 'U') $roleT = 'User';
-    elseif ($role == 'V') $roleT = 'Viewer';
-    else $roleT = '';
+    $link = f_sqlConnect();
+    
+    // user data
+    $userQry = "SELECT firstname, lastname, viewIDR FROM users_enc WHERE UserID='$userID'";
+    $idrQry = "SELECT COUNT(idrID) FROM IDR WHERE UserID='$userID'";
+    
+    if ($result = $link->query($userQry)) {
+        $row = $result->fetch_row();
+        $userFullName = $row[0].' '.$row[1];
+        $authLvl = [
+            'V' => 0,
+            'U' => 1,
+            'A' => 2,
+            'S' => 3
+        ];
+        $idrAuth = intval($row[2]) && $authLvl[$role];
+        $result->close();
+    } elseif ($link->error) {
+        $userFullName = 'Unable to retrieve user account information';
+        $idrAuth = 0;
+    }
+    
+    // check for IDRs submitted by current user
+    if ($result = $link->query($idrQry)) {
+        $row = $result->fetch_row();
+        $myIDRs = $idrAuth && $row[0];
+        $result->close();
+    }
+    
+    
+    
+    $roleT = [
+        'S' => 'Super Admin',
+        'A' => 'Admin',
+        'U' => 'User',
+        'V' => 'Viewer'
+    ];
+    
+    // auth-level-specific views
     $userLinks = [
-        'views' => [ 'myIDRs' => "My Inspectors' Daily Reports" ]
+        'views' => [ 'idrList' => "My Inspectors' Daily Reports" ]
     ];
     $adminLinks = [
-        'views' => [ 'idrList' => "View Inspectors' Daily Reports" ],
+        'views' => [ 'idrList' => "All Inspectors' Daily Reports" ],
         'forms' => [
             'NewUser' => 'Add new user',
             'NewLocation' => 'Add new Location',
@@ -30,12 +66,12 @@
             'NewStatus' => 'Add new status type'
         ]
     ];
-    echo '
-        <header class="container page-header">
-            <h1 class="page-title">'.$username.'</h1>
-            <h3 class="text-secondary user-role-title">'.$roleT.'</h3>
+    echo "
+        <header class='container page-header'>
+            <h1 class='page-title'>$userFullName</h1>
+            <h3 class='text-secondary user-role-title'>{$roleT[$role]}</h3>
         </header>
-    ';
+    ";
 ?>
 <?php
     include('filestart.php');
@@ -60,6 +96,9 @@
                     <hr class='thick-grey-line' />
                     <ul class='item-margin-bottom'>";
                     // data views
+                    if ($myIDRs) {
+                        printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", 'idrList', $userLinks['views']['idrList']);
+                    }
                     if ($role == 'A' OR $role == 'S') {
                         foreach ($adminLinks['views'] as $href => $text) {
                             printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
