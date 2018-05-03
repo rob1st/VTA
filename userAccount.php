@@ -66,29 +66,26 @@
             'NewStatus' => 'Add new status type'
         ]
     ];
+?>
+<?php
+    include('filestart.php');
+    // user account management links
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>$userFullName</h1>
             <h3 class='text-secondary user-role-title'>{$roleT[$role]}</h3>
         </header>
-    ";
-?>
-<?php
-    include('filestart.php');
-    // user account management links
-    echo '
-        <main class="container main-content">
-            <div class="card item-margin-bottom no-border-radius box-shadow">
-                <div class="card-body pad-more">
-                    <h4 class="text-secondary">Manage your account</h4>
-                    <hr class="thick-grey-line" />
-                    <ul class="item-margin-bottom">
-                        <li class="item-margin-bottom"><a href="UpdateProfile.php">Update Profile</a></li>
-                        <li class="item-margin-bottom"><a href="UpdatePassword.php">Change Password</a></li>
+        <main class='container main-content'>
+            <div class='card item-margin-bottom no-border-radius box-shadow'>
+                <div class='card-body pad-more'>
+                    <h4 class='text-secondary'>Manage your account</h4>
+                    <hr class='thick-grey-line' />
+                    <ul class='item-margin-bottom'>
+                        <li class='item-margin-bottom'><a href='UpdateProfile.php'>Update Profile</a></li>
+                        <li class='item-margin-bottom'><a href='UpdatePassword.php'>Change Password</a></li>
                     </ul>
                 </div>
-            </div>
-    ';
+            </div>";
     echo "
             <div class='card item-margin-bottom no-border-radius box-shadow'>
                 <div class='card-body pad-more'>
