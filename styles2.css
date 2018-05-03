@@ -221,6 +221,14 @@ hr.thick-grey-line {
     margin-bottom: 0;
 }
 
+.item-margin-bottom-less:not(:last-child) {
+    margin-bottom: .375rem;
+}
+
+.item-margin-bottom-less:last-child {
+    margin-bottom: 0;
+}
+
 .item-border-bottom:not(:last-child) {
     border-bottom: 1px solid var(--quarter-trans-grey);
 }
