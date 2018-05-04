@@ -1,6 +1,11 @@
 <?php
     $title = "SVBX - Unauthorised";
+<<<<<<< HEAD
     include('filestart.php') 
+=======
+    include('filestart.php');
+    http_response_code(401);
+>>>>>>> development
 ?>
     <header class="container page-header">
         <h1 class="page-title">Unauthorised Access Denied</h1>

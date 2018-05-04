@@ -10,10 +10,15 @@
     --bs-jumbo-grey: #e9ecef;
     --quarter-trans-grey: #0000003f;
     --tenth-trans-grey: #00000018;
+    --red: #bf211e;
     --yellow: #feb24c;
     --vta-bright-blue: #3eb4e6;
+    --vta-bright-blue-tone-1: #64c3eb;
+    --vta-bright-blue-tone-2: #8bd2f0;
     --vta-blue: #0072c6;
     --vta-dark-blue: #03528B;
+    --quarter-trans-vta-dark-blue: #03528B40;
+    --tenth-trans-vta-dark-blue: #03528B20;
 }
 
 body {
@@ -77,8 +82,30 @@ ul li {
     width: 100%!important;
 }
 
+.mw-33 {
+    max-width: 33%;
+}
+
+.mw-50 {
+    max-width: 50%;
+}
+
 .block {
     display: block!important;
+}
+/*@media screen and (min-width: 992px) {
+    .constrainer {
+        width: 50%;
+    }
+}*/
+/*@media screen and (min-width: 1200px) {
+    .constrainer {
+        width: 50%;
+    }
+}*/
+
+.fit-content {
+    width: fit-content;
 }
 
 .center-element {
@@ -111,12 +138,28 @@ ul li {
     justify-content: space-between;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
 .align-center {
     align-items: center;
 }
 
+.align-end {
+    align-items: flex-end;
+}
+
 .align-stretch {
     align-items: stretch;
+}
+
+.align-end {
+    align-items: flex-end;
 }
 
 .flex {
@@ -139,28 +182,80 @@ ul li {
     padding: .625rem 1rem .875rem;
 }
 
+.pad-more {
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
 .pad-less {
     padding: .375rem .75rem .5rem;
+}
+
+.box-shadow {
+    box-shadow: 1px 1px 8px 2px var(--tenth-trans-vta-dark-blue);
+}
+
+.border-dark-blue {
+    border-color: var(--vta-dark-blue);
 }
 
 .border-radius {
     border-radius: .25rem;
 }
 
+.no-border-radius {
+    border-radius: 0;
+}
+
 .thin-grey-border {
     border: 1px solid var(--quarter-trans-grey);
+}
+
+.thick-grey-line {
+    border-top: 2px solid var(--quarter-trans-grey);
 }
 
 .item-margin-right:not(:last-child) {
     margin-right: .75rem;
 }
 
+.item-margin-right:last-child {
+    margin-bottom: 0;
+}
+
+.item-margin-right-less:not(:last-child) {
+    margin-right: .375rem;
+}
+
+.item-margin-right-less:last-child {
+    margin-bottom: 0;
+}
+
 .item-margin-bottom:not(:last-child) {
     margin-bottom: .875rem;
 }
 
+.item-margin-bottom:last-child {
+    margin-bottom: 0;
+}
+
+.item-margin-bottom-less:not(:last-child) {
+    margin-bottom: .375rem;
+}
+
+.item-margin-bottom-less:last-child {
+    margin-bottom: 0;
+}
+
 .item-border-bottom:not(:last-child) {
     border-bottom: 1px solid var(--quarter-trans-grey);
+}
+
+.border-trans {
+    border-color: transparent;
+}
+
+.no-border {
+    border: none;
 }
 
 .grey-bg {
@@ -169,6 +264,34 @@ ul li {
 
 .striped:nth-child(2n+1) {
     background-color: var(--bs-jumbo-grey);
+}
+
+.blue-striped {
+    background-color: var(--vta-bright-blue-tone-2);
+}
+
+.blue-striped:nth-child(2n+1) {
+    background-color: var(--vta-bright-blue-tone-1);
+}
+
+.text-blue {
+    color: var(--vta-blue);
+}
+
+.text-bright-blue {
+    color: var(--vta-bright-blue);
+}
+
+.text-dark-blue {
+    color: var(--vta-dark-blue);
+}
+
+.text-yellow {
+    color: var(--yellow);
+}
+
+.text-red {
+    color: var(--red);
 }
 
 /* Navbar */
@@ -188,8 +311,23 @@ ul li {
 }
 
 .navbar-vta-blue {
+    background-color: #03528B;
     background-color: var(--vta-dark-blue);
     color: white;
+}
+
+.nav-tabs a:hover {
+    text-decoration: none;
+}
+
+.nav-tabs a:not(.active) {
+    color: var(--secondary);
+}
+
+.nav-tabs .active.border-dark-blue {
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    color: var(--vta-dark-blue);
 }
 
 /* Page Header */
@@ -434,6 +572,11 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     box-shadow: 0 0 2px 1px var(--yellow);
 }
 
+.required:after {
+    color: var(--danger);
+    content: '*';
+}
+
 .form-section-heading {
     margin: 0;
     margin-bottom: .875rem;
@@ -465,6 +608,18 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     margin: 0;
 }
 
+.form-control.subtle {
+    box-shadow: none;
+    outline: none;
+    border: 1px solid transparent;
+    background: transparent;
+}
+
+.form-control.subtle:focus {
+    border: 1px solid #ced4da;
+    background-color: #fff;
+}
+
 .def-input {
     min-width: 150px;
 }
@@ -477,6 +632,7 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 select:invalid {
     color: var(--secondary);
 }
+
 
 .btn-container {
     text-align: center;
