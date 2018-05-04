@@ -86,30 +86,33 @@
                     </ul>
                 </div>
             </div>";
-    echo "
-            <div class='card item-margin-bottom no-border-radius box-shadow'>
-                <div class='card-body pad-more'>
-                    <h4 class='text-secondary'>Data views</h4>
-                    <hr class='thick-grey-line' />
-                    <ul class='item-margin-bottom'>";
-                    // data views
-                    if ($myIDRs) {
-                        printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", 'idrList', $userLinks['views']['idrList']);
-                    }
-                    if ($role == 'A' OR $role == 'S') {
-                        foreach ($adminLinks['views'] as $href => $text) {
-                            printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
-                        }
-                        if ($role == 'S') {
-                            foreach ($superLinks['views'] as $href => $text) {
-                                printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
+            // render Data Views only if user has permission
+            if ($myIDRs || $role === 'A' || $role === 'S') {
+                echo "
+                    <div class='card item-margin-bottom no-border-radius box-shadow'>
+                        <div class='card-body pad-more'>
+                            <h4 class='text-secondary'>Data views</h4>
+                            <hr class='thick-grey-line' />
+                            <ul class='item-margin-bottom'>";
+                            // data views
+                            if ($myIDRs) {
+                                printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", 'idrList', $userLinks['views']['idrList']);
                             }
-                        }
-                    }
-    echo "
-                    </ul>
-                </div>
-            </div>";
+                            if ($role == 'A' OR $role == 'S') {
+                                foreach ($adminLinks['views'] as $href => $text) {
+                                    printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
+                                }
+                                if ($role == 'S') {
+                                    foreach ($superLinks['views'] as $href => $text) {
+                                        printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
+                                    }
+                                }
+                            }
+                echo "
+                            </ul>
+                        </div>
+                    </div>";
+            }
             // data management links
             if ($role === 'A' || $role === 'S') {
                 echo "
