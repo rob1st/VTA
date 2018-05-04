@@ -1,7 +1,7 @@
 <?php
-    include('SQLFunctions.php');
+    include 'session.php';
+    include 'SQLFunctions.php';
     include 'mailer.php';
-    session_start();
     
     $post = $_POST;
     $idrTable = 'IDR';

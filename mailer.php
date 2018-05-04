@@ -13,7 +13,7 @@ use Mailgun\Mailgun;
 function mailer($to, $subject, $content) {
     // include Autoloader (see https://documentation.mailgun.com/en/latest/libraries.html for install instructions)
     require 'vendor/autoload.php';
-    require 'config.php';
+    require 'SQLFunctions.php';
 
     // instantiate the client
     $mgClient = new Mailgun($mailgunKey);
@@ -36,4 +36,6 @@ function mailer($to, $subject, $content) {
     <pre>mgKey: $mailgunKey</pre>
     <pre>mgDomain: $domain</pre>";
 }
+
+mailer('colin.king-bailey@vta.org', 'test', 'test test test');
 ?>
