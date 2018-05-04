@@ -660,7 +660,7 @@ if ($userAuth < 1) {
                                             <label class='input-label item-margin-right'>Date</label>
                                         </div>
                                         <div class='col-6'>
-                                            <input type='date' value='{$curDateNum}' id='curDate' class='form-control' readonly />
+                                            <input name='idrForDate' type='date' value='{$curDateNum}' id='curDate' class='form-control' />
                                         </div>
                                     </div>
                                     <div class='row item-margin-bottom'>
