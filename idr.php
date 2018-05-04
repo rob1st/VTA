@@ -70,7 +70,7 @@ if ($userAuth < 1) {
         </header>
         <main class='container main-content'>";
     if ($idrID = $_GET['idrID']) {
-        $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, approvedBy, editableUntil
+        $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrForDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, approvedBy, editableUntil
             FROM ((IDR i
             JOIN users_enc u ON
             i.UserID=u.UserID)
@@ -114,7 +114,7 @@ if ($userAuth < 1) {
                                         <ul>
                                             <li class='flex-row space-between'>
                                                 <span style='font-style: bold'>date</span>
-                                                <span>{$row['idrDate']}</span>
+                                                <span>{$row['idrForDate']}</span>
                                             </li>
                                             <li class='flex-row space-between'>
                                                 <span>Contract</span>
