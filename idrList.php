@@ -17,7 +17,7 @@ if ($result = $link->query($qry)) {
             'A' => 2,
             'S' => 3
         ];
-        $idrAuth = intval($row['viewidr']) || $authLvl[$role];
+        $idrAuth = $row['viewidr'] ? $authLvl[$role] : $row['viewidr'];
         $result->close();
 } elseif ($link->error) {
     $userFullName = 'Unable to retrieve user account information';
@@ -44,52 +44,63 @@ include 'filestart.php';
     <div class='row'>
         <div class='col-sm-10 col-md-6 offset-sm-1 offset-md-3'>
             <!--tab controls-->
-            <ul class='nav nav-tabs no-border' role='tablist'>
-                <li class='border-dark-blue pl-3 pr-3 text-dark-blue active' role='presentation'>
-                    <a href='#allReports' aria-controls='allReports' role='tab' data-toggle='tab' class='h4'>All Reports</a>
-                </li>
+            <ul class='nav nav-tabs no-border flex-row flex-nowrap justify-content-center' role='tablist'>
                 <?php
+                    $active = ' active';
+                    $expanded = " aria-expanded='true'";
+                    if ($idrAuth > 1) {
+                        echo "
+                            <li class='item-margin-right-less' role='presentation'>
+                                <a href='#allReports' aria-controls='allReports'{$expanded} role='tab' data-toggle='tab' class='h4 pl-3 pr-3 border-dark-blue{$active}'>All Reports</a>
+                            </li>";
+                        $active = '';
+                        $expanded = '';
+                    }
                     // render My IDRs button only if user has IDRs of their own
                     if ($myIDRs->num_rows) {
                         echo "
-                            <li class='border-dark-blue pl-3 pr-3 text-secondary' role='presentation'>
-                                <a href='#myReports' aria-controls='myReports' role='tab' data-toggle='tab' class='h4'>My Reports</a>
+                            <li class='item-margin-right-less' role='presentation'>
+                                <a href='#myReports' aria-controls='myReports'{$expanded} role='tab' data-toggle='tab' class='h4 pl-3 pr-3 border-dark-blue{$active}'>My Reports</a>
                             </li>";
                     }
                 ?>
             </ul>
             <div class='tab-content'>
-                <div role='tabpanel' id='allReports' class='tab-pane active'>
-                    <?php
-                        // if user is admin or super, query for all IDRs
-                        if ($role === 'S' || $role === 'A') {
-                            if ($result = $link->query($qry.$orderBy)) {
-                                if ($result->num_rows) {
-                                    echo "<ul class='pl-0'>";
-                                    while ($row = $result->fetch_assoc()) {
-                                        printf(
-                                            "<li class='item-margin-bottom-less'>
-                                                <a href='%s'>%s <span class='text-secondary font-italic'>&bull; %s</span></a>
-                                            </li>",
-                                            "/idr.php?idrID={$row['idrID']}",
-                                            $row['idrDate'],
-                                            $row['Username']
-                                        );
-                                    }
-                                    echo "</ul>";
-                                } else echo "<h4>That's strange. No reports were found. I suspect something's up.</h4>";
-                                $result->close();
-                            } elseif ($link->error) echo "<h4>{$errorMsg['idrList']}</h4>";
-                        }
-                    ?>
-                </div>
+                <?php
+                    // if user is admin or super, query for all IDRs
+                    $active = ' active';
+                    if ($role === 'S' || $role === 'A') {
+                        if ($result = $link->query($qry.$orderBy)) {
+                            if ($result->num_rows) {
+                                echo "
+                                    <div role='tabpanel' id='allReports' class='tab-pane pt-1 pl-2 pr-2 fit-content center-element{$active}'>
+                                        <ul class='pl-0'>";
+                                while ($row = $result->fetch_assoc()) {
+                                    printf(
+                                        "<li class='item-margin-bottom-less'>
+                                            <a href='%s'>%s <span class='text-secondary font-italic'>&bull; %s</span></a>
+                                        </li>",
+                                        "/idr.php?idrID={$row['idrID']}",
+                                        $row['idrDate'],
+                                        $row['Username']
+                                    );
+                                }
+                                echo "
+                                        </ul>
+                                    </div>";
+                                $active = '';
+                            } else echo "<h4>That's strange. No reports were found. I suspect something's up.</h4>";
+                            $result->close();
+                        } elseif ($link->error) echo "<h4>{$errorMsg['idrList']}</h4>";
+                    }
+                ?>
                 <?php
                     // if user has an IDRs of their own render them under My IDRs tab
                     if ($myIDRs) {
                         if ($myIDRs === $errorMsg['myIDRs']) echo "<h4 class='text-secondary'>{$errorMsg['myIDRs']}</h4>";
                         elseif ($myIDRs->num_rows) {
                             echo "
-                                <div role='tabpanel' id='myReports' class='tab-pane'>
+                                <div role='tabpanel' id='myReports' class='tab-pane pt-1 pl-2 pr-2 fit-content center-element{$active}'>
                                     <ul class='pl-0'>";
                                     while ($row = $myIDRs->fetch_assoc()) {
                                         printf(
