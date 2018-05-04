@@ -65,7 +65,7 @@ include 'filestart.php';
                     }
                 ?>
             </ul>
-            <div class='tab-content'>
+            <div class='tab-content thick-grey-line'>
                 <?php
                     // if user is admin or super, query for all IDRs
                     $active = ' active';

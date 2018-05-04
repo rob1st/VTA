@@ -209,7 +209,7 @@ ul li {
     border: 1px solid var(--quarter-trans-grey);
 }
 
-hr.thick-grey-line {
+.thick-grey-line {
     border-top: 2px solid var(--quarter-trans-grey);
 }
 
@@ -299,11 +299,15 @@ hr.thick-grey-line {
     color: white;
 }
 
-.nav-tabs a[role="tab"]:hover {
+.nav-tabs a:hover {
     text-decoration: none;
 }
 
-.nav-tabs a.active.border-dark-blue {
+.nav-tabs a:not(.active) {
+    color: var(--secondary);
+}
+
+.nav-tabs .active.border-dark-blue {
     border-bottom-width: 2px;
     border-bottom-style: solid;
     color: var(--vta-dark-blue);
