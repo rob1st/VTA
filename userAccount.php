@@ -12,15 +12,15 @@
     $idrQry = "SELECT COUNT(idrID) FROM IDR WHERE UserID='$userID'";
     
     if ($result = $link->query($userQry)) {
-        $row = $result->fetch_row();
-        $userFullName = $row[0].' '.$row[1];
+        $row = $result->fetch_assoc();
+        $userFullName = $row['firstname'].' '.$row['lastname'];
         $authLvl = [
             'V' => 0,
             'U' => 1,
             'A' => 2,
             'S' => 3
         ];
-        $idrAuth = intval($row[2]) && $authLvl[$role];
+        $idrAuth = $row['viewIDR'] ? $authLvl[$role] : $row['viewIDR'];
         $result->close();
     } elseif ($link->error) {
         $userFullName = 'Unable to retrieve user account information';
@@ -74,6 +74,7 @@
         <header class='container page-header'>
             <h1 class='page-title'>$userFullName</h1>
             <h3 class='text-secondary user-role-title'>{$roleT[$role]}</h3>
+            <h4 class='text-warning bg-primary'>{$idrAuth}</h4>
         </header>
         <main class='container main-content'>
             <div class='card item-margin-bottom no-border-radius box-shadow'>
@@ -87,7 +88,7 @@
                 </div>
             </div>";
             // render Data Views only if user has permission
-            if ($myIDRs || $role === 'A' || $role === 'S') {
+            if ($myIDRs || $idrAuth > 1) {
                 echo "
                     <div class='card item-margin-bottom no-border-radius box-shadow'>
                         <div class='card-body pad-more'>
@@ -95,10 +96,10 @@
                             <hr class='thick-grey-line' />
                             <ul class='item-margin-bottom'>";
                             // data views
-                            if ($myIDRs) {
+                            if ($myIDRs && $idrAuth <= 1) {
                                 printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", 'idrList', $userLinks['views']['idrList']);
                             }
-                            if ($role == 'A' OR $role == 'S') {
+                            if ($idrAuth > 1) {
                                 foreach ($adminLinks['views'] as $href => $text) {
                                     printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
                                 }
@@ -108,14 +109,11 @@
                                     }
                                 }
                             }
+                // data management links
                 echo "
                             </ul>
                         </div>
-                    </div>";
-            }
-            // data management links
-            if ($role === 'A' || $role === 'S') {
-                echo "
+                    </div>
                     <div class='card item-margin-bottom no-border-radius box-shadow'>
                         <div class='card-body pad-more'>
                             <h4 class='text-secondary'>Manage data</h4>
@@ -129,10 +127,10 @@
                                     printf("<li class='item-margin-bottom'><a href='%s.php'>%s</a></li>", $href, $text);
                                 }
                             }
-                echo '
+                echo "
                             </ul>
                         </div>
-                    </div>';
+                    </div>";
             }
     echo '
         <div class="center-content"><a href="logout.php" class="btn btn-primary btn-lg">Logout</a></div>
