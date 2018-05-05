@@ -1,5 +1,4 @@
 <?php
-    include 'session.php';
     include 'SQLFunctions.php';
     include 'mailer.php';
     
@@ -85,7 +84,7 @@
                     http_response_code(500);
                     $code = http_response_code();
                     echo "There was a problem adding your comment";
-                    return;
+                    exit();
                 }
             }
             foreach ($post as $key => $val) {
@@ -232,6 +231,7 @@
             header("Location: /idr.php?idrID={$newIdrID}");
             $code = http_response_code();
             echo "new record created: Inspector's Daily Report #{$newIdrID}\nhttps://{$_SERVER['HTTP_HOST']}/idr.php?idrID={$newIdrID}\n{$timestamp}";
+            mailer('colin.king-bailey@vta.org', 'testtesttest', 'this is a test of of the submitIDR broadcasting system.');
         } else {
             http_response_code(500);
             $code = http_response_code();
