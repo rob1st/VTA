@@ -15,7 +15,7 @@
     
     // The Submit handler
     function handleSubmit() {
-        const endpoint = 'submitDaily.php';
+        const endpoint = 'submitIDR.php';
         const data = new FormData(form);
         // append actList details to appropriate actList
         // let i = 0;

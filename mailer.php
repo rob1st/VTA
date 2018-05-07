@@ -21,13 +21,17 @@ function mailer($to, $subject, $content) {
     
     // call to mailgun client
     if ($result = $mgClient->sendMessage($domain, array(
-        'from' => 'Excited New User <mailgun@sandbox6520986c6f6b42cca015e9181bfe0a53.mailgun.org>',
+        'from' => 'no_reply@mail.svbx.org',
         'to' => $to,
         'subject' => $subject,
         'text' => $content
     ))) {
-        echo 'message sent';
+        echo "\nmessage sent";
+        return;
     }
-    echo 'message not sent';
+    else {
+        echo "\nmessage not sent";
+        return;
+    }
 }
 ?>
