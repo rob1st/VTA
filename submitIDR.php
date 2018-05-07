@@ -231,7 +231,8 @@
             header("Location: /idr.php?idrID={$newIdrID}");
             $code = http_response_code();
             $reviewLink = "https://{$_SERVER['HTTP_HOST']}/idr.php?idrID={$newIdrID}";
-            $distList = "Robert.Burns@vta.org, colin.king-bailey@vta.org";
+            $distList = "colin.king-bailey@vta.org";
+            // Robert.Burns@vta.org, 
             echo "new record created: Inspector's Daily Report #{$newIdrID}\nhttps://{$reviewLink}\n{$timestamp}";
             mailer($distList,
                 'test: new Inspector Daily Report',
