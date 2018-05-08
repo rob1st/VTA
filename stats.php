@@ -43,7 +43,10 @@ session_start();
     // each item MUST include TableName, PluralString, ItemString, SqlString
     // if any extra content is needed, add it to index after required items
     $cards = [
-      ['Status', 'Statuses', 'Items', 
+      [
+        'Status',
+        'Statuses',
+        'Items', 
         "<div class='data-display'><div id='status-graph' class='chart-container'></div><p id='status-legend' class='flex-column'></p></div>"],
       ['Severity', 'Severities', 'Open Items', '<div class="data-display"><div id="severity-graph" class="chart-container"></div><p id="severity-legend" class="legend"></p></div>'],
       ['System', 'Systems', 'Actions'],
@@ -82,10 +85,13 @@ session_start();
               </li>
           ";
         }
-        echo "</ul>";
-        if (count($card) > 3) {
-          echo "{$card[3]}</div>";
-        } else echo "</div>";
+        echo "
+            </ul>
+            <div class='data-display'>
+              <div id='".lcfirst($card[0])."-graph' class='chart-container'></div>
+              <p id='status-legend' class='flex-column'></p>
+            </div>
+          </div>";
         echo "
             <footer class='card-footer'>
               <a href='Display{$cardSpecs[1]}.php' class='btn btn-lg btn-outline btn-a'>Number of {$cardSpecs[1]} {$tot}</a>
