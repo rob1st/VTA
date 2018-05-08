@@ -18,22 +18,7 @@ session_start();
     $sqlET = "SELECT COUNT(*) FROM CDL WHERE Status=2"; //Status Closed Counts
         
     // vars to pass to JS scripts
-    $statusData = [
-      open => '',
-      closed => ''
-    ];
-    $sevData = [
-      blocker => '',
-      critical => '',
-      major => '',
-      minor => ''
-    ];
-    // $statusOpen = 0;
-    // $statusClosed = 0;
-    // $blockSev = 0;
-    // $critSev = 0;
-    // $majSev = 0;
-    // $minSev = 0;
+    $dataCollection = [];
 
     //if(!f_tableExists($link, $table, DB_Name)) {
     //    die('<br>Destination table does not exist: '.$table);
@@ -44,13 +29,25 @@ session_start();
     // if any extra content is needed, add it to index after required items
     $cards = [
       [
-        'Status',
-        'Statuses',
-        'Items', 
-        "<div class='data-display'><div id='status-graph' class='chart-container'></div><p id='status-legend' class='flex-column'></p></div>"],
-      ['Severity', 'Severities', 'Open Items', '<div class="data-display"><div id="severity-graph" class="chart-container"></div><p id="severity-legend" class="legend"></p></div>'],
-      ['System', 'Systems', 'Actions'],
-      ['Location', 'Locations', 'Open Items']
+        name => 'status',
+        plural => 'statuses',
+        itemName => 'items'
+      ],
+      [
+        name => 'severity',
+        plural => 'severities',
+        itemName => 'open Items'
+      ],
+      [
+        name => 'system',
+        plural => 'systems',
+        itemName => 'actions'
+      ],
+      [
+        name => 'location',
+        plural => 'locations',
+        itemName => 'open Items'
+      ]
     ];
     $queries = [
       'Status' => 'SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID',
@@ -60,24 +57,22 @@ session_start();
     ];
     
     function writeDashCard($count, $result, $card) {
-      global $statusData, $sevData;
-      // global $statusOpen, $statusClosed, $blockSev, $critSev, $majSev, $minSev;
-      // if ($db) $dbConnect = 'connection successful';
+      global $dataCollection;
       echo "
         <div class='card dash-card'>
           <header class='card-header'>
-            <h4>{$card[1]}</h4>
+            <h4>".ucfirst($card['plural'])."</h4>
           </header>
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
               <li class='bg-secondary text-white dash-list-heading'>
-                <span class='dash-list-left dash-list-name'>{$card[0]}</span>
-                <span class='dash-list-right dash-list-count'>{$card[2]}</span>
+                <span class='dash-list-left dash-list-name'>".ucfirst($card['name'])."</span>
+                <span class='dash-list-right dash-list-count'>".ucfirst($card['itemName'])."</span>
               </li>";
       if ($count && $result) {
         while ($row = $result->fetch_array()) {
-          if ($row[0] === 'Open' || $row[0] === 'Closed') $statusData[lcfirst($row[0])] = $row[1];
-          elseif ($row[0] === 'Blocker' || $row[0] === 'Critical' || $row[0] === 'Major' || $row[0] === 'Minor') $sevData[lcfirst($row[0])] = $row[1];
+          // append row data to obj that will be json encoded
+          $dataCollection[$card['name']][] = [ label => lcfirst($row[0]), value => $row[1]];
           echo "
               <li class='dash-list-item'>
                 <span class='dash-list-left'>{$row[0]}</span>
@@ -88,13 +83,17 @@ session_start();
         echo "
             </ul>
             <div class='data-display'>
-              <div id='".lcfirst($card[0])."-graph' class='chart-container'></div>
+              <div id='{$card['name']}-graph' class='chart-container'></div>
               <p id='status-legend' class='flex-column'></p>
-            </div>
-          </div>";
+            </div>";
+echo "<pre style='color: hotPink'>";
+echo var_dump($card);
+echo "</pre>";
+
         echo "
+            </div>
             <footer class='card-footer'>
-              <a href='Display{$cardSpecs[1]}.php' class='btn btn-lg btn-outline btn-a'>Number of {$cardSpecs[1]} {$tot}</a>
+              <a href='Display{$card['plural']}.php' class='btn btn-lg btn-outline btn-a'>Number of {$card['plural']} {$count}</a>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
@@ -109,27 +108,32 @@ session_start();
 <main role="main" class="container main-content dashboard">
   <?php
   foreach($cards as $card) {
-    $tableStr = 'SELECT COUNT(*) FROM '.$card[0];
+    $tableName = ucfirst($card['name']);
+    $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
     $count = $link->query($tableStr)->fetch_array()[0];
-    $result = $link->query($queries[$card[0]]);
+    $result = $link->query($queries[$tableName]);
     writeDashCard($count, $result, $card);
   }
 ?> 
 </main>
 <?php
-  // replace flat $___Data props with d3-structured objs
-  foreach ($statusData as $name => $num) {
-    array_push($statusData, [ label => $name, value => $num ]);
-    unset($statusData[$name]);
+  // encode dataCollection arrays as json
+  $jsonData = [];
+  foreach ($cards as $card) {
+    echo "<pre style='color: forestGreen'>";
+    echo $card['name'].': ';
+    echo var_dump($dataCollection[$card['name']]);
+    echo "</pre>";
+    $jsonData[$card['name']] = json_encode($dataCollection[$card['name']]);
   }
-  $jsonStatus = json_encode($statusData);
+  // $jsonStatus = json_encode($statusData);
   $statusColors = json_encode([ red => '#d73027', green => '#58BF73' ]);
   
-  foreach ($sevData as $name => $num) {
-    array_push($sevData, [ label => $name, value => $num ]);
-    unset($sevData[$name]);
-  }
-  $jsonSev = json_encode($sevData);
+  // foreach ($sevData as $name => $num) {
+  //   array_push($sevData, [ label => $name, value => $num ]);
+  //   unset($sevData[$name]);
+  // }
+  // $jsonSev = json_encode($sevData);
   $sevColors = json_encode([ red => '#bd0026', redOrange => '#fc4e2a', orange => '#feb24c', yellow => '#ffeda0']);
   echo "
   <!--THIS IS A TERRIBLE WAY TO DO THIS
@@ -137,8 +141,8 @@ session_start();
   <script src='https://d3js.org/d3.v5.js'></script>
   <script src='js/pie_chart.js'></script>
   <script>
-    window.drawPieChart(document.getElementById('status-graph'), $jsonStatus, $statusColors)
-    window.drawPieChart(document.getElementById('severity-graph'), $jsonSev, $sevColors)
+    window.drawPieChart(document.getElementById('status-graph'), {$jsonData['status']}, $statusColors)
+    window.drawPieChart(document.getElementById('severity-graph'), {$jsonData['severity']}, $sevColors)
   </script>
   <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
   <!--DO NOT TYPE BELOW THIS LINE-->";
