@@ -26,111 +26,33 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
         .innerRadius(0)
         .outerRadius(r)
         
-    var pie = d3.pie()
+    const pie = d3.pie()
         .value(d => d.value)
         .sort(null)
         
-    svg.selectAll('path')
+    const arcs = svg.selectAll('g.slice')
         .data(pie(jsonData))
         .enter()
-        .append('path')
+        .append('g')
+        .attr('class', 'slice');
+        
+    arcs.append('path')
         .attr('d', arc)
         .attr('fill', d => {
             console.log(d.data);
-            return color(d.data.label)
+            return color(d.data.label);
         })
         
+    arcs.append('text')
+        .attr('transform', d => {
+            d.innerRadius = 0;
+            d.outerRadius = r;
+            return `translate(${arc.centroid(d)})`;
+        })
+        .attr('text-anchor', 'middle')
+        .text((d, i) => i + 1);
+        
     drawLegend(container, jsonData, Object.values(colorData));
-}
-
-function drawOpenCloseChart(d3, open, closed) {
-    var openCloseData = [
-        {label: 'open', count: open},
-        {label: 'closed', count: closed}
-    ]
-    
-    var container = document.getElementById('open-closed-graph')
-    
-    var width = "200"
-    var height = "200"
-    var radius = Math.min(width, height)/2
-    
-    var scheme = {
-        red: '#d73027',
-        green: '#58BF73'
-    }
-    var color = d3.scaleOrdinal(Object.values(scheme))
-    
-    var chart = d3.select(container)
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr('transform', `translate(${width/2},${height/2})`)
-        
-    var arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius)
-    
-    var pie = d3.pie()
-        .value(d => d.count)
-        .sort(null)
-        
-    var path = chart.selectAll('path')
-        .data(pie(openCloseData))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', d => color(d.data.label))
-
-    drawLegend(container, openCloseData, Object.values(scheme))
-}
-
-function drawSeverityChart(d3, block, crit, maj, min) {
-    var severityData = [
-        {label: 'blocker', count: block},
-        {label: 'critical', count: crit},
-        {label: 'major', count: maj},
-        {label: 'minor', count: min}
-    ]
-    var scheme = {
-        red: '#bd0026',
-        redOrange: '#fc4e2a',
-        orange: '#feb24c',
-        yellow: '#ffeda0'
-    }
-    
-    var container = document.getElementById('severity-graph')
-    
-    var width = '200'
-    var height = '200'
-    var radius = Math.min(width, height)/2
-    
-    var color = d3.scaleOrdinal(Object.values(scheme))
-    
-    var chart = d3.select(container)
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        .attr('transform', `translate(${width/2},${height/2})`)
-        
-    var arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius(radius)
-    
-    var pie = d3.pie()
-        .value(d => d.count)
-        .sort(null)
-        
-    var path = chart.selectAll('path')
-        .data(pie(severityData))
-        .enter()
-        .append('path')
-        .attr('d', arc)
-        .attr('fill', d => color(d.data.label))
-        
-    drawLegend(container, severityData, Object.values(scheme))
 }
 
 function drawLegend(container, data, colorScheme) {
@@ -143,6 +65,7 @@ function drawLegend(container, data, colorScheme) {
         label.classList.add('legend-label')
         label.textContent = datum.label
 
+        swatch.innerText = i + 1;
         swatch.classList.add('legend-swatch')
         swatch.style.backgroundColor = colorScheme[i]
         label.insertAdjacentElement('afterbegin', swatch)

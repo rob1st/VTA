@@ -74,16 +74,11 @@ session_start();
             <div class='data-display'>
               <div id='{$card['name']}-graph' class='chart-container'></div>
               <p id='status-legend' class='flex-column'></p>
-            </div>";
-echo "<pre style='color: hotPink'>";
-echo var_dump($card);
-echo "</pre>";
-
-        echo "
             </div>
-            <footer class='card-footer'>
-              <a href='Display{$card['plural']}.php' class='btn btn-lg btn-outline btn-a'>Number of {$card['plural']} {$count}</a>
-            </footer>
+          </div>
+          <footer class='card-footer'>
+            <a href='Display{$card['plural']}.php' class='btn btn-lg btn-outline btn-a'>Number of {$card['plural']} {$count}</a>
+          </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
       echo "</div>";
@@ -109,10 +104,6 @@ echo "</pre>";
   // encode dataCollection arrays as json
   $jsonData = [];
   foreach ($cards as $card) {
-    echo "<pre style='color: forestGreen'>";
-    echo $card['name'].': ';
-    echo var_dump($dataCollection[$card['name']]);
-    echo "</pre>";
     $jsonData[$card['name']] = json_encode($dataCollection[$card['name']]);
   }
 
