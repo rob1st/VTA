@@ -6,17 +6,6 @@ session_start();
     $link = f_sqlConnect();
     //$table = pages;
     
-    $System = "SELECT S.System, COUNT(C.GroupToResolve) FROM CDL C LEFT JOIN System S ON C.GroupToResolve=S.SystemID GROUP BY System ORDER BY S.System"; //Count Actions by System
-    $Sev = "SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN Severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY Severity ORDER BY S.SeverityName"; 
-    $Status = "SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID";
-    $location = "SELECT L.LocationName, COUNT(C.Location) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location GROUP BY Location  ORDER BY L.LocationName";
-    $Comp = "SELECT CompName FROM Comp ORDER BY CompName";
-    $sqlSys = "SELECT COUNT(*) FROM System"; //Systems Count
-    $sqlStat = "SELECT COUNT(*) FROM Status"; //Status Counts
-    $sqlSev = "SELECT COUNT(*) FROM Severity"; //Severity Counts
-    $sqlLoc = "SELECT COUNT(*) FROM Location"; //Location Counts
-    $sqlET = "SELECT COUNT(*) FROM CDL WHERE Status=2"; //Status Closed Counts
-        
     // vars to pass to JS scripts
     $dataCollection = [];
 
@@ -126,15 +115,10 @@ echo "</pre>";
     echo "</pre>";
     $jsonData[$card['name']] = json_encode($dataCollection[$card['name']]);
   }
-  // $jsonStatus = json_encode($statusData);
+
   $statusColors = json_encode([ red => '#d73027', green => '#58BF73' ]);
-  
-  // foreach ($sevData as $name => $num) {
-  //   array_push($sevData, [ label => $name, value => $num ]);
-  //   unset($sevData[$name]);
-  // }
-  // $jsonSev = json_encode($sevData);
   $sevColors = json_encode([ red => '#bd0026', redOrange => '#fc4e2a', orange => '#feb24c', yellow => '#ffeda0']);
+  
   echo "
   <!--THIS IS A TERRIBLE WAY TO DO THIS
       THIS IS ONLY FOR TESTING PURPOSES-->

@@ -4,7 +4,7 @@
     - this will require refactoring fileend.php into a fcn
 */
 function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
-    console.log(jsonData);
+    console.log(jsonData, colorData);
     const w = '200';
     const h = '200';
     const r = Math.min(w, h)/2;
@@ -35,7 +35,12 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
         .enter()
         .append('path')
         .attr('d', arc)
-        .attr('fill', d => color(d.data.label))
+        .attr('fill', d => {
+            console.log(d.data);
+            return color(d.data.label)
+        })
+        
+    drawLegend(container, jsonData, Object.values(colorData));
 }
 
 function drawOpenCloseChart(d3, open, closed) {
