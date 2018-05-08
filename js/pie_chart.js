@@ -9,11 +9,11 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
     const h = '200';
     const r = Math.min(w, h)/2;
     
-    // append color scheme to jsonData
-    // for (let obj of jsonData) {
-    //     obj.color = colorData[obj.label] || colorData[jsonData.indexOf(obj)];
-    // }
-    const color = d3.scaleOrdinal(Object.values(colorData));
+    const color = typeof colorData !== 'function' ?
+        d3.scaleOrdinal(Object.values(colorData))
+        : d3.scaleOrdinal(colorData).domain([0, 1, 2, 3, 4, 5]);
+        
+    console.log(color.domain(), color.range());
     
     const svg = d3.select(container)
         .append('svg')
@@ -39,7 +39,7 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
     arcs.append('path')
         .attr('d', arc)
         .attr('fill', d => {
-            console.log(d.data);
+            // console.log(d.data);
             return color(d.data.label);
         })
         

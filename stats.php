@@ -73,11 +73,11 @@ session_start();
             </ul>
             <div class='data-display'>
               <div id='{$card['name']}-graph' class='chart-container'></div>
-              <p id='status-legend' class='flex-column'></p>
+              <p id='{$card['name']}-legend' class='flex-column'></p>
             </div>
           </div>
           <footer class='card-footer'>
-            <a href='Display{$card['plural']}.php' class='btn btn-lg btn-outline btn-a'>Number of {$card['plural']} {$count}</a>
+            <a href='Display".ucfirst($card['plural']).".php' class='btn btn-lg btn-outline btn-a'>Number of {$card['plural']} {$count}</a>
           </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
@@ -112,12 +112,14 @@ session_start();
   
   echo "
   <!--THIS IS A TERRIBLE WAY TO DO THIS
-      THIS IS ONLY FOR TESTING PURPOSES-->
+      PLS REFACTOR FOOTER TO TAKE SCRIPTS AS ARGS-->
   <script src='https://d3js.org/d3.v5.js'></script>
   <script src='js/pie_chart.js'></script>
   <script>
     window.drawPieChart(document.getElementById('status-graph'), {$jsonData['status']}, $statusColors)
     window.drawPieChart(document.getElementById('severity-graph'), {$jsonData['severity']}, $sevColors)
+    window.drawPieChart(document.getElementById('system-graph'), {$jsonData['system']}, d3.schemeGnBu[9])
+    window.drawPieChart(document.getElementById('location-graph'), {$jsonData['location']}, d3.schemePuBu[9])
   </script>
   <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
   <!--DO NOT TYPE BELOW THIS LINE-->";
