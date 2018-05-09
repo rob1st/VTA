@@ -43,7 +43,7 @@ function printInfoBox($lvl, $href) {
     return sprintf($box, $href);
 }
 
-function printProjectSearchBar($cnxn, $formAction) {
+function printProjectSearchBar($cnxn, $post, $formAction) {
     // concat content to $form string until it's all written
     // then return the completed string
     $form = sprintf("
@@ -59,7 +59,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                             <option value=''></option>";
     if ($result = $cnxn->query('SELECT DefID from CDL')) {
         while ($row = $result->fetch_array()) {
-            $select = ($postData['DefID'] === $row[0]) ? 'selected' : '';
+            $select = ($post['DefID'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
         }
         $result->close();
@@ -72,7 +72,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                         <option value=''></option>";
     if ($result = $cnxn->query('SELECT StatusID, Status from Status')) {
         while ($row = $result->fetch_array()) {
-            $select = ($postData['Status'] === $row[0]) ? 'selected' : '';
+            $select = ($post['Status'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
         }
         $result->close();
@@ -93,7 +93,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                         <option value=''></option>";
     if ($result = $cnxn->query('SELECT SeverityID, SeverityName from Severity')) {
         while($row = $result->fetch_array()) {
-            $select = ($postData['Severity'] === $row[0]) ? 'selected' : '';
+            $select = ($post['Severity'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
         }
         $result->close();
@@ -106,7 +106,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                         <option value=''></option>";
     if ($result = $cnxn->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
         while ($row = $result->fetch_array()) {
-            $select = ($postData['SystemAffected'] === $row[0]) ? 'selected' : '';
+            $select = ($post['SystemAffected'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
         }
         $result->close();
@@ -119,7 +119,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                         <option value=''></option>";
     if ($result = $cnxn->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
         while ($row = $result->fetch_array()) {
-            $select = ($postData['GroupToResolve'] === $row[0]) ? 'selected' : '';
+            $select = ($post['GroupToResolve'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
         }
         $result->close();
@@ -130,7 +130,7 @@ function printProjectSearchBar($cnxn, $formAction) {
             <div class='row item-margin-bottom'>
                 <div class='col-sm-4 pl-1 pr-1'>
                     <label class='input-label'>Description</label>
-                    <input type='text' name='Description' class='form-control' value='{$postData['Description']}'>
+                    <input type='text' name='Description' class='form-control' value='{$post['Description']}'>
                 </div>
                 <div class='col-sm-2 pl-1 pr-1'>
                     <label class='input-label'>Location</label>
@@ -138,7 +138,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                         <option value=''></option>";
     if ($result = $cnxn->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
         while ($row = $result->fetch_array()) {
-            $select = ($postData['Location'] === $row[0]) ? 'selected' : '';
+            $select = ($post['Location'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
         }
         $result->close();
@@ -150,7 +150,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                     <select name='SpecLoc' class='form-control'>";
     if ($result = $cnxn->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
         while ($row = $result->fetch_row()) {
-            $select = ($postData['SpecLoc'] === $row[0]) ? 'selected' : '';
+            $select = ($post['SpecLoc'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='$row[0]' $select>$row[0]</option>";
         }
         $result->close();
@@ -163,7 +163,7 @@ function printProjectSearchBar($cnxn, $formAction) {
                         <option value=''></option>";
     if ($result = $cnxn->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
         while ($row = $result->fetch_row()) {
-            $select = ($postData['IdentifiedBy'] === $row[0]) ? 'selected' : '';
+            $select = ($post['IdentifiedBy'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
         }
         $result->close();
@@ -287,7 +287,7 @@ if($_POST['Search'] == NULL) {
 <?php
     echo "<main class='container main-content'>";
     echo printInfoBox($roleLvl, 'NewDef');
-    echo printProjectSearchBar($link, [ method => 'POST', action => 'DisplayDefs.php' ]);
+    echo printProjectSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
     echo printProjectDefsTable($link, $sql, $roleLvl);
     
     echo "</main>";
