@@ -91,14 +91,14 @@ session_start();
 </header>
 <main role="main" class="container main-content dashboard">
   <?php
-  foreach($cards as $card) {
-    $tableName = ucfirst($card['name']);
-    $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
-    $count = $link->query($tableStr)->fetch_array()[0];
-    $result = $link->query($queries[$tableName]);
-    writeDashCard($count, $result, $card);
-  }
-?> 
+    foreach($cards as $card) {
+      $tableName = ucfirst($card['name']);
+      $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
+      $count = $link->query($tableStr)->fetch_array()[0];
+      $result = $link->query($queries[$tableName]);
+      writeDashCard($count, $result, $card);
+    }
+  ?>
 </main>
 <?php
   // encode dataCollection arrays as json
@@ -118,8 +118,8 @@ session_start();
   <script>
     window.drawPieChart(document.getElementById('status-graph'), {$jsonData['status']}, $statusColors)
     window.drawPieChart(document.getElementById('severity-graph'), {$jsonData['severity']}, $sevColors)
-    window.drawPieChart(document.getElementById('system-graph'), {$jsonData['system']}, d3.schemeGnBu[9])
-    window.drawPieChart(document.getElementById('location-graph'), {$jsonData['location']}, d3.schemePuBu[9])
+    window.drawPieChart(document.getElementById('system-graph'), {$jsonData['system']}, d3.interpolateGnBu)
+    window.drawPieChart(document.getElementById('location-graph'), {$jsonData['location']}, d3.interpolatePuBu)
   </script>
   <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
   <!--DO NOT TYPE BELOW THIS LINE-->";

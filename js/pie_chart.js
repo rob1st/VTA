@@ -11,9 +11,9 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
     
     const color = typeof colorData !== 'function' ?
         d3.scaleOrdinal(Object.values(colorData))
-        : d3.scaleOrdinal(colorData).domain([0, 1, 2, 3, 4, 5]);
+        : d3.scaleSequential().domain([0, jsonData.length - 1]).interpolator(colorData);
         
-    console.log(color.domain(), color.range());
+    // console.log(color.domain(), color.range());
     
     const svg = d3.select(container)
         .append('svg')
