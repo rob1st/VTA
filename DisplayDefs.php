@@ -199,9 +199,6 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
                         $table .= "
                             <th class='svbx-th updated-th collapse-md collapse-sm collapse-xs'>Last Updated</th>
                             <th class='svbx-th edit-th collapse-sm collapse-xs'>Edit</th>";
-                        if($lvl === 4) {
-                            $table .= "<th class='svbx-th del-th collapse-sm collapse-xs'>Delete</th>";
-                        }
                     } $table .= "</tr></thead><tbody>";
                     
                 while($row = $result->fetch_array()) {
@@ -223,14 +220,6 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
                                 </form>
                             </td>";
                     } else $table .= "</tr>";
-                    if ($lvl === 4) {
-                        $table .= "
-                            <td class='svbx-td del-td collapse-sm collapse-xs'>
-                                <form action='DeleteDef.php' method='POST' onsubmit='' onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'/>
-                                    <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button>
-                                </form>
-                            </td></tr>";
-                    }
                 }
             $table .= "</tbody></table>";
         } else {
