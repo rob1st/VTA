@@ -32,9 +32,9 @@ function concatSqlStr($arr, $table, $initStr = '') {
 }
 
 function printInfoBox($lvl, $href) {
-    $boxStart ="<div class='card'>
+    $boxStart ="<div class='card item-margin-bottom'>
             <div class='card-body flex-row justify-content-between align-items-center grey-bg'>
-                <p>Click Deficiency ID number to see full details</p>";
+                <p class='mb-1'>Click Deficiency ID number to see full details</p>";
     $boxEnd ="</div></div>";
     $btn ="<a href='%s.php' class='btn btn-primary'>Add New Deficiency</a>";
     
@@ -47,10 +47,10 @@ function printProjectSearchBar($cnxn, $post, $formAction) {
     // concat content to $form string until it's all written
     // then return the completed string
     $form = sprintf("
-        <div class='row'>
+        <div class='row item-margin-bottom'>
             <form action='%s' method='%s' class='col-12'>
                 <div class='row'>
-                    <h5 class='col-12'>Search deficiencies</h5>
+                    <h5 class='col-12'>Filter deficiencies</h5>
                 </div>", $formAction['action'], $formAction['method']);
     $form .= "<div class='row item-margin-bottom'>
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
@@ -267,17 +267,11 @@ if($_POST['Search'] == NULL) {
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
-    <h4 class='text-purple'>
-        <?php
-            $roleEqls = $role === 'S';
-            echo $roleLvl.' '.$role.' '.$roleEqls;
-        ?>
-    </h4>
 </header>
 <?php
     echo "<main class='container main-content'>";
-    echo printInfoBox($roleLvl, 'NewDef');
     echo printProjectSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
+    echo printInfoBox($roleLvl, 'NewDef');
     echo printProjectDefsTable($link, $sql, $roleLvl);
     
     echo "</main>";
