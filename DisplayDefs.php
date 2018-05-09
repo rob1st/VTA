@@ -33,7 +33,7 @@ function concatSqlStr($arr, $table, $initStr = '') {
 
 function printInfoBox($lvl, $href) {
     $boxStart ="<div class='card'>
-            <div class='card-body flex-row flex-nowrap justify-content-between align-items-center grey-bg'>
+            <div class='card-body flex-row justify-content-between align-items-center grey-bg'>
                 <p>Click Deficiency ID number to see full details</p>";
     $boxEnd ="</div></div>";
     $btn ="<a href='%s.php' class='btn btn-primary'>Add New Deficiency</a>";
@@ -184,7 +184,6 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
     if ($result = $cnxn->query($qry)) {
         if ($result->num_rows) {
             $table = "
-                </ul>
                 <table class='table table-striped table-responsive svbx-table'>
                     <thead>
                         <tr class='svbx-tr table-heading'>
@@ -194,7 +193,8 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
                             <th class='svbx-th created-th collapse-md  collapse-sm collapse-xs'>Date Created</th>
                             <th class='svbx-th status-th'>Status</th>
                             <th class='svbx-th system-th collapse-sm collapse-xs'>System Affected</th>
-                            <th class='svbx-th desrip-th'>Brief Description</th>";
+                            <th class='svbx-th descrip-th'>Brief Description</th>
+                            <th class='svbx-th collapse-md collapse-sm collapse-xs'>Spec Loc</th>";
                     if($lvl >= 1) {
                         $table .= "
                             <th class='svbx-th updated-th collapse-md collapse-sm collapse-xs'>Last Updated</th>
@@ -210,10 +210,11 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
                             <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
                             <td class='svbx-td status-td'>{$row[4]}</td>
                             <td class='svbx-td system-td collapse-sm collapse-xs'>{$row[5]}</td>
-                            <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>";
+                            <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>
+                            <td class='svbx-td collapse-md collapse-sm collapse-xs'>{$row[7]}</td>";
                     if ($lvl >= 1) {
                        $table .= "
-                            <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[7]}</td>
+                            <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[8]}</td>
                             <td class='svbx-td edit-td collapse-sm collapse-xs'>
                                 <form action='UpdateDef.php' method='POST' onsubmit=''/>
                                     <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
