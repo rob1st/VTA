@@ -3,12 +3,18 @@ include('session.php');
 include('SQLFunctions.php');
 $title = "View Deficiencies";
 $link = f_sqlConnect();
-$Role = $_SESSION['Role'];
+$role = $_SESSION['Role'];
 include('filestart.php');
 
-// search function
-// $AND = 0;
-    
+$roleLvlMap = [ null, V, U, A, S ];
+$roleLvl = array_search($role, $roleLvlMap);
+
+if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
+    if ($row = $result->fetch_row()) {
+        $bdPermit = $row[0];
+    }
+}
+
 function concatSqlStr($arr, $table, $initStr = '') {
     $joiner = 'WHERE';
     $equality = '=';
@@ -23,6 +29,22 @@ function concatSqlStr($arr, $table, $initStr = '') {
         $equality = '=';
     }
     return $qStr;
+}
+
+function printInfoBox($lvl, $href) {
+    $boxStart ="<div class='card'>
+            <div class='card-body flex-row flex-nowrap justify-content-between align-items-center grey-bg'>
+                <p>Click Deficiency ID number to see full details</p>";
+    $boxEnd ="</div></div>";
+    $btn ="<a href='%s.php' class='btn btn-primary'>Add New Deficiency</a>";
+    
+    $box = $lvl >= 1 ? $boxStart.$btn.$boxEnd : $boxStart.$boxEnd;
+            
+    return sprintf($box, $href);
+}
+
+function printSearchBar() {
+    
 }
 
 if($_POST['Search'] == NULL) {
@@ -58,19 +80,13 @@ if($_POST['Search'] == NULL) {
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
+    <h4 class='text-purple'>
+        <?php echo $roleLvl ?>
+    </h4>
 </header>
-<?php     
-    echo "
-        <main class='container main-content'>
-            <div class='card heading-card'>
-                <div class='card-body grey-bg item-margin-right page-heading-panel'>
-                    <p>Click Deficiency ID Number to see full details</p>";
-                    if ($Role == 'U' OR $Role == 'A' OR $Role == 'S') {
-                        echo "<a href='NewDef.php' class='btn btn-primary'>Add New Deficiency</a>";
-                    }
-        echo "
-                </div>
-            </div>";
+<?php
+    echo "<main class='container main-content'>";
+    echo printInfoBox($roleLvl, 'NewDef');
 
         // search form
         echo "

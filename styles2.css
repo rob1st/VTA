@@ -294,6 +294,14 @@ ul li {
     color: var(--red);
 }
 
+.text-purple {
+    color: var(--purple);
+}
+
+.text-indigo {
+    color: var(--indigo);
+}
+
 /* Navbar */
 .navbar-heading {
     max-width: 13.5rem;
