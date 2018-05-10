@@ -1,6 +1,13 @@
 <?php
     include 'SQLFunctions.php';
     include 'mailer.php';
+    session_start();
+    
+    // if request is not a POST, kick the requester out
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code('404');
+        exit;
+    }
     
     $post = $_POST;
     $idrTable = 'IDR';
@@ -232,9 +239,8 @@
             header("Location: /idr.php?idrID={$newIdrID}");
             $code = http_response_code();
             $reviewLink = "https://{$_SERVER['HTTP_HOST']}/idr.php?idrID={$newIdrID}";
-            $distList = "colin.king-bailey@vta.org, Robert.Burns@vta.org";
             echo "new record created: Inspector's Daily Report #{$newIdrID}\nhttps://{$reviewLink}\n{$username} {$timestamp}";
-            mailer($distList,
+            mailer($mailgunDistList,
                 'new Inspector Daily Report',
                 "{$reviewLink}\n{$username} {$timestamp}");
         } else {

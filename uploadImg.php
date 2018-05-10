@@ -75,6 +75,7 @@ if (!$_FILES['error']) {
 }
 
 echo "<pre style='border-radius: .25rem; padding: 1.25rem; background-color: gainsboro; color: dodgerBlue'>";
+echo var_dump($_POST);
 echo var_dump($_FILES);
 echo "</pre>";
 // then transfer it to its permanent home
