@@ -119,7 +119,7 @@ session_start();
     window.drawPieChart(document.getElementById('status-graph'), {$jsonData['status']}, $statusColors)
     window.drawPieChart(document.getElementById('severity-graph'), {$jsonData['severity']}, $sevColors)
     window.drawPieChart(document.getElementById('system-graph'), {$jsonData['system']}, d3.interpolateGnBu)
-    window.drawPieChart(document.getElementById('location-graph'), {$jsonData['location']}, d3.interpolatePuBu)
+    window.drawPieChart(document.getElementById('location-graph'), {$jsonData['location']}, d3.interpolateBrBG)
   </script>
   <!--REMOVE ABOVE SCRIPT TAGS ONCE TESTING IS DONE-->
   <!--DO NOT TYPE BELOW THIS LINE-->";
