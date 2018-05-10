@@ -107,8 +107,8 @@ session_start();
     $jsonData[$card['name']] = json_encode($dataCollection[$card['name']]);
   }
 
-  $statusColors = json_encode([ red => '#d73027', green => '#58BF73' ]);
-  $sevColors = json_encode([ red => '#bd0026', redOrange => '#fc4e2a', orange => '#feb24c', yellow => '#ffeda0']);
+  $statusColors = json_encode([ green => '#58BF73', red => '#d73027' ]);
+  $sevColors = json_encode([ red => '#bd0026', redOrange => '#fc4e2a', orange => '#feb24c', yellow => '#ffeda0' ]);
   
   echo "
   <!--THIS IS A TERRIBLE WAY TO DO THIS

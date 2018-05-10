@@ -10,10 +10,18 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
     const r = Math.min(w, h)/2;
     
     const color = typeof colorData !== 'function' ?
-        d3.scaleOrdinal(Object.values(colorData))
+        d3.scaleOrdinal()
+            .domain(
+                jsonData
+                .reduce((acc, el, i) => {
+                    acc.push(el.label);
+                    if (acc.length === jsonData.length) console.log(acc);
+                    return acc;
+                }, []))
+            .range(Object.values(colorData))
         : d3.scaleSequential().domain([0, jsonData.length - 1]).interpolator(colorData);
         
-    // console.log(color.domain(), color.range());
+    console.log(color.domain(), color.range ? color.range() : color.interpolator());
     
     const svg = d3.select(container)
         .append('svg')
@@ -39,8 +47,9 @@ function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
     arcs.append('path')
         .attr('d', arc)
         .attr('fill', d => {
-            // console.log(d.data);
-            return color(d.data.label);
+            // if color.range, then color does not use an interpolator
+            if (color.range) return color(d.data.label);
+            else return color(d.index);
         })
         
     arcs.append('text')
@@ -70,4 +79,8 @@ function drawLegend(container, data, colorScheme) {
         swatch.style.backgroundColor = colorScheme[i]
         label.insertAdjacentElement('afterbegin', swatch)
     })
+}
+
+function returnDataLabel(fn, data) {
+    return fn(data.label);
 }
