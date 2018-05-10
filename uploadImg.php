@@ -37,9 +37,10 @@ function mimetypeCheck($mimetype) {
 // validate image uploaded
 if (!$_FILES['error']) {
     if ($filename = basename($_FILES['userImg']['name'])) {
-        $folder = '/img_uploads';
-        $targetDir = $_SERVER['DOCUMENT_ROOT'].$folder;
-        $fileDest = $targetDir.'/'.$filename;
+        $tmpName = $_FILES['userImg']['tmp_name'];
+        $targetDir = '/img_uploads';
+        $targetPath = $_SERVER['DOCUMENT_ROOT'].$targetDir;
+        $fileDest = $targetPath.'/'.$filename;
         if ($fileIsImg = mimetypeCheck($_FILES['userImg']['type'])) {
             echo "<h4 style='color: darkMagenta'><i>MIME type:</i> {$fileIsImg}, {$_FILES['userImg']['type']}</h4>";
         } else {
@@ -50,19 +51,17 @@ if (!$_FILES['error']) {
         } else {
             echo "File did not pass extension type check: ".strtolower(pathinfo($filename, PATHINFO_EXTENSION));
             exit;
-        } if ($uploadImgData = getimagesize($_FILES['userImg']['tmp_name'])) {
-            $tmpName = $_FILES['userImg']['tmp_name'];
-            $moveTarget = $targetDir.'/'.$tmpName;
+        } if ($uploadImgData = getimagesize($tmpName)) {
             echo "<h4 style='color: forestGreen'><i>file info:</i> {$tmpName}, $filename, {$uploadImgData[3]}, {$uploadImgData['mime']}</h4>";
         } else {
             echo "File ".$tmpName." did not pass getimagesize test";
             exit;
         } if ($fileIsImg = move_uploaded_file($tmpName, $fileDest)) {
             echo "
-                <h4 style='color: slateBlue'><i>File moved:</i> {$moveTarget} -> {$fileDest}</h4>
-                <img src='{$folder}/{$filename}'>";
+                <h4 style='color: slateBlue'><i>File moved:</i> {$tmpName} -> {$fileDest}</h4>
+                <img src='{$targetDir}/{$filename}'>";
         } else {
-            echo "Could not move file $moveTarget -> $fileDest";
+            echo "Could not move file $tmpName -> $fileDest";
         }
     }
 } else {
