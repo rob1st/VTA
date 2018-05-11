@@ -14,3 +14,4 @@ bootstrap.*
 node_modules
 composer.phar
 /vendor/
+img_uploads

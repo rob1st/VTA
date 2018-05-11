@@ -3,9 +3,10 @@
     include 'mailer.php';
     session_start();
     
-    // if request is not a POST, kick the requester out
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    // if request is not a POST or POST is empty show the user Apache's default 404 by redirecting to a non-existent custom 404
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !count($_POST)) {
         http_response_code('404');
+        header('Location: 404.php');
         exit;
     } else {
         $post = $_POST;
