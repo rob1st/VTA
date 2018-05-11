@@ -2,7 +2,9 @@
 session_start();
 
 // if user has not permissions, show them Apache's default 404 by returning a non-existent custom 404
-if ( !($_SESSION['Role'] === 'S' && ($_SESSION['Username'] === 'ckingbailey' || $_SESSION['Username'] === 'superadmin'))
+if (!($_SESSION['Role'] === 'S'
+    && (($_SESSION['Username'] === 'ckingbailey' && $_SESSION['UserID'] == 42)
+    || ($_SESSION['Username'] === 'rburns' && $_SESSION['UserID'] == 1)))
     || $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
     http_response_code(404);
     header('Location: 404.php');
@@ -49,9 +51,17 @@ function mimetypeCheck($mimetype) {
 if ($_FILES) {
     if (!$_FILES['error']) {
         if ($filename = basename($_FILES['userImg']['name'])) {
+            // if current uploaded img has same name as the last one, reject it
+            if ($_SESSION['lastUploadedImg'] && $_SESSION['lastUploadedImg'] === $filename) {
+                echo "Uploaded image $filename has same name as previously uploaded image {$_SESSION['lastUploadedImg']}.\n"
+                    ."Please choose a new image before attempting to upload again.";
+                exit;
+            }
+            // if filename is not a match, store it in SESSION for later comparison
+            else $_SESSION['lastUploadedImg'] = $filename;
             $tmpName = $_FILES['userImg']['tmp_name'];
             // name new file for username and timestamp
-            $targetFilename = $_SESSION['Username'].'_'.time();
+            $targetFilename = substr($_SESSION['Username'], 0, 6).'_'.time();
             $targetDir = '/img_uploads';
             $targetTmpDir = '/img_tmp';
             $targetTmpPath = $targetDir.$targetTmpDir.'/'.$targetFilename.'_tmp';
