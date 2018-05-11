@@ -129,7 +129,9 @@ if ($_FILES) {
                 true,
                 $_SERVER['DOCUMENT_ROOT'].$targetLocalPath
             )) {
-                echo "<h4 style='color: paleVioletRed'>".boolToStr($imgResized).' '.$_SERVER['DOCUMENT_ROOT'].$targetLocalPath."</h4>";
+                echo "
+                    <h4 style='color: paleVioletRed'>".boolToStr($imgResized).' '.$_SERVER['DOCUMENT_ROOT'].$targetLocalPath."</h4>
+                    <img src='$targetLocalPath'>";
             } else {
                 echo "<h4 style='color: saddleBrown'>There was a problem resizing the image ".boolToStr($imgResized)."</h4>";
             }
