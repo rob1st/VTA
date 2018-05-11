@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!($_SESSION['Role'] === 'S' && ($_SESSION['Username'] === 'ckingbailey' || $_SESSION['Username'] === 'superadmin'))) {
+    http_response_code(404);
+    exit;
+}
+?>
 <html>
 <head>
     <style>
@@ -10,8 +18,6 @@
 </head>
 <body>
 <?php
-session_start();
-
 $types = [ 'jpg', 'jpeg', 'png', 'gif'];
 
 function returnsTrue($anything) {
@@ -73,12 +79,10 @@ if (!$_FILES['error']) {
     echo "There was an error uploading your file: ".$_FILES['error'];
     exit;
 }
-
 echo "<pre style='border-radius: .25rem; padding: 1.25rem; background-color: gainsboro; color: dodgerBlue'>";
 echo var_dump($_POST);
 echo var_dump($_FILES);
 echo "</pre>";
-// then transfer it to its permanent home
 ?>
 </body>
 </html>
