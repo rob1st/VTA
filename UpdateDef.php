@@ -80,7 +80,43 @@ function returnRow($cnxn, $elements) {
     $elRow .= "</div>";
     return $elRow;
 }
-    
+
+            $formCtrls = [
+                "SafetyCert" => [
+                    "label" => 'Safety Certifiable',
+                    "tagName" => 'select',
+                    "type" => '',
+                    "name" => 'SafetyCert',
+                    "id" => 'SafetyCert',
+                    "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
+                ],
+                "SystemAffected" => [
+                    "label" => 'System Affected',
+                    "tagName" => 'select',
+                    "type" => '',
+                    "name" => 'SystemAffected',
+                    "id" => 'SystemAffected',
+                    "query" => "SELECT SystemID, System FROM System ORDER BY System"
+                ],
+                "LocationName" => [
+                    "label" => 'General Location',
+                    "tagName" => 'select',
+                    "type" => '',
+                    "name" => 'LocationName',
+                    "id" => 'LocationName',
+                    "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
+                ],
+                "SpecLoc" => [
+                    "label" => "<label for='SpecLoc'>'Specific Location'</label>",
+                    "tagName" => "input",
+                    "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                    "type" => 'text',
+                    "name" => 'SpecLoc',
+                    "id" => 'SpecLoc',
+                    "query" => null
+                ]
+            ];
+
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>Update Deficiency ".$q."</h1>
@@ -91,13 +127,15 @@ function returnRow($cnxn, $elements) {
             $stmt->execute();
             $stmt->bind_result(
                 $OldID, 
-                $Location, 
-                $SpecLoc, 
+                $formCtrls['LocationName']['value'], 
+                $formCtrls['SpecLoc']['value'], 
                 $Severity, 
                 $Description, 
-                $Spec, $DateCreated, 
-                $Status, $IdentifiedBy, 
-                $SystemAffected, 
+                $Spec,
+                $DateCreated, 
+                $Status,
+                $IdentifiedBy, 
+                $formCtrls['SystemAffected']['value'], 
                 $GroupToResolve, 
                 $ActionOwner, 
                 $EvidenceType, 
@@ -111,47 +149,8 @@ function returnRow($cnxn, $elements) {
                 $Pics, 
                 $ClosureComments, 
                 $DueDate, 
-                $SafetyCert);
+                $formCtrls['SafetyCert']['value']);
                 
-            $formCtrls = [
-                [
-                    "label" => 'Safety Certifiable',
-                    "tagName" => 'select',
-                    "type" => '',
-                    "name" => 'SafetyCert',
-                    "id" => 'SafetyCert',
-                    "value" => $SafetyCert,
-                    "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
-                ],
-                [
-                    "label" => 'System Affected',
-                    "tagName" => 'select',
-                    "type" => '',
-                    "name" => 'SystemAffected',
-                    "id" => 'SystemAffected',
-                    "value" => $SystemAffected,
-                    "query" => "SELECT SystemID, System FROM System ORDER BY System"
-                ],
-                [
-                    "label" => 'General Location',
-                    "tagName" => 'select',
-                    "type" => '',
-                    "name" => 'LocationName',
-                    "id" => 'LocationName',
-                    "value" => $Location,
-                    "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
-                ],
-                [
-                    "label" => "<label for='SpecLoc'>'Specific Location'</label>",
-                    "tagName" => "input",
-                    "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
-                    "type" => 'text',
-                    "name" => 'SpecLoc',
-                    "id" => 'SpecLoc',
-                    "value" => $SpecLoc,
-                    "query" => null
-                ]
-            ];
             while ($stmt->fetch()) {
                 echo "
                     <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
@@ -161,49 +160,48 @@ function returnRow($cnxn, $elements) {
                                 <p>Deficiency No. $q</p>
                             </div>
                         </div>";
-                echo returnRow($link2, 
-                        [
-                            [
-                                "label" => 'Safety Certifiable',
-                                "tagName" => 'select',
-                                "type" => '',
-                                "name" => 'SafetyCert',
-                                "id" => 'SafetyCert',
-                                "value" => $SafetyCert,
-                                "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
-                            ],
-                            [
-                                "label" => 'System Affected',
-                                "tagName" => 'select',
-                                "type" => '',
-                                "name" => 'SystemAffected',
-                                "id" => 'SystemAffected',
-                                "value" => $SystemAffected,
-                                "query" => "SELECT SystemID, System FROM System ORDER BY System"
-                            ]
-                        ]);
-                echo returnRow($link2,
-                        [
-                            [
-                                "label" => 'General Location',
-                                "tagName" => 'select',
-                                "type" => '',
-                                "name" => 'LocationName',
-                                "id" => 'LocationName',
-                                "value" => $Location,
-                                "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
-                            ],
-                            [
-                                "label" => "<label for='SpecLoc'>'Specific Location'</label>",
-                                "tagName" => "input",
-                                "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
-                                "type" => 'text',
-                                "name" => 'SpecLoc',
-                                "id" => 'SpecLoc',
-                                "value" => $SpecLoc,
-                                "query" => null
-                            ]
-                        ]);
+                echo returnRow($link2, array_slice($formCtrls, 0, 2));
+                        // [
+                        //     [
+                        //         "label" => 'Safety Certifiable',
+                        //         "tagName" => 'select',
+                        //         "type" => '',
+                        //         "name" => 'SafetyCert',
+                        //         "id" => 'SafetyCert',
+                        //         "value" => $SafetyCert,
+                        //         "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
+                        //     ],
+                        //     [
+                        //         "label" => 'System Affected',
+                        //         "tagName" => 'select',
+                        //         "type" => '',
+                        //         "name" => 'SystemAffected',
+                        //         "id" => 'SystemAffected',
+                        //         "value" => $SystemAffected,
+                        //         "query" => "SELECT SystemID, System FROM System ORDER BY System"
+                        //     ]
+                        // ]);
+                echo returnRow($link2, array_slice($formCtrls, 2, 2));
+                        // [
+                        //     [
+                        //         "label" => 'General Location',
+                        //         "tagName" => 'select',
+                        //         "type" => '',
+                        //         "name" => 'LocationName',
+                        //         "id" => 'LocationName',
+                        //         "value" => $Location,
+                        //         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
+                        //     ],
+                        //     [
+                        //         "label" => "<label for='SpecLoc'>'Specific Location'</label>",
+                        //         "tagName" => "input",
+                        //         "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                        //         "type" => 'text',
+                        //         "name" => 'SpecLoc',
+                        //         "id" => 'SpecLoc',
+                        //         "query" => null
+                        //     ]
+                        // ]);
     // <p>General Location:</p>
     //                 <select name='LocationName' value='".$Location."' id='defdd'>
     //                     <option value=''></option>";
