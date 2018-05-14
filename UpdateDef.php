@@ -83,7 +83,7 @@ function returnCol($cnxn, $element, $wd) {
 }
 
 function returnRow($cnxn, $elements) {
-    $elRow = "<div class='row'>";
+    $elRow = "<div class='row item-margin-bottom'>";
     $numEls = count($elements);
     // if number of elements don't divide evenly by 12 substract out the remainder
     // this number will be added to the last col
@@ -303,11 +303,11 @@ $formCtrls = [
                 
         while ($stmt->fetch()) {
             echo "
-                <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
+                <form action='UpdateDefCommit.php' method='POST' onsubmit='' class='item-margin-bottom'>
                     <input type='hidden' name='DefID' value='$q'>
                     <div class='row'>
                         <div class='col-12'>
-                            <p>Deficiency No. $q</p>
+                            <h4>Deficiency No. $q</h4>
                         </div>
                     </div>";
             echo returnRow($link2, array_slice($formCtrls, 0, 2));
@@ -357,21 +357,30 @@ $formCtrls = [
             echo returnRow($link2, array_slice($formCtrls, 8, 2));
             echo returnRow($link2, array_slice($formCtrls, 10, 1));
             
-            echo "<h5>Optional Information</h5>";
+            echo "<h5 class='grey-bg pad'>Optional Information</h5>";
             echo returnRow($link2, array_slice($formCtrls, 11, 3));
             echo returnRow($link2, array_slice($formCtrls, 14, 1));
             
-            echo "<h5>Closure Information</h5>";
+            echo "<h5 class='grey-bg pad'>Closure Information</h5>";
             echo returnRow($link2, array_slice($formCtrls, 15, 3));
             echo returnRow($link2, array_slice($formCtrls, 18, 1));
-echo "                    
-            <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
-            <input type='reset' value='reset' class='btn btn-primary btn-lg' />
+    echo "
+            <div class='row item-margin-bottom'>
+                <div class='col-12 center-content'>
+                    <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
+                    <input type='reset' value='reset' class='btn btn-primary btn-lg' />
+                </div>
+            </div>
         </form>";
         if ($role === 'S') {
             echo "
-                <form action='DeleteDef.php' method='POST' onsubmit='' onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'/>
-                    <button type='submit' name='q' value='$q' class='btn btn-primary btn-lg'>delete</button>
+                <form action='DeleteDef.php' method='POST' onsubmit=''>
+                    <div class='row'>
+                        <div class='col-12 center-content'>
+                            <button class='btn btn-danger btn-lg' type='submit' name='q' value='$q'
+                                onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'>delete</button>
+                        </div>
+                    </div>
                 </form>";
         }
 

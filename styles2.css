@@ -641,6 +641,10 @@ select:invalid {
     color: var(--secondary);
 }
 
+.btn-danger {
+  background-color: var(--red);
+  border-color: var(--red);
+}
 
 .btn-container {
     text-align: center;
