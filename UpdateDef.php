@@ -20,12 +20,12 @@ ini_set("display_errors", 1);
 // $list3 = mysqli_query($link,$sql3);
 // $sql4 = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
 // $list4 = mysqli_query($link,$sql4);
-$sql5 = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
-$list5 = mysqli_query($link,$sql5);
+// $sql5 = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
+// $list5 = mysqli_query($link,$sql5);
 // $sql6 = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy";
 // $list6 = mysqli_query($link,$sql6);
-$sql7 = "SELECT RepoID, Repo FROM Repo ORDER BY Repo";
-$list7 = mysqli_query($link,$sql7);
+// $sql7 = "SELECT RepoID, Repo FROM Repo ORDER BY Repo";
+// $list7 = mysqli_query($link,$sql7);
 // $yesNoQry = "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo";
 // $yesNoResult = $link->query($yesNoQry);
 
@@ -59,6 +59,11 @@ function returnDateInput($cnxn, $data) {
     return $dateEl;
 }
 
+function returnTextarea($cnxn, $data) {
+    $textarea = sprintf($data['element'], $data['value']);
+    return $textarea;
+}
+
 function returnCol($cnxn, $element, $wd) {
     $col = "<div class='col-md-$wd'>";
     $col .= $element['label'];
@@ -70,7 +75,9 @@ function returnCol($cnxn, $element, $wd) {
         } elseif ($element['type'] === 'date') {
             $col .= returnDateInput($cnxn, $element);
         }
-    } 
+    } elseif ($element['tagName'] === 'textarea') {
+        $col .= returnTextarea($cnxn, $element);
+    }
     $col .= "</div>";
     return $col;
 }
@@ -158,6 +165,105 @@ $formCtrls = [
         "name" => 'RequiredBy',
         "id" => 'RequiredBy',
         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy"
+    ],
+    'GroupToResolve' =>[
+        "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
+        "tagName" => "select",
+        "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control'>",
+        "type" => null,
+        "name" => 'GroupToResolve',
+        "id" => 'GroupToResolve',
+        "query" => "SELECT SystemID, System FROM System ORDER BY System"
+    ],
+    'IdentifiedBy' => [
+        "label" => "<label for='IdentifiedBy'>Identified By</label>",
+        "tagName" => "input",
+        "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s'>",
+        "type" => 'text',
+        "name" => 'IdentifiedBy',
+        "id" => 'IdentifiedBy',
+        "query" => null
+    ],
+    'Description' => [
+        "label" => "<label for='Description'>Deficiency Description</label>",
+        "tagName" => "textarea",
+        "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
+        "type" => null,
+        "name" => 'Description',
+        "id" => 'Description',
+        "query" => null
+    ],
+    'Spec' => [
+        "label" => "<label for='Spec'>Spec or Code</label>",
+        "tagName" => "input",
+        "element" => "<input type='text' name='Spec' id='Spec' class='form-control'>",
+        "type" => 'text',
+        "name" => 'Spec',
+        "id" => 'Spec',
+        "query" => null
+    ],
+    'ActionOwner' => [
+        "label" => "<label for='ActionOwner'>Action Owner</label>",
+        "tagName" => "input",
+        "element" => "<input type='text' name='ActionOwner' id='ActionOwner' class='form-control'>",
+        "type" => 'text',
+        "name" => 'ActionOwner',
+        "id" => 'ActionOwner',
+        "query" => null
+    ],
+    'OldID' => [
+        "label" => "<label for='OldID'>Old Id</label>",
+        "tagName" => "input",
+        "element" => "<input type='text' name='OldID' id='OldID' class='form-control'>",
+        "type" => 'text',
+        "name" => 'OldID',
+        "id" => 'OldID',
+        "query" => null
+    ],
+    'comments' => [
+        "label" => "<label for='comments'>More Information</label>",
+        "tagName" => "textarea",
+        "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
+        "type" => null,
+        "name" => 'comments',
+        "id" => 'comments',
+        "query" => null
+    ],
+    'EviType' => [
+        "label" => "<label for='EviType'>Evidence Type</label>",
+        "tagName" => 'select',
+        'element' => "<select name='EviType' id='EviType' class='form-control'>%s</select>",
+        "type" => '',
+        "name" => 'EviType',
+        "id" => 'EviType',
+        "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType"
+    ],
+    'Repo' => [
+        'label' => "<label for='Repo'>Evidence Repository</label>",
+        'tagName' => 'select',
+        'element' => "<select name='Repo' id='Repo' class='form-control'>%s</select>",
+        'type' => '',
+        'name' => 'Repo',
+        'id' => 'Repo',
+        'query' => "SELECT RepoID, Repo FROM Repo ORDER BY Repo"
+    ],
+    'EvidenceLink' => [
+        'label' => "<label for='EvidenceLink'>Repository Number</label>",
+        'tagName' => "input",
+        'element' => "<input type='text' name='EvidenceLink' id='EvidenceLink' class='form-control'>",
+        'type' => 'text',
+        'name' => 'EvidenceLink',
+        'id' => 'EvidenceLink',
+        'query' => null
+    ],
+    'ClosureComments' => [
+        "label" => "<label for='ClosureComments'>Closure Comments</label>",
+        "tagName" => "textarea",
+        "element" => "<textarea name='ClosureComments' id='ClosureComments' class='form-control' maxlength='1000'>%s</textarea>",
+        "type" => null,
+        "name" => 'ClosureComments',
+        "id" => 'ClosureComments',
+        "query" => null
     ]
 ];
 
@@ -170,28 +276,28 @@ $formCtrls = [
     if($stmt = $link->prepare($Def)) {
         $stmt->execute();
         $stmt->bind_result(
-            $OldID, 
+            $formCtrls['OldID']['value'], 
             $formCtrls['LocationName']['value'], 
             $formCtrls['SpecLoc']['value'], 
             $formCtrls['SeverityName']['value'], 
-            $Description, 
-            $Spec,
+            $formCtrls['Description']['value'], 
+            $formCtrls['Spec']['value'],
             $DateCreated, 
             $formCtrls['Status']['value'],
-            $IdentifiedBy, 
+            $formCtrls['IdentifiedBy']['value'], 
             $formCtrls['SystemAffected']['value'], 
-            $GroupToResolve, 
-            $ActionOwner, 
-            $EvidenceType, 
-            $EvidenceLink, 
+            $formCtrls['GroupToResolve']['value'], 
+            $formCtrls['ActionOwner']['value'], 
+            $formCtrls['EviType']['value'], 
+            $formCtrls['EvidenceLink']['value'], 
             $DateClosed, 
             $LastUpdated, 
             $Updated_by, 
-            $Comments, 
+            $formCtrls['comments']['value'], 
             $formCtrls['RequiredBy']['value'], 
-            $Repo, 
+            $formCtrls['Repo']['value'], 
             $Pics, 
-            $ClosureComments, 
+            $formCtrls['ClosureComments']['value'],
             $formCtrls['DueDate']['value'],
             $formCtrls['SafetyCert']['value']);
                 
@@ -248,91 +354,17 @@ $formCtrls = [
                         // ]);
             echo returnRow($link2, array_slice($formCtrls, 4, 2));
             echo returnRow($link2, array_slice($formCtrls, 6, 2));
-    
-    // echo "      
-    //                     <p>To be resolved by:</p>
-                    
-    //                     <input type='date' name='DueDate' id='defdd' value='$DueDate' required/>
-                    
-    //                     <p>Required for:</p>
-    //                 <select name='RequiredBy' value='".$RequiredBy."' id='defdd'>
-    //                     <option value=''></option>";
-    //                     if(is_array($list6) || is_object($list6)) {
-    //                     foreach($list6 as $row) {
-    //                         echo "<option value='$row[ReqByID]'";
-    //                             if($row['ReqByID'] == $RequiredBy) {
-    //                                 echo " selected>$row[RequiredBy]</option>";
-    //                                 } else { echo ">$row[RequiredBy]</option>";
-    //                             }
-    //                     }
-    //                     }
-    echo "
-                    <p>Group to Resolve:</p>
-                    <select name='GroupToResolve' value='".$GroupToResolve."' id='defdd'>
-                        <option value=''></option>";
-                        if(is_array($sysResult) || is_object($sysResult)) {
-                        foreach($sysResult as $row) {
-                            echo "<option value='$row[SystemID]'";
-                                if($row['SystemID'] == $GroupToResolve) {
-                                    echo " selected>$row[System]</option>";
-                                    } else { echo ">$row[System]</option>";
-                                }
-                        }
-                        }
-    echo "          <p>Identified By:</p>
-                    <input type='text' name='IdentifiedBy' value='".$IdentifiedBy."' max='24' id='defdd'/>
-                
-                <p>Deficiency Description</p>
-                <textarea type='message' rows='5' cols='99%' name='Description' max='1000'>$Description</textarea>
-                
-                <p>Optional Information</p>
-                <p>Spec or Code:</p>
-                <input type='text' name='Spec' value='".$Spec."' max='24'/>
-                
-                <p>Action Owner:</p>
-                <input type='text' name='ActionOwner' value='".$ActionOwner."' max='24'/>
-                <p>Old Id:</p>
-                <input type='text' name='OldID' value='".$OldID."' max='24'/>
-
-                        <p>More Information</p>
-                        <textarea type='message'  rows='5' cols='99%' name='comments' max='1000'>$Comments</textarea>
-                    
-                    <p>Closure Information</p>
-                    <p>Evidence Type:</p>
-                    <select name='EviType' value='".$EvidenceType."'>
-                        <option value=''></option>";
-                        if(is_array($list5) || is_object($list5)) {
-                        foreach($list5 as $row) {
-                            echo "<option value='$row[EviTypeID]'";
-                                if($row['EviTypeID'] == $EvidenceType) {
-                                    echo " selected>$row[EviType]</option>";
-                                    } else { echo ">$row[EviType]</option>";
-                                }
-                        }
-                        }
-    echo "          
-                        <p>Evidence Repository:</p>
-                    
-                    <select name='Repo' value='".$Repo."'>
-                        <option value=''></option>";
-                        if(is_array($list7) || is_object($list7)) {
-                        foreach($list7 as $row) {
-                            echo "<option value='$row[RepoID]'";
-                                if($row['RepoID'] == $Repo) {
-                                    echo " selected>$row[Repo]</option>";
-                                    } else { echo ">$row[Repo]</option>";
-                                }
-                        }
-                        }
-    echo "                
-                        <p>Repository Number</p>
-                    
-                        <input type='text' name='EvidenceLink' max='255' value='$EvidenceLink' id='defdd'/>
-                    
-                        <p>Closure Comments</p>
-                    
-                        <textarea type='message'  rows='5' cols='99%' name='ClosureComments' max='1000'>$ClosureComments</textarea>
-                    
+            echo returnRow($link2, array_slice($formCtrls, 8, 2));
+            echo returnRow($link2, array_slice($formCtrls, 10, 1));
+            
+            echo "<h5>Optional Information</h5>";
+            echo returnRow($link2, array_slice($formCtrls, 11, 3));
+            echo returnRow($link2, array_slice($formCtrls, 14, 1));
+            
+            echo "<h5>Closure Information</h5>";
+            echo returnRow($link2, array_slice($formCtrls, 15, 3));
+            echo returnRow($link2, array_slice($formCtrls, 18, 1));
+echo "                    
             <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
             <input type='reset' value='reset' class='btn btn-primary btn-lg' />
         </form>";
