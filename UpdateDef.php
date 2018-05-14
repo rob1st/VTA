@@ -5,107 +5,221 @@ $title = "SVBX - Update Deficiency";
 $role = $_SESSION['Role'];
 include('filestart.php'); 
 
-    $link = f_sqlConnect();
-    $q = $_POST['q'];
-    $Def = file_get_contents("UpdateDef.sql").$q;
-    error_reporting(E_ALL);  
-    ini_set("display_errors", 1);
-    $sql1 = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
-    $list1 = mysqli_query($link,$sql1);
-    $sql2 = "SELECT SystemID, System FROM System ORDER BY System";
-    $list2 = mysqli_query($link,$sql2);
-    $sql3 = "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID";
-    $list3 = mysqli_query($link,$sql3);
-    $sql4 = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
-    $list4 = mysqli_query($link,$sql4);
-    $sql5 = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
-    $list5 = mysqli_query($link,$sql5);
-    $sql6 = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy";
-    $list6 = mysqli_query($link,$sql6);
-    $sql7 = "SELECT RepoID, Repo FROM Repo ORDER BY Repo";
-    $list7 = mysqli_query($link,$sql7);
-    $sql8 = "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo";
-    $list8 = mysqli_query($link,$sql8);
+$link = f_sqlConnect();
+$link2 = f_sqlConnect();
+$q = $_POST['q'];
+$Def = file_get_contents("UpdateDef.sql").$q;
+error_reporting(E_ALL);  
+ini_set("display_errors", 1);
+
+// $locQry = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
+// $locResult = mysqli_query($link,$locQry);
+// $sysQry = "SELECT SystemID, System FROM System ORDER BY System";
+// $sysResult = $link->query($sysQry);
+$sql3 = "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID";
+$list3 = mysqli_query($link,$sql3);
+$sql4 = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
+$list4 = mysqli_query($link,$sql4);
+$sql5 = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
+$list5 = mysqli_query($link,$sql5);
+$sql6 = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy";
+$list6 = mysqli_query($link,$sql6);
+$sql7 = "SELECT RepoID, Repo FROM Repo ORDER BY Repo";
+$list7 = mysqli_query($link,$sql7);
+// $yesNoQry = "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo";
+// $yesNoResult = $link->query($yesNoQry);
+
+function returnSelectInput($cnxn, $data) {
+    $label = "<label for='{$data['id']}'>{$data['label']}</label>";
+    $selectEl = $label."
+        <{$data['tagName']} name='{$data['name']}' id='{$data['id']}' class='form-control'>";
+    $options = "<option value=''></option>";
+    // if val @ [query] is a string, use it query db
+    // if val @ [query] is a sql query result, use it
+    $result = is_string($data['query']) ? $cnxn->query($data['query']) : $data['query'];
+    if ($result) {
+        while ($row = $result->fetch_row()) {
+            $selected = $row[0] == $data['value'] ? ' selected' : ' data-notSelected';
+            $options .= "<option value='{$row[0]}'{$selected}>{$row[1]}</option>";
+        }
+    } elseif ($cnxn->error) {
+        $options .= "<option selected>{$cnxn->error}</option>";
+    } else $options .= "<option selected>There was a problem with the query</option>";
+    $selectEl .= $options;
+    $selectEl .= "</select>";
+    return $selectEl;
+}
+
+function returnTextInput($cnxn, $data) {
+    $label = $data['label'];
+    $inputEl = sprintf($data['element'], $data['value']);
+    return $label.$inputEl;
+}
+
+function returnCol($cnxn, $element, $wd) {
+    $col = "<div class='col-md-$wd'>";
+    if ($element['tagName'] === 'select') {
+        $col .= returnSelectInput($cnxn, $element);
+    } elseif ($element['tagName'] === 'input' && $element['type'] === 'text') {
+        $col .= returnTextInput($cnxn, $element);
+    }
+    $col .= "</div>";
+    return $col;
+}
+
+function returnRow($cnxn, $elements) {
+    $elRow = "<div class='row'>";
+    $numEls = count($elements);
+    // if number of elements don't divide evenly by 12 substract out the remainder
+    // this number will be added to the last col
+    $extraCols = 12 % $numEls;
+    $colWd = 12 / ($numEls - $extraCols);
+    foreach ($elements as $el) {
+        $elRow .= returnCol($cnxn, $el, $colWd);
+    }
+    $elRow .= "</div>";
+    return $elRow;
+}
     
-    
-    
-    
-    if($stmt = $link->prepare($Def)) {  
-        $stmt->execute();  
-        $stmt->bind_result(
-            $OldID, 
-            $Location, 
-            $SpecLoc, 
-            $Severity, 
-            $Description, 
-            $Spec, $DateCreated, 
-            $Status, $IdentifiedBy, 
-            $SystemAffected, 
-            $GroupToResolve, 
-            $ActionOwner, 
-            $EvidenceType, 
-            $EvidenceLink, 
-            $DateClosed, 
-            $LastUpdated, 
-            $Updated_by, 
-            $Comments, 
-            $RequiredBy, 
-            $Repo, 
-            $Pics, 
-            $ClosureComments, 
-            $DueDate, 
-            $SafetyCert);  
-    while ($stmt->fetch()) {
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>Update Deficiency ".$q."</h1>
         </header>
-        <main class='container main-content'> 
-            <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
-                <input type='hidden' name='DefID' value='".$q."'>
-<p>
-                        Deficiency No. $q</p>
-                        <p>Safety Certifiable:</p>
-                <select name='SafetyCert' value='".$SafetyCert."' id='defdd'>
-                        <option value=''></option>";
-                        if(is_array($list8) || is_object($list8)) {
-                        foreach($list8 as $row) {
-                            echo "<option value='$row[YesNoID]'";
-                                if($row['YesNoID'] == $SafetyCert) {
-                                    echo " selected>$row[YesNo]</option>";
-                                    } else { echo ">$row[YesNo]</option>";
-                                }
-                        }
-                        }
-                    echo "
-                    <p>System Affected:</p>
-                    <select name='SystemAffected' value='".$SystemAffected."' id='defdd'>
-                        <option value=''></option>";
-                        if(is_array($list2) || is_object($list2)) {
-                        foreach($list2 as $row) {
-                            echo "<option value='$row[SystemID]'";
-                                if($row['SystemID'] == $SystemAffected) {
-                                    echo " selected>$row[System]</option>";
-                                    } else { echo ">$row[System]</option>";
-                                }
-                        }
-                        }
-    echo "      <p>General Location:</p>
-                    <select name='LocationName' value='".$Location."' id='defdd'>
-                        <option value=''></option>";
-                        if(is_array($list1) || is_object($list1)) {
-                        foreach($list1 as $row) {
-                            echo "<option value='$row[LocationID]'";
-                                if($row['LocationID'] == $Location) {
-                                    echo " selected>$row[LocationName]</option>";
-                                    } else { echo ">$row[LocationName]</option>";
-                                }
-                        }
-                        }
-    echo "          <p>Specific Location:</p>
-    <input type='text' name='SpecLoc' value='".$SpecLoc."' max='55' id='defdd'/>
+        <main class='container main-content'>";
+
+        if($stmt = $link->prepare($Def)) {
+            $stmt->execute();
+            $stmt->bind_result(
+                $OldID, 
+                $Location, 
+                $SpecLoc, 
+                $Severity, 
+                $Description, 
+                $Spec, $DateCreated, 
+                $Status, $IdentifiedBy, 
+                $SystemAffected, 
+                $GroupToResolve, 
+                $ActionOwner, 
+                $EvidenceType, 
+                $EvidenceLink, 
+                $DateClosed, 
+                $LastUpdated, 
+                $Updated_by, 
+                $Comments, 
+                $RequiredBy, 
+                $Repo, 
+                $Pics, 
+                $ClosureComments, 
+                $DueDate, 
+                $SafetyCert);
                 
-                <p>Status:</p>
+            $formCtrls = [
+                [
+                    "label" => 'Safety Certifiable',
+                    "tagName" => 'select',
+                    "type" => '',
+                    "name" => 'SafetyCert',
+                    "id" => 'SafetyCert',
+                    "value" => $SafetyCert,
+                    "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
+                ],
+                [
+                    "label" => 'System Affected',
+                    "tagName" => 'select',
+                    "type" => '',
+                    "name" => 'SystemAffected',
+                    "id" => 'SystemAffected',
+                    "value" => $SystemAffected,
+                    "query" => "SELECT SystemID, System FROM System ORDER BY System"
+                ],
+                [
+                    "label" => 'General Location',
+                    "tagName" => 'select',
+                    "type" => '',
+                    "name" => 'LocationName',
+                    "id" => 'LocationName',
+                    "value" => $Location,
+                    "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
+                ],
+                [
+                    "label" => "<label for='SpecLoc'>'Specific Location'</label>",
+                    "tagName" => "input",
+                    "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                    "type" => 'text',
+                    "name" => 'SpecLoc',
+                    "id" => 'SpecLoc',
+                    "value" => $SpecLoc,
+                    "query" => null
+                ]
+            ];
+            while ($stmt->fetch()) {
+                echo "
+                    <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
+                        <input type='hidden' name='DefID' value='$q'>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <p>Deficiency No. $q</p>
+                            </div>
+                        </div>";
+                echo returnRow($link2, 
+                        [
+                            [
+                                "label" => 'Safety Certifiable',
+                                "tagName" => 'select',
+                                "type" => '',
+                                "name" => 'SafetyCert',
+                                "id" => 'SafetyCert',
+                                "value" => $SafetyCert,
+                                "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
+                            ],
+                            [
+                                "label" => 'System Affected',
+                                "tagName" => 'select',
+                                "type" => '',
+                                "name" => 'SystemAffected',
+                                "id" => 'SystemAffected',
+                                "value" => $SystemAffected,
+                                "query" => "SELECT SystemID, System FROM System ORDER BY System"
+                            ]
+                        ]);
+                echo returnRow($link2,
+                        [
+                            [
+                                "label" => 'General Location',
+                                "tagName" => 'select',
+                                "type" => '',
+                                "name" => 'LocationName',
+                                "id" => 'LocationName',
+                                "value" => $Location,
+                                "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
+                            ],
+                            [
+                                "label" => "<label for='SpecLoc'>'Specific Location'</label>",
+                                "tagName" => "input",
+                                "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                                "type" => 'text',
+                                "name" => 'SpecLoc',
+                                "id" => 'SpecLoc',
+                                "value" => $SpecLoc,
+                                "query" => null
+                            ]
+                        ]);
+    // <p>General Location:</p>
+    //                 <select name='LocationName' value='".$Location."' id='defdd'>
+    //                     <option value=''></option>";
+    //                     if(is_array($list1) || is_object($list1)) {
+    //                     foreach($list1 as $row) {
+    //                         echo "<option value='$row[LocationID]'";
+    //                             if($row['LocationID'] == $Location) {
+    //                                 echo " selected>$row[LocationName]</option>";
+    //                                 } else { echo ">$row[LocationName]</option>";
+    //                             }
+    //                     }
+    //                     }
+    // echo "          <p>Specific Location:</p>
+    // <input type='text' name='SpecLoc' value='".$SpecLoc."' max='55' id='defdd'/>
+                
+    echo "            <p>Status:</p>
                 <select name='Status' value='".$Status."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list3) || is_object($list3)) {
@@ -150,8 +264,8 @@ include('filestart.php');
                     <p>Group to Resolve:</p>
                     <select name='GroupToResolve' value='".$GroupToResolve."' id='defdd'>
                         <option value=''></option>";
-                        if(is_array($list2) || is_object($list2)) {
-                        foreach($list2 as $row) {
+                        if(is_array($sysResult) || is_object($sysResult)) {
+                        foreach($sysResult as $row) {
                             echo "<option value='$row[SystemID]'";
                                 if($row['SystemID'] == $GroupToResolve) {
                                     echo " selected>$row[System]</option>";
@@ -223,13 +337,13 @@ include('filestart.php');
                 </form>";
         }
 
-    echo "</main>";
-            //echo "Description: " .$Description;
-                    }  
-                } else {  
-                    echo "<br>Unable to connect<br>";
-                    exit();  
-                } 
-    MySqli_Close($link);             
+        echo "</main>";
+        }
+    } else {  
+        echo "<br>Unable to connect<br>";
+        exit();  
+    }
+    $link->close();
+    $link2->close();
     include('fileend.php');
 ?>
