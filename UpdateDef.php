@@ -1,5 +1,6 @@
 <?php
 include('session.php');
+session_start();
 $title = "SVBX - Update Deficiency";
 $role = $_SESSION['Role'];
 include('filestart.php'); 
@@ -60,20 +61,12 @@ include('filestart.php');
             <h1 class='page-title'>Update Deficiency ".$q."</h1>
         </header>
         <main class='container main-content'> 
-        <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
-        <input type='hidden' name='DefID' value='".$q."'>
-            <table class='table svbx-table'>
-                <tr class='vdtr'>
-                <th colspan='4' height='50' class='vdth'><p>
-                        Deficiency No. $q</p></th>
-                </tr>
-                <tr class='vdtr'>
-                    <th colspan='4' class='vdth'><p>Required Information</p></th>
-                </tr>
-                <td class='vdtd'>
+            <form action='UpdateDefCommit.php' method='POST' onsubmit='' />
+                <input type='hidden' name='DefID' value='".$q."'>
+<p>
+                        Deficiency No. $q</p>
                         <p>Safety Certifiable:</p>
-                    </td>
-                <td class='vdtda'><select name='SafetyCert' value='".$SafetyCert."' id='defdd'></option>
+                <select name='SafetyCert' value='".$SafetyCert."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list8) || is_object($list8)) {
                         foreach($list8 as $row) {
@@ -85,9 +78,8 @@ include('filestart.php');
                         }
                         }
                     echo "
-                    </td>
-                    <td class='vdtdh'><p>System Affected:</p></td>
-                    <td class='vdtda'><select name='SystemAffected' value='".$SystemAffected."' id='defdd'></option>
+                    <p>System Affected:</p>
+                    <select name='SystemAffected' value='".$SystemAffected."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list2) || is_object($list2)) {
                         foreach($list2 as $row) {
@@ -98,11 +90,8 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "      </td>
-                </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'><p>General Location:</p></td>
-                    <td class='vdtda'><select name='LocationName' value='".$Location."' id='defdd'></option>
+    echo "      <p>General Location:</p>
+                    <select name='LocationName' value='".$Location."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list1) || is_object($list1)) {
                         foreach($list1 as $row) {
@@ -113,13 +102,11 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "          </td>
-                    <td class='vdtdh'><p>Specific Location:</p></td>
-                    <td class='vdtda'><p><input type='text' name='SpecLoc' value='".$SpecLoc."' max='55' id='defdd'/></p></td>
-                </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'><p>Status:</p></td>
-                    <td class='vdtda'><select name='Status' value='".$Status."' id='defdd'></option>
+    echo "          <p>Specific Location:</p>
+    <input type='text' name='SpecLoc' value='".$SpecLoc."' max='55' id='defdd'/>
+                
+                <p>Status:</p>
+                <select name='Status' value='".$Status."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list3) || is_object($list3)) {
                         foreach($list3 as $row) {
@@ -130,9 +117,8 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "          </td>
-                    <td class='vdtdh'><p>Severity:</p></td>
-                    <td class='vdtda'><select name='SeverityName' value='".$Severity."' id='defdd'></option>
+    echo "          <p>Severity:</p>
+                    <select name='SeverityName' value='".$Severity."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list4) || is_object($list4)) {
                         foreach($list4 as $row) {
@@ -143,19 +129,13 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "      </td>
-                </tr>
-                <tr class='vdtr'>    
-                    <td class='vdtdh'>
+    echo "      
                         <p>To be resolved by:</p>
-                    </td>
-                    <td class='vdtd'>
+                    
                         <input type='date' name='DueDate' id='defdd' value='$DueDate' required/>
-                    </td>
-                    <td class='vdtdh'>
+                    
                         <p>Required for:</p>
-                    </td>
-                    <td class='vdtda'><select name='RequiredBy' value='".$RequiredBy."' id='defdd'></option>
+                    <select name='RequiredBy' value='".$RequiredBy."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list6) || is_object($list6)) {
                         foreach($list6 as $row) {
@@ -167,11 +147,8 @@ include('filestart.php');
                         }
                         }
     echo "
-                    </td>
-                </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'><p>Group to Resolve:</p></td>
-                    <td class='vdtda'><select name='GroupToResolve' value='".$GroupToResolve."' id='defdd'></option>
+                    <p>Group to Resolve:</p>
+                    <select name='GroupToResolve' value='".$GroupToResolve."' id='defdd'>
                         <option value=''></option>";
                         if(is_array($list2) || is_object($list2)) {
                         foreach($list2 as $row) {
@@ -182,46 +159,27 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "          </td>
-                    <td class='vdtdh'><p>Identified By:</p></td>
-                    <td class='vdtda'><input type='text' name='IdentifiedBy' value='".$IdentifiedBy."' max='24' id='defdd'/></td>
-                </tr>
-                <tr class='vdtr'>
-                    <td colspan='4' style='text-align:center' class='vdtdh'><p>Deficiency Description</p></th>
-                </tr>
-                <tr class='vdtr'>
-                    <td Colspan=4  style='text-align:center'><textarea type='message' rows='5' cols='99%' name='Description' max='1000'>$Description</textarea></td>
-                </tr>
-                <tr class='vdtr'>
-                    <th colspan='4' class='vdth'><p>Optional Information</p></th>
-                </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'><p>Spec or Code:</p></td>
-                    <td class='vdtda' colspan='3'><input type='text' name='Spec' value='".$Spec."' max='24'/></td>
-                </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'><p>Action Owner:</p></td>
-                    <td class='vdtda'><input type='text' name='ActionOwner' value='".$ActionOwner."' max='24'/></td>
-                    <td class='vdtdh'><p>Old Id:</p></td>
-                    <td class='vdtda'><input type='text' name='OldID' value='".$OldID."' max='24'/></td>
-                </tr>
-                <tr class='vdtr'>
-                    <td colspan='4' style='text-align:center' class='vdtdh'>
+    echo "          <p>Identified By:</p>
+                    <input type='text' name='IdentifiedBy' value='".$IdentifiedBy."' max='24' id='defdd'/>
+                
+                <p>Deficiency Description</p>
+                <textarea type='message' rows='5' cols='99%' name='Description' max='1000'>$Description</textarea>
+                
+                <p>Optional Information</p>
+                <p>Spec or Code:</p>
+                <input type='text' name='Spec' value='".$Spec."' max='24'/>
+                
+                <p>Action Owner:</p>
+                <input type='text' name='ActionOwner' value='".$ActionOwner."' max='24'/>
+                <p>Old Id:</p>
+                <input type='text' name='OldID' value='".$OldID."' max='24'/>
+
                         <p>More Information</p>
-                    </td>
-                </tr>
-                <tr class='vdtr'>
-                    <td Colspan=4 class='vdtda' style='text-align:center'>
                         <textarea type='message'  rows='5' cols='99%' name='comments' max='1000'>$Comments</textarea>
-                    </td>
-                </tr>
-                <tr class='vdtr'>
-                    <th colspan='4'th class='vdth'><p>Closure Information</p></th>
-                </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'><p>Evidence Type:</p></td>
-                    <td class='vdtda' colspan='3'>
-                    <select name='EviType' value='".$EvidenceType."'></option>
+                    
+                    <p>Closure Information</p>
+                    <p>Evidence Type:</p>
+                    <select name='EviType' value='".$EvidenceType."'>
                         <option value=''></option>";
                         if(is_array($list5) || is_object($list5)) {
                         foreach($list5 as $row) {
@@ -232,13 +190,10 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "          </tr>
-                <tr class='vdtr'>
-                    <td class='vdtdh'>
+    echo "          
                         <p>Evidence Repository:</p>
-                    </td>
-                    <td class='vdtda'>
-                    <select name='Repo' value='".$Repo."'></option>
+                    
+                    <select name='Repo' value='".$Repo."'>
                         <option value=''></option>";
                         if(is_array($list7) || is_object($list7)) {
                         foreach($list7 as $row) {
@@ -249,27 +204,17 @@ include('filestart.php');
                                 }
                         }
                         }
-    echo "                </td>
-                    <td class='vdtdh'>
+    echo "                
                         <p>Repository Number</p>
-                    </td>
-                    <td class='vdtda'>
+                    
                         <input type='text' name='EvidenceLink' max='255' value='$EvidenceLink' id='defdd'/>
-                    </td>
-                </tr>
-                <tr class='vdtr'>
-                    <td colspan='4' style='text-align:center'  class='vdtdh'>
+                    
                         <p>Closure Comments</p>
-                    </td>
-                </tr>
-                <tr class='vdtr'>
-                    <td Colspan=4 class='vdtda' style='text-align:center'>
+                    
                         <textarea type='message'  rows='5' cols='99%' name='ClosureComments' max='1000'>$ClosureComments</textarea>
-                    </td>
-                </tr>
-            </table>
+                    
             <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
-            <input type='reset' value='reset' class='btn btn-primary btn-lg' /><br /><br />
+            <input type='reset' value='reset' class='btn btn-primary btn-lg' />
         </form>";
         if ($role === 'S') {
             echo "
