@@ -370,7 +370,7 @@ $closureRows = [
                 
         while ($stmt->fetch()) {
             echo "
-                <form action='UpdateDefCommit.php' method='POST' onsubmit='' class='item-margin-bottom'>
+                <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
                     <input type='hidden' name='DefID' value='$q'>
                     <div class='row'>
                         <div class='col-12'>
