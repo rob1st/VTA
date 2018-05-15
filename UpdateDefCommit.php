@@ -28,6 +28,11 @@ if(!empty($_POST)) {
     $UserID = $_SESSION['UserID'];
     $Username = $_SESSION['Username'];
     
+    // if photo in POST it will be committed to a separate table
+    if (isset($_POST['CDL_pics'])) {
+        $CDL_pics = $_POST['CDL_pics'];
+    }
+    
     
     $sql = "UPDATE CDL
             SET  

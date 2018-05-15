@@ -261,7 +261,7 @@ $formCtrls = [
         "query" => null
     ],
     'CDL_pics' => [
-        'label' => "<label for='picUpload'>Upload Photo</label>",
+        'label' => "<label for='CDL_pics'>Upload Photo</label>",
         'tagName' => 'input',
         'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control-file'>",
         'type' => 'file',
