@@ -675,6 +675,14 @@ select:invalid {
     color: var(--vta-dark-blue);
 }
 
+a[data-toggle="collapse"]>.typcn-arrow-sorted-down:before {
+    transition: transform linear .1s;
+}
+
+a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
+    transform: rotate(-.25turn);
+}
+
 /* Table CSS */
 /* #Tablet (Portrait) */
 /* These are your Bootstrap breakpoints:

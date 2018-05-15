@@ -358,10 +358,13 @@ $closureRows = [
                     
             printRowGroup($link2, $requiredRows, $formCtrls);
             
-            echo "<h5 class='grey-bg pad'>Optional Information</h5>";
-            printRowGroup($link2, $optionalRows, $formCtrls);
-            // echo returnRow($link2, array_slice($formCtrls, 11, 3));
-            // echo returnRow($link2, array_slice($formCtrls, 14, 1));
+            echo "
+                <h5 class='grey-bg pad'>
+                    <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
+                </h5>";
+            echo "<div id='optionalInfo' class='collapse'>";
+                printRowGroup($link2, $optionalRows, $formCtrls);
+            echo "</div>";
             
             echo "<h5 class='grey-bg pad'>Closure Information</h5>";
             printRowGroup($link2, $closureRows, $formCtrls);
