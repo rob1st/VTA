@@ -111,11 +111,11 @@ function returnRow($cnxn, $elements, $options = []) {
     // this number will be added to the last col
     $extraCols = 12 % $numEls;
     $colWd = 12 / ($numEls - $extraCols);
+    // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1 && isset($options['colWd'])) {
         $offset = floor((12 - $options['colWd'])/2);
         $elRow .= returnCol($cnxn, $elements[0], $options['colWd'], ['offset' => $offset]);
-    }
-    foreach ($elements as $el) {
+    } else foreach ($elements as $el) {
         $elRow .= returnCol($cnxn, $el, $colWd, $options);
     }
     $elRow .= "</div>";
@@ -327,12 +327,11 @@ $requiredRows = [
 
 $optionalRows = [
     [ 'Spec', 'ActionOwner' ],
-    [ 'OldID', 'CDL_pics' ],
-    [ 'comments' ]
+    [ 'OldID', 'CDL_pics' ]
 ];
 
 $closureRows = [
-    [ 'EviType', 'Repo', 'EvidenceLink' ], [ 'ClosureComments' ]
+    [ 'EviType', 'Repo', 'EvidenceLink' ]
 ];
 
     echo "
@@ -388,6 +387,7 @@ $closureRows = [
                 </h5>
                 <div id='optionalInfo' class='collapse item-margin-bottom'>";
                 printRowGroup($link2, $optionalRows, $formCtrls, ['inline' => true]);
+                echo returnRow($link2, [$formCtrls['comments']], ['colWd' => 6]);
             echo "</div>";
             
             echo "
@@ -396,6 +396,7 @@ $closureRows = [
                 </h5>
                 <div id='closureInfo' class='collapse item-margin-bottom'>";
                 printRowGroup($link2, $closureRows, $formCtrls, ['inline' => true]);
+                echo returnRow($link2, [$formCtrls['ClosureComments']], ['colWd' => 6]);
             echo "</div>";
             // echo returnRow($link2, array_slice($formCtrls, 15, 3));
             // echo returnRow($link2, array_slice($formCtrls, 18, 1));
