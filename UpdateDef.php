@@ -59,6 +59,10 @@ function returnDateInput($cnxn, $data) {
     return $dateEl;
 }
 
+function returnFileInput($cnxn, $data) {
+    return $data['element'];
+}
+
 function returnTextarea($cnxn, $data) {
     $textarea = sprintf($data['element'], $data['value']);
     return $textarea;
@@ -74,6 +78,8 @@ function returnCol($cnxn, $element, $wd) {
             $col .= returnTextInput($cnxn, $element);
         } elseif ($element['type'] === 'date') {
             $col .= returnDateInput($cnxn, $element);
+        } elseif ($element['type'] === 'file') {
+            $col .= returnFileInput($cnxn, $element);
         }
     } elseif ($element['tagName'] === 'textarea') {
         $col .= returnTextarea($cnxn, $element);
@@ -94,6 +100,16 @@ function returnRow($cnxn, $elements) {
     }
     $elRow .= "</div>";
     return $elRow;
+}
+
+function printRowGroup($cnxn, $group, $elementCollection) {
+    foreach ($group as $row) {
+        // iterate over each row replacing string at cur index with content at key = string in formCtrls
+        foreach ($row as $i => $str) {
+            $row[$i] = $elementCollection[$str];
+        }
+        echo returnRow($cnxn, $row);
+    }
 }
 
 $formCtrls = [
@@ -220,6 +236,15 @@ $formCtrls = [
         "id" => 'OldID',
         "query" => null
     ],
+    'CDL_pics' => [
+        'label' => "<label for='picUpload'>Upload Photo</label",
+        'tagName' => 'input',
+        'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control'>",
+        'type' => 'file',
+        'name' => 'CDL_pics',
+        'id' => 'CDL_pics',
+        'query' => null // this will need a query for photo evidence
+    ],
     'comments' => [
         "label" => "<label for='comments'>More Information</label>",
         "tagName" => "textarea",
@@ -267,6 +292,25 @@ $formCtrls = [
     ]
 ];
 
+$requiredRows = [
+    [ 'SafetyCert', 'SystemAffected' ],
+    [ 'LocationName', 'SpecLoc' ],
+    [ 'Status', 'SeverityName' ],
+    [ 'DueDate', 'RequiredBy' ],
+    [ 'GroupToResolve', 'IdentifiedBy' ],
+    [ 'Description' ]
+];
+
+$optionalRows = [
+    [ 'Spec', 'ActionOwner' ],
+    [ 'OldID', 'CDL_pics' ],
+    [ 'comments' ]
+];
+
+$closureRows = [
+    [ 'EviType', 'Repo', 'EvidenceLink' ], [ 'ClosureComments' ]
+];
+
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>Update Deficiency ".$q."</h1>
@@ -310,52 +354,14 @@ $formCtrls = [
                             <h4>Deficiency No. $q</h4>
                         </div>
                     </div>";
-            echo returnRow($link2, array_slice($formCtrls, 0, 2));
-                    // [
-                        //     [
-                        //         "label" => 'Safety Certifiable',
-                        //         "tagName" => 'select',
-                        //         "type" => '',
-                        //         "name" => 'SafetyCert',
-                        //         "id" => 'SafetyCert',
-                        //         "value" => $SafetyCert,
-                        //         "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
-                        //     ],
-                        //     [
-                        //         "label" => 'System Affected',
-                        //         "tagName" => 'select',
-                        //         "type" => '',
-                        //         "name" => 'SystemAffected',
-                        //         "id" => 'SystemAffected',
-                        //         "value" => $SystemAffected,
-                        //         "query" => "SELECT SystemID, System FROM System ORDER BY System"
-                        //     ]
-                        // ]);
-            echo returnRow($link2, array_slice($formCtrls, 2, 2));
-                    // [
-                        //     [
-                        //         "label" => 'General Location',
-                        //         "tagName" => 'select',
-                        //         "type" => '',
-                        //         "name" => 'LocationName',
-                        //         "id" => 'LocationName',
-                        //         "value" => $Location,
-                        //         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
-                        //     ],
-                        //     [
-                        //         "label" => "<label for='SpecLoc'>'Specific Location'</label>",
-                        //         "tagName" => "input",
-                        //         "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
-                        //         "type" => 'text',
-                        //         "name" => 'SpecLoc',
-                        //         "id" => 'SpecLoc',
-                        //         "query" => null
-                        //     ]
-                        // ]);
-            echo returnRow($link2, array_slice($formCtrls, 4, 2));
-            echo returnRow($link2, array_slice($formCtrls, 6, 2));
-            echo returnRow($link2, array_slice($formCtrls, 8, 2));
-            echo returnRow($link2, array_slice($formCtrls, 10, 1));
+                    
+            printRowGroup($link2, $requiredRows, $formCtrls);
+            // echo returnRow($link2, array_slice($formCtrls, 0, 2));
+            // echo returnRow($link2, array_slice($formCtrls, 2, 2));
+            // echo returnRow($link2, array_slice($formCtrls, 4, 2));
+            // echo returnRow($link2, array_slice($formCtrls, 6, 2));
+            // echo returnRow($link2, array_slice($formCtrls, 8, 2));
+            // echo returnRow($link2, array_slice($formCtrls, 10, 1));
             
             echo "<h5 class='grey-bg pad'>Optional Information</h5>";
             echo returnRow($link2, array_slice($formCtrls, 11, 3));
