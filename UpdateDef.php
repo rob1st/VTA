@@ -361,13 +361,18 @@ $closureRows = [
             echo "
                 <h5 class='grey-bg pad'>
                     <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
-                </h5>";
-            echo "<div id='optionalInfo' class='collapse'>";
+                </h5>
+                <div id='optionalInfo' class='collapse'>";
                 printRowGroup($link2, $optionalRows, $formCtrls);
             echo "</div>";
             
-            echo "<h5 class='grey-bg pad'>Closure Information</h5>";
-            printRowGroup($link2, $closureRows, $formCtrls);
+            echo "
+                <h5 class='grey-bg pad'>
+                    <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
+                </h5>
+                <div id='closureInfo' class='collapse'>";
+                printRowGroup($link2, $closureRows, $formCtrls);
+            echo "</div>";
             // echo returnRow($link2, array_slice($formCtrls, 15, 3));
             // echo returnRow($link2, array_slice($formCtrls, 18, 1));
     echo "
