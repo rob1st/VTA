@@ -86,7 +86,12 @@ function returnFormCtrl($cnxn, $formCtrl) {
 }
 
 function returnCol($cnxn, $element, $wd, $options = []) {
+    if (isset($options['offset'])) {
+        $wd .= " offset-md-{$options['offset']}";
+    }
+
     $colStr = "<div class='col-md-$wd'>%s</div>";
+
     if (isset($options['inline'])) {
         $subCol = "<div class='col-sm-6'>%s</div>";
         $labelCol = sprintf($subCol, $element['label']);
@@ -106,6 +111,10 @@ function returnRow($cnxn, $elements, $options = []) {
     // this number will be added to the last col
     $extraCols = 12 % $numEls;
     $colWd = 12 / ($numEls - $extraCols);
+    if (count($elements) === 1 && isset($options['colWd'])) {
+        $offset = floor((12 - $options['colWd'])/2);
+        $elRow .= returnCol($cnxn, $elements[0], $options['colWd'], ['offset' => $offset]);
+    }
     foreach ($elements as $el) {
         $elRow .= returnCol($cnxn, $el, $colWd, $options);
     }
@@ -113,6 +122,9 @@ function returnRow($cnxn, $elements, $options = []) {
     return $elRow;
 }
 
+// this fcn takes a collection of arrays of string names of form control elements,
+// looks up those form controls by name in a collection that describes their properties
+// and passes the named form control data to a fcn to that renders each subarray as a row
 function printRowGroup($cnxn, $group, $elementCollection, $options = []) {
     foreach ($group as $row) {
         // iterate over each row replacing string at cur index with content at key = string in formCtrls
@@ -123,6 +135,7 @@ function printRowGroup($cnxn, $group, $elementCollection, $options = []) {
     }
 }
 
+// form control data
 $formCtrls = [
     'SafetyCert' => [
         "label" => "<label for='SafetyCert'>Safety Certifiable</label>",
@@ -303,13 +316,13 @@ $formCtrls = [
     ]
 ];
 
+// row collections referencing form control data above
 $requiredRows = [
     [ 'SafetyCert', 'SystemAffected' ],
     [ 'LocationName', 'SpecLoc' ],
     [ 'Status', 'SeverityName' ],
     [ 'DueDate', 'RequiredBy' ],
-    [ 'GroupToResolve', 'IdentifiedBy' ],
-    [ 'Description' ]
+    [ 'GroupToResolve', 'IdentifiedBy' ]
 ];
 
 $optionalRows = [
@@ -367,21 +380,22 @@ $closureRows = [
                     </div>";
                     
             printRowGroup($link2, $requiredRows, $formCtrls, ['inline' => true]);
+            echo returnRow($link2, [$formCtrls['Description']], ['colWd' => 6]);
             
             echo "
                 <h5 class='grey-bg pad'>
                     <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
-                <div id='optionalInfo' class='collapse'>";
-                printRowGroup($link2, $optionalRows, $formCtrls);
+                <div id='optionalInfo' class='collapse item-margin-bottom'>";
+                printRowGroup($link2, $optionalRows, $formCtrls, ['inline' => true]);
             echo "</div>";
             
             echo "
                 <h5 class='grey-bg pad'>
                     <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
-                <div id='closureInfo' class='collapse'>";
-                printRowGroup($link2, $closureRows, $formCtrls);
+                <div id='closureInfo' class='collapse item-margin-bottom'>";
+                printRowGroup($link2, $closureRows, $formCtrls, ['inline' => true]);
             echo "</div>";
             // echo returnRow($link2, array_slice($formCtrls, 15, 3));
             // echo returnRow($link2, array_slice($formCtrls, 18, 1));
