@@ -641,6 +641,10 @@ select:invalid {
     color: var(--secondary);
 }
 
+.btn-danger {
+  background-color: var(--red);
+  border-color: var(--red);
+}
 
 .btn-container {
     text-align: center;
@@ -669,6 +673,14 @@ select:invalid {
 
 .btn.btn-a:hover {
     color: var(--vta-dark-blue);
+}
+
+a[data-toggle="collapse"]>.typcn-arrow-sorted-down:before {
+    transition: transform linear .1s;
+}
+
+a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
+    transform: rotate(-.25turn);
 }
 
 /* Table CSS */
