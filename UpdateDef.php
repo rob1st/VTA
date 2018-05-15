@@ -79,6 +79,7 @@ function returnCol($cnxn, $element, $wd) {
         } elseif ($element['type'] === 'date') {
             $col .= returnDateInput($cnxn, $element);
         } elseif ($element['type'] === 'file') {
+            // $col .= "<h3 style='color: var(--purple)'>type === file</h3>";
             $col .= returnFileInput($cnxn, $element);
         }
     } elseif ($element['tagName'] === 'textarea') {
@@ -237,9 +238,9 @@ $formCtrls = [
         "query" => null
     ],
     'CDL_pics' => [
-        'label' => "<label for='picUpload'>Upload Photo</label",
+        'label' => "<label for='picUpload'>Upload Photo</label>",
         'tagName' => 'input',
-        'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control'>",
+        'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control-file'>",
         'type' => 'file',
         'name' => 'CDL_pics',
         'id' => 'CDL_pics',
@@ -356,20 +357,16 @@ $closureRows = [
                     </div>";
                     
             printRowGroup($link2, $requiredRows, $formCtrls);
-            // echo returnRow($link2, array_slice($formCtrls, 0, 2));
-            // echo returnRow($link2, array_slice($formCtrls, 2, 2));
-            // echo returnRow($link2, array_slice($formCtrls, 4, 2));
-            // echo returnRow($link2, array_slice($formCtrls, 6, 2));
-            // echo returnRow($link2, array_slice($formCtrls, 8, 2));
-            // echo returnRow($link2, array_slice($formCtrls, 10, 1));
             
             echo "<h5 class='grey-bg pad'>Optional Information</h5>";
-            echo returnRow($link2, array_slice($formCtrls, 11, 3));
-            echo returnRow($link2, array_slice($formCtrls, 14, 1));
+            printRowGroup($link2, $optionalRows, $formCtrls);
+            // echo returnRow($link2, array_slice($formCtrls, 11, 3));
+            // echo returnRow($link2, array_slice($formCtrls, 14, 1));
             
             echo "<h5 class='grey-bg pad'>Closure Information</h5>";
-            echo returnRow($link2, array_slice($formCtrls, 15, 3));
-            echo returnRow($link2, array_slice($formCtrls, 18, 1));
+            printRowGroup($link2, $closureRows, $formCtrls);
+            // echo returnRow($link2, array_slice($formCtrls, 15, 3));
+            // echo returnRow($link2, array_slice($formCtrls, 18, 1));
     echo "
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>
