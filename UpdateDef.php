@@ -68,28 +68,38 @@ function returnTextarea($cnxn, $data) {
     return $textarea;
 }
 
-function returnCol($cnxn, $element, $wd) {
-    $col = "<div class='col-md-$wd'>";
-    $col .= $element['label'];
-    if ($element['tagName'] === 'select') {
-        $col .= returnSelectInput($cnxn, $element);
-    } elseif ($element['tagName'] === 'input') {
-        if ($element['type'] === 'text') {
-            $col .= returnTextInput($cnxn, $element);
-        } elseif ($element['type'] === 'date') {
-            $col .= returnDateInput($cnxn, $element);
-        } elseif ($element['type'] === 'file') {
+function returnFormCtrl($cnxn, $formCtrl) {
+    if ($formCtrl['tagName'] === 'select') {
+        return returnSelectInput($cnxn, $formCtrl);
+    } elseif ($formCtrl['tagName'] === 'input') {
+        if ($formCtrl['type'] === 'text') {
+            return returnTextInput($cnxn, $formCtrl);
+        } elseif ($formCtrl['type'] === 'date') {
+            return returnDateInput($cnxn, $formCtrl);
+        } elseif ($formCtrl['type'] === 'file') {
             // $col .= "<h3 style='color: var(--purple)'>type === file</h3>";
-            $col .= returnFileInput($cnxn, $element);
+            return returnFileInput($cnxn, $formCtrl);
         }
-    } elseif ($element['tagName'] === 'textarea') {
-        $col .= returnTextarea($cnxn, $element);
+    } elseif ($formCtrl['tagName'] === 'textarea') {
+        return returnTextarea($cnxn, $formCtrl);
     }
-    $col .= "</div>";
+}
+
+function returnCol($cnxn, $element, $wd, $options = []) {
+    $colStr = "<div class='col-md-$wd'>%s</div>";
+    if (isset($options['inline'])) {
+        $subCol = "<div class='col-sm-6'>%s</div>";
+        $labelCol = sprintf($subCol, $element['label']);
+        $ctrlCol = sprintf($subCol, returnFormCtrl($cnxn, $element));
+        $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
+        $col = sprintf($colStr, $subRow);
+    } else {
+        $col = sprintf($colStr, $element['label'].returnFormCtrl($cnxn, $element));
+    }
     return $col;
 }
 
-function returnRow($cnxn, $elements) {
+function returnRow($cnxn, $elements, $options = []) {
     $elRow = "<div class='row item-margin-bottom'>";
     $numEls = count($elements);
     // if number of elements don't divide evenly by 12 substract out the remainder
@@ -97,19 +107,19 @@ function returnRow($cnxn, $elements) {
     $extraCols = 12 % $numEls;
     $colWd = 12 / ($numEls - $extraCols);
     foreach ($elements as $el) {
-        $elRow .= returnCol($cnxn, $el, $colWd);
+        $elRow .= returnCol($cnxn, $el, $colWd, $options);
     }
     $elRow .= "</div>";
     return $elRow;
 }
 
-function printRowGroup($cnxn, $group, $elementCollection) {
+function printRowGroup($cnxn, $group, $elementCollection, $options = []) {
     foreach ($group as $row) {
         // iterate over each row replacing string at cur index with content at key = string in formCtrls
         foreach ($row as $i => $str) {
             $row[$i] = $elementCollection[$str];
         }
-        echo returnRow($cnxn, $row);
+        echo returnRow($cnxn, $row, $options);
     }
 }
 
@@ -356,7 +366,7 @@ $closureRows = [
                         </div>
                     </div>";
                     
-            printRowGroup($link2, $requiredRows, $formCtrls);
+            printRowGroup($link2, $requiredRows, $formCtrls, ['inline' => true]);
             
             echo "
                 <h5 class='grey-bg pad'>
