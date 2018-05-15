@@ -4,8 +4,7 @@ session_start();
 // if user has not permissions, show them Apache's default 404 by returning a non-existent custom 404
 if (!($_SESSION['Role'] === 'S'
     && (($_SESSION['Username'] === 'ckingbailey' && $_SESSION['UserID'] == 42)
-    || ($_SESSION['Username'] === 'rburns' && $_SESSION['UserID'] == 1)
-    || ($_SESSION['Username'] === 'superadmin' && $_SESSION['UserID'] == 2))
+    || ($_SESSION['Username'] === 'rburns' && $_SESSION['UserID'] == 1))
     || $_SERVER['REQUEST_METHOD'] !== 'POST')) {
     http_response_code(404);
     header('Location: 404.php');
