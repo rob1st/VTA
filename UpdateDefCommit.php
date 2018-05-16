@@ -65,17 +65,15 @@ if(!empty($_POST)) {
         $msg = "?defID=$DefID";
         // if INSERT succesful, prepare, upload, and INSERT photo
         if ($CDL_pics) {
-            if (!$_FILES['error']) {
-                $pathToFile = saveImgToServer($_FILES['CDL_pics'], $DefID);
-                $msg .= "&$pathToFile";
-                $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
-                if ($stmt = $link->prepare($sql)) {
-                    if ($stmt->bind_param('is', $DefID, $pathToFile)) {
-                        if (!$stmt->execute()) $pathToFile = 'execute_failed';
-                        $stmt->close();
-                    } else $pathToFile = 'bind_failed';
-                } else $pathToFile = 'prepare_failed';
-            }
+            $pathToFile = saveImgToServer($_FILES['CDL_pics'], $DefID);
+            $msg .= "&$pathToFile";
+            $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
+            if ($stmt = $link->prepare($sql)) {
+                if ($stmt->bind_param('is', $DefID, $pathToFile)) {
+                    if (!$stmt->execute()) $pathToFile = 'execute_failed';
+                    $stmt->close();
+                } else $pathToFile = 'bind_failed';
+            } else $pathToFile = 'prepare_failed';
         }
     } else {
         $msg = $link->error;

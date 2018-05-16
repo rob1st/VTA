@@ -12,23 +12,6 @@ $Def = file_get_contents("UpdateDef.sql").$q;
 error_reporting(E_ALL);  
 ini_set("display_errors", 1);
 
-// $locQry = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
-// $locResult = mysqli_query($link,$locQry);
-// $sysQry = "SELECT SystemID, System FROM System ORDER BY System";
-// $sysResult = $link->query($sysQry);
-// $sql3 = "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID";
-// $list3 = mysqli_query($link,$sql3);
-// $sql4 = "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName";
-// $list4 = mysqli_query($link,$sql4);
-// $sql5 = "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType";
-// $list5 = mysqli_query($link,$sql5);
-// $sql6 = "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy";
-// $list6 = mysqli_query($link,$sql6);
-// $sql7 = "SELECT RepoID, Repo FROM Repo ORDER BY Repo";
-// $list7 = mysqli_query($link,$sql7);
-// $yesNoQry = "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo";
-// $yesNoResult = $link->query($yesNoQry);
-
 function returnSelectInput($cnxn, $data) {
     $selectEl = "<{$data['tagName']} name='{$data['name']}' id='{$data['id']}' class='form-control'>";
     $options = "<option value=''></option>";
@@ -374,7 +357,7 @@ $closureRows = [
                     <input type='hidden' name='DefID' value='$q'>
                     <div class='row'>
                         <div class='col-12'>
-                            <h4>Deficiency No. $q</h4>
+                            <h4 class='pad grey-bg'>Deficiency No. $q</h4>
                         </div>
                     </div>";
                     
