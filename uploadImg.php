@@ -25,7 +25,7 @@ function mimetypeCheck($mimetype) {
 
 function saveImgToServer($file, $assocID = null) {
     // check for errors
-    if ($file['error'] === UPLOAD_ERR_OK) {
+    if (!$file['error']) {
         // if assocID given, make it eleven figures long to match length of MySQL int(11)
         if ($assocID) {
             $assocID = '_'.str_pad($assocID, 11 - strlen($assocID), '0', STR_PAD_LEFT);
@@ -122,7 +122,7 @@ function saveImgToServer($file, $assocID = null) {
             }
         } else echo "Could not retrieve file name $filename";
     } else {
-        throw new UploadException($files['error']);
+        throw new uploadException($file['error']);
         exit;
     }
 }

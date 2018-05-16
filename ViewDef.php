@@ -40,13 +40,13 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                 $SafetyCert);  
         while ($stmt->fetch()) {
             if($Status == "Open") {
-                $color = "open-def";
+                $color = "bg-red text-white";
             } else {
-                $color = "closed-def"; 
+                $color = "bg-success text-white"; 
             }
             echo "
                 <header class='container page-header'>
-                    <h1 class='page-title def-heading $color'>Deficiency No. $DefID</h1>
+                    <h1 class='page-title $color'>Deficiency No. $DefID</h1>
                 </header>
                 <main class='container main-content'>
                     <table class='table svbx-table'>
@@ -171,16 +171,14 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             $stmt->store_result();
             $stmt->bind_result($pathToFile);
             
-            $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-            $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl)."%s</section>";
-            $curRow = "<div class='row item-margin-bottom'>%s</div>";
-            
             if ($count = $stmt->num_rows) {
-                printf("<h6 class='text-success'>%s</h6>", $count);
+                $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
+                $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl)."%s</section>";
+                $curRow = "<div class='row item-margin-bottom'>%s</div>";
+            
                 $i = 0;
                 $j = 1;
                 while ($stmt->fetch()) {
-                    if ($j === $count) printf("<h6 class='text-indigo'>%s</h6>", $count); // print this only on final pass
                     $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
                     $col = sprintf("<div class='col-md-4'>%s</div>", $img);
                     $marker = $j < $count ? '%s' : '';
@@ -205,9 +203,9 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                     }
                     $j++;
                 }
+                echo $photoSection;
             }
             $stmt->close();
-            echo $photoSection;
         }
         
         // if Role has permission level show Update and Clone buttons
