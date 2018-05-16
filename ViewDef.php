@@ -129,8 +129,8 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                             <td class='vdtdh'>Evidence Repository:</td>
                             <td class='vdtda'>";
                             if($Repo == '1') {
-                                    $Repo = 'SharePoint';
-                                } else {
+                                $Repo = 'SharePoint';
+                            } else {
                                     $Repo = 'Aconex';
                                 }
                             echo "    
@@ -160,26 +160,36 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                             <td class='vdtdh'>Updated by:</td>
                             <td class='vdtda'>$Updated_by</td>
                         </tr>
-                    </table>
-                ";
-            if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
-                echo "
-                    <div style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
-                        <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
-                            <input type='hidden' name='q' value='".$DefID."'/>
-                            <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
-                        </form>
-                        <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
-                            <div style='width:5px; height:auto; display:inline-block'></div>
-                            <input type='hidden' name='q' value='".$DefID."'/>
-                            <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
-                        </form>
-                    </div>
-                </main>";
-            } else {
-                echo "</main>";
+                    </table>";
+        }
+        $stmt->close();
+        
+        // show photos linked to this Def
+        if ($stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?")) {
+            $stmt->bind_param('i', $DefID);
+            $stmt->execute();
+            $stmt->bind_result($pathToFile);
+            while ($stmt->fetch()) {
+                printf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
             }
         }
+        
+        // if Role has permission level show Update and Clone buttons
+        if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
+            echo "
+                <div style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
+                    <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
+                        <input type='hidden' name='q' value='".$DefID."'/>
+                        <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
+                    </form>
+                    <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
+                        <div style='width:5px; height:auto; display:inline-block'></div>
+                        <input type='hidden' name='q' value='".$DefID."'/>
+                        <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
+                    </form>
+                </div>";
+        }
+        echo "</main>";
     } else {  
         echo "
         <div='container'>
@@ -189,8 +199,6 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
         <br>Unable to connect<br>
         </div>";
         echo $Def.'<br /><br />';
-        //echo mysqli_error();
-        //echo "<BR>Def ID: ".$DefID;
       exit();  
     } 
     include('fileend.php');
