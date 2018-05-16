@@ -75,7 +75,7 @@ function drawLegend(container, data, colorScheme) {
         label.textContent = datum.label
 
         swatch.innerText = i + 1;
-        swatch.classList.add('legend-swatch')
+        swatch.classList.add('legend-swatch', 'pt-1', 'pl-2', 'pb-1', 'pr-2')
         swatch.style.backgroundColor = colorScheme[i]
         label.insertAdjacentElement('afterbegin', swatch)
     })

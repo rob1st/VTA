@@ -531,7 +531,23 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .legend-swatch {
     margin-right: .25rem;
-    padding: 0 24px 3px 0;
+    /*padding: 0 24px 3px 0;*/
+}
+
+.slice text, .legend-swatch {
+    fill: white;
+    font-family: sans-serif;
+}
+
+.slice text {
+    font-size: 1.125rem;
+    font-weight: bold;
+    stroke: var(--quarter-trans-vta-dark-blue);
+}
+
+.legend-swatch {
+    font-style: normal;
+    color: white;
 }
 
 .dash-card .card-footer {
