@@ -181,23 +181,25 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                 $j = 1;
                 while ($stmt->fetch()) {
                     if ($j === $count) printf("<h6 class='text-indigo'>%s</h6>", $count); // print this only on final pass
-                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'></div>", $pathToFile, $DefID);
+                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
                     $col = sprintf("<div class='col-md-4'>%s</div>", $img);
+                    $marker = $j < $count ? '%s' : '';
                     
                     if ($i < 2) {
-                        // if this is not the last photo is resultset append a str format marker, '%s', to row
-                        $curRow = sprintf($curRow, $col).( $j < $count ? '%s' : '' );
-                        // if this is the last photo in resultset, append collection to section
+                        // if this is not 3rd col in row, append an extra format marker '%s' after col
+                        $curRow = sprintf($curRow, $col.$marker);
+                        // if this is the last photo in resultset, append row to section
                         if ($j >= $count) {
                             $photoSection = sprintf($photoSection, $curRow);
                         }
                         $i++;
                     }
-                    // if this is col 3 in the row, append it to row and then append row to section
+                    // if this is 3rd col in row append row to section
                     else {
                         // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
-                        $curRow = sprintf($curRow, $nextCol).( $j < $count ? '%s' : '' );
+                        $curRow = sprintf($curRow, $col).$marker;
                         $photoSection = sprintf($photoSection, $curRow);
+                        // reset row string
                         $curRow = "<div class='row item-margin-bottom'>%s</div>";
                         $i = 0;
                     }
