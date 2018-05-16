@@ -171,7 +171,8 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             $stmt->store_result();
             $stmt->bind_result($pathToFile);
             
-            $photoSection = "<section class='item-margin-bottom'>%s</section>";
+            $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
+            $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl)."%s</section>";
             $curRow = "<div class='row item-margin-bottom'>%s</div>";
             
             if ($count = $stmt->num_rows) {
