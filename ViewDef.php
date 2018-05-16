@@ -168,10 +168,43 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
         if ($stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?")) {
             $stmt->bind_param('i', $DefID);
             $stmt->execute();
+            $stmt->store_result();
             $stmt->bind_result($pathToFile);
-            while ($stmt->fetch()) {
-                printf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
+            
+            $photoSection = "<section class='item-margin-bottom'>%s</section>";
+            $curRow = "<div class='row item-margin-bottom'>%s</div>";
+            
+            if ($count = $stmt->num_rows) {
+                printf("<h6 class='text-success'>%s</h6>", $count);
+                $i = 0;
+                $j = 1;
+                while ($stmt->fetch()) {
+                    if ($j === $count) printf("<h6 class='text-indigo'>%s</h6>", $count); // print this only on final pass
+                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'></div>", $pathToFile, $DefID);
+                    $col = sprintf("<div class='col-md-4'>%s</div>", $img);
+                    
+                    if ($i < 2) {
+                        // if this is not the last photo is resultset append a str format marker, '%s', to row
+                        $curRow = sprintf($curRow, $col).( $j < $count ? '%s' : '' );
+                        // if this is the last photo in resultset, append collection to section
+                        if ($j >= $count) {
+                            $photoSection = sprintf($photoSection, $curRow);
+                        }
+                        $i++;
+                    }
+                    // if this is col 3 in the row, append it to row and then append row to section
+                    else {
+                        // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
+                        $curRow = sprintf($curRow, $nextCol).( $j < $count ? '%s' : '' );
+                        $photoSection = sprintf($photoSection, $curRow);
+                        $curRow = "<div class='row item-margin-bottom'>%s</div>";
+                        $i = 0;
+                    }
+                    $j++;
+                }
             }
+            $stmt->close();
+            echo $photoSection;
         }
         
         // if Role has permission level show Update and Clone buttons
