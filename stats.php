@@ -45,43 +45,44 @@ session_start();
       'Location' => 'SELECT L.LocationName, COUNT(C.Status) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location WHERE Status = 1 GROUP BY Location  ORDER BY L.LocationName'
     ];
     
-    function writeDashCard($count, $result, $card) {
+    function writeDashCard($count, $result, $cardData) {
       global $dataCollection;
-      echo "
-        <div class='card dash-card'>
-          <header class='card-header'>
-            <h4>".ucfirst($card['plural'])."</h4>
+      $card = "
+        <div class='card'>
+          <header class='card-header bg-dark-blue text-white'>
+            <h4>".ucfirst($cardData['plural'])."</h4>
           </header>
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
               <li class='bg-secondary text-white dash-list-heading'>
-                <span class='dash-list-left dash-list-name'>".ucfirst($card['name'])."</span>
-                <span class='dash-list-right dash-list-count'>".ucfirst($card['itemName'])."</span>
+                <span class='dash-list-left dash-list-name'>".ucfirst($cardData['name'])."</span>
+                <span class='dash-list-right dash-list-count'>".ucfirst($cardData['itemName'])."</span>
               </li>";
       if ($count && $result) {
         while ($row = $result->fetch_array()) {
           // append row data to obj that will be json encoded
-          $dataCollection[$card['name']][] = [ label => lcfirst($row[0]), value => $row[1]];
-          echo "
+          $dataCollection[$cardData['name']][] = [ label => lcfirst($row[0]), value => $row[1]];
+          $card .= "
               <li class='dash-list-item'>
                 <span class='dash-list-left'>{$row[0]}</span>
                 <span class='dash-list-right'>{$row[1]}</span>
               </li>
           ";
         }
-        echo "
+        $card .= "
             </ul>
             <div class='data-display'>
-              <div id='{$card['name']}-graph' class='chart-container'></div>
-              <p id='{$card['name']}-legend' class='flex-column'></p>
+              <div id='{$cardData['name']}-graph' class='chart-container'></div>
+              <p id='{$cardData['name']}-legend' class='flex-column'></p>
             </div>
           </div>
           <footer class='card-footer'>
-            <a href='Display".ucfirst($card['plural']).".php' class='btn btn-lg btn-outline btn-a'>Number of {$card['plural']} {$count}</a>
+            <a href='Display".ucfirst($cardData['plural']).".php' class='btn btn-lg btn-outline btn-a'>Number of {$cardData['plural']} {$count}</a>
           </footer>
         ";
-      } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
-      echo "</div>";
+      } else $card .= "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
+      $card .= "</div>";
+      return $card;
     }
 
     include('filestart.php'); //Provides all HTML starting code
@@ -89,16 +90,40 @@ session_start();
 <header class="container page-header">
   <h1 class="page-title">Database Information</h1>
 </header>
-<main role="main" class="container main-content dashboard">
-  <?php
-    foreach($cards as $card) {
-      $tableName = ucfirst($card['name']);
-      $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
-      $count = $link->query($tableStr)->fetch_array()[0];
-      $result = $link->query($queries[$tableName]);
-      writeDashCard($count, $result, $card);
-    }
-  ?>
+<main role="main" class="container main-content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body grey-bg"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <?php
+      foreach(array_slice($cards, 0, 2) as $card) {
+        $tableName = ucfirst($card['name']);
+        $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
+        $count = $link->query($tableStr)->fetch_array()[0];
+        $result = $link->query($queries[$tableName]);
+        echo "<div class='col-md-6 item-margin-bottom'>";
+        echo writeDashCard($count, $result, $card);
+        echo "</div>";
+      }
+    ?>
+  </div>
+  <div class="row">
+    <?php
+      foreach(array_slice($cards, 2, 2) as $card) {
+        $tableName = ucfirst($card['name']);
+        $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
+        $count = $link->query($tableStr)->fetch_array()[0];
+        $result = $link->query($queries[$tableName]);
+        echo "<div class='col-md-6 item-margin-bottom'>";
+        echo writeDashCard($count, $result, $card);
+        echo "</div>";
+      }
+    ?>
+  </div>
 </main>
 <?php
   // encode dataCollection arrays as json
