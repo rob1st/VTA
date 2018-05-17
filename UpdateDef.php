@@ -370,6 +370,7 @@ $closureRows = [
                 </h5>
                 <div id='optionalInfo' class='collapse item-margin-bottom'>";
                 printRowGroup($link2, $optionalRows, $formCtrls, ['inline' => true]);
+                echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
                 echo returnRow($link2, [$formCtrls['comments']], ['colWd' => 6]);
             echo "</div>";
             

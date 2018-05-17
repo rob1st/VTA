@@ -1,6 +1,6 @@
 @import './assets/typicons-font/src/font/typicons.css';
 
-* {
+:root {
     /* Bootsrap breakpoints */
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
@@ -268,6 +268,10 @@ ul li {
 
 .bg-dark-blue {
     background-color: var(--vta-dark-blue);
+}
+
+.bg-yellow {
+    background-color: var(--yellow);
 }
 
 .striped:nth-child(2n+1) {
