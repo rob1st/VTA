@@ -21,8 +21,8 @@ include('filestart.php')
                     <label class="input-label item-margin-right">Affect Safety Cert</label>
                     <select name='SafetyCert' class="form-control def-input" required>
                         <option value='' disabled selected>Y/N</option>
-                        <option value='Y'>Yes</option>
-                        <option value='N'>No</option>
+                        <option value='1'>Yes</option>
+                        <option value='2'>No</option>
                     </select>
                 </div>
                 <div class="half-container">
@@ -178,9 +178,8 @@ include('filestart.php')
                     <label class="input-label item-margin-right">Evidence Repository</label>
                     <select name='Repo' id='' class="form-control def-input">
                         <option value='' disabled selected>Choose Repo</option>
-                        <option value=''></option>
-                        <option value='A'>Aconex</option>
-                        <option value='S'>SharePoint</option>
+                        <option value='2'>Aconex</option>
+                        <option value='1'>SharePoint</option>
                     </select>
                 </div>
                 <div class="half-container">
