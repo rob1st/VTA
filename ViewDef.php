@@ -46,7 +46,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             }
             echo "
                 <header class='container page-header'>
-                    <h1 class='page-title $color'>Deficiency No. $DefID</h1>
+                    <h1 class='page-title $color pad'>Deficiency No. $DefID</h1>
                 </header>
                 <main class='container main-content'>
                     <table class='table svbx-table'>
