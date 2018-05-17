@@ -1,8 +1,38 @@
 /* eventually this module should work by:
     - taking args (elementToSelect, dataToRender)
-    - dataToRender will be passed from php MySQL query
+    - dataToRender will be passed from php MySQL query as JSON
     - this will require refactoring fileend.php into a fcn
 */
+function drawBarGraph(container, json, colors, d3 = window.d3) {
+    const w = '100%';
+    const h = 200;
+    const barH = 30;
+    
+    const x = d3.scaleLinear()
+        .domain([ 0, 1 ])
+        .range([ 0, h ])
+    
+    const barW = d3.axisLeft()
+        .scale(x)
+        .ticks(10)
+        .tickFormat(10, '%')
+    
+    colors = {
+        grey: 'var(--quarter-trans-grey)',
+        orange: 'var(--yellow)',
+        blue: 'var(--vta-bright-blue)'
+    }
+    
+    const bar = d3.svg.axis()
+        .scale(x)
+    
+    const svg = d3.select(container)
+        .append('svg')
+        .attr('width', '100%')
+        .attr('height', '200')
+        .append('g')
+}
+
 function drawPieChart(container, jsonData, colorData, d3 = window.d3) {
     console.log(jsonData, colorData);
     const w = '200';
