@@ -180,7 +180,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                 $j = 1;
                 while ($stmt->fetch()) {
                     $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
-                    $col = sprintf("<div class='col-md-4'>%s</div>", $img);
+                    $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
                     $marker = $j < $count ? '%s' : '';
                     
                     if ($i < 2) {
