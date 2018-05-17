@@ -48,7 +48,7 @@ session_start();
     function writeDashCard($count, $result, $cardData) {
       global $dataCollection;
       $card = "
-        <div class='card'>
+        <div class='card full-height'>
           <header class='card-header bg-dark-blue text-white'>
             <h4>".ucfirst($cardData['plural'])."</h4>
           </header>
@@ -94,7 +94,9 @@ session_start();
   <div class="row item-margin-bottom">
     <div class="col-12">
       <div class="card">
-        <div class="card-body grey-bg"></div>
+        <div class="card-body grey-bg">
+          <div id='requiredByBarGraph'></div>
+        </div>
       </div>
     </div>
   </div>
@@ -105,7 +107,7 @@ session_start();
         $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
         $count = $link->query($tableStr)->fetch_array()[0];
         $result = $link->query($queries[$tableName]);
-        echo "<div class='col-md-6 item-margin-bottom'>";
+        echo "<div class='col-md-6 mb-3'>";
         echo writeDashCard($count, $result, $card);
         echo "</div>";
       }
@@ -118,7 +120,7 @@ session_start();
         $tableStr = 'SELECT COUNT(*) FROM '.ucfirst($tableName);
         $count = $link->query($tableStr)->fetch_array()[0];
         $result = $link->query($queries[$tableName]);
-        echo "<div class='col-md-6 item-margin-bottom'>";
+        echo "<div class='col-md-6 mb-3'>";
         echo writeDashCard($count, $result, $card);
         echo "</div>";
       }
