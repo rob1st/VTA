@@ -266,6 +266,10 @@ ul li {
     background-color: var(--red);
 }
 
+.bg-yellow {
+    background-color: var(--yellow);
+}
+
 .striped:nth-child(2n+1) {
     background-color: var(--bs-jumbo-grey);
 }
