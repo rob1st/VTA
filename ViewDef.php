@@ -236,5 +236,5 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
       exit();  
     } 
     include('fileend.php');
-    MySqli_Close($link); 
+    $link->close();
 ?>
