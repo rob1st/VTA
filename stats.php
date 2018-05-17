@@ -141,7 +141,7 @@ session_start();
   <!--THIS IS A TERRIBLE WAY TO DO THIS
       PLS REFACTOR FOOTER TO TAKE SCRIPTS AS ARGS-->
   <script src='https://d3js.org/d3.v5.js'></script>
-  <script src='js/data-graphics.js'></script>
+  <script src='js/data_graphics.js'></script>
   <script>
     window.drawPieChart(document.getElementById('status-graph'), {$jsonData['status']}, $statusColors)
     window.drawPieChart(document.getElementById('severity-graph'), {$jsonData['severity']}, $sevColors)
