@@ -91,7 +91,7 @@ session_start();
   <h1 class="page-title">Database Information</h1>
 </header>
 <main role="main" class="container main-content">
-  <div class="row">
+  <div class="row item-margin-bottom">
     <div class="col-12">
       <div class="card">
         <div class="card-body grey-bg"></div>

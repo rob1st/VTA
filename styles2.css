@@ -19,6 +19,7 @@
     --vta-dark-blue: #03528B;
     --quarter-trans-vta-dark-blue: #03528B40;
     --tenth-trans-vta-dark-blue: #03528B20;
+    --near-black: #16161d;
 }
 
 body {
@@ -539,7 +540,9 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
 
 .legend-swatch {
     margin-right: .25rem;
-    /*padding: 0 24px 3px 0;*/
+    text-shadow: var(--near-black) 0 0 12px;
+    font-style: normal;
+    color: white;
 }
 
 .slice text, .legend-swatch {
@@ -551,11 +554,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     font-size: 1.125rem;
     font-weight: bold;
     stroke: var(--quarter-trans-vta-dark-blue);
-}
-
-.legend-swatch {
-    font-style: normal;
-    color: white;
 }
 
 .dash-card .card-footer {
