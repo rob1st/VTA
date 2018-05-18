@@ -62,11 +62,11 @@ function printProjectSearchBar($cnxn, $post, $formAction) {
     $form .= "<div class='row item-margin-bottom'>
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Def #</label>
-                        <select name='DefID' class='form-control'>
+                        <select name='defID' class='form-control'>
                             <option value=''></option>";
-    if ($result = $cnxn->query('SELECT DefID from CDL')) {
+    if ($result = $cnxn->query('SELECT defID from CDL')) {
         while ($row = $result->fetch_array()) {
-            $select = ($post['DefID'] === $row[0]) ? 'selected' : '';
+            $select = ($post['defID'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
         }
         $result->close();
@@ -212,7 +212,7 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
                 while($row = $result->fetch_array()) {
                     $table .= "
                         <tr class='svbx-tr'>
-                            <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
+                            <td class='svbx-td id-td'><a href='ViewDef.php?defID={$row[0]}' class='class1'>{$row[0]}</a></td>
                             <td class='svbx-td loc-td collapse-sm collapse-xs'>{$row[1]}</td>
                             <td class='svbx-td sev-td collapse-xs'>{$row[2]}</td>
                             <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
@@ -247,7 +247,7 @@ if($_POST['Search'] == NULL) {
     unset($postData['Search']);
     
     $sql = "SELECT 
-                A.DefID,
+                A.defID,
                 L.LocationName, 
                 S.SeverityName, 
                 A.DateCreated,

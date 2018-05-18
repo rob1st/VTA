@@ -5,7 +5,7 @@ include('uploadImg.php');
 
 if(!empty($_POST)) {
     $link = f_sqlConnect();
-    $DefID = $_POST['DefID'];
+    $defID = $_POST['DefID'];
     $SystemAffected = $_POST['SystemAffected'];
     $LocationName = $_POST['LocationName'];
     $SpecLoc = $link->real_escape_string($_POST['SpecLoc']);
@@ -22,6 +22,7 @@ if(!empty($_POST)) {
     $Spec = $link->real_escape_string($_POST['Spec']);
     $ClosureComments = $link->real_escape_string($_POST['ClosureComments']);
     $RequiredBy = $_POST['RequiredBy'];
+    $contractID = $_POST['contractID'];
     $Repo = $_POST['Repo'];
     $Pics = $_POST['Pics'];
     $DueDate = $_POST['DueDate'];
@@ -31,29 +32,30 @@ if(!empty($_POST)) {
     
     $sql = "UPDATE CDL
             SET  
-                 OldID = '$OldID'
-                ,Location = '$LocationName'
-                ,SpecLoc = '$SpecLoc'
-                ,Severity = '$SeverityName'
-                ,Description = '$Description'
-                ,Spec = '$Spec'
-                ,Status = '$Status'
-                ,IdentifiedBy = '$IdentifiedBy'
-                ,SystemAffected = '$SystemAffected'
-                ,GroupToResolve = '$GroupToResolve'
-                ,ActionOwner = '$ActionOwner'
-                ,EvidenceType = '$EvidenceType'
-                ,EvidenceLink = '$EvidenceLink'
-                ,Comments = '$Comments'
-                ,SafetyCert = '$SafetyCert'
-                ,Requiredby = '$RequiredBy'
-                ,Repo = '$Repo'
-                ,Pics = '$Pics'
-                ,ClosureComments = '$ClosureComments'
-                ,DueDate = '$DueDate'
-                ,Updated_by = '$Username'
-                ,LastUpdated = NOW()
-            WHERE DefID = $DefID;";
+                 OldID = '$OldID',
+                 Location = '$LocationName',
+                 SpecLoc = '$SpecLoc',
+                 Severity = '$SeverityName',
+                 Description = '$Description',
+                 Spec = '$Spec',
+                 Status = '$Status',
+                 IdentifiedBy = '$IdentifiedBy',
+                 SystemAffected = '$SystemAffected',
+                 GroupToResolve = '$GroupToResolve',
+                 ActionOwner = '$ActionOwner',
+                 EvidenceType = '$EvidenceType',
+                 EvidenceLink = '$EvidenceLink',
+                 Comments = '$Comments',
+                 SafetyCert = '$SafetyCert',
+                 Requiredby = '$RequiredBy',
+                 contractID = '$contractID',
+                 Repo = '$Repo',
+                 Pics = '$Pics',
+                 ClosureComments = '$ClosureComments',
+                 DueDate = '$DueDate',
+                 Updated_by = '$Username',
+                 LastUpdated = NOW()
+            WHERE DefID = $defID;";
 
     // if photo in POST it will be committed to a separate table
     if ($_FILES['CDL_pics']['size']
@@ -64,14 +66,14 @@ if(!empty($_POST)) {
     } else $CDL_pics = null;
     
     if($link->query($sql)) {
-        $msg = "?defID=$DefID";
+        $msg = "?defID=$defID";
         // if INSERT succesful, prepare, upload, and INSERT photo
         if ($CDL_pics) {
-            $pathToFile = saveImgToServer($_FILES['CDL_pics'], $DefID);
+            $pathToFile = saveImgToServer($_FILES['CDL_pics'], $defID);
             $msg .= "&$pathToFile";
             $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
             if ($stmt = $link->prepare($sql)) {
-                if ($stmt->bind_param('is', $DefID, $pathToFile)) {
+                if ($stmt->bind_param('is', $defID, $pathToFile)) {
                     if (!$stmt->execute()) $pathToFile = 'execute_failed';
                     $stmt->close();
                 } else $pathToFile = 'bind_failed';
@@ -81,6 +83,6 @@ if(!empty($_POST)) {
         $msg = $link->error;
     }
     mysqli_close($link);
-    header("Location: DisplayDefs.php$msg");
+    header("Location: ViewDef.php?defID=$defID");
 }
 ?>

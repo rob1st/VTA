@@ -1,14 +1,14 @@
 <?php
 include('session.php');
-$DefID = $_GET['DefID'];
+$defID = $_GET['defID'];
 $Role = $_SESSION['Role'];
-$title = "SVBX - Deficiency No".$DefID;
+$title = "SVBX - Deficiency No".$defID;
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 include('filestart.php'); 
 $link = f_sqlConnect();
-$Def = file_get_contents("ViewDef.sql").$DefID;
+$Def = file_get_contents("ViewDef.sql").$defID;
 
     if($stmt = $link->prepare($Def)) {  
         $stmt->execute();  
@@ -46,7 +46,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
             }
             echo "
                 <header class='container page-header'>
-                    <h1 class='page-title $color pad'>Deficiency No. $DefID</h1>
+                    <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
                 </header>
                 <main class='container main-content'>
                     <table class='table svbx-table'>
@@ -166,7 +166,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
         
         // show photos linked to this Def
         if ($stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?")) {
-            $stmt->bind_param('i', $DefID);
+            $stmt->bind_param('i', $defID);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($pathToFile);
@@ -179,7 +179,7 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
                 $i = 0;
                 $j = 1;
                 while ($stmt->fetch()) {
-                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
+                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $defID);
                     $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
                     $marker = $j < $count ? '%s' : '';
                     
@@ -212,13 +212,10 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
         if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
             echo "
                 <div style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
-                    <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
-                        <input type='hidden' name='q' value='".$DefID."'/>
-                        <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
-                    </form>
+                    <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
                     <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
                         <div style='width:5px; height:auto; display:inline-block'></div>
-                        <input type='hidden' name='q' value='".$DefID."'/>
+                        <input type='hidden' name='q' value='$defID'/>
                         <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
                     </form>
                 </div>";
