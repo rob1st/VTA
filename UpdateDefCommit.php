@@ -66,11 +66,11 @@ if(!empty($_POST)) {
     } else $CDL_pics = null;
     
     if($link->query($sql)) {
-        $msg = "?defID=$defID";
+        $qs = "defID=$defID";
         // if INSERT succesful, prepare, upload, and INSERT photo
         if ($CDL_pics) {
             $pathToFile = saveImgToServer($_FILES['CDL_pics'], $defID);
-            $msg .= "&$pathToFile";
+            $qs .= "&$pathToFile";
             $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
             if ($stmt = $link->prepare($sql)) {
                 if ($stmt->bind_param('is', $defID, $pathToFile)) {
@@ -80,9 +80,9 @@ if(!empty($_POST)) {
             } else $pathToFile = 'prepare_failed';
         }
     } else {
-        $msg = $link->error;
+        $qs = $link->error;
     }
     mysqli_close($link);
-    header("Location: ViewDef.php?defID=$defID");
+    header("Location: ViewDef.php?$qs");
 }
 ?>

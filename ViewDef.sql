@@ -19,6 +19,7 @@ SELECT
     D.Created_by,
     D.Comments,
     R.RequiredBy,
+    c.contract,
     D.Repo,
     D.Pics,
     D.ClosureComments,
@@ -54,4 +55,6 @@ LEFT JOIN
     EvidenceType E
 ON 
     D.EvidenceType = E.EviTypeID
+LEFT JOIN Contract c
+ON D.contractID=c.contractID
 Where DefID=

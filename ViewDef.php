@@ -33,6 +33,7 @@ $Def = file_get_contents("ViewDef.sql").$defID;
                 $Created_by, 
                 $Comments,
                 $RequiredBy,
+                $contract,
                 $Repo,
                 $filename,
                 $ClosureComments,
@@ -88,8 +89,14 @@ $Def = file_get_contents("ViewDef.sql").$defID;
                         <tr class='vdtr'>
                             <td class='vdtdh'>Group to Resolve:</td>
                             <td class='vdtda'>$GroupToResolve</td>
+                            <td>Contract</td>
+                            <td>$contract</td>
+                        </tr>
+                        <tr class='vdtr'>
                             <td class='vdtdh'>Identified By:</td>
                             <td class='vdtda'>$IdentifiedBy</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr class='vdtr'>
                             <td colspan='4' style='text-align:center' class='vdtda'>Deficiency Description</td>
