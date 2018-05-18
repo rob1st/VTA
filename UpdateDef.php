@@ -10,115 +10,10 @@ include('filestart.php');
 $link = f_sqlConnect();
 $link2 = f_sqlConnect();
 $q = $_POST['q'];
-$Def = file_get_contents("UpdateDef.sql").$q;
+$defID = $_GET['defID'];
+$defSql = file_get_contents("UpdateDef.sql").$defID;
 error_reporting(E_ALL);  
 ini_set("display_errors", 1);
-
-// function returnSelectInput($cnxn, $data) {
-//     $selectEl = "<{$data['tagName']} name='{$data['name']}' id='{$data['id']}' class='form-control'>";
-//     $options = "<option value=''></option>";
-//     // if val @ [query] is a string, use it query db
-//     // if val @ [query] is a sql query result, use it
-//     $result = is_string($data['query']) ? $cnxn->query($data['query']) : $data['query'];
-//     if ($result) {
-//         while ($row = $result->fetch_row()) {
-//             $selected = $row[0] == $data['value'] ? ' selected' : ' data-notSelected';
-//             $options .= "<option value='{$row[0]}'{$selected}>{$row[1]}</option>";
-//         }
-//     } elseif ($cnxn->error) {
-//         $options .= "<option selected>{$cnxn->error}</option>";
-//     } else $options .= "<option selected>There was a problem with the query</option>";
-//     $selectEl .= $options;
-//     $selectEl .= "</select>";
-//     $result->close();
-//     return $selectEl;
-// }
-
-// function returnTextInput($cnxn, $data) {
-//     $inputEl = sprintf($data['element'], $data['value']);
-//     return $inputEl;
-// }
-
-// function returnDateInput($cnxn, $data) {
-//     $dateEl = sprintf($data['element'], $data['value']);
-//     return $dateEl;
-// }
-
-// function returnFileInput($cnxn, $data) {
-//     return $data['element'];
-// }
-
-// function returnTextarea($cnxn, $data) {
-//     $textarea = sprintf($data['element'], $data['value']);
-//     return $textarea;
-// }
-
-// function returnFormCtrl($cnxn, $formCtrl) {
-//     if ($formCtrl['tagName'] === 'select') {
-//         return returnSelectInput($cnxn, $formCtrl);
-//     } elseif ($formCtrl['tagName'] === 'input') {
-//         if ($formCtrl['type'] === 'text') {
-//             return returnTextInput($cnxn, $formCtrl);
-//         } elseif ($formCtrl['type'] === 'date') {
-//             return returnDateInput($cnxn, $formCtrl);
-//         } elseif ($formCtrl['type'] === 'file') {
-//             // $col .= "<h3 style='color: var(--purple)'>type === file</h3>";
-//             return returnFileInput($cnxn, $formCtrl);
-//         }
-//     } elseif ($formCtrl['tagName'] === 'textarea') {
-//         return returnTextarea($cnxn, $formCtrl);
-//     }
-// }
-
-// function returnCol($cnxn, $element, $wd, $options = []) {
-//     if (isset($options['offset'])) {
-//         $wd .= " offset-md-{$options['offset']}";
-//     }
-
-//     $colStr = "<div class='col-md-$wd'>%s</div>";
-
-//     if (isset($options['inline'])) {
-//         $subCol = "<div class='col-sm-6'>%s</div>";
-//         $labelCol = sprintf($subCol, $element['label']);
-//         $ctrlCol = sprintf($subCol, returnFormCtrl($cnxn, $element));
-//         $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
-//         $col = sprintf($colStr, $subRow);
-//     } else {
-//         $col = sprintf($colStr, $element['label'].returnFormCtrl($cnxn, $element));
-//     }
-//     return $col;
-// }
-
-// function returnRow($cnxn, $elements, $options = []) {
-//     $elRow = "<div class='row item-margin-bottom'>";
-//     $numEls = count($elements);
-//     // if number of elements don't divide evenly by 12 substract out the remainder
-//     // this number will be added to the last col
-//     $extraCols = 12 % $numEls;
-//     $colWd = 12 / ($numEls - $extraCols);
-//     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
-//     if (count($elements) === 1 && isset($options['colWd'])) {
-//         $offset = floor((12 - $options['colWd'])/2);
-//         $elRow .= returnCol($cnxn, $elements[0], $options['colWd'], ['offset' => $offset]);
-//     } else foreach ($elements as $el) {
-//         $elRow .= returnCol($cnxn, $el, $colWd, $options);
-//     }
-//     $elRow .= "</div>";
-//     return $elRow;
-// }
-
-// this fcn takes a collection of arrays of string names of form control elements,
-// looks up those form controls by name in a collection that describes their properties
-// and passes the named form control data to a fcn to that renders each subarray as a row
-// function printRowGroup($cnxn, $group, $elementCollection, $options = []) {
-//     foreach ($group as $row) {
-//         // iterate over each row replacing string at cur index with content at key = string in formCtrls
-//         foreach ($row as $i => $str) {
-//             $row[$i] = $elementCollection[$str];
-//         }
-//         echo returnRow($cnxn, $row, $options);
-//     }
-// }
 
 // form control data
 $formCtrls = [
@@ -325,7 +220,7 @@ $closureRows = [
         </header>
         <main class='container main-content'>";
 
-    if($stmt = $link->prepare($Def)) {
+    if($stmt = $link->prepare($defSql)) {
         $stmt->execute();
         $stmt->bind_result(
             $formCtrls['OldID']['value'], 
@@ -363,7 +258,7 @@ $closureRows = [
                         </div>
                     </div>";
                     
-            print printRowGroup($link2, $requiredRows, $formCtrls, ['inline' => true]);
+            print returnRowGroup($link2, $requiredRows, $formCtrls, ['inline' => true]);
             echo returnRow($link2, [$formCtrls['Description']], ['colWd' => 6]);
             
             echo "
@@ -371,7 +266,7 @@ $closureRows = [
                     <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
                 <div id='optionalInfo' class='collapse item-margin-bottom'>";
-                print printRowGroup($link2, $optionalRows, $formCtrls, ['inline' => true]);
+                print returnRowGroup($link2, $optionalRows, $formCtrls, ['inline' => true]);
                 echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
                 echo returnRow($link2, [$formCtrls['comments']], ['colWd' => 6]);
             echo "</div>";
@@ -381,7 +276,7 @@ $closureRows = [
                     <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
                 <div id='closureInfo' class='collapse item-margin-bottom'>";
-                print printRowGroup($link2, $closureRows, $formCtrls, ['inline' => true]);
+                print returnRowGroup($link2, $closureRows, $formCtrls, ['inline' => true]);
                 echo returnRow($link2, [$formCtrls['ClosureComments']], ['colWd' => 6]);
             echo "</div>";
             // echo returnRow($link2, array_slice($formCtrls, 15, 3));

@@ -51,7 +51,7 @@ function returnRow($cnxn, $elements, $options = []) {
 // which will then pass the strings or arrays to appropriate renderHtmlStr or renderHtmlArr fcns
 // render fcns should not have to do any querying themselves, but should receive string data from finished queries
 
-function printRowGroup($cnxn, $group, $elementCollection, $options = []) {
+function returnRowGroup($cnxn, $group, $elementCollection, $options = []) {
     $rowGroup = '';
     foreach ($group as $row) {
         // iterate over each row replacing string at cur index with content at key = string in formCtrls

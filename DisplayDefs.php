@@ -224,9 +224,7 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
                        $table .= "
                             <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[8]}</td>
                             <td class='svbx-td edit-td collapse-sm collapse-xs'>
-                                <form action='UpdateDef.php' method='POST' onsubmit=''/>
-                                    <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
-                                </form>
+                                    <a href='UpdateDef.php?defID={$row[0]}' type='submit' name='q' value='".$row[0]."' class='btn'><i class='typcn typcn-edit'></i></button>
                             </td>";
                     } else $table .= "</tr>";
                 }
