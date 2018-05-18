@@ -9,7 +9,7 @@ include('filestart.php');
 
 $link = f_sqlConnect();
 $link2 = f_sqlConnect();
-$q = $_POST['q'];
+// $q = $_POST['q'];
 $defID = $_GET['defID'];
 $defSql = file_get_contents("UpdateDef.sql").$defID;
 error_reporting(E_ALL);  
@@ -85,6 +85,17 @@ $formCtrls = [
         "name" => 'RequiredBy',
         "id" => 'RequiredBy',
         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy"
+    ],
+    'contract' => [
+        'label' => "<label for='contract'>Contact</label>",
+        'tagName' => 'select',
+        'element' => "
+            <label for='contract'>Contact</label>
+            <select name='contractID' id='contractID' class='form-control'>%s</select>",
+        'type' => null,
+        'name' => 'contractID',
+        'id' => 'contractID',
+        'query' => "SELECT contractID, contract FROM Contract ORDER BY contractID"
     ],
     'GroupToResolve' =>[
         "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
@@ -201,8 +212,9 @@ $requiredRows = [
     [ 'SafetyCert', 'SystemAffected' ],
     [ 'LocationName', 'SpecLoc' ],
     [ 'Status', 'SeverityName' ],
-    [ 'DueDate', 'RequiredBy' ],
-    [ 'GroupToResolve', 'IdentifiedBy' ]
+    [ 'DueDate', 'GroupToResolve' ],
+    [ 'RequiredBy', 'contract'],
+    [ 'IdentifiedBy' ]
 ];
 
 $optionalRows = [
@@ -216,7 +228,7 @@ $closureRows = [
 
     echo "
         <header class='container page-header'>
-            <h1 class='page-title'>Update Deficiency ".$q."</h1>
+            <h1 class='page-title'>Update Deficiency ".$defID."</h1>
         </header>
         <main class='container main-content'>";
 
@@ -241,7 +253,8 @@ $closureRows = [
             $LastUpdated, 
             $Updated_by, 
             $formCtrls['comments']['value'], 
-            $formCtrls['RequiredBy']['value'], 
+            $formCtrls['RequiredBy']['value'],
+            $formCtrls['contract']['value'],
             $formCtrls['Repo']['value'], 
             $Pics, 
             $formCtrls['ClosureComments']['value'],
@@ -251,10 +264,10 @@ $closureRows = [
         while ($stmt->fetch()) {
             echo "
                 <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
-                    <input type='hidden' name='DefID' value='$q'>
+                    <input type='hidden' name='DefID' value='$defID'>
                     <div class='row'>
                         <div class='col-12'>
-                            <h4 class='pad grey-bg'>Deficiency No. $q</h4>
+                            <h4 class='pad grey-bg'>Deficiency No. $defID</h4>
                         </div>
                     </div>";
                     
@@ -294,7 +307,7 @@ $closureRows = [
                 <form action='DeleteDef.php' method='POST' onsubmit=''>
                     <div class='row'>
                         <div class='col-12 center-content'>
-                            <button class='btn btn-danger btn-lg' type='submit' name='q' value='$q'
+                            <button class='btn btn-danger btn-lg' type='submit' name='q' value='$defID'
                                 onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'>delete</button>
                         </div>
                     </div>

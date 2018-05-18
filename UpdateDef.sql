@@ -18,6 +18,7 @@ SELECT
     Updated_by,
     Comments,
     RequiredBy,
+    contractID,
     Repo,
     Pics,
     ClosureComments,
