@@ -1,5 +1,8 @@
 <?php
-function returnSelectInput($cnxn, $data) {
+require_once "SQLFunctions.php";
+
+function returnSelectInput($data) {
+    $cnxn = f_sqlConnect();
     $selectEl = "<{$data['tagName']} name='{$data['name']}' id='{$data['id']}' class='form-control'>";
     $options = "<option value=''></option>";
     // if val @ [query] is a string, use it query db
@@ -16,42 +19,43 @@ function returnSelectInput($cnxn, $data) {
     $selectEl .= $options;
     $selectEl .= "</select>";
     $result->close();
+    $cnxn->close();
     return $selectEl;
 }
 
-function returnTextInput($cnxn, $data) {
+function returnTextInput($data) {
     $inputEl = sprintf($data['element'], $data['value']);
     return $inputEl;
 }
 
-function returnDateInput($cnxn, $data) {
+function returnDateInput($data) {
     $dateEl = sprintf($data['element'], $data['value']);
     return $dateEl;
 }
 
-function returnFileInput($cnxn, $data) {
+function returnFileInput($data) {
     return $data['element'];
 }
 
-function returnTextarea($cnxn, $data) {
+function returnTextarea($data) {
     $textarea = sprintf($data['element'], $data['value']);
     return $textarea;
 }
 
-function returnFormCtrl($cnxn, $formCtrl) {
+function returnFormCtrl($formCtrl) {
     if ($formCtrl['tagName'] === 'select') {
-        return returnSelectInput($cnxn, $formCtrl);
+        return returnSelectInput($formCtrl);
     } elseif ($formCtrl['tagName'] === 'input') {
         if ($formCtrl['type'] === 'text') {
-            return returnTextInput($cnxn, $formCtrl);
+            return returnTextInput($formCtrl);
         } elseif ($formCtrl['type'] === 'date') {
-            return returnDateInput($cnxn, $formCtrl);
+            return returnDateInput($formCtrl);
         } elseif ($formCtrl['type'] === 'file') {
             // $col .= "<h3 style='color: var(--purple)'>type === file</h3>";
-            return returnFileInput($cnxn, $formCtrl);
+            return returnFileInput($formCtrl);
         }
     } elseif ($formCtrl['tagName'] === 'textarea') {
-        return returnTextarea($cnxn, $formCtrl);
+        return returnTextarea($formCtrl);
     }
 }
 

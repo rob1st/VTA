@@ -271,17 +271,17 @@ $closureRows = [
                         </div>
                     </div>";
                     
-            print returnRowGroup($link2, $requiredRows, $formCtrls, ['inline' => true]);
-            echo returnRow($link2, [$formCtrls['Description']], ['colWd' => 6]);
+            print returnRowGroup($requiredRows, $formCtrls, ['inline' => true]);
+            echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
             
             echo "
                 <h5 class='grey-bg pad'>
                     <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
                 <div id='optionalInfo' class='collapse item-margin-bottom'>";
-                print returnRowGroup($link2, $optionalRows, $formCtrls, ['inline' => true]);
+                print returnRowGroup($optionalRows, $formCtrls, ['inline' => true]);
                 echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
-                echo returnRow($link2, [$formCtrls['comments']], ['colWd' => 6]);
+                echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
             echo "</div>";
             
             echo "
@@ -289,8 +289,8 @@ $closureRows = [
                     <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
                 <div id='closureInfo' class='collapse item-margin-bottom'>";
-                print returnRowGroup($link2, $closureRows, $formCtrls, ['inline' => true]);
-                echo returnRow($link2, [$formCtrls['ClosureComments']], ['colWd' => 6]);
+                print returnRowGroup($closureRows, $formCtrls, ['inline' => true]);
+                echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
             echo "</div>";
             // echo returnRow($link2, array_slice($formCtrls, 15, 3));
             // echo returnRow($link2, array_slice($formCtrls, 18, 1));
