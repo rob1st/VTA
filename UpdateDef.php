@@ -271,7 +271,13 @@ $closureRows = [
                         </div>
                     </div>";
                     
-            print returnRowGroup($requiredRows, $formCtrls, ['inline' => true]);
+            foreach ($requiredRows as $gridRow) {
+                foreach ($gridRow as $i => $str) {
+                    $gridRow[$i] = $formCtrls[$str];
+                }
+                print returnRow($gridRow, ['inline' => true]);
+            }
+            // print returnRowGroup($requiredRows, $formCtrls, ['inline' => true]);
             echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
             
             echo "

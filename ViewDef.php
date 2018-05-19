@@ -57,13 +57,13 @@ $Def = file_get_contents("ViewDef.sql").$defID;
                         <tr class='vdtr'>
                             <td class='vdtdh'>Safety Certifiable:</td>
                             <td class='vdtda'>";
-                                if($SafetyCert == '1') {
-                                    $SafetyCert = 'Yes';
-                                } elseif($SafetyCert == '2') {
-                                    $SafetyCert = 'No';
-                                } else {
-                                    $SafetyCert = '';
-                                }
+                                // if($SafetyCert == '1') {
+                                //     $SafetyCert = 'Yes';
+                                // } elseif($SafetyCert == '2') {
+                                //     $SafetyCert = 'No';
+                                // } else {
+                                //     $SafetyCert = '';
+                                // }
                             echo " $SafetyCert</td>
                             <td class='vdtdh'>System Affected:</td>
                             <td class='vdtda'>$SystemAffected</td>
@@ -135,13 +135,12 @@ $Def = file_get_contents("ViewDef.sql").$defID;
                         <tr class='vdtr'>
                             <td class='vdtdh'>Evidence Repository:</td>
                             <td class='vdtda'>";
-                            if($Repo == '1') {
-                                $Repo = 'SharePoint';
-                            } elseif ($Repo == 2) {
-                                $Repo = 'Aconex';
-                            } else $Repo = '';
-                            echo "    
-                                $Repo</td>
+                            // if($Repo == '1') {
+                            //     $Repo = 'SharePoint';
+                            // } elseif ($Repo == 2) {
+                            //     $Repo = 'Aconex';
+                            // } else $Repo = '';
+                            echo "$Repo</td>
                             <td class='vdtdh'>Repository No:</td>
                             <td class='vdtda'>$EvidenceLink</td>
                         </tr>
