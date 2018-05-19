@@ -1,5 +1,6 @@
 <?php
 include('session.php');
+include 'bootstrapGrid.php';
 $defID = $_GET['defID'];
 $Role = $_SESSION['Role'];
 $title = "SVBX - Deficiency No".$defID;

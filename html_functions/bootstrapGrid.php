@@ -5,22 +5,25 @@
 ** 'colWd'
 ** 'offset'
 */
+// this function should receive a complete element string unless it's a select element that needs iterating over
 function returnCol($element, $wd, $options = []) {
-    if (isset($options['offset'])) {
-        $wd .= " offset-md-{$options['offset']}";
-    }
-
-    $colStr = "<div class='col-md-$wd'>%s</div>";
-
-    if (isset($options['inline'])) {
-        $subCol = "<div class='col-sm-6'>%s</div>";
-        $labelCol = sprintf($subCol, $element['label']);
-        $ctrlCol = sprintf($subCol, returnFormCtrl($element));
-        $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
-        $col = sprintf($colStr, $subRow);
-    } else {
-        $col = sprintf($colStr, $element['label'].returnFormCtrl($element));
-    }
+    $colStr = "<div class='col-md-%s'>%s</div>";
+    if (is_array($element)) {
+        if (isset($options['offset'])) {
+            $wd .= " offset-md-{$options['offset']}";
+        }
+        if (isset($options['inline'])) {
+            $subCol = "<div class='col-sm-6'>%s</div>";
+            $labelCol = sprintf($subCol, $element['label']);
+            $ctrlCol = sprintf($subCol, returnFormCtrl($element));
+            $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
+            $col = sprintf($colStr, $wd, $subRow);
+        } else {
+            $col = sprintf($colStr, $wd, $element['label'].returnFormCtrl($element));
+        }
+    } elseif (is_string($element)) {
+        $col = sprintf($colStr, $element);
+    } else $col = sprintf($colStr,  $wd, '');
     return $col;
 }
 
