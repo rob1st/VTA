@@ -8,10 +8,8 @@
 // this function should receive a complete element string unless it's a select element that needs iterating over
 function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
+    $wd = isset($options['offset']) ? $wd." offset-md-{$options['offset']}" : $wd;
     if (is_array($element)) {
-        if (isset($options['offset'])) {
-            $wd .= " offset-md-{$options['offset']}";
-        }
         if (isset($options['inline'])) {
             $subCol = "<div class='col-sm-6'>%s</div>";
             $labelCol = sprintf($subCol, $element['label']);
@@ -22,7 +20,7 @@ function returnCol($element, $wd, $options = []) {
             $col = sprintf($colStr, $wd, $element['label'].returnFormCtrl($element));
         }
     } elseif (is_string($element)) {
-        $col = sprintf($colStr, $element);
+        $col = sprintf($colStr, $wd, $element);
     } else $col = sprintf($colStr,  $wd, '');
     return $col;
 }
@@ -43,26 +41,5 @@ function returnRow($elements, $options = []) {
     }
     $elRow .= "</div>";
     return $elRow;
-}
-
-/* this fcn takes a collection of arrays of string names of form control elements,
-** looks up those form controls by name in a collection that describes their properties
-** and passes the named form control data to a fcn to that renders each subarray as a row
-*/
-// this fcn should take html string elements OR arrays of html attributes
-// and pass them to a returnRow fcn, which will in turn pass them to a returnCol fcn
-// which will then pass the strings or arrays to appropriate renderHtmlStr or renderHtmlArr fcns
-// render fcns should not have to do any querying themselves, but should receive string data from finished queries
-
-function returnRowGroup($group, $elementCollection, $options = []) {
-    $rowGroup = '';
-    foreach ($group as $row) {
-        // iterate over each row replacing string at cur index with content at key = string in formCtrls
-        foreach ($row as $i => $str) {
-            $row[$i] = $elementCollection[$str];
-        }
-        $rowGroup .= returnRow($row, $options);
-    }
-    return $rowGroup;
 }
 ?>

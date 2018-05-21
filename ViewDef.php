@@ -11,6 +11,9 @@ include('filestart.php');
 $link = f_sqlConnect();
 $Def = file_get_contents("ViewDef.sql").$defID;
 
+$keyStr = "<span>%s</span>";
+$valStr = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
+
     if($stmt = $link->prepare($Def)) {  
         $stmt->execute();  
         $stmt->bind_result(
@@ -39,8 +42,94 @@ $Def = file_get_contents("ViewDef.sql").$defID;
                 $filename,
                 $ClosureComments,
                 $DueDate,
-                $SafetyCert);  
+                $SafetyCert,
+                $defType);  
         while ($stmt->fetch()) {
+            $requiredRows = [
+                [
+                    sprintf($keyStr, 'Safety Certifiable'),
+                    sprintf($valStr, $SafetyCert),
+                    sprintf($keyStr, 'System Affected'),
+                    sprintf($valStr, $SystemAffected)
+                ],
+                [
+                    sprintf($keyStr, 'General Location'),
+                    sprintf($valStr, $Location),
+                    sprintf($keyStr, 'Specific Location'),
+                    sprintf($valStr, $SpecLoc)
+                ],
+                [
+                    sprintf($keyStr, 'Status'),
+                    sprintf($valStr, $Status),
+                    sprintf($keyStr, 'Severity'),
+                    sprintf($valStr, $Severity)
+                ],
+                [
+                    sprintf($keyStr, 'Due Date'),
+                    sprintf($valStr, $DueDate),
+                    sprintf($keyStr, 'Group to resolve'),
+                    sprintf($valStr, $GroupToResolve)
+                ],
+                [
+                    sprintf($keyStr, 'Resolution required by'),
+                    sprintf($valStr, $RequiredBy),
+                    sprintf($keyStr, 'Contract'),
+                    sprintf($valStr, $contract)
+                ],
+                [
+                    sprintf($keyStr, 'Identified By'),
+                    sprintf($valStr, $IdentifiedBy),
+                    sprintf($keyStr, 'Deficiency type'),
+                    sprintf($valStr, $defType)
+                ],
+                [
+                    sprintf($keyStr, 'Deficiency description').sprintf($valStr, $Description)
+                ]
+            ];
+            
+            $optionalRows = [
+                [
+                    sprintf($keyStr, 'Spec or Code'),
+                    sprintf($valStr, $Spec),
+                    sprintf($keyStr, 'Action Owner'),
+                    sprintf($valStr, $ActionOwner),
+                    sprintf($keyStr, 'Old Id'),
+                    sprintf($valStr, $OldID)
+                ],
+                [
+                    sprintf($keyStr, 'Additional information').sprintf($valStr, $Comments)
+                ]
+            ];
+            
+            $closureRows = [
+                [
+                    sprintf($keyStr, 'Evidence Type'),
+                    sprintf($valStr, $EvidenceType),
+                    sprintf($keyStr, 'Evidence Repository'),
+                    sprintf($valStr, $Repo),
+                    sprintf($keyStr, 'Repository No.'),
+                    sprintf($valStr, $EvidenceLink)
+                ],
+                [
+                    sprintf($keyStr, 'Closure Comments').sprintf($valStr, $ClosureComments)
+                ]
+            ];
+            
+            $modHistory = [
+                [
+                    sprintf($keyStr, 'Date Created'),
+                    sprintf($valStr, $DateCreated),
+                    sprintf($keyStr, 'Created by'),
+                    sprintf($valStr, $Created_by)
+                ],
+                [
+                    sprintf($keyStr, 'Last Updated'),
+                    sprintf($valStr, $LastUpdated),
+                    sprintf($keyStr, 'Updated by'),
+                    sprintf($valStr, $Updated_by)
+                ]
+            ];
+
             if($Status == "Open") {
                 $color = "bg-red text-white";
             } else {
@@ -51,123 +140,31 @@ $Def = file_get_contents("ViewDef.sql").$defID;
                     <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
                 </header>
                 <main class='container main-content'>
-                    <table class='table svbx-table'>
-                        <tr class='vdtr'>
-                            <th colspan='4' class='vdth'>Required Information</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Safety Certifiable:</td>
-                            <td class='vdtda'>";
-                                // if($SafetyCert == '1') {
-                                //     $SafetyCert = 'Yes';
-                                // } elseif($SafetyCert == '2') {
-                                //     $SafetyCert = 'No';
-                                // } else {
-                                //     $SafetyCert = '';
-                                // }
-                            echo " $SafetyCert</td>
-                            <td class='vdtdh'>System Affected:</td>
-                            <td class='vdtda'>$SystemAffected</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>General Location:</td>
-                            <td class='vdtda'>$Location</td>
-                            <td class='vdtdh'>Specific Location:</td>
-                            <td class='vdtda'>$SpecLoc</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Status:</td>
-                            <td class='vdtda'>$Status</td>
-                            <td class='vdtdh'>Severity:</td>
-                            <td class='vdtda'>$Severity</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Due Date:</td>
-                            <td class='vdtda'>$DueDate</td>
-                            <td class='vdtdh'>Resolution required by:</td>
-                            <td class='vdtda'>$RequiredBy</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Group to Resolve:</td>
-                            <td class='vdtda'>$GroupToResolve</td>
-                            <td>Contract</td>
-                            <td>$contract</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Identified By:</td>
-                            <td class='vdtda'>$IdentifiedBy</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td colspan='4' style='text-align:center' class='vdtda'>Deficiency Description</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td Colspan=4 class='vdtda'>"; echo nl2br($Description);
-                            echo "</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <th colspan='4' class='vdth'>Optional Information</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Spec or Code:</td>
-                            <td colspan='3' class='vdtda'>$Spec</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Action Owner:</td>
-                            <td class='vdtda'>$ActionOwner</td>
-                            <td class='vdtdh'>Old Id:</td>
-                            <td class='vdtda'>$OldID</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td colspan='4' style='text-align:center' class='vdtda'>Additional Information</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td Colspan=4 class='vdtda'>"; echo nl2br($Comments);
-                            echo "</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <th colspan='4' class='vdth'>Closure Information</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Evidence Type:</td>
-                            <td class='vdtda' colspan='3'>$EvidenceType</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Evidence Repository:</td>
-                            <td class='vdtda'>";
-                            // if($Repo == '1') {
-                            //     $Repo = 'SharePoint';
-                            // } elseif ($Repo == 2) {
-                            //     $Repo = 'Aconex';
-                            // } else $Repo = '';
-                            echo "$Repo</td>
-                            <td class='vdtdh'>Repository No:</td>
-                            <td class='vdtda'>$EvidenceLink</td>
-                        </tr>
-                         <tr class='vdtr'>
-                            <td colspan='4' style='text-align:center' class='vdtda'>Closure Comments</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td Colspan=4 class='vdtda'>"; echo nl2br($ClosureComments);
-                            echo "</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <th colspan='4' style='text-align:center' class='vdth'>Modification Details</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Date Created:</td>
-                            <td class='vdtda'>$DateCreated</td>
-                            <td class='vdtdh'>Created by:</td>
-                            <td class='vdtda'>$Created_by</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Last Updated:</td>
-                            <td class='vdtda'>$LastUpdated</td>
-                            <td class='vdtdh'>Updated by:</td>
-                            <td class='vdtda'>$Updated_by</td>
-                        </tr>
-                    </table>";
+                    <div class='row'>
+                        <div class='col-12'>
+                            <h5 class='grey-bg pad'>Required Information</h5>
+                        </div>
+                    </div>";
+                    foreach ($requiredRows as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                    print "<h5 class='grey-bg pad'>Optional Information</h5>";
+                    foreach ($optionalRows as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                    print "<h5 class='grey-bg pad'>Closure Information</h5>";
+                    foreach ($closureRows as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                    print "<h5 class='grey-bg pad'>Modification Details</h5>";
+                    foreach ($modHistory as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                            
         }
         $stmt->close();
         

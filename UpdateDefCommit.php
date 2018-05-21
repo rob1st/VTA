@@ -13,6 +13,7 @@ if(!empty($_POST)) {
     $SeverityName = $_POST['SeverityName'];
     $GroupToResolve = $_POST['GroupToResolve'];
     $IdentifiedBy = $link->real_escape_string($_POST['IdentifiedBy']);
+    $defType = $_POST['defType'];
     $Description = $link->real_escape_string($_POST['Description']);
     $EvidenceType = $_POST['EviType'];
     $EvidenceLink = $link->real_escape_string($_POST['EvidenceLink']);
@@ -40,6 +41,7 @@ if(!empty($_POST)) {
                  Spec = '$Spec',
                  Status = '$Status',
                  IdentifiedBy = '$IdentifiedBy',
+                 defType = '$defType',
                  SystemAffected = '$SystemAffected',
                  GroupToResolve = '$GroupToResolve',
                  ActionOwner = '$ActionOwner',

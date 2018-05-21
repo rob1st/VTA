@@ -24,7 +24,8 @@ SELECT
     D.Pics,
     D.ClosureComments,
     D.DueDate,
-    yn.YesNo
+    yn.YesNo,
+    dt.defTypeName
 FROM CDL D
 LEFT JOIN RequiredBy R
 ON R.ReqByID = D.RequiredBy
@@ -46,4 +47,6 @@ LEFT JOIN YesNo yn
 ON D.SafetyCert=yn.YesNoID
 LEFT JOIN Repo p
 ON D.Repo=p.repoID
+LEFT JOIN defType dt
+ON D.defType=dt.defTypeID
 Where DefID=

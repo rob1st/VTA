@@ -311,7 +311,6 @@ $formCtrls = [
             foreach ($requiredRows as $gridRow) {
                 print returnRow($gridRow, ['inline' => true]);
             }
-            // print returnRowGroup($requiredRows, $formCtrls, ['inline' => true]);
             echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
             
             echo "
