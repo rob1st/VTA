@@ -11,7 +11,7 @@ function returnSelectInput($data) {
     $result = is_string($data['query']) ? $cnxn->query($data['query']) : $data['query'];
     if ($result) {
         while ($row = $result->fetch_row()) {
-            $selected = $row[0] == $value ? ' selected' : ' data-notSelected';
+            $selected = $row[0] == $value ? ' selected' : '';
             $options .= "<option value='{$row[0]}'{$selected}>{$row[1]}</option>";
         }
     } elseif ($cnxn->error) {
