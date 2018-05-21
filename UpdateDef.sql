@@ -23,7 +23,8 @@ SELECT
     Pics,
     ClosureComments,
     DueDate,
-    SafetyCert
+    SafetyCert,
+    defType
 FROM
     CDL
 Where DefID=

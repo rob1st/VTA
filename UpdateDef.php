@@ -80,7 +80,8 @@ $formCtrls = [
             $Pics, 
             $formCtrls['ClosureComments']['value'],
             $dueDate,
-            $safetyCert);
+            $safetyCert,
+            $defType);
             
         while ($stmt->fetch()) {
             $requiredRows = [
@@ -203,6 +204,16 @@ $formCtrls = [
                         "id" => 'IdentifiedBy',
                         "query" => null,
                         'value' => $identifiedBy
+                    ],
+                    'defType' => [
+                        'label' => "<label for='defType'>Deficiency type</label>",
+                        'tagName' => "select",
+                        'element' => "<select name='defType' id='defType' class='form-control'>",
+                        'type' => null,
+                        'name' => 'defType',
+                        'id' => 'defType',
+                        'query' => 'SELECT defTypeID, defTypeName FROM defType',
+                        'value' => $defType
                     ]
                 ]
             ];
