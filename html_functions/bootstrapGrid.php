@@ -17,6 +17,7 @@ function returnCol($element, $wd, $options = []) {
             $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
             $col = sprintf($colStr, $wd, $subRow);
         } else {
+            // echo "<pre style='text-yellow'>".var_dump($element)."</pre>";
             $col = sprintf($colStr, $wd, $element['label'].returnFormCtrl($element));
         }
     } elseif (is_string($element)) {
@@ -35,7 +36,7 @@ function returnRow($elements, $options = []) {
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1 && isset($options['colWd'])) {
         $offset = floor((12 - $options['colWd'])/2);
-        $elRow .= returnCol($elements[0], $options['colWd'], ['offset' => $offset]);
+        $elRow .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
     } else foreach ($elements as $el) {
         $elRow .= returnCol($el, $colWd, $options);
     }

@@ -1,6 +1,8 @@
 <?php
 include('session.php');
 include('SQLFunctions.php');
+include('html_functions/bootstrapGrid.php');
+include('html_functions/htmlForms.php');
 $link = f_sqlConnect();
 $Role = $_SESSION['Role'];
 $title = "SVBX - New Deficiency";
@@ -15,36 +17,6 @@ include('filestart.php')
 <main role="main" class="container main-content">
     <form action="RecDef.php" method="POST">
         <?php
-            $formCtrls = [
-                'Description' => [
-                    "label" => "<label for='Description'>Deficiency Description</label>",
-                    "tagName" => "textarea",
-                    "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
-                    "type" => null,
-                    "name" => 'Description',
-                    "id" => 'Description',
-                    "query" => null,
-                ],
-                'comments' => [
-                    "label" => "<label for='comments'>More Information</label>",
-                    "tagName" => "textarea",
-                    "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
-                    "type" => null,
-                    "name" => 'comments',
-                    "id" => 'comments',
-                    "query" => null
-                ],
-                'ClosureComments' => [
-                    "label" => "<label for='ClosureComments'>Closure Comments</label>",
-                    "tagName" => "textarea",
-                    "element" => "<textarea name='ClosureComments' id='ClosureComments' class='form-control' maxlength='1000'>%s</textarea>",
-                    "type" => null,
-                    "name" => 'ClosureComments',
-                    "id" => 'ClosureComments',
-                    "query" => null
-                ]
-            ];
-            
             $requiredRows = [
                 [
                     'SafetyCert' => [
@@ -54,7 +26,6 @@ include('filestart.php')
                         "name" => 'SafetyCert',
                         "id" => 'SafetyCert',
                         "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo",
-                        'value' => $safetyCert
                     ],
                     'SystemAffected' => [
                         "label" => "<label for='SystemAffected'>System Affected</label>",
@@ -63,7 +34,6 @@ include('filestart.php')
                         "name" => 'SystemAffected',
                         "id" => 'SystemAffected',
                         "query" => "SELECT SystemID, System FROM System ORDER BY System",
-                        'value' => $systemAffected
                     ]
                 ],
                 [
@@ -74,7 +44,6 @@ include('filestart.php')
                         "name" => 'LocationName',
                         "id" => 'LocationName',
                         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
-                        'value' => $locationName
                     ],
                     'SpecLoc' => [
                         "label" => "<label for='SpecLoc'>Specific Location</label>",
@@ -84,7 +53,6 @@ include('filestart.php')
                         "name" => 'SpecLoc',
                         "id" => 'SpecLoc',
                         "query" => null,
-                        'value' => $specLoc
                     ]
                 ],
                 [
@@ -96,7 +64,6 @@ include('filestart.php')
                         "name" => 'Status',
                         "id" => 'Status',
                         "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID",
-                        'value' => $status
                     ],
                     'SeverityName' => [
                         "label" => "<label for='SeverityName'>Severity</label>",
@@ -106,7 +73,6 @@ include('filestart.php')
                         "name" => 'SeverityName',
                         "id" => 'SeverityName',
                         "query" => "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName",
-                        'value' => $severityName
                     ]
                 ],
                 [
@@ -118,7 +84,6 @@ include('filestart.php')
                         "name" => 'DueDate',
                         "id" => 'DueDate',
                         "query" => null,
-                        'value' => $dueDate
                     ],
                     'GroupToResolve' =>[
                         "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
@@ -128,7 +93,6 @@ include('filestart.php')
                         "name" => 'GroupToResolve',
                         "id" => 'GroupToResolve',
                         "query" => "SELECT SystemID, System FROM System ORDER BY System",
-                        'value' => $groupToResolve
                     ]
                 ],
                 [
@@ -140,7 +104,6 @@ include('filestart.php')
                         "name" => 'RequiredBy',
                         "id" => 'RequiredBy',
                         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
-                        'value' => $requiredBy
                     ],
                     'contract' => [
                         'label' => "<label for='contract'>Contact</label>",
@@ -152,7 +115,6 @@ include('filestart.php')
                         'name' => 'contractID',
                         'id' => 'contractID',
                         'query' => "SELECT contractID, contract FROM Contract ORDER BY contractID",
-                        'value' => $contract
                     ]
                 ],
                 [
@@ -164,7 +126,6 @@ include('filestart.php')
                         "name" => 'IdentifiedBy',
                         "id" => 'IdentifiedBy',
                         "query" => null,
-                        'value' => $identifiedBy
                     ],
                     'defType' => [
                         'label' => "<label for='defType'>Deficiency type</label>",
@@ -174,7 +135,17 @@ include('filestart.php')
                         'name' => 'defType',
                         'id' => 'defType',
                         'query' => 'SELECT defTypeID, defTypeName FROM defType',
-                        'value' => $defType
+                    ]
+                ],
+                [
+                    'Description' => [
+                        "label" => "<label for='Description'>Deficiency Description</label>",
+                        "tagName" => "textarea",
+                        "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
+                        "type" => null,
+                        "name" => 'Description',
+                        "id" => 'Description',
+                        "query" => null
                     ]
                 ]
             ];
@@ -189,7 +160,6 @@ include('filestart.php')
                         "name" => 'Spec',
                         "id" => 'Spec',
                         "query" => null,
-                        'value' => $spec
                     ],
                     'ActionOwner' => [
                         "label" => "<label for='ActionOwner'>Action Owner</label>",
@@ -199,7 +169,6 @@ include('filestart.php')
                         "name" => 'ActionOwner',
                         "id" => 'ActionOwner',
                         "query" => null,
-                        'value' => $actionOwner
                     ]
                 ],
                 [
@@ -211,7 +180,6 @@ include('filestart.php')
                         "name" => 'OldID',
                         "id" => 'OldID',
                         "query" => null,
-                        'value' => $oldID
                     ],
                     'CDL_pics' => [
                         'label' => "<label for='CDL_pics'>Upload Photo</label>",
@@ -221,6 +189,17 @@ include('filestart.php')
                         'name' => 'CDL_pics',
                         'id' => 'CDL_pics',
                         'query' => null // this will need a query for photo evidence
+                    ]
+                ],
+                [
+                    'comments' => [
+                        "label" => "<label for='comments'>More Information</label>",
+                        "tagName" => "textarea",
+                        "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
+                        "type" => null,
+                        "name" => 'comments',
+                        "id" => 'comments',
+                        "query" => null
                     ]
                 ]
             ];
@@ -257,13 +236,26 @@ include('filestart.php')
                         'query' => null,
                         'value' => $evidenceLink
                     ]
+                ],
+                [
+                    'ClosureComments' => [
+                        "label" => "<label for='ClosureComments'>Closure Comments</label>",
+                        "tagName" => "textarea",
+                        "element" => "<textarea name='ClosureComments' id='ClosureComments' class='form-control' maxlength='1000'>%s</textarea>",
+                        "type" => null,
+                        "name" => 'ClosureComments',
+                        "id" => 'ClosureComments',
+                        "query" => null
+                    ]
                 ]
             ];
             
+            echo "<h5 class='grey-bg pad'>Required Information</h5>";
             foreach ($requiredRows as $gridRow) {
-                print returnRow($gridRow, ['inline' => true]);
+                $options = count($gridRow) > 1 ? ['inline' => true] : ['colWd' => 6];
+                print returnRow($gridRow, $options);
             }
-            echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
+            // echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
             
             echo "
                 <h5 class='grey-bg pad'>
@@ -271,9 +263,10 @@ include('filestart.php')
                 </h5>
                 <div id='optionalInfo' class='collapse item-margin-bottom'>";
             foreach ($optionalRows as $gridRow) {
-                print returnRow($gridRow, ['inline' => true]);
+                $options = count($gridRow) > 1 ? ['inline' => true] : ['colWd' => 6];
+                print returnRow($gridRow, $options);
             }
-                echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
+                // echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
             echo "</div>";
             
             echo "
@@ -282,13 +275,14 @@ include('filestart.php')
                 </h5>
                 <div id='closureInfo' class='collapse item-margin-bottom'>";
             foreach ($closureRows as $gridRow) {
-                print returnRow($gridRow, ['inline' => true]);
+                $options = count($gridRow) > 1 ? ['inline' => true] : ['colWd' => 6];
+                print returnRow($gridRow, $options);
             }
-                echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
+                // echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
             echo "</div>";
 
         ?>
-        <fieldset class="item-margin-bottom">
+        <!--<fieldset class="item-margin-bottom">
             <legend class="bg-secondary text-white form-section-heading">Required Information</legend>
             <div class="form-subsection item-border-bottom item-margin-bottom form-group">
                 <div class="half-container">
@@ -467,11 +461,11 @@ include('filestart.php')
                     <textarea name="ClosureComments" rows="5" maxlength="1000" class="form-control textarea-full-width"></textarea>
                 </div>
             </div>
-        </fieldset>
-        <fieldset class="center-content">
+        </fieldset>-->
+        <div class="center-content">
             <button type='submit' value='submit' class='btn btn-primary btn-lg'>Submit</button>
             <button type='reset' value='reset' class='btn btn-primary btn-lg'>Reset</button>
-        </fieldset>
+        </div>
     </form>
 </main>
 <?php 
