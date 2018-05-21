@@ -335,8 +335,6 @@ $formCtrls = [
             }
                 echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
             echo "</div>";
-            // echo returnRow($link2, array_slice($formCtrls, 15, 3));
-            // echo returnRow($link2, array_slice($formCtrls, 18, 1));
     echo "
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>

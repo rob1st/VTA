@@ -5,12 +5,13 @@ function returnSelectInput($data) {
     $cnxn = f_sqlConnect();
     $selectEl = "<{$data['tagName']} name='{$data['name']}' id='{$data['id']}' class='form-control'>";
     $options = "<option value=''></option>";
-    // if val @ [query] is a string, use it query db
+    $value = isset($data['value']) ? $data['value'] : '';
+    // if val @ [query] is a string, use it to query db
     // if val @ [query] is a sql query result, use it
     $result = is_string($data['query']) ? $cnxn->query($data['query']) : $data['query'];
     if ($result) {
         while ($row = $result->fetch_row()) {
-            $selected = $row[0] == $data['value'] ? ' selected' : ' data-notSelected';
+            $selected = $row[0] == $value ? ' selected' : ' data-notSelected';
             $options .= "<option value='{$row[0]}'{$selected}>{$row[1]}</option>";
         }
     } elseif ($cnxn->error) {
@@ -24,12 +25,14 @@ function returnSelectInput($data) {
 }
 
 function returnTextInput($data) {
-    $inputEl = sprintf($data['element'], $data['value']);
+    $value = isset($data['value']) ? $data['value'] : '';
+    $inputEl = sprintf($data['element'], $value);
     return $inputEl;
 }
 
 function returnDateInput($data) {
-    $dateEl = sprintf($data['element'], $data['value']);
+    $value = isset($data['value']) ? $data['value'] : '';
+    $dateEl = sprintf($data['element'], $value);
     return $dateEl;
 }
 
@@ -38,7 +41,8 @@ function returnFileInput($data) {
 }
 
 function returnTextarea($data) {
-    $textarea = sprintf($data['element'], $data['value']);
+    $value = isset($data['value']) ? $data['value'] : '';
+    $textarea = sprintf($data['element'], $value);
     return $textarea;
 }
 
