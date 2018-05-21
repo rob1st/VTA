@@ -17,104 +17,6 @@ ini_set("display_errors", 1);
 
 // form control data
 $formCtrls = [
-    'SafetyCert' => [
-        "label" => "<label for='SafetyCert'>Safety Certifiable</label>",
-        "tagName" => 'select',
-        "type" => '',
-        "name" => 'SafetyCert',
-        "id" => 'SafetyCert',
-        "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo"
-    ],
-    'SystemAffected' => [
-        "label" => "<label for='SystemAffected'>System Affected</label>",
-        "tagName" => 'select',
-        "type" => '',
-        "name" => 'SystemAffected',
-        "id" => 'SystemAffected',
-        "query" => "SELECT SystemID, System FROM System ORDER BY System"
-    ],
-    'LocationName' => [
-        "label" => "<label for='LocationName'>General Location</label>",
-        "tagName" => 'select',
-        "type" => '',
-        "name" => 'LocationName',
-        "id" => 'LocationName',
-        "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName"
-    ],
-    'SpecLoc' => [
-        "label" => "<label for='SpecLoc'>Specific Location</label>",
-        "tagName" => "input",
-        "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
-        "type" => 'text',
-        "name" => 'SpecLoc',
-        "id" => 'SpecLoc',
-        "query" => null
-    ],
-    'Status' => [
-        "label" => "<label for='Status'>Status</label>",
-        "tagName" => "select",
-        "element" => "<select name='SpecLoc' id='SpecLoc' class='form-control'>",
-        "type" => null,
-        "name" => 'Status',
-        "id" => 'Status',
-        "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID"
-    ],
-    'SeverityName' => [
-        "label" => "<label for='SeverityName'>Severity</label>",
-        "tagName" => "select",
-        "element" => "<select name='SeverityName' id='SeverityName' class='form-control'>",
-        "type" => null,
-        "name" => 'SeverityName',
-        "id" => 'SeverityName',
-        "query" => "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName"
-    ],
-    'DueDate' => [
-        "label" => "<label for='DueDate'>To be resolved by</label>",
-        "tagName" => "input",
-        "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control'>",
-        "type" => 'date',
-        "name" => 'DueDate',
-        "id" => 'DueDate',
-        "query" => null
-    ],
-    'RequiredBy' => [
-        "label" => "<label for='RequiredBy'>Required for</label>",
-        "tagName" => "select",
-        "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control'>",
-        "type" => null,
-        "name" => 'RequiredBy',
-        "id" => 'RequiredBy',
-        "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy"
-    ],
-    'contract' => [
-        'label' => "<label for='contract'>Contact</label>",
-        'tagName' => 'select',
-        'element' => "
-            <label for='contract'>Contact</label>
-            <select name='contractID' id='contractID' class='form-control'>%s</select>",
-        'type' => null,
-        'name' => 'contractID',
-        'id' => 'contractID',
-        'query' => "SELECT contractID, contract FROM Contract ORDER BY contractID"
-    ],
-    'GroupToResolve' =>[
-        "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
-        "tagName" => "select",
-        "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control'>",
-        "type" => null,
-        "name" => 'GroupToResolve',
-        "id" => 'GroupToResolve',
-        "query" => "SELECT SystemID, System FROM System ORDER BY System"
-    ],
-    'IdentifiedBy' => [
-        "label" => "<label for='IdentifiedBy'>Identified By</label>",
-        "tagName" => "input",
-        "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s'>",
-        "type" => 'text',
-        "name" => 'IdentifiedBy',
-        "id" => 'IdentifiedBy',
-        "query" => null
-    ],
     'Description' => [
         "label" => "<label for='Description'>Deficiency Description</label>",
         "tagName" => "textarea",
@@ -124,42 +26,6 @@ $formCtrls = [
         "id" => 'Description',
         "query" => null
     ],
-    'Spec' => [
-        "label" => "<label for='Spec'>Spec or Code</label>",
-        "tagName" => "input",
-        "element" => "<input type='text' name='Spec' id='Spec' value='%s' class='form-control'>",
-        "type" => 'text',
-        "name" => 'Spec',
-        "id" => 'Spec',
-        "query" => null
-    ],
-    'ActionOwner' => [
-        "label" => "<label for='ActionOwner'>Action Owner</label>",
-        "tagName" => "input",
-        "element" => "<input type='text' name='ActionOwner' id='ActionOwner' value='%s' class='form-control'>",
-        "type" => 'text',
-        "name" => 'ActionOwner',
-        "id" => 'ActionOwner',
-        "query" => null
-    ],
-    'OldID' => [
-        "label" => "<label for='OldID'>Old Id</label>",
-        "tagName" => "input",
-        "element" => "<input type='text' name='OldID' id='OldID' value='%s' class='form-control'>",
-        "type" => 'text',
-        "name" => 'OldID',
-        "id" => 'OldID',
-        "query" => null
-    ],
-    'CDL_pics' => [
-        'label' => "<label for='CDL_pics'>Upload Photo</label>",
-        'tagName' => 'input',
-        'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control-file'>",
-        'type' => 'file',
-        'name' => 'CDL_pics',
-        'id' => 'CDL_pics',
-        'query' => null // this will need a query for photo evidence
-    ],
     'comments' => [
         "label" => "<label for='comments'>More Information</label>",
         "tagName" => "textarea",
@@ -168,33 +34,6 @@ $formCtrls = [
         "name" => 'comments',
         "id" => 'comments',
         "query" => null
-    ],
-    'EviType' => [
-        "label" => "<label for='EviType'>Evidence Type</label>",
-        "tagName" => 'select',
-        'element' => "<select name='EviType' id='EviType' class='form-control'>%s</select>",
-        "type" => '',
-        "name" => 'EviType',
-        "id" => 'EviType',
-        "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType"
-    ],
-    'Repo' => [
-        'label' => "<label for='Repo'>Evidence Repository</label>",
-        'tagName' => 'select',
-        'element' => "<select name='Repo' id='Repo' class='form-control'>%s</select>",
-        'type' => '',
-        'name' => 'Repo',
-        'id' => 'Repo',
-        'query' => "SELECT RepoID, Repo FROM Repo ORDER BY Repo"
-    ],
-    'EvidenceLink' => [
-        'label' => "<label for='EvidenceLink'>Repository Number</label>",
-        'tagName' => "input",
-        'element' => "<input type='text' name='EvidenceLink' id='EvidenceLink' class='form-control'>",
-        'type' => 'text',
-        'name' => 'EvidenceLink',
-        'id' => 'EvidenceLink',
-        'query' => null
     ],
     'ClosureComments' => [
         "label" => "<label for='ClosureComments'>Closure Comments</label>",
@@ -208,24 +47,6 @@ $formCtrls = [
 ];
 
 // row collections referencing form control data above
-$requiredRows = [
-    [ 'SafetyCert', 'SystemAffected' ],
-    [ 'LocationName', 'SpecLoc' ],
-    [ 'Status', 'SeverityName' ],
-    [ 'DueDate', 'GroupToResolve' ],
-    [ 'RequiredBy', 'contract'],
-    [ 'IdentifiedBy' ]
-];
-
-$optionalRows = [
-    [ 'Spec', 'ActionOwner' ],
-    [ 'OldID', 'CDL_pics' ]
-];
-
-$closureRows = [
-    [ 'EviType', 'Repo', 'EvidenceLink' ]
-];
-
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>Update Deficiency ".$defID."</h1>
@@ -235,33 +56,238 @@ $closureRows = [
     if($stmt = $link->prepare($defSql)) {
         $stmt->execute();
         $stmt->bind_result(
-            $formCtrls['OldID']['value'], 
-            $formCtrls['LocationName']['value'], 
-            $formCtrls['SpecLoc']['value'], 
-            $formCtrls['SeverityName']['value'], 
+            $oldID, 
+            $locationName, 
+            $specLoc, 
+            $severityName, 
             $formCtrls['Description']['value'], 
-            $formCtrls['Spec']['value'],
+            $spec,
             $DateCreated, 
-            $formCtrls['Status']['value'],
-            $formCtrls['IdentifiedBy']['value'], 
-            $formCtrls['SystemAffected']['value'], 
-            $formCtrls['GroupToResolve']['value'], 
-            $formCtrls['ActionOwner']['value'], 
-            $formCtrls['EviType']['value'], 
-            $formCtrls['EvidenceLink']['value'], 
+            $status,
+            $identifiedBy,
+            $systemAffected, 
+            $groupToResolve,
+            $actionOwner,
+            $eviType, 
+            $evidenceLink, 
             $DateClosed, 
             $LastUpdated, 
             $Updated_by, 
             $formCtrls['comments']['value'], 
-            $formCtrls['RequiredBy']['value'],
-            $formCtrls['contract']['value'],
-            $formCtrls['Repo']['value'], 
+            $requiredBy,
+            $contract,
+            $repo, 
             $Pics, 
             $formCtrls['ClosureComments']['value'],
-            $formCtrls['DueDate']['value'],
-            $formCtrls['SafetyCert']['value']);
-                
+            $dueDate,
+            $safetyCert);
+            
         while ($stmt->fetch()) {
+            $requiredRows = [
+                [
+                    'SafetyCert' => [
+                        "label" => "<label for='SafetyCert'>Safety Certifiable</label>",
+                        "tagName" => 'select',
+                        "type" => '',
+                        "name" => 'SafetyCert',
+                        "id" => 'SafetyCert',
+                        "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo",
+                        'value' => $safetyCert
+                    ],
+                    'SystemAffected' => [
+                        "label" => "<label for='SystemAffected'>System Affected</label>",
+                        "tagName" => 'select',
+                        "type" => '',
+                        "name" => 'SystemAffected',
+                        "id" => 'SystemAffected',
+                        "query" => "SELECT SystemID, System FROM System ORDER BY System",
+                        'value' => $systemAffected
+                    ]
+                ],
+                [
+                    'LocationName' => [
+                        "label" => "<label for='LocationName'>General Location</label>",
+                        "tagName" => 'select',
+                        "type" => '',
+                        "name" => 'LocationName',
+                        "id" => 'LocationName',
+                        "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
+                        'value' => $locationName
+                    ],
+                    'SpecLoc' => [
+                        "label" => "<label for='SpecLoc'>Specific Location</label>",
+                        "tagName" => "input",
+                        "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                        "type" => 'text',
+                        "name" => 'SpecLoc',
+                        "id" => 'SpecLoc',
+                        "query" => null,
+                        'value' => $specLoc
+                    ]
+                ],
+                [
+                    'Status' => [
+                        "label" => "<label for='Status'>Status</label>",
+                        "tagName" => "select",
+                        "element" => "<select name='SpecLoc' id='SpecLoc' class='form-control'>",
+                        "type" => null,
+                        "name" => 'Status',
+                        "id" => 'Status',
+                        "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID",
+                        'value' => $status
+                    ],
+                    'SeverityName' => [
+                        "label" => "<label for='SeverityName'>Severity</label>",
+                        "tagName" => "select",
+                        "element" => "<select name='SeverityName' id='SeverityName' class='form-control'>",
+                        "type" => null,
+                        "name" => 'SeverityName',
+                        "id" => 'SeverityName',
+                        "query" => "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName",
+                        'value' => $severityName
+                    ]
+                ],
+                [
+                    'DueDate' => [
+                        "label" => "<label for='DueDate'>To be resolved by</label>",
+                        "tagName" => "input",
+                        "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control'>",
+                        "type" => 'date',
+                        "name" => 'DueDate',
+                        "id" => 'DueDate',
+                        "query" => null,
+                        'value' => $dueDate
+                    ],
+                    'GroupToResolve' =>[
+                        "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
+                        "tagName" => "select",
+                        "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control'>",
+                        "type" => null,
+                        "name" => 'GroupToResolve',
+                        "id" => 'GroupToResolve',
+                        "query" => "SELECT SystemID, System FROM System ORDER BY System",
+                        'value' => $groupToResolve
+                    ]
+                ],
+                [
+                    'RequiredBy' => [
+                        "label" => "<label for='RequiredBy'>Required for</label>",
+                        "tagName" => "select",
+                        "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control'>",
+                        "type" => null,
+                        "name" => 'RequiredBy',
+                        "id" => 'RequiredBy',
+                        "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
+                        'value' => $requiredBy
+                    ],
+                    'contract' => [
+                        'label' => "<label for='contract'>Contact</label>",
+                        'tagName' => 'select',
+                        'element' => "
+                            <label for='contract'>Contact</label>
+                            <select name='contractID' id='contractID' class='form-control'>%s</select>",
+                        'type' => null,
+                        'name' => 'contractID',
+                        'id' => 'contractID',
+                        'query' => "SELECT contractID, contract FROM Contract ORDER BY contractID",
+                        'value' => $contract
+                    ]
+                ],
+                [
+                    'IdentifiedBy' => [
+                        "label" => "<label for='IdentifiedBy'>Identified By</label>",
+                        "tagName" => "input",
+                        "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s'>",
+                        "type" => 'text',
+                        "name" => 'IdentifiedBy',
+                        "id" => 'IdentifiedBy',
+                        "query" => null,
+                        'value' => $identifiedBy
+                    ]
+                ]
+            ];
+            
+            $optionalRows = [
+                [
+                    'Spec' => [
+                        "label" => "<label for='Spec'>Spec or Code</label>",
+                        "tagName" => "input",
+                        "element" => "<input type='text' name='Spec' id='Spec' value='%s' class='form-control'>",
+                        "type" => 'text',
+                        "name" => 'Spec',
+                        "id" => 'Spec',
+                        "query" => null,
+                        'value' => $spec
+                    ],
+                    'ActionOwner' => [
+                        "label" => "<label for='ActionOwner'>Action Owner</label>",
+                        "tagName" => "input",
+                        "element" => "<input type='text' name='ActionOwner' id='ActionOwner' value='%s' class='form-control'>",
+                        "type" => 'text',
+                        "name" => 'ActionOwner',
+                        "id" => 'ActionOwner',
+                        "query" => null,
+                        'value' => $actionOwner
+                    ]
+                ],
+                [
+                    'OldID' => [
+                        "label" => "<label for='OldID'>Old Id</label>",
+                        "tagName" => "input",
+                        "element" => "<input type='text' name='OldID' id='OldID' value='%s' class='form-control'>",
+                        "type" => 'text',
+                        "name" => 'OldID',
+                        "id" => 'OldID',
+                        "query" => null,
+                        'value' => $oldID
+                    ],
+                    'CDL_pics' => [
+                        'label' => "<label for='CDL_pics'>Upload Photo</label>",
+                        'tagName' => 'input',
+                        'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control-file'>",
+                        'type' => 'file',
+                        'name' => 'CDL_pics',
+                        'id' => 'CDL_pics',
+                        'query' => null // this will need a query for photo evidence
+                    ]
+                ]
+            ];
+            
+            $closureRows = [
+                [
+                    'EviType' => [
+                        "label" => "<label for='EviType'>Evidence Type</label>",
+                        "tagName" => 'select',
+                        'element' => "<select name='EviType' id='EviType' class='form-control'>%s</select>",
+                        "type" => '',
+                        "name" => 'EviType',
+                        "id" => 'EviType',
+                        "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType",
+                        'value' => $eviType
+                    ],
+                    'Repo' => [
+                        'label' => "<label for='Repo'>Evidence Repository</label>",
+                        'tagName' => 'select',
+                        'element' => "<select name='Repo' id='Repo' class='form-control'>%s</select>",
+                        'type' => '',
+                        'name' => 'Repo',
+                        'id' => 'Repo',
+                        'query' => "SELECT RepoID, Repo FROM Repo ORDER BY Repo",
+                        'value' => $repo
+                    ],
+                    'EvidenceLink' => [
+                        'label' => "<label for='EvidenceLink'>Repository Number</label>",
+                        'tagName' => "input",
+                        'element' => "<input type='text' name='EvidenceLink' id='EvidenceLink' class='form-control' value='%s'>",
+                        'type' => 'text',
+                        'name' => 'EvidenceLink',
+                        'id' => 'EvidenceLink',
+                        'query' => null,
+                        'value' => $evidenceLink
+                    ]
+                ]
+            ];
+
             echo "
                 <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
                     <input type='hidden' name='DefID' value='$defID'>
@@ -272,9 +298,6 @@ $closureRows = [
                     </div>";
                     
             foreach ($requiredRows as $gridRow) {
-                foreach ($gridRow as $i => $str) {
-                    $gridRow[$i] = $formCtrls[$str];
-                }
                 print returnRow($gridRow, ['inline' => true]);
             }
             // print returnRowGroup($requiredRows, $formCtrls, ['inline' => true]);
@@ -285,7 +308,9 @@ $closureRows = [
                     <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
                 <div id='optionalInfo' class='collapse item-margin-bottom'>";
-                print returnRowGroup($optionalRows, $formCtrls, ['inline' => true]);
+            foreach ($optionalRows as $gridRow) {
+                print returnRow($gridRow, ['inline' => true]);
+            }
                 echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
                 echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
             echo "</div>";
@@ -295,7 +320,9 @@ $closureRows = [
                     <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
                 </h5>
                 <div id='closureInfo' class='collapse item-margin-bottom'>";
-                print returnRowGroup($closureRows, $formCtrls, ['inline' => true]);
+            foreach ($closureRows as $gridRow) {
+                print returnRow($gridRow, ['inline' => true]);
+            }
                 echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
             echo "</div>";
             // echo returnRow($link2, array_slice($formCtrls, 15, 3));
