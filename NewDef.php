@@ -13,9 +13,11 @@ include('filestart.php')
 ?>
 <header class="container page-header">
     <h1 class="page-title">Add New Deficiency</h1>
+    <h4 class='text-indigo'><?php print $_SESSION['UserID'] ?></h4>
 </header>
 <main role="main" class="container main-content">
     <form action="RecDef.php" method="POST">
+        <input type='hidden' name='username' value='<?php print $_SESSION['Username'] ?>' />
         <?php
             $requiredRows = [
                 [
@@ -37,12 +39,12 @@ include('filestart.php')
                     ]
                 ],
                 [
-                    'LocationName' => [
-                        "label" => "<label for='LocationName'>General Location</label>",
+                    'Location' => [
+                        "label" => "<label for='Location'>General Location</label>",
                         "tagName" => 'select',
                         "type" => '',
-                        "name" => 'LocationName',
-                        "id" => 'LocationName',
+                        "name" => 'Location',
+                        "id" => 'Location',
                         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
                     ],
                     'SpecLoc' => [
@@ -105,11 +107,11 @@ include('filestart.php')
                         "id" => 'RequiredBy',
                         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
                     ],
-                    'contract' => [
-                        'label' => "<label for='contract'>Contract</label>",
+                    'contractID' => [
+                        'label' => "<label for='contractID'>Contract</label>",
                         'tagName' => 'select',
                         'element' => "
-                            <label for='contract'>Contact</label>
+                            <label for='contractID'>Contact</label>
                             <select name='contractID' id='contractID' class='form-control'>%s</select>",
                         'type' => null,
                         'name' => 'contractID',

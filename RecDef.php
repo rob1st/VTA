@@ -2,7 +2,8 @@
     include('SQLFunctions.php');
     session_start();
     $link = f_sqlConnect();
-    $table = CDL;
+    $date = date('Y-m-d');
+    $nullVal = null;
     $sql = file_get_contents("recDef.sql");
     $post = $_POST;
     unset($post['CDL_pics']);
@@ -12,35 +13,70 @@
 
     $userID = $_SESSION['UserID'];
     
-    echo '<p>Parsed keys: '.$sql.'</p>';
+    echo "<p style='font-family: monospace'>SQL string: $sql</p>";
+    echo "<pre style='color: blue'>";
+    var_dump($post);
+    echo "</pre>";
     
     if ($stmt = $link->prepare($sql)) {
-      $types = 'iiisiisiiisisssisiississ';
-      echo "<pre>";
-      var_dump($post);
-      echo "</pre>";
-      $values = "'".implode("', '", (array_values($post)))."'";
-      $values .= ", '$userID', CURDATE()";
-      $dateClosed = $post['DateClosed'] ? ", {$post['DateClosed']}" : ", null";
-      $values .= $dateClosed;
-        $valsArr = explode(', ', $values);
-      echo "<pre>type string: ".strlen($types).", $types</pre>";
-      echo "<pre>Parsed Values:".count($valsArr).": $values</pre>";
-      echo "<pre>";
-      var_dump($valsArr);
-      echo "</pre>";
-      if ($stmt->bind_param($types, $values)) {
-        echo "<span>{$stmt->field_count} {$stmt->param_count}</span>";
+      $types = 'iiisiisiiisisssisiisssss';
+      if ($stmt->bind_param($types,
+        $post['SafetyCert'],
+        $post['SystemAffected'],
+        $post['Location'],
+        $link->escape_string($post['SpecLoc']),
+        $post['Status'],
+        $post['Severity'],
+        $link->escape_string($post['DueDate']),
+        $post['GroupToResolve'],
+        $post['RequiredBy'],
+        $post['contractID'],
+        $link->escape_string($post['IdentifiedBy']),
+        $post['defType'],
+        $link->escape_string($post['Description']),
+        $link->escape_string($post['Spec']),
+        $link->escape_string($post['ActionOwner']),
+        $post['OldID'],
+        $link->escape_string($post['comments']),
+        $post['EvidenceType'],
+        $post['Repo'],
+        $link->escape_string($post['EvidenceLink']),
+        $link->escape_string($post['ClosureComments']),
+        $link->escape_string($post['username']),
+        $date,
+        $nullVal
+      )) {
+        echo "<p style='color: lightSeaGreen; font-family: monospace'>{$stmt->param_count}</p>";
+        if ($stmt->execute()) {
+          echo "<p style='color: tomato; font-family: cursive'>INSERT ID: ";
+          echo $stmt->insert_id;
+          echo ", AFFECTED ROWS: ";
+          echo $stmt->affected_rows;
+          echo "</p>";
+        } elseif ($stmt->error) {
+          echo "<pre style='color: mediumSlateBlue; font-size: 1.2rem'>STATEMENT ERROR: ";
+          echo $stmt->error;
+          echo "</pre>";
+        } else {
+          echo "<pre style='color: goldenRod; font-size: 1.2rem'>LINK ERROR from execute: ";
+          echo $link->error;
+          echo "</pre>";
+        }
+        // echo "<h4>did it execute? what was the result? who knows?</h4>";
       } else {
+        echo "<pre style='color: limeGreen'>";
         echo $link->error;
+        echo "</pre>";
         $link->close();
         exit;
       }
     } else {
-      echo $link->error;
+      echo "<pre style='color: fuchsia'>{$link->error}</pre>";
       $link->close();
       exit;
     }
+    
+    // echo "<h3 style='color: darkRed; font-family: sans-serif'>What happened? who can tell?</h3>";
     
     /*
     
@@ -75,6 +111,6 @@
             //echo "Success";
     }
 }*/
-    
+  $stmt->close();
 	$link->close();
 ?>
