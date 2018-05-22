@@ -24,7 +24,7 @@ var_dump($post);
 echo "</pre>";
 
 if ($stmt = $link->prepare($sql)) {
-  $types = 'iiisiisiiisisssisiisssss';
+  $types = 'iiisiisiiisisssssiisssss';
   if ($stmt->bind_param($types,
     $post['SafetyCert'],
     $post['SystemAffected'],
@@ -41,7 +41,7 @@ if ($stmt = $link->prepare($sql)) {
     $link->escape_string($post['Description']),
     $link->escape_string($post['Spec']),
     $link->escape_string($post['ActionOwner']),
-    $post['OldID'],
+    $link->escape_string($post['OldID']),
     $link->escape_string($post['comments']),
     $post['EvidenceType'],
     $post['Repo'],
