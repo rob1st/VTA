@@ -21,16 +21,18 @@ include('filestart.php')
             $requiredRows = [
                 [
                     'SafetyCert' => [
-                        "label" => "<label for='SafetyCert'>Safety Certifiable</label>",
+                        "label" => "<label for='SafetyCert' class='required'>Safety Certifiable</label>",
                         "tagName" => 'select',
+                        'element' => "<select name='SafetyCert' id='SafetyCert' class='form-control' required>%s</select>",
                         "type" => '',
                         "name" => 'SafetyCert',
                         "id" => 'SafetyCert',
                         "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo",
                     ],
                     'SystemAffected' => [
-                        "label" => "<label for='SystemAffected'>System Affected</label>",
+                        "label" => "<label for='SystemAffected' class='required'>System Affected</label>",
                         "tagName" => 'select',
+                        'element' => "<select name='SystemAffected' id='SystemAffected' class='form-control' required>%s</select>",
                         "type" => '',
                         "name" => 'SystemAffected',
                         "id" => 'SystemAffected',
@@ -39,17 +41,18 @@ include('filestart.php')
                 ],
                 [
                     'Location' => [
-                        "label" => "<label for='Location'>General Location</label>",
+                        "label" => "<label for='Location' class='required'>General Location</label>",
                         "tagName" => 'select',
+                        'element' => "<select name='Location' id='Location' class='form-control' required>%s</select>",
                         "type" => '',
                         "name" => 'Location',
                         "id" => 'Location',
                         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
                     ],
                     'SpecLoc' => [
-                        "label" => "<label for='SpecLoc'>Specific Location</label>",
+                        "label" => "<label for='SpecLoc' class='required'>Specific Location</label>",
                         "tagName" => "input",
-                        "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                        "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control' required>",
                         "type" => 'text',
                         "name" => 'SpecLoc',
                         "id" => 'SpecLoc',
@@ -58,18 +61,18 @@ include('filestart.php')
                 ],
                 [
                     'Status' => [
-                        "label" => "<label for='Status'>Status</label>",
+                        "label" => "<label for='Status' class='required'>Status</label>",
                         "tagName" => "select",
-                        "element" => "<select name='SpecLoc' id='SpecLoc' class='form-control'>",
+                        "element" => "<select name='SpecLoc' id='SpecLoc' class='form-control' required>%s</select>",
                         "type" => null,
                         "name" => 'Status',
                         "id" => 'Status',
                         "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID",
                     ],
                     'Severity' => [
-                        "label" => "<label for='Severity'>Severity</label>",
+                        "label" => "<label for='Severity' class='required'>Severity</label>",
                         "tagName" => "select",
-                        "element" => "<select name='Severity' id='Severity' class='form-control'>",
+                        "element" => "<select name='Severity' id='Severity' class='form-control' required>%s</select>",
                         "type" => null,
                         "name" => 'Severity',
                         "id" => 'Severity',
@@ -78,18 +81,18 @@ include('filestart.php')
                 ],
                 [
                     'DueDate' => [
-                        "label" => "<label for='DueDate'>To be resolved by</label>",
+                        "label" => "<label for='DueDate' class='required'>To be resolved by</label>",
                         "tagName" => "input",
-                        "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control'>",
+                        "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control' required>",
                         "type" => 'date',
                         "name" => 'DueDate',
                         "id" => 'DueDate',
                         "query" => null,
                     ],
                     'GroupToResolve' =>[
-                        "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
+                        "label" => "<label for='GroupToResolve' class='required'>Group to Resolve</label>",
                         "tagName" => "select",
-                        "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control'>",
+                        "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control' required>%s</select>",
                         "type" => null,
                         "name" => 'GroupToResolve',
                         "id" => 'GroupToResolve',
@@ -98,20 +101,18 @@ include('filestart.php')
                 ],
                 [
                     'RequiredBy' => [
-                        "label" => "<label for='RequiredBy'>Required for</label>",
+                        "label" => "<label for='RequiredBy' class='required'>Required for</label>",
                         "tagName" => "select",
-                        "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control'>",
+                        "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control' required>%s</select>",
                         "type" => null,
                         "name" => 'RequiredBy',
                         "id" => 'RequiredBy',
                         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
                     ],
                     'contractID' => [
-                        'label' => "<label for='contractID'>Contract</label>",
+                        'label' => "<label for='contractID' class='required'>Contract</label>",
                         'tagName' => 'select',
-                        'element' => "
-                            <label for='contractID'>Contact</label>
-                            <select name='contractID' id='contractID' class='form-control'>%s</select>",
+                        'element' => "<select name='contractID' id='contractID' class='form-control' required>%s</select>",
                         'type' => null,
                         'name' => 'contractID',
                         'id' => 'contractID',
@@ -120,18 +121,18 @@ include('filestart.php')
                 ],
                 [
                     'IdentifiedBy' => [
-                        "label" => "<label for='IdentifiedBy'>Identified By</label>",
+                        "label" => "<label for='IdentifiedBy' class='required'>Identified By</label>",
                         "tagName" => "input",
-                        "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s'>",
+                        "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s' required>",
                         "type" => 'text',
                         "name" => 'IdentifiedBy',
                         "id" => 'IdentifiedBy',
                         "query" => null,
                     ],
                     'defType' => [
-                        'label' => "<label for='defType'>Deficiency type</label>",
+                        'label' => "<label for='defType' class='required'>Deficiency type</label>",
                         'tagName' => "select",
-                        'element' => "<select name='defType' id='defType' class='form-control'>",
+                        'element' => "<select name='defType' id='defType' class='form-control' required>%s</select>",
                         'type' => null,
                         'name' => 'defType',
                         'id' => 'defType',
@@ -140,9 +141,9 @@ include('filestart.php')
                 ],
                 [
                     'Description' => [
-                        "label" => "<label for='Description'>Deficiency Description</label>",
+                        "label" => "<label for='Description' class='required'>Deficiency Description</label>",
                         "tagName" => "textarea",
-                        "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
+                        "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000' required>%s</textarea>",
                         "type" => null,
                         "name" => 'Description',
                         "id" => 'Description',
@@ -253,7 +254,9 @@ include('filestart.php')
             
             echo "<h5 class='grey-bg pad'>Required Information</h5>";
             foreach ($requiredRows as $gridRow) {
-                $options = count($gridRow) > 1 ? ['inline' => true] : ['colWd' => 6];
+                $options = [ 'required' => true ];
+                if (count($gridRow) > 1) $options['inline'] = true;
+                else $options['colWd'] = 6;
                 print returnRow($gridRow, $options);
             }
             

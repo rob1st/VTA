@@ -3,8 +3,10 @@ require_once "SQLFunctions.php";
 
 function returnSelectInput($data) {
     $cnxn = f_sqlConnect();
-    $selectEl = "<{$data['tagName']} name='{$data['name']}' id='{$data['id']}' class='form-control'>";
-    $options = "<option value=''></option>";
+    $selectEl = $data['element'];
+    $optionFormat = "<option value='%s'>%s</option>";
+    $emptyOption = sprintf($optionFormat, '', '');
+    $optionEls = $emptyOption;
     $value = isset($data['value']) ? $data['value'] : '';
     // if val @ [query] is a string, use it to query db
     // if val @ [query] is a sql query result, use it
@@ -12,13 +14,12 @@ function returnSelectInput($data) {
     if ($result) {
         while ($row = $result->fetch_row()) {
             $selected = $row[0] == $value ? ' selected' : '';
-            $options .= "<option value='{$row[0]}'{$selected}>{$row[1]}</option>";
+            $optionEls .= sprintf($optionFormat, $row[0], $row[1]);
         }
     } elseif ($cnxn->error) {
-        $options .= "<option selected>{$cnxn->error}</option>";
-    } else $options .= "<option selected>There was a problem with the query</option>";
-    $selectEl .= $options;
-    $selectEl .= "</select>";
+        $optionEls .= "<option selected>{$cnxn->error}</option>";
+    } else $optionEls .= "<option selected>There was a problem with the query</option>";
+    $selectEl = sprintf($data['element'], $optionEls);
     $result->close();
     $cnxn->close();
     return $selectEl;
