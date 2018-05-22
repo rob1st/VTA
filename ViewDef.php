@@ -1,6 +1,7 @@
 <?php
 include('session.php');
 include('html_functions/bootstrapGrid.php');
+include('html_functions/htmlFuncs.php');
 $defID = $_GET['defID'];
 $Role = $_SESSION['Role'];
 $title = "SVBX - Deficiency No".$defID;
@@ -12,8 +13,14 @@ $link = f_sqlConnect();
 $Def = file_get_contents("ViewDef.sql").$defID;
 
 $spanStr = "<span>%s</span>";
-$inputLikeStr = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
-$emptyInputLikeStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
+$fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
+$emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+
+function returnFakeInputStr($val) {
+    $str = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
+    $altStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+    return returnHtmlForVal($val, $str, $altStr);
+}
 
 if($stmt = $link->prepare($Def)) {
     $stmt->execute();  
@@ -48,74 +55,70 @@ if($stmt = $link->prepare($Def)) {
         $requiredRows = [
             [
                 sprintf($spanStr, 'Safety Certifiable'),
-                sprintf($inputLikeStr, $SafetyCert),
+                sprintf($fakeInputStr, $SafetyCert),
                 sprintf($spanStr, 'System Affected'),
-                sprintf($inputLikeStr, $SystemAffected)
+                sprintf($fakeInputStr, $SystemAffected)
             ],
             [
                 sprintf($spanStr, 'General Location'),
-                sprintf($inputLikeStr, $Location),
+                sprintf($fakeInputStr, $Location),
                 sprintf($spanStr, 'Specific Location'),
-                sprintf($inputLikeStr, stripcslashes($SpecLoc))
+                sprintf($fakeInputStr, stripcslashes($SpecLoc))
             ],
             [
                 sprintf($spanStr, 'Status'),
-                sprintf($inputLikeStr, $Status),
+                sprintf($fakeInputStr, $Status),
                 sprintf($spanStr, 'Severity'),
-                sprintf($inputLikeStr, $Severity)
+                sprintf($fakeInputStr, $Severity)
             ],
             [
                 sprintf($spanStr, 'Due Date'),
-                sprintf($inputLikeStr, $DueDate),
+                sprintf($fakeInputStr, $DueDate),
                 sprintf($spanStr, 'Group to resolve'),
-                sprintf($inputLikeStr, $GroupToResolve)
+                sprintf($fakeInputStr, $GroupToResolve)
             ],
             [
                 sprintf($spanStr, 'Resolution required by'),
-                sprintf($inputLikeStr, $RequiredBy),
+                sprintf($fakeInputStr, $RequiredBy),
                 sprintf($spanStr, 'Contract'),
-                sprintf($inputLikeStr, $contract)
+                sprintf($fakeInputStr, $contract)
             ],
             [
                 sprintf($spanStr, 'Identified By'),
-                sprintf($inputLikeStr, stripcslashes($IdentifiedBy)),
+                sprintf($fakeInputStr, stripcslashes($IdentifiedBy)),
                 sprintf($spanStr, 'Deficiency type'),
-                sprintf($inputLikeStr, $defType)
+                sprintf($fakeInputStr, $defType)
             ],
             [
-                sprintf($spanStr, 'Deficiency description').sprintf($inputLikeStr, stripcslashes($Description))
+                sprintf($spanStr, 'Deficiency description').sprintf($fakeInputStr, stripcslashes($Description))
             ]
         ];
         
         $optionalRows = [
             [
                 sprintf($spanStr, 'Spec or Code'),
-                $Spec ? sprintf($inputLikeStr, stripcslashes($Spec)) : sprintf($emptyInputLikeStr, stripcslashes($Spec)),
+                returnFakeInputStr($Spec),
                 sprintf($spanStr, 'Action Owner'),
-                $ActionOwner ? sprintf($inputLikeStr, stripcslashes($ActionOwner)) : sprintf($emptyInputLikeStr, stripcslashes($ActionOwner)),
+                returnFakeInputStr($ActionOwner),
                 sprintf($spanStr, 'Old Id'),
-                $OldID ? sprintf($inputLikeStr, stripcslashes($OldID)) : sprintf($emptyInputLikeStr, stripcslashes($OldID))
+                returnFakeInputStr($OldID)
             ],
             [
-                $Comments
-                    ? sprintf($spanStr, 'Additional information').sprintf($inputLikeStr, stripcslashes($Comments))
-                    : sprintf($spanStr, 'Additional information').sprintf($emptyInputLikeStr, stripcslashes($Comments))
+                returnFakeInputStr($Comments)
             ]
         ];
         
         $closureRows = [
             [
                 sprintf($spanStr, 'Evidence Type'),
-                $EvidenceType ? sprintf($inputLikeStr, $EvidenceType) : sprintf($emptyInputLikeStr, $EvidenceType),
+                returnFakeInputStr($EvidenceType),
                 sprintf($spanStr, 'Evidence Repository'),
-                $Repo ? sprintf($inputLikeStr, $Repo) : sprintf($emptyInputLikeStr, $Repo),
+                returnFakeInputStr($Repo),
                 sprintf($spanStr, 'Repository No.'),
-                $EvidenceLink ? sprintf($inputLikeStr, stripcslashes($EvidenceLink)) : sprintf($emptyInputLikeStr, stripcslashes($EvidenceLink))
+                returnFakeInputStr($EvidenceLink)
             ],
             [
-                $ClosureComments
-                    ? (sprintf($spanStr, 'Closure Comments').sprintf($inputLikeStr, stripcslashes($ClosureComments)))
-                    : (sprintf($spanStr, 'Closure Comments').sprintf($emptyInputLikeStr, stripcslashes($ClosureComments)))
+                returnFakeInputStr($ClosureComments)
             ]
         ];
         
