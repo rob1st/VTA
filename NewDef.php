@@ -13,10 +13,9 @@ include('filestart.php')
 ?>
 <header class="container page-header">
     <h1 class="page-title">Add New Deficiency</h1>
-    <h4 class='text-indigo'><?php print $_SESSION['UserID'] ?></h4>
 </header>
 <main role="main" class="container main-content">
-    <form action="RecDef.php" method="POST">
+    <form action="RecDef.php" method="POST" enctype="multipart/form-data">
         <input type='hidden' name='username' value='<?php print $_SESSION['Username'] ?>' />
         <?php
             $requiredRows = [

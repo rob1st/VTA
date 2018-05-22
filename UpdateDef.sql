@@ -20,7 +20,6 @@ SELECT
     RequiredBy,
     contractID,
     Repo,
-    Pics,
     ClosureComments,
     DueDate,
     SafetyCert,
