@@ -61,24 +61,38 @@ if ($stmt = $link->prepare($sql)) {
       // if INSERT succesful, prepare, upload, and INSERT photo
       if ($newDefID) {
         echo "<p style='color: teal'>INSERT ID: $newDefID</p>";
-        echo "<pre style='color: teal'>";
-        echo var_dump($_FILES);
-        echo "</pre>";
+        // echo "<pre style='color: royalBlue'>";
+        // echo var_dump($_FILES);
+        // echo "</pre>";
 
         if ($CDL_pics) {
-          $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $defID));
+          $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $newDefID));
           $qs .= "&$pathToFile";
           $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
           if ($stmt = $link->prepare($sql)) {
             echo "
               <p style='font-family: sans-serif; color: chocolate'>
               $sql<br>
+              $newDefID<br>
               $pathToFile
               </p>";
-              // if ($stmt->bind_param('is', $defID, $pathToFile)) {
-              //     if (!$stmt->execute()) $pathToFile = 'execute_failed';
-              //     $stmt->close();
-              // } else $pathToFile = 'bind_failed';
+              if ($stmt->bind_param('is', $newDefID, $pathToFile)) {
+                echo "<p style='color: grey'>CDL_pics PARAM_CT: {$stmt->param_count}</p>";
+                  if ($stmt->execute()) {
+                    echo "
+                      <p id='CDL_picINSERTsuccess' style='color: oliveDrab'>new CDL_pic id: {$stmt->insert_id}<br>
+                      affected CDL_pic rows: {$stmt->affected_rows}</p>";
+                  } else {
+                    echo "<pre id='CDL_picINSERT->error' style='color: olive; font-size: 1.2rem'>";
+                    echo $stmt->error;
+                    echo "</pre>";
+                  }
+                  $stmt->close();
+              } else {
+                echo "<p style='color: orangeRed'>";
+                echo $stmt->error;
+                echo "</p>";
+              }
           } else {
             echo "<p style='color: forestGreen'>";
             echo $link->error;
