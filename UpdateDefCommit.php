@@ -52,11 +52,11 @@ if(!empty($_POST)) {
                  Requiredby = '$RequiredBy',
                  contractID = '$contractID',
                  Repo = '$Repo',
-                 Pics = '$Pics',
                  ClosureComments = '$ClosureComments',
                  DueDate = '$DueDate',
                  Updated_by = '$Username',
-                 LastUpdated = NOW()
+                 LastUpdated = NOW(),
+                 defType = {$_POST['defType']}
             WHERE DefID = $defID;";
 
     // if photo in POST it will be committed to a separate table
@@ -82,9 +82,14 @@ if(!empty($_POST)) {
             } else $pathToFile = 'prepare_failed';
         }
     } else {
-        $qs = $link->error;
+        echo "
+        <div class='container page-header'>
+        <h5>There was a problem with the database query</h5>
+        <pre>";
+        echo $link->error;
+        echo "</pre></div>";
     }
-    mysqli_close($link);
+    $link->close();
     header("Location: ViewDef.php?$qs");
 }
 ?>

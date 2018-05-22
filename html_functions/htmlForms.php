@@ -4,8 +4,8 @@ require_once "SQLFunctions.php";
 function returnSelectInput($data) {
     $cnxn = f_sqlConnect();
     $selectEl = $data['element'];
-    $optionFormat = "<option value='%s'>%s</option>";
-    $emptyOption = sprintf($optionFormat, '', '');
+    $optionFormat = "<option value='%s' %s>%s</option>";
+    $emptyOption = sprintf($optionFormat, '', '', '');
     $optionEls = $emptyOption;
     $value = isset($data['value']) ? $data['value'] : '';
     // if val @ [query] is a string, use it to query db
@@ -14,7 +14,7 @@ function returnSelectInput($data) {
     if ($result) {
         while ($row = $result->fetch_row()) {
             $selected = $row[0] == $value ? ' selected' : '';
-            $optionEls .= sprintf($optionFormat, $row[0], $row[1]);
+            $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
         }
     } elseif ($cnxn->error) {
         $optionEls .= "<option selected>{$cnxn->error}</option>";

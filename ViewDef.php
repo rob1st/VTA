@@ -217,8 +217,18 @@ if($stmt = $link->prepare($Def)) {
             echo $photoSection;
         }
         $stmt->close();
+    } else {
+        echo "
+        <div class='container page-header'>
+        <h5>There was a problem with the request</h5>";
+        echo "<pre>";
+        echo $link->error;
+        echo "</pre>";
+        echo "<p>$Def</p>";
+        echo "</div></main>";
+        $link->close();
+        exit;
     }
-    
     // if Role has permission level show Update and Clone buttons
     if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
         echo "
@@ -241,7 +251,7 @@ if($stmt = $link->prepare($Def)) {
     echo "</pre>";
     echo "<p>$Def</p>";
     echo "</div>";
-  exit();  
+    exit;
 } 
 include('fileend.php');
 $link->close(); 
