@@ -14,7 +14,7 @@ $Def = file_get_contents("ViewDef.sql").$defID;
 $keyStr = "<span>%s</span>";
 $valStr = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
 
-    if($stmt = $link->prepare($Def)) {  
+    if($stmt = $link->prepare($Def)) {
         $stmt->execute();  
         $stmt->bind_result(
                 $OldID, 
@@ -39,7 +39,6 @@ $valStr = "<span class='d-block full-width pad-less thin-grey-border border-radi
                 $RequiredBy,
                 $contract,
                 $Repo,
-                $filename,
                 $ClosureComments,
                 $DueDate,
                 $SafetyCert,
@@ -227,15 +226,15 @@ $valStr = "<span class='d-block full-width pad-less thin-grey-border border-radi
         echo "</main>";
     } else {  
         echo "
-        <div='container'>
-        <br />
-        <br />
-        <br />
-        <br>Unable to connect<br>
-        </div>";
-        echo $Def.'<br /><br />';
+        <div class='container page-header'>
+        <h5>Unable to connect</h5>";
+        echo "<pre>";
+        echo $link->error;
+        echo "</pre>";
+        echo "<p>$Def</p>";
+        echo "</div>";
       exit();  
     } 
     include('fileend.php');
-    MySqli_Close($link); 
+    $link->close(); 
 ?>

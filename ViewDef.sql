@@ -21,7 +21,6 @@ SELECT
     R.RequiredBy,
     c.contract,
     p.Repo,
-    D.Pics,
     D.ClosureComments,
     D.DueDate,
     yn.YesNo,
