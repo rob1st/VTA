@@ -15,37 +15,6 @@ $link2 = f_sqlConnect();
 error_reporting(E_ALL);  
 ini_set("display_errors", 1);
 
-// form control data
-$formCtrls = [
-    'Description' => [
-        "label" => "<label for='Description'>Deficiency Description</label>",
-        "tagName" => "textarea",
-        "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
-        "type" => null,
-        "name" => 'Description',
-        "id" => 'Description',
-        "query" => null
-    ],
-    'comments' => [
-        "label" => "<label for='comments'>More Information</label>",
-        "tagName" => "textarea",
-        "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
-        "type" => null,
-        "name" => 'comments',
-        "id" => 'comments',
-        "query" => null
-    ],
-    'ClosureComments' => [
-        "label" => "<label for='ClosureComments'>Closure Comments</label>",
-        "tagName" => "textarea",
-        "element" => "<textarea name='ClosureComments' id='ClosureComments' class='form-control' maxlength='1000'>%s</textarea>",
-        "type" => null,
-        "name" => 'ClosureComments',
-        "id" => 'ClosureComments',
-        "query" => null
-    ]
-];
-
 // row collections referencing form control data above
     echo "
         <header class='container page-header'>
@@ -60,7 +29,7 @@ $formCtrls = [
                 $locationName, 
                 $specLoc, 
                 $severityName, 
-                $formCtrls['Description']['value'], 
+                $Description,
                 $spec,
                 $DateCreated, 
                 $status,
@@ -73,11 +42,11 @@ $formCtrls = [
                 $DateClosed, 
                 $LastUpdated, 
                 $Updated_by, 
-                $formCtrls['comments']['value'], 
+                $comments, 
                 $requiredBy,
                 $contract,
                 $repo, 
-                $formCtrls['ClosureComments']['value'],
+                $ClosureComments,
                 $dueDate,
                 $safetyCert,
                 $defType)) {
@@ -215,6 +184,18 @@ $formCtrls = [
                                 'query' => 'SELECT defTypeID, defTypeName FROM defType',
                                 'value' => $defType
                             ]
+                        ],
+                        [
+                            'Description' => [
+                                "label" => "<label for='Description'>Deficiency Description</label>",
+                                "tagName" => "textarea",
+                                "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
+                                "type" => null,
+                                "name" => 'Description',
+                                "id" => 'Description',
+                                "query" => null,
+                                'value' => stripcslashes($Description)
+                            ]
                         ]
                     ];
                     
@@ -261,6 +242,18 @@ $formCtrls = [
                                 'id' => 'CDL_pics',
                                 'query' => null // this will need a query for photo evidence
                             ]
+                        ],
+                        [
+                            'comments' => [
+                                "label" => "<label for='comments'>More Information</label>",
+                                "tagName" => "textarea",
+                                "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
+                                "type" => null,
+                                "name" => 'comments',
+                                "id" => 'comments',
+                                "query" => null,
+                                'value' => stripcslashes($comments)
+                            ]
                         ]
                     ];
                     
@@ -296,6 +289,18 @@ $formCtrls = [
                                 'query' => null,
                                 'value' => stripcslashes($evidenceLink)
                             ]
+                        ],
+                        [
+                            'ClosureComments' => [
+                                "label" => "<label for='ClosureComments'>Closure Comments</label>",
+                                "tagName" => "textarea",
+                                "element" => "<textarea name='ClosureComments' id='ClosureComments' class='form-control' maxlength='1000'>%s</textarea>",
+                                "type" => null,
+                                "name" => 'ClosureComments',
+                                "id" => 'ClosureComments',
+                                "query" => null,
+                                'value' => stripcslashes($ClosureComments)
+                            ]
                         ]
                     ];
         
@@ -311,7 +316,7 @@ $formCtrls = [
                     foreach ($requiredRows as $gridRow) {
                         print returnRow($gridRow, ['inline' => true]);
                     }
-                    echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
+                    // echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
                     
                     echo "
                         <h5 class='grey-bg pad'>
@@ -322,7 +327,7 @@ $formCtrls = [
                         print returnRow($gridRow, ['inline' => true]);
                     }
                         echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
-                        echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
+                        // echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
                     echo "</div>";
                     
                     echo "
@@ -333,7 +338,7 @@ $formCtrls = [
                     foreach ($closureRows as $gridRow) {
                         print returnRow($gridRow, ['inline' => true]);
                     }
-                        echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
+                        // echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
                     echo "
                         </div>
                         <div class='row item-margin-bottom'>
