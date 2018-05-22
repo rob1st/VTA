@@ -203,7 +203,7 @@ $formCtrls = [
                                 "name" => 'IdentifiedBy',
                                 "id" => 'IdentifiedBy',
                                 "query" => null,
-                                'value' => $identifiedBy
+                                'value' => stripcslashes($identifiedBy)
                             ],
                             'defType' => [
                                 'label' => "<label for='defType'>Deficiency type</label>",
@@ -228,7 +228,7 @@ $formCtrls = [
                                 "name" => 'Spec',
                                 "id" => 'Spec',
                                 "query" => null,
-                                'value' => $spec
+                                'value' => stripcslashes($spec)
                             ],
                             'ActionOwner' => [
                                 "label" => "<label for='ActionOwner'>Action Owner</label>",
@@ -238,7 +238,7 @@ $formCtrls = [
                                 "name" => 'ActionOwner',
                                 "id" => 'ActionOwner',
                                 "query" => null,
-                                'value' => $actionOwner
+                                'value' => stripcslashes($actionOwner)
                             ]
                         ],
                         [
@@ -250,7 +250,7 @@ $formCtrls = [
                                 "name" => 'OldID',
                                 "id" => 'OldID',
                                 "query" => null,
-                                'value' => $oldID
+                                'value' => stripcslashes($oldID)
                             ],
                             'CDL_pics' => [
                                 'label' => "<label for='CDL_pics'>Upload Photo</label>",
@@ -294,7 +294,7 @@ $formCtrls = [
                                 'name' => 'EvidenceLink',
                                 'id' => 'EvidenceLink',
                                 'query' => null,
-                                'value' => $evidenceLink
+                                'value' => stripcslashes($evidenceLink)
                             ]
                         ]
                     ];
