@@ -1,14 +1,11 @@
 <?php
 session_start();
 
+include 'utils/utils.php';
 include 'nimrod.php';
 include 'error_handling/uploadException.php';
 
 $types = [ 'jpg', 'jpeg', 'png', 'gif'];
-
-function boolToStr($bool) {
-    return ($bool ? 'true' : 'false');
-}
 
 function filetypeCheck($type) {
     global $types;

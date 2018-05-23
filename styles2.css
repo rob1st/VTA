@@ -730,6 +730,11 @@ a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
     } 
 }
 
+.table-layout-fixed, .table-layout-fixed>thead, .table-layout-fixed>tbody,
+.table-layout-fixed th, .table-layout-fixed tr, .table-layout-fixed td {
+    table-layout: fixed;
+}
+
 /* sum table is not a proper table, and should be changed */
 .svbx-table, .svbx-table>thead, .svbx-table>tbody,
 .svbx-table tr, .svbx-table th, .svbx-table td {
