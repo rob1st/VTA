@@ -127,5 +127,5 @@ if ($stmt = $link->prepare($sql)) {
 // $stmt->close();
 $link->close();
 	
-// 	header("Location: ViewDef.php?$newDefID");
+header("Location: ViewDef.php?$newDefID");
 ?>

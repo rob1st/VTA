@@ -33,7 +33,7 @@ if($stmt = $link->prepare($defSql)) {
         $oldID, 
         $location, 
         $specLoc, 
-        $severityName, 
+        $severity, 
         $Description,
         $spec,
         $DateCreated, 
@@ -57,7 +57,7 @@ if($stmt = $link->prepare($defSql)) {
         $defType);
     echo "
     <header class='container page-header'>
-        <h1 class='page-title'>Update Deficiency ".$defID."</h1>
+        <h1 class='page-title'>Clone Deficiency ".$defID."</h1>
     </header>
     <main class='container main-content'>";
 
@@ -118,15 +118,15 @@ if($stmt = $link->prepare($defSql)) {
                     "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID",
                     'value' => $status
                 ],
-                'SeverityName' => [
-                    "label" => "<label for='SeverityName' class='required'>Severity</label>",
+                'Severity' => [
+                    "label" => "<label for='Severity' class='required'>Severity</label>",
                     "tagName" => "select",
-                    "element" => "<select name='SeverityName' id='SeverityName' class='form-control' required>%s</select>",
+                    "element" => "<select name='Severity' id='Severity' class='form-control' required>%s</select>",
                     "type" => null,
-                    "name" => 'SeverityName',
-                    "id" => 'SeverityName',
+                    "name" => 'Severity',
+                    "id" => 'Severity',
                     "query" => "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName",
-                    'value' => $severityName
+                    'value' => $severity
                 ]
             ],
             [

@@ -36,6 +36,7 @@ function returnRow($elements, $options = []) {
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1 && isset($options['colWd'])) {
         $offset = floor((12 - $options['colWd'])/2);
+        // print $elements[0];
         $elRow .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
     } else foreach ($elements as $el) {
         $elRow .= returnCol($el, $colWd, $options);

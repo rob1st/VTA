@@ -104,7 +104,7 @@ if($stmt = $link->prepare($Def)) {
                 returnFakeInputStr($OldID)
             ],
             [
-                returnFakeInputStr($Comments)
+                sprintf($spanStr, 'More information').returnFakeInputStr($Comments)
             ]
         ];
         
@@ -118,7 +118,7 @@ if($stmt = $link->prepare($Def)) {
                 returnFakeInputStr($EvidenceLink)
             ],
             [
-                returnFakeInputStr($ClosureComments)
+                sprintf($spanStr, 'Closure comments').returnFakeInputStr($ClosureComments)
             ]
         ];
         
