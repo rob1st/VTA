@@ -198,8 +198,8 @@ function printProjectSearchBar($cnxn, $post, $formAction) {
 function printDefsTable($cnxn, $qry, $lvl) {
     if ($result = $cnxn->query($qry)) {
         if ($result->num_rows) {
-            $tableHeadings = [
-                [ 'text' => 'ID', 'classList' => 'svbx-th id-th'],
+            $tableFields = [
+                [ 'text' => 'ID', 'classList' => 'svbx-th id-th', 'innerHtml' => "<a href='ViewDef.php?DefID=%s' class='class1'>%s</a>" ],
                 [ 'text' => 'Location', 'classList' => 'svbx-th loc-th collapse-sm collapse-xs' ],
                 [ 'text' => 'Severity', 'classList' => 'svbx-th sev-th collapse-xs'],
                 [ 'text' => 'Date Created', 'classList' => 'svbx-th created-th collapse-md  collapse-sm collapse-xs' ],
@@ -208,7 +208,7 @@ function printDefsTable($cnxn, $qry, $lvl) {
                 [ 'text' => 'Brief Description', 'classList' => 'svbx-th descrip-th' ],
                 [ 'text' => 'Specific Location', 'classList' => 'svbx-th collapse-md collapse-sm collapse-xs' ],
                 [ 'auth' => 2, 'text' => 'Last Updated', 'classList' => 'svbx-th updated-th collapse-md collapse-sm collapse-xs' ],
-                [ 'auth' => 2, 'text' => 'Edit', 'classList' => 'svbx-th edit-th collapse-sm collapse-xs' ]
+                [ 'auth' => 2, 'text' => 'Edit', 'classList' => 'svbx-th edit-th collapse-sm collapse-xs', 'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>" ]
             ];
             /*
             // $lvl = is_bool(lvl) ? boolToStr($lvl) : $lvl;
@@ -232,55 +232,45 @@ function printDefsTable($cnxn, $qry, $lvl) {
             */
             
             print "<table class='table table-striped table-responsive svbx-table'>";
-            printTableHeadings($tableHeadings, $lvl);
-            $table = '<tbody>';
-                    
-            while($row = $result->fetch_array()) {
-                $table .= "
-                    <tr class='svbx-tr'>
-                        <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
-                        <td class='svbx-td loc-td collapse-sm collapse-xs'>{$row[1]}</td>
-                        <td class='svbx-td sev-td collapse-xs'>{$row[2]}</td>
-                        <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
-                        <td class='svbx-td status-td'>{$row[4]}</td>
-                        <td class='svbx-td system-td collapse-sm collapse-xs'>{$row[5]}</td>
-                        <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>
-                        <td class='svbx-td collapse-md collapse-sm collapse-xs'>{$row[7]}</td>";
-                if ($lvl > 1) {
-                   $table .= "
-                        <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[8]}</td>
-                        <td class='svbx-td edit-td collapse-sm collapse-xs'>
-                            <form action='UpdateDef.php' method='POST' onsubmit=''/>
-                                <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
-                            </form>
-                        </td>";
-                } else $table .= "</tr>";
-            }
-            $table .= "</tbody></table>";
+            printTableHeadings($tableFields, $lvl);
+            
+            populateTable($result, $tableFields, $lvl);
+            print "</table>";
+            // while($row = $result->fetch_array()) {
+            //     $table .= "
+            //         <tr class='svbx-tr'>
+            //             <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
+            //             <td class='svbx-td loc-td collapse-sm collapse-xs'>{$row[1]}</td>
+            //             <td class='svbx-td sev-td collapse-xs'>{$row[2]}</td>
+            //             <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
+            //             <td class='svbx-td status-td'>{$row[4]}</td>
+            //             <td class='svbx-td system-td collapse-sm collapse-xs'>{$row[5]}</td>
+            //             <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>
+            //             <td class='svbx-td collapse-md collapse-sm collapse-xs'>{$row[7]}</td>";
+            //     if ($lvl > 1) {
+            //       $table .= "
+            //             <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[8]}</td>
+            //             <td class='svbx-td edit-td collapse-sm collapse-xs'>
+            //                 <form action='UpdateDef.php' method='POST' onsubmit=''/>
+            //                     <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
+            //                 </form>
+            //             </td>";
+            //     } else $table .= "</tr>";
+            // }
+            // $table .= "</tbody></table>";
         } else {
-            $table .= "<h4 class='text-secondary text-center'>No results found for your search</h4>";
+            // $table .=
+            print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
         }
         $result->close();
     } elseif ($cnxn->error) {
-        $table .= "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
+        // $table .=
+        print "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
     }
-    return $table;
+    // return $table;
 }
 
 $sql = file_get_contents("CDList.sql");
-
-$projectDefFields = [
-// format as: [0] => 'tableName.fieldName', [1] => 'heading'
-    [ 'D.DefID', 'ID'],
-    [ 'L.LocationName', 'Location' ],
-    [ 'S.SeverityName', 'Severity' ],
-    [ 'D.DateCreated', 'Date Created' ],
-    [ 'T.Status', 'Status' ],
-    [ 'Y.System', 'System Affected' ],
-    [ 'D.Description', 'Brief Description' ],
-    [ 'D.SpecLoc', 'Specific Location' ]
-];
-
 
 if($_POST['Search'] == NULL) {
     $sql .= ' WHERE D.Status <> 3 ORDER BY DefID';
