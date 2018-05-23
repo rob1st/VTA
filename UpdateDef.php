@@ -15,13 +15,6 @@ $link2 = f_sqlConnect();
 error_reporting(E_ALL);  
 ini_set("display_errors", 1);
 
-// row collections referencing form control data above
-    echo "
-        <header class='container page-header'>
-            <h1 class='page-title'>Update Deficiency ".$defID."</h1>
-        </header>
-        <main class='container main-content'>";
-
     if($stmt = $link->prepare($defSql)) {
         if ($stmt->execute()) {
             if ($stmt->bind_result(
@@ -50,12 +43,17 @@ ini_set("display_errors", 1);
                 $dueDate,
                 $safetyCert,
                 $defType)) {
+                echo "
+                    <header class='container page-header'>
+                        <h1 class='page-title'>Update Deficiency ".$defID."</h1>
+                    </header>
+                    <main class='container main-content'>";
                 
                 while ($stmt->fetch()) {
                     $requiredRows = [
                         [
                             'SafetyCert' => [
-                                "label" => "<label for='SafetyCert'>Safety Certifiable</label>",
+                                "label" => "<label for='SafetyCert' class='required'>Safety Certifiable</label>",
                                 "tagName" => 'select',
                                 'element' => "<select name='SafetyCert' id='SafetyCert' class='form-control' required>%s</select>",
                                 "type" => '',
@@ -65,7 +63,7 @@ ini_set("display_errors", 1);
                                 'value' => $safetyCert
                             ],
                             'SystemAffected' => [
-                                "label" => "<label for='SystemAffected'>System Affected</label>",
+                                "label" => "<label for='SystemAffected' class='required'>System Affected</label>",
                                 "tagName" => 'select',
                                 'element' => "<select name='SystemAffected' id='SystemAffected' class='form-control' required>%s</select>",
                                 "type" => '',
@@ -77,7 +75,7 @@ ini_set("display_errors", 1);
                         ],
                         [
                             'LocationName' => [
-                                "label" => "<label for='LocationName'>General Location</label>",
+                                "label" => "<label for='LocationName' class='required'>General Location</label>",
                                 "tagName" => 'select',
                                 'element' => "<select name='LocationName' id='LocationName' class='form-control' required>%s</select>",
                                 "type" => '',
@@ -87,9 +85,9 @@ ini_set("display_errors", 1);
                                 'value' => $locationName
                             ],
                             'SpecLoc' => [
-                                "label" => "<label for='SpecLoc'>Specific Location</label>",
+                                "label" => "<label for='SpecLoc' class='required'>Specific Location</label>",
                                 "tagName" => "input",
-                                "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control'>",
+                                "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control' required>",
                                 "type" => 'text',
                                 "name" => 'SpecLoc',
                                 "id" => 'SpecLoc',
@@ -99,7 +97,7 @@ ini_set("display_errors", 1);
                         ],
                         [
                             'Status' => [
-                                "label" => "<label for='Status'>Status</label>",
+                                "label" => "<label for='Status' class='required'>Status</label>",
                                 "tagName" => "select",
                                 "element" => "<select name='Status' id='Status' class='form-control' required>%s</select>",
                                 "type" => null,
@@ -109,9 +107,9 @@ ini_set("display_errors", 1);
                                 'value' => $status
                             ],
                             'SeverityName' => [
-                                "label" => "<label for='SeverityName'>Severity</label>",
+                                "label" => "<label for='SeverityName' class='required'>Severity</label>",
                                 "tagName" => "select",
-                                "element" => "<select name='SeverityName' id='SeverityName' class='form-control'>%s</select>",
+                                "element" => "<select name='SeverityName' id='SeverityName' class='form-control' required>%s</select>",
                                 "type" => null,
                                 "name" => 'SeverityName',
                                 "id" => 'SeverityName',
@@ -121,9 +119,9 @@ ini_set("display_errors", 1);
                         ],
                         [
                             'DueDate' => [
-                                "label" => "<label for='DueDate'>To be resolved by</label>",
+                                "label" => "<label for='DueDate' class='required'>To be resolved by</label>",
                                 "tagName" => "input",
-                                "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control'>",
+                                "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control' required>",
                                 "type" => 'date',
                                 "name" => 'DueDate',
                                 "id" => 'DueDate',
@@ -131,9 +129,9 @@ ini_set("display_errors", 1);
                                 'value' => $dueDate
                             ],
                             'GroupToResolve' =>[
-                                "label" => "<label for='GroupToResolve'>Group to Resolve</label>",
+                                "label" => "<label for='GroupToResolve' class='required'>Group to Resolve</label>",
                                 "tagName" => "select",
-                                "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control'>%s</select>",
+                                "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control' required>%s</select>",
                                 "type" => null,
                                 "name" => 'GroupToResolve',
                                 "id" => 'GroupToResolve',
@@ -143,9 +141,9 @@ ini_set("display_errors", 1);
                         ],
                         [
                             'RequiredBy' => [
-                                "label" => "<label for='RequiredBy'>Required for</label>",
+                                "label" => "<label for='RequiredBy' class='required'>Required for</label>",
                                 "tagName" => "select",
-                                "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control'>%s</select>",
+                                "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control' required>%s</select>",
                                 "type" => null,
                                 "name" => 'RequiredBy',
                                 "id" => 'RequiredBy',
@@ -153,9 +151,9 @@ ini_set("display_errors", 1);
                                 'value' => $requiredBy
                             ],
                             'contract' => [
-                                'label' => "<label for='contract'>Contract</label>",
+                                'label' => "<label for='contract' class='required'>Contract</label>",
                                 'tagName' => 'select',
-                                'element' => "<select name='contractID' id='contractID' class='form-control'>%s</select>",
+                                'element' => "<select name='contractID' id='contractID' class='form-control' required>%s</select>",
                                 'type' => null,
                                 'name' => 'contractID',
                                 'id' => 'contractID',
@@ -165,9 +163,9 @@ ini_set("display_errors", 1);
                         ],
                         [
                             'IdentifiedBy' => [
-                                "label" => "<label for='IdentifiedBy'>Identified By</label>",
+                                "label" => "<label for='IdentifiedBy' class='required'>Identified By</label>",
                                 "tagName" => "input",
-                                "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s'>",
+                                "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s' required>",
                                 "type" => 'text',
                                 "name" => 'IdentifiedBy',
                                 "id" => 'IdentifiedBy',
@@ -175,9 +173,9 @@ ini_set("display_errors", 1);
                                 'value' => stripcslashes($identifiedBy)
                             ],
                             'defType' => [
-                                'label' => "<label for='defType'>Deficiency type</label>",
+                                'label' => "<label for='defType' class='required'>Deficiency type</label>",
                                 'tagName' => "select",
-                                'element' => "<select name='defType' id='defType' class='form-control'>%s</select>",
+                                'element' => "<select name='defType' id='defType' class='form-control' required>%s</select>",
                                 'type' => null,
                                 'name' => 'defType',
                                 'id' => 'defType',
@@ -187,9 +185,9 @@ ini_set("display_errors", 1);
                         ],
                         [
                             'Description' => [
-                                "label" => "<label for='Description'>Deficiency Description</label>",
+                                "label" => "<label for='Description' class='required'>Deficiency Description</label>",
                                 "tagName" => "textarea",
-                                "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000'>%s</textarea>",
+                                "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000' required>%s</textarea>",
                                 "type" => null,
                                 "name" => 'Description',
                                 "id" => 'Description',
@@ -240,7 +238,7 @@ ini_set("display_errors", 1);
                                 'type' => 'file',
                                 'name' => 'CDL_pics',
                                 'id' => 'CDL_pics',
-                                'query' => null // this will need a query for photo evidence
+                                'query' => null
                             ]
                         ],
                         [
@@ -314,6 +312,8 @@ ini_set("display_errors", 1);
                             </div>";
                             
                     foreach ($requiredRows as $gridRow) {
+                        $options = [ 'required' => true ];
+                        if (count($gridRow) > 1) $options['inline'] = true;
                         print returnRow($gridRow, ['inline' => true]);
                     }
                     // echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
@@ -324,6 +324,8 @@ ini_set("display_errors", 1);
                         </h5>
                         <div id='optionalInfo' class='collapse item-margin-bottom'>";
                     foreach ($optionalRows as $gridRow) {
+                        $options = [ 'required' => true ];
+                        if (count($gridRow) > 1) $options['inline'] = true;
                         print returnRow($gridRow, ['inline' => true]);
                     }
                         echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
@@ -336,6 +338,8 @@ ini_set("display_errors", 1);
                         </h5>
                         <div id='closureInfo' class='collapse item-margin-bottom'>";
                     foreach ($closureRows as $gridRow) {
+                        $options = [ 'required' => true ];
+                        if (count($gridRow) > 1) $options['inline'] = true;
                         print returnRow($gridRow, ['inline' => true]);
                     }
                         // echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);

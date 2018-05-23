@@ -13,7 +13,7 @@ $link = f_sqlConnect();
 $Def = file_get_contents("ViewDef.sql").$defID;
 
 $spanStr = "<span>%s</span>";
-$fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
+$fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
 $emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
 
 function returnFakeInputStr($val) {
@@ -236,7 +236,7 @@ if($stmt = $link->prepare($Def)) {
                 <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
                 <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
                     <div style='width:5px; height:auto; display:inline-block'></div>
-                    <input type='hidden' name='q' value='$defID'/>
+                    <input type='hidden' name='defID' value='$defID'/>
                     <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
                 </form>
             </div>";
