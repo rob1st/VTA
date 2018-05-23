@@ -97,14 +97,14 @@ if($stmt = $link->prepare($Def)) {
         $optionalRows = [
             [
                 sprintf($spanStr, 'Spec or Code'),
-                returnFakeInputStr($Spec),
+                returnFakeInputStr(stripcslashes($Spec)),
                 sprintf($spanStr, 'Action Owner'),
-                returnFakeInputStr($ActionOwner),
+                returnFakeInputStr(stripcslashes($ActionOwner)),
                 sprintf($spanStr, 'Old Id'),
-                returnFakeInputStr($OldID)
+                returnFakeInputStr(stripcslashes($OldID))
             ],
             [
-                sprintf($spanStr, 'More information').returnFakeInputStr($Comments)
+                sprintf($spanStr, 'More information').returnFakeInputStr(stripcslashes($Comments))
             ]
         ];
         
@@ -115,10 +115,10 @@ if($stmt = $link->prepare($Def)) {
                 sprintf($spanStr, 'Evidence Repository'),
                 returnFakeInputStr($Repo),
                 sprintf($spanStr, 'Repository No.'),
-                returnFakeInputStr($EvidenceLink)
+                returnFakeInputStr(stripcslashes($EvidenceLink))
             ],
             [
-                sprintf($spanStr, 'Closure comments').returnFakeInputStr($ClosureComments)
+                sprintf($spanStr, 'Closure comments').returnFakeInputStr(stripcslashes($ClosureComments))
             ]
         ];
         
