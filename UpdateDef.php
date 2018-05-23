@@ -314,7 +314,8 @@ ini_set("display_errors", 1);
                     foreach ($requiredRows as $gridRow) {
                         $options = [ 'required' => true ];
                         if (count($gridRow) > 1) $options['inline'] = true;
-                        print returnRow($gridRow, ['inline' => true]);
+                        else $options['colWd'] = 6;
+                        print returnRow($gridRow, $options);
                     }
                     // echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
                     
@@ -326,7 +327,8 @@ ini_set("display_errors", 1);
                     foreach ($optionalRows as $gridRow) {
                         $options = [ 'required' => true ];
                         if (count($gridRow) > 1) $options['inline'] = true;
-                        print returnRow($gridRow, ['inline' => true]);
+                        else $options['colWd'] = 6;
+                        print returnRow($gridRow, $options);
                     }
                         echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
                         // echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
@@ -340,7 +342,8 @@ ini_set("display_errors", 1);
                     foreach ($closureRows as $gridRow) {
                         $options = [ 'required' => true ];
                         if (count($gridRow) > 1) $options['inline'] = true;
-                        print returnRow($gridRow, ['inline' => true]);
+                        else $options['colWd'] = 6;
+                        print returnRow($gridRow, $options);
                     }
                         // echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
                     echo "

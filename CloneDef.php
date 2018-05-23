@@ -315,21 +315,19 @@ if($stmt = $link->prepare($defSql)) {
         ];
 
         echo "
-            <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
+            <form action='RecDef.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
                 <input type='hidden' name='DefID' value='$defID'>
                 <div class='row'>
                     <div class='col-12'>
                         <h4 class='pad grey-bg'>Deficiency No. $defID</h4>
                     </div>
                 </div>";
-                
         foreach ($requiredRows as $gridRow) {
             $options = [ 'required' => true ];
             if (count($gridRow) > 1) $options['inline'] = true;
-            print returnRow($gridRow, ['inline' => true]);
+            else $options['colWd'] = 6;
+            print returnRow($gridRow, $options);
         }
-        // echo returnRow([$formCtrls['Description']], ['colWd' => 6]);
-        
         echo "
             <h5 class='grey-bg pad'>
                 <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
@@ -338,10 +336,10 @@ if($stmt = $link->prepare($defSql)) {
         foreach ($optionalRows as $gridRow) {
             $options = [ 'required' => true ];
             if (count($gridRow) > 1) $options['inline'] = true;
-            print returnRow($gridRow, ['inline' => true]);
+            else $options['colWd'] = 6;
+            print returnRow($gridRow, $options);
         }
             echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
-            // echo returnRow([$formCtrls['comments']], ['colWd' => 6]);
         echo "</div>";
         
         echo "
@@ -352,9 +350,9 @@ if($stmt = $link->prepare($defSql)) {
         foreach ($closureRows as $gridRow) {
             $options = [ 'required' => true ];
             if (count($gridRow) > 1) $options['inline'] = true;
-            print returnRow($gridRow, ['inline' => true]);
+            else $options['colWd'] = 6;
+            print returnRow($gridRow, $options);
         }
-            // echo returnRow([$formCtrls['ClosureComments']], ['colWd' => 6]);
         echo "
             </div>
             <div class='row item-margin-bottom'>
@@ -579,6 +577,7 @@ if($stmt = $link->prepare($defSql)) {
     //         </div></main>
     //         ";
     }
+    echo "</main>";
 } else {  
     echo "<div class='container page-header'>";
     echo "<pre>";
