@@ -39,11 +39,12 @@ function populateTable(&$res, $fields, $authLvl) {
         // print "<pre>";
         // var_dump($row);
         // print "</pre>";
-        foreach ($row as $datum) {
+        foreach ($fields as $field) {
+            $datum = $row[$i];
             // print "<p class='text-red'>".gettype($fields[$i])."</p>";
-            if (is_string($fields[i])) $curTd = sprintf(is_string($fields[i]), $datum);
-            elseif (is_array($fields[$i])) {
-                $curField = $fields[$i];
+            if (is_string($field)) $curTd = sprintf(is_string($field), $datum);
+            elseif (is_array($field)) {
+                $curField = $field;
                 if ($curField['auth'] && $authLvl < $curField['auth']) continue;
                 // should factor this out into sep fcn and test for # %s args
                 $innerHtml = $curField['innerHtml'] ? sprintf($curField['innerHtml'], $datum, '%s') : $datum;
