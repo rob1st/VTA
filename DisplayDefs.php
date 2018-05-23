@@ -1,6 +1,6 @@
 <?php 
 include('session.php');
-session_start();
+// session_start();
 include('SQLFunctions.php');
 $title = "View Deficiencies";
 $link = f_sqlConnect();
@@ -51,14 +51,18 @@ function printInfoBox($lvl, $href) {
 }
 
 function printProjectSearchBar($cnxn, $post, $formAction) {
-    // concat content to $form string until it's all written
-    // then return the completed string
-    $form = sprintf("
+    $formStrF = "
         <div class='row item-margin-bottom'>
             <form action='%s' method='%s' class='col-12'>
                 <div class='row'>
-                    <h5 class='col-12'>Filter deficiencies</h5>
-                </div>", $formAction['action'], $formAction['method']);
+                    <h5 class='col-12'>
+                        <a data-toggle='collapse' href='#filterDefs' role='button' aria-expanded='false' aria-controls='filterDefs'>Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i></a>
+                    </h5>
+                </div>
+                <div class='collapse' id='filterDefs'>";
+    // concat content to $form string until it's all written
+    // then return the completed string
+    $form = sprintf($formStrF, $formAction['action'], $formAction['method']);
     $form .= "<div class='row item-margin-bottom'>
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Def #</label>
@@ -182,6 +186,7 @@ function printProjectSearchBar($cnxn, $post, $formAction) {
                     <button name='Reset' value='reset' type='button' class='btn btn-primary item-margin-right' onclick='return resetSearch(event)'>Reset</button>
                 </div>
             </div>
+            </div>
         </form>
     </div>";
     return $form;
@@ -275,19 +280,30 @@ if($_POST['Search'] == NULL) {
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
-    <h4 class='text-purple'>
+    <h4 id='printUserInfo' class='text-purple'>
         <?php
             $roleEqls = $role === 'S';
-            echo $roleLvl.' '.$role.' '.$roleEqls;
+            echo $roleLvl.' '.$role.' '.$roleEqls.' '.$bdPermit;
         ?>
     </h4>
+    <?php
+        if ($bdPermit) {
+            print "
+                <div class='row'>
+                    <div class='col-md-8 offset-md-2 d-flex'>
+                        <button class='btn btn-secondary flex-grow item-margin-right'>Project deficiencies</button>
+                        <button class='btn btn-secondary flex-grow item-margin-right'>BART deficiencies</button>
+                    </div>
+                </div>
+            ";
+        }
+    ?>
 </header>
 <?php
     echo "<main class='container main-content'>";
     echo printProjectSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
     echo printInfoBox($roleLvl, 'NewDef');
     echo printProjectDefsTable($link, $sql, $roleLvl);
-    
     echo "</main>";
     echo "
         <script>
