@@ -5,6 +5,7 @@ include('SQLFunctions.php');
 $title = "View Deficiencies";
 $link = f_sqlConnect();
 $role = $_SESSION['Role'];
+$view = $_GET['view'];
 include('filestart.php');
 
 $roleLvlMap = [
@@ -241,41 +242,43 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
         }
         $result->close();
     } elseif ($cnxn->error) {
-        $table .= "<h4 class='text-danger center-content'>Error: $cnxn->error</h4>";
+        $table .= "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
     }
     return $table;
 }
 
+$sql = file_get_contents("CDList.sql");
+
 if($_POST['Search'] == NULL) {
-    $sql = file_get_contents("CDList.sql");
+    $sql .= ' WHERE D.Status <> 3 ORDER BY DefID';
     $count = "SELECT COUNT(*) FROM CDL";
 } else {
     $postData = array_filter($_POST);
     unset($postData['Search']);
     
-    $sql = "SELECT 
-                A.DefID,
-                L.LocationName, 
-                S.SeverityName, 
-                A.DateCreated,
-                T.Status,
-                Y.System, 
-                A.Description,
-                A.SpecLoc,
-                A.LastUpdated
-            FROM CDL A 
-            LEFT JOIN Location L 
-            ON L.LocationID = A.Location
-            LEFT JOIN Severity S 
-            ON S.SeverityID = A.Severity
-            LEFT JOIN Status T
-            ON T.StatusID = A.Status
-            LEFT JOIN System Y
-            ON Y.SystemID = A.SystemAffected";
-    $count = "SELECT COUNT(*) FROM CDL A";
+    // $sql = "SELECT 
+    //             D.DefID,
+    //             L.LocationName, 
+    //             S.SeverityName, 
+    //             D.DateCreated,
+    //             T.Status,
+    //             Y.System, 
+    //             D.Description,
+    //             D.SpecLoc,
+    //             D.LastUpdated
+    //         FROM CDL D 
+    //         LEFT JOIN Location L 
+    //         ON L.LocationID = D.Location
+    //         LEFT JOIN Severity S 
+    //         ON S.SeverityID = D.Severity
+    //         LEFT JOIN Status T
+    //         ON T.StatusID = D.Status
+    //         LEFT JOIN System Y
+    //         ON Y.SystemID = D.SystemAffected";
+    $count = "SELECT COUNT(*) FROM CDL D";
     
-    $sql .= concatSqlStr($postData, 'A');
-    $count .= concatSqlStr($postData, 'A');
+    $sql .= concatSqlStr($postData, 'D');
+    $count .= concatSqlStr($postData, 'D');
 }
 ?>
 <header class="container page-header">
@@ -283,16 +286,16 @@ if($_POST['Search'] == NULL) {
     <h4 id='printUserInfo' class='text-purple'>
         <?php
             $roleEqls = $role === 'S';
-            echo $roleLvl.' '.$role.' '.$roleEqls.' '.$bdPermit;
+            echo $roleLvl.' '.$role.' '.$bdPermit.' '.$view;
         ?>
     </h4>
     <?php
         if ($bdPermit) {
             print "
                 <div class='row'>
-                    <div class='col-md-8 offset-md-2 d-flex'>
-                        <button class='btn btn-secondary flex-grow item-margin-right'>Project deficiencies</button>
-                        <button class='btn btn-secondary flex-grow item-margin-right'>BART deficiencies</button>
+                    <div class='col-12 d-flex'>
+                        <a href='DisplayDefs.php' class='btn btn-secondary text-white flex-grow item-margin-right'>Project deficiencies</a>
+                        <a href='DisplayDefs.php?view=BART' class='btn btn-secondary text-white flex-grow item-margin-right'>BART deficiencies</a>
                     </div>
                 </div>
             ";
