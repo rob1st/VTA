@@ -196,19 +196,58 @@ function printProjectSearchBar($cnxn, $post, $formAction) {
 }
 
 function printDefsTable($cnxn, $qry, $lvl) {
+    $tdClassList = 'svbx-td';
+    $thClassList = 'svbx-th';
+    $collapseXs = 'collapse-xs';
+    $collapseSm = 'collapse-sm collapse-xs';
+    $collapseMd = 'collapse-md  collapse-sm collapse-xs';
+    
     if ($result = $cnxn->query($qry)) {
         if ($result->num_rows) {
             $tableFields = [
-                [ 'text' => 'ID', 'classList' => 'svbx-th id-th', 'innerHtml' => "<a href='ViewDef.php?DefID=%s' class='class1'>%s</a>" ],
-                [ 'text' => 'Location', 'classList' => 'svbx-th loc-th collapse-sm collapse-xs' ],
-                [ 'text' => 'Severity', 'classList' => 'svbx-th sev-th collapse-xs'],
-                [ 'text' => 'Date Created', 'classList' => 'svbx-th created-th collapse-md  collapse-sm collapse-xs' ],
-                [ 'text' => 'Status', 'classList' => 'svbx-th status-th' ],
-                [ 'text' => 'System Affected', 'classList' => 'svbx-th system-th collapse-sm collapse-xs' ],
-                [ 'text' => 'Brief Description', 'classList' => 'svbx-th descrip-th' ],
-                [ 'text' => 'Specific Location', 'classList' => 'svbx-th collapse-md collapse-sm collapse-xs' ],
-                [ 'auth' => 2, 'text' => 'Last Updated', 'classList' => 'svbx-th updated-th collapse-md collapse-sm collapse-xs' ],
-                [ 'auth' => 2, 'text' => 'Edit', 'classList' => 'svbx-th edit-th collapse-sm collapse-xs', 'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>" ]
+                [
+                    'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
+                    'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?DefID=%s' class='class1'>%s</a>" ]
+                ],
+                [
+                    'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],
+                    'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
+                ],
+                [
+                    'header' => [ 'text' => 'Severity', 'classList' => "$thClassList $collapseXs" ],
+                    'cell' => [ 'classList' => "$tdClassList $collapseXs" ]
+                ],
+                [
+                    'header' => [ 'text' => 'Date Created', 'classList' => "$thClassList $collapseMd" ],
+                    'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
+                ],
+                [
+                    'header' => [ 'text' => 'Status', 'classList' => $thClassList ],
+                    'cell' => [ 'classList' => $tdClassList ]
+                ],
+                [
+                    'header' => [ 'text' => 'System Affected', 'classList' => "$thClassList $collapseSm" ],
+                    'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
+                ],
+                [
+                    'header' => [ 'text' => 'Brief Description', 'classList' => $thClassList ],
+                    'cell' => [ 'classList' => $tdClassList ]
+                ],
+                [
+                    'header' =>  [ 'text' => 'Specific Location', 'classList' => "$thClassList $collapseMd" ],
+                    'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
+                ],
+                [
+                    'header' => ['auth' => 2, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
+                    'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
+                ],
+                [
+                    'header' => ['auth' => 2, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
+                    'cell' => [
+                        'classList' => "$tdClassList $collapseSm",
+                        'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
+                    ]
+                ]
             ];
             /*
             // $lvl = is_bool(lvl) ? boolToStr($lvl) : $lvl;
@@ -232,10 +271,11 @@ function printDefsTable($cnxn, $qry, $lvl) {
             */
             
             print "<table class='table table-striped table-responsive svbx-table'>";
-            printTableHeadings($tableFields, $lvl);
+            printTableHeadings(array_column($tableFields, 'header'), $lvl);
             
-            populateTable($result, $tableFields, $lvl);
+            populateTable($result, array_column($tableFields, 'cell'), $lvl);
             print "</table>";
+            /*
             // while($row = $result->fetch_array()) {
             //     $table .= "
             //         <tr class='svbx-tr'>
@@ -258,6 +298,7 @@ function printDefsTable($cnxn, $qry, $lvl) {
             //     } else $table .= "</tr>";
             // }
             // $table .= "</tbody></table>";
+            */
         } else {
             // $table .=
             print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
@@ -290,7 +331,7 @@ if($_POST['Search'] == NULL) {
     <h4 id='printUserInfo' class='text-purple'>
         <?php
             $roleEqls = $role === 'S';
-            echo $roleLvl.' '.$role.' '.$bdPermit.' '.$view;
+            echo $roleLvl.' '.$role.' '.$bdPermit.' '.$view.' '.phpversion();
         ?>
     </h4>
     <?php

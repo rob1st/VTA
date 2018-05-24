@@ -28,6 +28,11 @@ function printTableHeadings($fields, $authLvl) {
     printf($thead, $headings);
 }
 
+/*
+** For now this fn takes arrays of html props and assembles them into <td>
+** I would prefer that it also be able to take a complete html 'element' string, with format markers %s
+** ISSUE: 'innerHtml' prop requires two %s args. It would be nice if I could detect # of args and fill them appropriately
+*/
 function populateTable(&$res, $fields, $authLvl) {
     $tbody = "<tbody>%s</tbody>";
     $tr = "<tr>%s</tr>";
@@ -36,51 +41,24 @@ function populateTable(&$res, $fields, $authLvl) {
     while($row = $res->fetch_row()) {
         $i = 0;
         $curRow = '';
-        // print "<pre>";
-        // var_dump($row);
-        // print "</pre>";
         foreach ($fields as $field) {
             $datum = $row[$i];
-            // print "<p class='text-red'>".gettype($fields[$i])."</p>";
             if (is_string($field)) $curTd = sprintf(is_string($field), $datum);
             elseif (is_array($field)) {
                 $curField = $field;
                 if ($curField['auth'] && $authLvl < $curField['auth']) continue;
                 // should factor this out into sep fcn and test for # %s args
-                $innerHtml = $curField['innerHtml'] ? sprintf($curField['innerHtml'], $datum, '%s') : $datum;
+                // the only way to do this is with regex, yecch!
+                $innerHtml = $curField['innerHtml'] ? sprintf($curField['innerHtml'], $datum, $datum) : $datum;
                 $classList = returnClassList($curField['classList']);
                 $curTd = sprintf($td, $classList, $innerHtml);
-                // print "<p class='text-yellow'>$field</p>";
             }
             $curRow .= $curTd;
-            // print "<p class='text-yellow'>$field</p>";
             $i++;
         }
         $curRow = sprintf($tr, $curRow);
         $tableRows .= $curRow;
-        /*
-        // $table .= "
-        //     <tr class='svbx-tr'>
-        //         <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
-        //         <td class='svbx-td loc-td collapse-sm collapse-xs'>{$row[1]}</td>
-        //         <td class='svbx-td sev-td collapse-xs'>{$row[2]}</td>
-        //         <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
-        //         <td class='svbx-td status-td'>{$row[4]}</td>
-        //         <td class='svbx-td system-td collapse-sm collapse-xs'>{$row[5]}</td>
-        //         <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>
-        //         <td class='svbx-td collapse-md collapse-sm collapse-xs'>{$row[7]}</td>";
-        // if ($lvl > 1) {
-        //   $table .= "
-        //         <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[8]}</td>
-        //         <td class='svbx-td edit-td collapse-sm collapse-xs'>
-        //             <form action='UpdateDef.php' method='POST' onsubmit=''/>
-        //                 <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
-        //             </form>
-        //         </td>";
-        // } else $table .= "</tr>";
-        */
     }
-    // $res->close();
     printf($tbody, $tableRows);
 }
 ?>
