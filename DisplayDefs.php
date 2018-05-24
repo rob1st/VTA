@@ -324,7 +324,7 @@ function printBartDefsTable($cnxn, $qry, $lvl) {
     $tableFields = [
         [
             'header' => [ 'text' => 'ID' ],
-            'cell' => []
+            'cell' => [ 'innerHtml' => "<a href='ViewDef.php?bartDefID=%s'>%s</a>" ]
         ],
         [
             'header' => [ 'text' => 'BART Status' ],
@@ -343,14 +343,18 @@ function printBartDefsTable($cnxn, $qry, $lvl) {
             'cell' => []
         ],
         [
-            'header' => [ 'text' => 'Resoltuion' ],
+            'header' => [ 'text' => 'Resolution' ],
+            'cell' => []
+        ],
+        [
+            'header' => [ 'text' => 'Next step' ],
             'cell' => []
         ],
         [
             'header' => [ 'text' => 'Edit', 'element' => sprintf($th, "$thClassList $collapseSm", 'Edit')],
             'cell' => [
                 'element' => sprintf("<td class='%s'><form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form></td>", "$thClassList $collapseSm", '%s', '%s'),
-                'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
+                'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='bartDef' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
             ]
         ]
     ];
