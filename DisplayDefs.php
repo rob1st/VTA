@@ -53,7 +53,7 @@ function printInfoBox($lvl, $href) {
     return sprintf($box, $href);
 }
 
-function printProjectSearchBar($cnxn, $post, $formAction) {
+function printSearchBar($cnxn, $post, $formAction) {
     list($collapsed, $show) = $_POST['Search'] ? ['', ' show'] : ['collapsed', ''];
     $formStrF = "
         <div class='row item-margin-bottom'>
@@ -401,12 +401,12 @@ if($_POST['Search'] == NULL) {
 </header>
 <?php
     echo "<main class='container main-content'>";
-    echo printProjectSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
+    echo printSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
     echo printInfoBox($roleLvl, 'NewDef');
-    if (!($bdPermit && $view === 'BART')) {
+    if ($view !== 'BART' || !$bdPermit) {
         $sql = file_get_contents("CDList.sql").$whereCls;
         printProjectDefsTable($link, $sql, $roleLvl);
-    } else {
+    } elseif ($bdPermit) {
         $sql = 'SELECT '.file_get_contents('bartdl.sql');
         printBartDefsTable($link, $sql, $bdPermit);
     }

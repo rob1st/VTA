@@ -1,6 +1,7 @@
 <?php
 include('session.php');
 $DefID = $_GET['DefID'];
+$bartID = $_GET['bartDefID'];
 $Role = $_SESSION['Role'];
 $title = "SVBX - Deficiency No".$DefID;
 //ini_set('display_errors', 1);
@@ -8,7 +9,9 @@ $title = "SVBX - Deficiency No".$DefID;
 //error_reporting(E_ALL);
 include('filestart.php'); 
 $link = f_sqlConnect();
-$Def = file_get_contents("ViewDef.sql").$DefID;
+
+if ($DefID) {
+    $Def = file_get_contents("ViewDef.sql").$DefID;
 
     if($stmt = $link->prepare($Def)) {  
         $stmt->execute();  
@@ -234,7 +237,18 @@ $Def = file_get_contents("ViewDef.sql").$DefID;
         </div>";
         echo $Def.'<br /><br />';
       exit();  
-    } 
+    }
+} elseif ($bartID) {
+    if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
+        if ($row = $result->fetch_row()) {
+            $bdPermit = $row[0];
+        }
+    }
+    if ($bdPermit) {
+        // render View for bartDef
+        print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
+    }
+}
     include('fileend.php');
     MySqli_Close($link); 
 ?>
