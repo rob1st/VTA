@@ -5,7 +5,7 @@ EXAMPLE $fields ARRAY:
 [
     [
         'auth' => int,
-        'heading' => 'heading text',
+        'text' => 'heading text',
         'classList' => [ 'array', 'of', 'classes' ] || 'string of classes'
     ]
 ]
@@ -45,8 +45,9 @@ function populateTable(&$res, $fields, $authLvl) {
     while($row = $res->fetch_row()) {
         $i = 0;
         $curRow = '';
+        $end = end(array_keys($row)) + 1;
         foreach ($fields as $field) {
-            $datum = $row[$i];
+            $datum = $i === $end ? $row[0] : $row[$i];
             if (is_string($field)) $curTd = sprintf(is_string($field), $datum);
             elseif (is_array($field)) {
                 $curField = $field;
@@ -60,6 +61,7 @@ function populateTable(&$res, $fields, $authLvl) {
             $curRow .= $curTd;
             $i++;
         }
+        // print "<h4 class='text-yellow'>".$end."</h4>";
         $curRow = sprintf($tr, $curRow);
         $tableRows .= $curRow;
     }

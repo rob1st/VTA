@@ -196,61 +196,9 @@ function printProjectSearchBar($cnxn, $post, $formAction) {
     return $form;
 }
 
-function printDefsTable($cnxn, $qry, $lvl) {
-    $tdClassList = 'svbx-td';
-    $thClassList = 'svbx-th';
-    $collapseXs = 'collapse-xs';
-    $collapseSm = 'collapse-sm collapse-xs';
-    $collapseMd = 'collapse-md  collapse-sm collapse-xs';
-    
+function printDefsTable($cnxn, $qry, $elements, $lvl) {
     if ($result = $cnxn->query($qry)) {
         if ($result->num_rows) {
-            $tableFields = [
-                [
-                    'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
-                    'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?DefID=%s'>%s</a>" ]
-                ],
-                [
-                    'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],
-                    'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
-                ],
-                [
-                    'header' => [ 'text' => 'Severity', 'classList' => "$thClassList $collapseXs" ],
-                    'cell' => [ 'classList' => "$tdClassList $collapseXs" ]
-                ],
-                [
-                    'header' => [ 'text' => 'Date Created', 'classList' => "$thClassList $collapseMd" ],
-                    'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
-                ],
-                [
-                    'header' => [ 'text' => 'Status', 'classList' => $thClassList ],
-                    'cell' => [ 'classList' => $tdClassList ]
-                ],
-                [
-                    'header' => [ 'text' => 'System Affected', 'classList' => "$thClassList $collapseSm" ],
-                    'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
-                ],
-                [
-                    'header' => [ 'text' => 'Brief Description', 'classList' => $thClassList ],
-                    'cell' => [ 'classList' => $tdClassList ]
-                ],
-                [
-                    'header' =>  [ 'text' => 'Specific Location', 'classList' => "$thClassList $collapseMd" ],
-                    'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
-                ],
-                [
-                    'header' => [ 'auth' => 2, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
-                    'cell' => [ 'auth' => 2, 'classList' => "$tdClassList $collapseMd" ]
-                ],
-                [
-                    'header' => ['auth' => 2, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
-                    'cell' => [
-                        'auth' => 2,
-                        'classList' => "$tdClassList $collapseSm",
-                        'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
-                    ]
-                ]
-            ];
             /*
             // $lvl = is_bool(lvl) ? boolToStr($lvl) : $lvl;
             // $table = "
@@ -271,11 +219,9 @@ function printDefsTable($cnxn, $qry, $lvl) {
             //         <th class='svbx-th edit-th collapse-sm collapse-xs'>Edit</th>";
             // } $table .= "</tr></thead><tbody>";
             */
-            
             print "<table class='table table-striped table-responsive svbx-table'>";
-            printTableHeadings(array_column($tableFields, 'header'), $lvl);
-            
-            populateTable($result, array_column($tableFields, 'cell'), $lvl);
+            printTableHeadings(array_column($elements, 'header'), $lvl);
+            populateTable($result, array_column($elements, 'cell'), $lvl);
             print "</table>";
             /*
             // while($row = $result->fetch_array()) {
@@ -305,11 +251,110 @@ function printDefsTable($cnxn, $qry, $lvl) {
             // $table .=
             print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
         }
-        $result->close();
     } elseif ($cnxn->error) {
         // $table .=
         print "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
     }
+}
+
+function printProjectDefsTable($cnxn, $qry, $lvl) {
+    $tdClassList = 'svbx-td';
+    $thClassList = 'svbx-th';
+    $collapseXs = 'collapse-xs';
+    $collapseSm = 'collapse-sm collapse-xs';
+    $collapseMd = 'collapse-md  collapse-sm collapse-xs';
+    $tableFields = [
+        [
+            'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
+            'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?DefID=%s'>%s</a>" ]
+        ],
+        [
+            'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],
+            'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
+        ],
+        [
+            'header' => [ 'text' => 'Severity', 'classList' => "$thClassList $collapseXs" ],
+            'cell' => [ 'classList' => "$tdClassList $collapseXs" ]
+        ],
+        [
+            'header' => [ 'text' => 'Date Created', 'classList' => "$thClassList $collapseMd" ],
+            'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
+        ],
+        [
+            'header' => [ 'text' => 'Status', 'classList' => $thClassList ],
+            'cell' => [ 'classList' => $tdClassList ]
+        ],
+        [
+            'header' => [ 'text' => 'System Affected', 'classList' => "$thClassList $collapseSm" ],
+            'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
+        ],
+        [
+            'header' => [ 'text' => 'Brief Description', 'classList' => $thClassList ],
+            'cell' => [ 'classList' => $tdClassList ]
+        ],
+        [
+            'header' =>  [ 'text' => 'Specific Location', 'classList' => "$thClassList $collapseMd" ],
+            'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
+        ],
+        [
+            'header' => [ 'auth' => 2, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
+            'cell' => [ 'auth' => 2, 'classList' => "$tdClassList $collapseMd" ]
+        ],
+        [
+            'header' => ['auth' => 2, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
+            'cell' => [
+                'auth' => 2,
+                'classList' => "$tdClassList $collapseSm",
+                'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
+            ]
+        ]
+    ];
+    print "<h4 class='text-yellow'>".count($tableFields)."</h4>";
+    printDefsTable($cnxn, $qry, $tableFields, $lvl);
+}
+
+function printBartDefsTable($cnxn, $qry, $lvl) {
+    $tdClassList = 'svbx-td';
+    $thClassList = 'svbx-th';
+    $collapseXs = 'collapse-xs';
+    $collapseSm = 'collapse-sm collapse-xs';
+    $collapseMd = 'collapse-md  collapse-sm collapse-xs';
+    $thStrF = "<th class='%s'>%s</th>";
+    $tdStrF = "<td class='%s'>%s</td>";
+    $tableFields = [
+        [
+            'header' => [],
+            'cell' => []
+        ],
+        [
+            'header' => [],
+            'cell' => []
+        ],
+        [
+            'header' => [],
+            'cell' => []
+        ],
+        [
+            'header' => [],
+            'cell' => []
+        ],
+        [
+            'header' => [],
+            'cell' => []
+        ],
+        [
+            'header' => [],
+            'cell' => []
+        ],
+        [
+            'header' => [ 'text' => 'Edit', 'element' => sprintf($th, "$thClassList $collapseSm", 'Edit')],
+            'cell' => [
+                'element' => sprintf("<td class='%s'><form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form></td>", "$thClassList $collapseSm", '%s', '%s'),
+                'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
+            ]
+        ]
+    ];
+    printDefsTable($cnxn, $qry, $tableFields, $lvl);
 }
 
 if($_POST['Search'] == NULL) {
@@ -355,8 +400,12 @@ if($_POST['Search'] == NULL) {
     echo printInfoBox($roleLvl, 'NewDef');
     if (!($bdPermit && $view === 'BART')) {
         $sql = file_get_contents("CDList.sql").$whereCls;
-        echo printDefsTable($link, $sql, $roleLvl);
-    } else 
+        printProjectDefsTable($link, $sql, $roleLvl);
+    } else {
+        $sql = 'SELECT '.file_get_contents('bartdl.sql');
+        printBartDefsTable($link, $sql, $bdPermit);
+    }
+    $result->close();
     echo "</main>";
     echo "
         <script>
