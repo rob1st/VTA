@@ -54,15 +54,16 @@ function printInfoBox($lvl, $href) {
 }
 
 function printProjectSearchBar($cnxn, $post, $formAction) {
+    list($collapsed, $show) = $_POST['Search'] ? ['', ' show'] : ['collapsed', ''];
     $formStrF = "
         <div class='row item-margin-bottom'>
             <form action='%s' method='%s' class='col-12'>
                 <div class='row'>
                     <h5 class='col-12'>
-                        <a data-toggle='collapse' href='#filterDefs' role='button' aria-expanded='false' aria-controls='filterDefs'>Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i></a>
+                        <a data-toggle='collapse' href='#filterDefs' role='button' aria-expanded='false' aria-controls='filterDefs' class=$collapsed>Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i></a>
                     </h5>
                 </div>
-                <div class='collapse' id='filterDefs'>";
+                <div class='collapse$show' id='filterDefs'>";
     // concat content to $form string until it's all written
     // then return the completed string
     $form = sprintf($formStrF, $formAction['action'], $formAction['method']);
@@ -207,7 +208,7 @@ function printDefsTable($cnxn, $qry, $lvl) {
             $tableFields = [
                 [
                     'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
-                    'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?DefID=%s' class='class1'>%s</a>" ]
+                    'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?DefID=%s'>%s</a>" ]
                 ],
                 [
                     'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],
@@ -238,12 +239,13 @@ function printDefsTable($cnxn, $qry, $lvl) {
                     'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
                 ],
                 [
-                    'header' => ['auth' => 2, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
-                    'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
+                    'header' => [ 'auth' => 2, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
+                    'cell' => [ 'auth' => 2, 'classList' => "$tdClassList $collapseMd" ]
                 ],
                 [
                     'header' => ['auth' => 2, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
                     'cell' => [
+                        'auth' => 2,
                         'classList' => "$tdClassList $collapseSm",
                         'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
                     ]
@@ -308,13 +310,10 @@ function printDefsTable($cnxn, $qry, $lvl) {
         // $table .=
         print "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
     }
-    // return $table;
 }
 
-$sql = file_get_contents("CDList.sql");
-
 if($_POST['Search'] == NULL) {
-    $sql .= ' WHERE D.Status <> 3 ORDER BY DefID';
+    $whereCls = ' WHERE D.Status <> 3 ORDER BY DefID';
     $count = "SELECT COUNT(*) FROM CDL";
 } else {
     $postData = array_filter($_POST);
@@ -322,17 +321,20 @@ if($_POST['Search'] == NULL) {
     
     $count = "SELECT COUNT(*) FROM CDL D";
     
-    $sql .= concatSqlStr($postData, 'D');
+    $whereCls = concatSqlStr($postData, 'D');
     $count .= concatSqlStr($postData, 'D');
 }
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
     <h4 id='printUserInfo' class='text-purple'>
-        <?php
-            $roleEqls = $role === 'S';
-            echo $roleLvl.' '.$role.' '.$bdPermit.' '.$view.' '.phpversion();
-        ?>
+        <ul>
+            <li><?php print $roleLvl ?></li>
+            <li><?php print $role ?></li>
+            <li><?php print $bdPermit ?></li>
+            <li><?php print $view ?></li>
+            <li><?php print phpversion() ?></li>
+        </ul>
     </h4>
     <?php
         if ($bdPermit) {
@@ -351,7 +353,10 @@ if($_POST['Search'] == NULL) {
     echo "<main class='container main-content'>";
     echo printProjectSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
     echo printInfoBox($roleLvl, 'NewDef');
-    echo printDefsTable($link, $sql, $roleLvl);
+    if (!($bdPermit && $view === 'BART')) {
+        $sql = file_get_contents("CDList.sql").$whereCls;
+        echo printDefsTable($link, $sql, $roleLvl);
+    } else 
     echo "</main>";
     echo "
         <script>

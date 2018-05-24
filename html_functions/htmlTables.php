@@ -31,6 +31,10 @@ function printTableHeadings($fields, $authLvl) {
 /*
 ** For now this fn takes arrays of html props and assembles them into <td>
 ** I would prefer that it also be able to take a complete html 'element' string, with format markers %s
+** ARRAY PARAMS:
+**   auth
+**   innerHtml
+**   classList
 ** ISSUE: 'innerHtml' prop requires two %s args. It would be nice if I could detect # of args and fill them appropriately
 */
 function populateTable(&$res, $fields, $authLvl) {
