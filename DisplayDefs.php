@@ -70,11 +70,11 @@ function printSearchBar($cnxn, $post, $formAction) {
     $form .= "<div class='row item-margin-bottom'>
                     <div class='col-6 col-sm-1 pl-1 pr-1'>
                         <label class='input-label'>Def #</label>
-                        <select name='DefID' class='form-control'>
+                        <select name='defID' class='form-control'>
                             <option value=''></option>";
-    if ($result = $cnxn->query('SELECT DefID from CDL')) {
+    if ($result = $cnxn->query('SELECT defID from CDL')) {
         while ($row = $result->fetch_array()) {
-            $select = ($post['DefID'] === $row[0]) ? 'selected' : '';
+            $select = ($post['defID'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
         }
         $result->close();
@@ -266,7 +266,7 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
     $tableFields = [
         [
             'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
-            'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?DefID=%s'>%s</a>" ]
+            'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?defID=%s'>%s</a>" ]
         ],
         [
             'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],

@@ -1,19 +1,30 @@
 <?php
 include('session.php');
-$DefID = $_GET['DefID'];
+include('html_functions/bootstrapGrid.php');
+include('html_functions/htmlFuncs.php');
+$defID = $_GET['defID'];
 $bartID = $_GET['bartDefID'];
 $Role = $_SESSION['Role'];
-$title = "SVBX - Deficiency No".$DefID;
+$title = "SVBX - Deficiency No".$defID;
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 include('filestart.php'); 
 $link = f_sqlConnect();
-
-if ($DefID) {
-    $Def = file_get_contents("ViewDef.sql").$DefID;
-
-    if($stmt = $link->prepare($Def)) {  
+if ($defID) {
+    $Def = file_get_contents("ViewDef.sql").$defID;
+    
+    $spanStr = "<span>%s</span>";
+    $fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
+    $emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+    
+    function returnFakeInputStr($val) {
+        $str = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
+        $altStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+        return returnHtmlForVal($val, $str, $altStr);
+    }
+    
+    if($stmt = $link->prepare($Def)) {
         $stmt->execute();  
         $stmt->bind_result(
                 $OldID, 
@@ -36,12 +47,98 @@ if ($DefID) {
                 $Created_by, 
                 $Comments,
                 $RequiredBy,
+                $contract,
                 $Repo,
-                $filename,
                 $ClosureComments,
                 $DueDate,
-                $SafetyCert);  
+                $SafetyCert,
+                $defType);  
         while ($stmt->fetch()) {
+            $requiredRows = [
+                [
+                    sprintf($spanStr, 'Safety Certifiable'),
+                    sprintf($fakeInputStr, $SafetyCert),
+                    sprintf($spanStr, 'System Affected'),
+                    sprintf($fakeInputStr, $SystemAffected)
+                ],
+                [
+                    sprintf($spanStr, 'General Location'),
+                    sprintf($fakeInputStr, $Location),
+                    sprintf($spanStr, 'Specific Location'),
+                    sprintf($fakeInputStr, stripcslashes($SpecLoc))
+                ],
+                [
+                    sprintf($spanStr, 'Status'),
+                    sprintf($fakeInputStr, $Status),
+                    sprintf($spanStr, 'Severity'),
+                    sprintf($fakeInputStr, $Severity)
+                ],
+                [
+                    sprintf($spanStr, 'Due Date'),
+                    sprintf($fakeInputStr, $DueDate),
+                    sprintf($spanStr, 'Group to resolve'),
+                    sprintf($fakeInputStr, $GroupToResolve)
+                ],
+                [
+                    sprintf($spanStr, 'Resolution required by'),
+                    sprintf($fakeInputStr, $RequiredBy),
+                    sprintf($spanStr, 'Contract'),
+                    sprintf($fakeInputStr, $contract)
+                ],
+                [
+                    sprintf($spanStr, 'Identified By'),
+                    sprintf($fakeInputStr, stripcslashes($IdentifiedBy)),
+                    sprintf($spanStr, 'Deficiency type'),
+                    sprintf($fakeInputStr, $defType)
+                ],
+                [
+                    sprintf($spanStr, 'Deficiency description').sprintf($fakeInputStr, stripcslashes($Description))
+                ]
+            ];
+            
+            $optionalRows = [
+                [
+                    sprintf($spanStr, 'Spec or Code'),
+                    returnFakeInputStr(stripcslashes($Spec)),
+                    sprintf($spanStr, 'Action Owner'),
+                    returnFakeInputStr(stripcslashes($ActionOwner)),
+                    sprintf($spanStr, 'Old Id'),
+                    returnFakeInputStr(stripcslashes($OldID))
+                ],
+                [
+                    sprintf($spanStr, 'More information').returnFakeInputStr(stripcslashes($Comments))
+                ]
+            ];
+            
+            $closureRows = [
+                [
+                    sprintf($spanStr, 'Evidence Type'),
+                    returnFakeInputStr($EvidenceType),
+                    sprintf($spanStr, 'Evidence Repository'),
+                    returnFakeInputStr($Repo),
+                    sprintf($spanStr, 'Repository No.'),
+                    returnFakeInputStr(stripcslashes($EvidenceLink))
+                ],
+                [
+                    sprintf($spanStr, 'Closure comments').returnFakeInputStr(stripcslashes($ClosureComments))
+                ]
+            ];
+            
+            $modHistory = [
+                [
+                    sprintf($spanStr, 'Date Created'),
+                    sprintf($spanStr, $DateCreated),
+                    sprintf($spanStr, 'Created by'),
+                    sprintf($spanStr, $Created_by)
+                ],
+                [
+                    sprintf($spanStr, 'Last Updated'),
+                    sprintf($spanStr, $LastUpdated),
+                    sprintf($spanStr, 'Updated by'),
+                    sprintf($spanStr, $Updated_by)
+                ]
+            ];
+    
             if($Status == "Open") {
                 $color = "bg-red text-white";
             } else {
@@ -49,127 +146,40 @@ if ($DefID) {
             }
             echo "
                 <header class='container page-header'>
-                    <h1 class='page-title $color pad'>Deficiency No. $DefID</h1>
+                    <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
                 </header>
                 <main class='container main-content'>
-                    <table class='table svbx-table'>
-                        <tr class='vdtr'>
-                            <th colspan='4' class='vdth'>Required Information</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Safety Certifiable:</td>
-                            <td class='vdtda'>";
-                                if($SafetyCert == '1') {
-                                    $SafetyCert = 'Yes';
-                                } elseif($SafetyCert == '2') {
-                                    $SafetyCert = 'No';
-                                } else {
-                                    $SafetyCert = '';
-                                }
-                            echo " $SafetyCert</td>
-                            <td class='vdtdh'>System Affected:</td>
-                            <td class='vdtda'>$SystemAffected</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>General Location:</td>
-                            <td class='vdtda'>$Location</td>
-                            <td class='vdtdh'>Specific Location:</td>
-                            <td class='vdtda'>$SpecLoc</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Status:</td>
-                            <td class='vdtda'>$Status</td>
-                            <td class='vdtdh'>Severity:</td>
-                            <td class='vdtda'>$Severity</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Due Date:</td>
-                            <td class='vdtda'>$DueDate</td>
-                            <td class='vdtdh'>Resolution required by:</td>
-                            <td class='vdtda'>$RequiredBy</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Group to Resolve:</td>
-                            <td class='vdtda'>$GroupToResolve</td>
-                            <td class='vdtdh'>Identified By:</td>
-                            <td class='vdtda'>$IdentifiedBy</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td colspan='4' style='text-align:center' class='vdtda'>Deficiency Description</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td Colspan=4 class='vdtda'>"; echo nl2br($Description);
-                            echo "</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <th colspan='4' class='vdth'>Optional Information</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Spec or Code:</td>
-                            <td colspan='3' class='vdtda'>$Spec</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Action Owner:</td>
-                            <td class='vdtda'>$ActionOwner</td>
-                            <td class='vdtdh'>Old Id:</td>
-                            <td class='vdtda'>$OldID</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td colspan='4' style='text-align:center' class='vdtda'>Additional Information</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td Colspan=4 class='vdtda'>"; echo nl2br($Comments);
-                            echo "</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <th colspan='4' class='vdth'>Closure Information</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Evidence Type:</td>
-                            <td class='vdtda' colspan='3'>$EvidenceType</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Evidence Repository:</td>
-                            <td class='vdtda'>";
-                            if($Repo == '1') {
-                                $Repo = 'SharePoint';
-                            } elseif ($Repo == 2) {
-                                $Repo = 'Aconex';
-                            } else $Repo = '';
-                            echo "    
-                                $Repo</td>
-                            <td class='vdtdh'>Repository No:</td>
-                            <td class='vdtda'>$EvidenceLink</td>
-                        </tr>
-                         <tr class='vdtr'>
-                            <td colspan='4' style='text-align:center' class='vdtda'>Closure Comments</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td Colspan=4 class='vdtda'>"; echo nl2br($ClosureComments);
-                            echo "</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <th colspan='4' style='text-align:center' class='vdth'>Modification Details</th>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Date Created:</td>
-                            <td class='vdtda'>$DateCreated</td>
-                            <td class='vdtdh'>Created by:</td>
-                            <td class='vdtda'>$Created_by</td>
-                        </tr>
-                        <tr class='vdtr'>
-                            <td class='vdtdh'>Last Updated:</td>
-                            <td class='vdtda'>$LastUpdated</td>
-                            <td class='vdtdh'>Updated by:</td>
-                            <td class='vdtda'>$Updated_by</td>
-                        </tr>
-                    </table>";
+                    <div class='row'>
+                        <div class='col-12'>
+                            <h5 class='grey-bg pad'>Required Information</h5>
+                        </div>
+                    </div>";
+                    foreach ($requiredRows as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                    print "<h5 class='grey-bg pad'>Optional Information</h5>";
+                    foreach ($optionalRows as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                    print "<h5 class='grey-bg pad'>Closure Information</h5>";
+                    foreach ($closureRows as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                    print "<h5 class='grey-bg pad'>Modification Details</h5>";
+                    foreach ($modHistory as $gridRow) {
+                        $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
+                        print returnRow($gridRow, $options);
+                    }
+                            
         }
         $stmt->close();
         
         // show photos linked to this Def
         if ($stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?")) {
-            $stmt->bind_param('i', $DefID);
+            $stmt->bind_param('i', $defID);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($pathToFile);
@@ -182,7 +192,7 @@ if ($DefID) {
                 $i = 0;
                 $j = 1;
                 while ($stmt->fetch()) {
-                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $DefID);
+                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $defID);
                     $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
                     $marker = $j < $count ? '%s' : '';
                     
@@ -209,19 +219,26 @@ if ($DefID) {
                 echo $photoSection;
             }
             $stmt->close();
+        } else {
+            echo "
+            <div class='container page-header'>
+            <h5>There was a problem with the request</h5>";
+            echo "<pre>";
+            echo $link->error;
+            echo "</pre>";
+            echo "<p>$Def</p>";
+            echo "</div></main>";
+            $link->close();
+            exit;
         }
-        
         // if Role has permission level show Update and Clone buttons
         if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
             echo "
                 <div style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
-                    <form action='UpdateDef.php' method='POST' onsubmit='' style='text-align:center' />
-                        <input type='hidden' name='q' value='".$DefID."'/>
-                        <input type='submit' name='submit' value='Update' class='btn btn-primary btn-lg'/>
-                    </form>
+                    <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
                     <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
                         <div style='width:5px; height:auto; display:inline-block'></div>
-                        <input type='hidden' name='q' value='".$DefID."'/>
+                        <input type='hidden' name='defID' value='$defID'/>
                         <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
                     </form>
                 </div>";
@@ -229,15 +246,15 @@ if ($DefID) {
         echo "</main>";
     } else {  
         echo "
-        <div='container'>
-        <br />
-        <br />
-        <br />
-        <br>Unable to connect<br>
-        </div>";
-        echo $Def.'<br /><br />';
-      exit();  
-    }
+        <div class='container page-header'>
+        <h5>Unable to connect</h5>";
+        echo "<pre>";
+        echo $link->error;
+        echo "</pre>";
+        echo "<p>$Def</p>";
+        echo "</div>";
+        exit;
+    } 
 } elseif ($bartID) {
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
         if ($row = $result->fetch_row()) {
@@ -249,6 +266,6 @@ if ($DefID) {
         print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
     }
 }
-    include('fileend.php');
-    MySqli_Close($link); 
+include('fileend.php');
+$link->close(); 
 ?>

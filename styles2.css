@@ -636,15 +636,6 @@ a.nav-cur-page:hover, button.nav-cur-page:hover {
     background-color: #fff;
 }
 
-.def-input {
-    min-width: 150px;
-}
-
-.label-breakline:after {
-    content: '\A';
-    white-space: pre-wrap;
-}
-
 select:invalid {
     color: var(--secondary);
 }
@@ -689,6 +680,10 @@ a[data-toggle="collapse"]>.typcn-arrow-sorted-down:before {
 
 a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
     transform: rotate(-.25turn);
+}
+
+.fake-input {
+    min-height: calc(2px + 6px + 8px + 1.5rem);
 }
 
 /* Table CSS */

@@ -5,10 +5,8 @@ include 'utils/utils.php';
 include 'nimrod.php';
 include 'error_handling/uploadException.php';
 
-$types = [ 'jpg', 'jpeg', 'png', 'gif'];
-
 function filetypeCheck($type) {
-    global $types;
+    $types = [ 'jpg', 'jpeg', 'png', 'gif'];
     return (array_search($type, $types) !== false);
 }
 
@@ -109,7 +107,7 @@ function saveImgToServer($file, $assocID = null) {
                 $_SERVER['DOCUMENT_ROOT'].$targetLocalPath
             )) {
                 echo "
-                    <h4 style='color: paleVioletRed'>".boolToStr($imgResized)."{$_SERVER['DOCUMENT_ROOT']}$targetLocalPath}</h4>
+                    <h4 style='color: paleVioletRed'>img resized: ".boolToStr($imgResized).", {$_SERVER['DOCUMENT_ROOT']}$targetLocalPath}</h4>
                     <img src='$targetLocalPath'>";
                 // store prev system filename only after successful upload
                 $_SESSION['lastUploadedImg'] = $filename;
