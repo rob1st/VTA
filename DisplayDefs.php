@@ -323,27 +323,27 @@ function printBartDefsTable($cnxn, $qry, $lvl) {
     $tdStrF = "<td class='%s'>%s</td>";
     $tableFields = [
         [
-            'header' => [],
+            'header' => [ 'text' => 'ID' ],
             'cell' => []
         ],
         [
-            'header' => [],
+            'header' => [ 'text' => 'BART Status' ],
             'cell' => []
         ],
         [
-            'header' => [],
+            'header' => [ 'text' => 'VTA Status' ],
             'cell' => []
         ],
         [
-            'header' => [],
+            'header' => [ 'text' => 'Date created' ],
             'cell' => []
         ],
         [
-            'header' => [],
+            'header' => [ 'text' => 'Description' ],
             'cell' => []
         ],
         [
-            'header' => [],
+            'header' => [ 'text' => 'Resoltuion' ],
             'cell' => []
         ],
         [
@@ -354,6 +354,7 @@ function printBartDefsTable($cnxn, $qry, $lvl) {
             ]
         ]
     ];
+    print "<h4 class='text-success'>".count($tableFields)."</h4>";
     printDefsTable($cnxn, $qry, $tableFields, $lvl);
 }
 

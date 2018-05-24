@@ -45,7 +45,7 @@ function populateTable(&$res, $fields, $authLvl) {
     while($row = $res->fetch_row()) {
         $i = 0;
         $curRow = '';
-        $end = end(array_keys($row)) + 1;
+        $end = end(array_keys($fields));
         foreach ($fields as $field) {
             $datum = $i === $end ? $row[0] : $row[$i];
             if (is_string($field)) $curTd = sprintf(is_string($field), $datum);
