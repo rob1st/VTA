@@ -12,9 +12,9 @@ function returnCol($element, $wd, $options = []) {
     if (is_array($element)) {
         if (isset($options['inline'])) {
             $subCol = "<div class='col-sm-6'>%s</div>";
-            $labelCol = sprintf($subCol, $element['label']);
-            $ctrlCol = sprintf($subCol, returnFormCtrl($element));
-            $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
+            $leftCol = sprintf($subCol, $element['label']);
+            $rightCol = sprintf($subCol, returnFormCtrl($element));
+            $subRow = sprintf("<div class='row'>%s%s</div>", $leftCol, $rightCol);
             $col = sprintf($colStr, $wd, $subRow);
         } else {
             // echo "<pre style='text-yellow'>".var_dump($element)."</pre>";
