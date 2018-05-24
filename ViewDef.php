@@ -2,6 +2,7 @@
 include('session.php');
 include('html_functions/bootstrapGrid.php');
 include('html_functions/htmlFuncs.php');
+include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
 $bartID = $_GET['bartDefID'];
 $Role = $_SESSION['Role'];
@@ -11,20 +12,21 @@ $title = "SVBX - Deficiency No".$defID;
 //error_reporting(E_ALL);
 include('filestart.php'); 
 $link = f_sqlConnect();
+
+$spanStr = "<span>%s</span>";
+$fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
+$emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+
+function returnFakeInputStr($val) {
+    $str = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
+    $altStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+    return returnHtmlForVal($val, $str, $altStr);
+}
+
 if ($defID) {
-    $Def = file_get_contents("ViewDef.sql").$defID;
+    $sql = file_get_contents("ViewDef.sql").$defID;
     
-    $spanStr = "<span>%s</span>";
-    $fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
-    $emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
-    
-    function returnFakeInputStr($val) {
-        $str = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
-        $altStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
-        return returnHtmlForVal($val, $str, $altStr);
-    }
-    
-    if($stmt = $link->prepare($Def)) {
+    if($stmt = $link->prepare($sql)) {
         $stmt->execute();  
         $stmt->bind_result(
                 $OldID, 
@@ -220,16 +222,7 @@ if ($defID) {
             }
             $stmt->close();
         } else {
-            echo "
-            <div class='container page-header'>
-            <h5>There was a problem with the request</h5>";
-            echo "<pre>";
-            echo $link->error;
-            echo "</pre>";
-            echo "<p>$Def</p>";
-            echo "</div></main>";
-            $link->close();
-            exit;
+            printSqlErrorAndExit($link, $sql);
         }
         // if Role has permission level show Update and Clone buttons
         if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
@@ -245,15 +238,7 @@ if ($defID) {
         }
         echo "</main>";
     } else {  
-        echo "
-        <div class='container page-header'>
-        <h5>Unable to connect</h5>";
-        echo "<pre>";
-        echo $link->error;
-        echo "</pre>";
-        echo "<p>$Def</p>";
-        echo "</div>";
-        exit;
+        printSqlErrorAndExit($link, $sql);
     } 
 } elseif ($bartID) {
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
@@ -263,7 +248,17 @@ if ($defID) {
     }
     if ($bdPermit) {
         // render View for bartDef
-        print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
+        $sql = 'SELECT '.file_get_contents('bartdl.sql')." WHERE id=$bartID";
+        
+        $vtaFields = [];
+        
+        $bartFields = [];
+        
+        if ($link->prepare($sql)) {
+            print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
+        } else {
+            printSqlErrorAndExit($link, $sql);
+        }
     }
 }
 include('fileend.php');

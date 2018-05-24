@@ -1,4 +1,5 @@
 <?php
+// returns one of two html strings for the existence or emptiness of a var $val
 function returnHtmlForVal($val, $ifHtml, $elseHtml) {
     return (($val === null || $val === '')
         ? sprintf($elseHtml, $val)
