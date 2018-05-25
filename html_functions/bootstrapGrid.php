@@ -11,16 +11,23 @@ function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
     $wd = isset($options['offset']) ? $wd." offset-md-{$options['offset']}" : $wd;
     if (is_array($element)) {
-        if (isset($options['inline'])) {
-            $subCol = "<div class='col-sm-6'>%s</div>";
-            $leftCol = sprintf($subCol, $element['label']);
-            $rightCol = sprintf($subCol, returnFormCtrl($element));
-            $subRow = sprintf("<div class='row'>%s%s</div>", $leftCol, $rightCol);
-            $col = sprintf($colStr, $wd, $subRow);
-        } else {
-            // echo "<pre style='text-yellow'>".var_dump($element)."</pre>";
-            $col = sprintf($colStr, $wd, $element['label'].returnFormCtrl($element));
-        }
+        $isFormCtrl = $element['tagName'] === 'select'
+            || $element['tagName'] === 'input'
+            || $element['tagName'] === 'textarea';
+        $content = $isFormCtrl
+            ? isset($options['inline'])
+                ? returnRow([ $element['label'], returnFormCtrl($element) ])
+                : returnFormCtrl($element)
+            : returnRow($element);
+        $col = sprintf($colStr, $wd, $content);
+        /*
+        // $subCol = "<div class='col-sm-6'>%s</div>";
+        // $leftColContent = $element['label'];
+        // $rightColContent = returnFormCtrl($element);
+        // $leftCol = sprintf($subCol, $leftColContent);
+        // $rightCol = sprintf($subCol, $rightColContent);
+        // $subRow = sprintf("<div class='row'>%s%s</div>", $leftCol, $rightCol);
+        // $col = sprintf($colStr, $wd, $subRow); */
     } elseif (is_string($element)) {
         $col = sprintf($colStr, $wd, $element);
     } else $col = sprintf($colStr,  $wd, '');

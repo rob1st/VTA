@@ -1,7 +1,7 @@
 <?php
 require_once 'html_functions/bootstrapGrid.php';
 
-function layoutTopFields($data) {
+function layoutTopFields($labelEl, $inputEl, $data) {
     return $topFields = [
         [
             returnRow([ sprintf($spanStr, 'ID'), sprintf($fakeInputStr, $data['ID']) ]).

@@ -13,10 +13,10 @@ $title = "SVBX - Deficiency No".$defID;
 include('filestart.php'); 
 $link = f_sqlConnect();
 
-$spanStr = "<span>%s</span>";
-$pStr = "<p>%s</p>";
-$fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
-$emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
+// $spanStr = "<span>%s</span>";
+$labelStr = "<p>%s</p>";
+$fakeInputStr = "<p class='full-width pad-less thin-grey-border border-radius fake-input'>%s</p>";
+$emptyFakeInputStr = "<p class='full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</p>";
 
 function returnFakeInputStr($val) {
     $str = "<span class='d-block full-width pad-less thin-grey-border border-radius'>%s</span>";
@@ -59,86 +59,86 @@ if ($defID) {
         while ($stmt->fetch()) {
             $requiredRows = [
                 [
-                    sprintf($spanStr, 'Safety Certifiable'),
+                    sprintf($labelStr, 'Safety Certifiable'),
                     sprintf($fakeInputStr, $SafetyCert),
-                    sprintf($spanStr, 'System Affected'),
+                    sprintf($labelStr, 'System Affected'),
                     sprintf($fakeInputStr, $SystemAffected)
                 ],
                 [
-                    sprintf($spanStr, 'General Location'),
+                    sprintf($labelStr, 'General Location'),
                     sprintf($fakeInputStr, $Location),
-                    sprintf($spanStr, 'Specific Location'),
+                    sprintf($labelStr, 'Specific Location'),
                     sprintf($fakeInputStr, stripcslashes($SpecLoc))
                 ],
                 [
-                    sprintf($spanStr, 'Status'),
+                    sprintf($labelStr, 'Status'),
                     sprintf($fakeInputStr, $Status),
-                    sprintf($spanStr, 'Severity'),
+                    sprintf($labelStr, 'Severity'),
                     sprintf($fakeInputStr, $Severity)
                 ],
                 [
-                    sprintf($spanStr, 'Due Date'),
+                    sprintf($labelStr, 'Due Date'),
                     sprintf($fakeInputStr, $DueDate),
-                    sprintf($spanStr, 'Group to resolve'),
+                    sprintf($labelStr, 'Group to resolve'),
                     sprintf($fakeInputStr, $GroupToResolve)
                 ],
                 [
-                    sprintf($spanStr, 'Resolution required by'),
+                    sprintf($labelStr, 'Resolution required by'),
                     sprintf($fakeInputStr, $RequiredBy),
-                    sprintf($spanStr, 'Contract'),
+                    sprintf($labelStr, 'Contract'),
                     sprintf($fakeInputStr, $contract)
                 ],
                 [
-                    sprintf($spanStr, 'Identified By'),
+                    sprintf($labelStr, 'Identified By'),
                     sprintf($fakeInputStr, stripcslashes($IdentifiedBy)),
-                    sprintf($spanStr, 'Deficiency type'),
+                    sprintf($labelStr, 'Deficiency type'),
                     sprintf($fakeInputStr, $defType)
                 ],
                 [
-                    sprintf($spanStr, 'Deficiency description').sprintf($fakeInputStr, stripcslashes($Description))
+                    sprintf($labelStr, 'Deficiency description').sprintf($fakeInputStr, stripcslashes($Description))
                 ]
             ];
             
             $optionalRows = [
                 [
-                    sprintf($spanStr, 'Spec or Code'),
+                    sprintf($labelStr, 'Spec or Code'),
                     returnFakeInputStr(stripcslashes($Spec)),
-                    sprintf($spanStr, 'Action Owner'),
+                    sprintf($labelStr, 'Action Owner'),
                     returnFakeInputStr(stripcslashes($ActionOwner)),
-                    sprintf($spanStr, 'Old Id'),
+                    sprintf($labelStr, 'Old Id'),
                     returnFakeInputStr(stripcslashes($OldID))
                 ],
                 [
-                    sprintf($spanStr, 'More information').returnFakeInputStr(stripcslashes($Comments))
+                    sprintf($labelStr, 'More information').returnFakeInputStr(stripcslashes($Comments))
                 ]
             ];
             
             $closureRows = [
                 [
-                    sprintf($spanStr, 'Evidence Type'),
+                    sprintf($labelStr, 'Evidence Type'),
                     returnFakeInputStr($EvidenceType),
-                    sprintf($spanStr, 'Evidence Repository'),
+                    sprintf($labelStr, 'Evidence Repository'),
                     returnFakeInputStr($Repo),
-                    sprintf($spanStr, 'Repository No.'),
+                    sprintf($labelStr, 'Repository No.'),
                     returnFakeInputStr(stripcslashes($EvidenceLink))
                 ],
                 [
-                    sprintf($spanStr, 'Closure comments').returnFakeInputStr(stripcslashes($ClosureComments))
+                    sprintf($labelStr, 'Closure comments').returnFakeInputStr(stripcslashes($ClosureComments))
                 ]
             ];
             
             $modHistory = [
                 [
-                    sprintf($spanStr, 'Date Created'),
-                    sprintf($spanStr, $DateCreated),
-                    sprintf($spanStr, 'Created by'),
-                    sprintf($spanStr, $Created_by)
+                    sprintf($labelStr, 'Date Created'),
+                    sprintf($labelStr, $DateCreated),
+                    sprintf($labelStr, 'Created by'),
+                    sprintf($labelStr, $Created_by)
                 ],
                 [
-                    sprintf($spanStr, 'Last Updated'),
-                    sprintf($spanStr, $LastUpdated),
-                    sprintf($spanStr, 'Updated by'),
-                    sprintf($spanStr, $Updated_by)
+                    sprintf($labelStr, 'Last Updated'),
+                    sprintf($labelStr, $LastUpdated),
+                    sprintf($labelStr, 'Updated by'),
+                    sprintf($labelStr, $Updated_by)
                 ]
             ];
     
@@ -276,57 +276,67 @@ if ($defID) {
     
             $topFields = [
                 [
-                    returnRow([ sprintf($spanStr, 'ID'), sprintf($fakeInputStr, $result['ID']) ]).
-                    returnRow([ sprintf($spanStr, 'Creator'), sprintf($fakeInputStr, $result['Creator']) ]).
-                    returnRow([ sprintf($spanStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
-                    returnRow([ sprintf($spanStr, 'Next_Step'), sprintf($fakeInputStr, $result['Next_Step']) ]).
-                    returnRow([ sprintf($spanStr, 'BIC'), sprintf($fakeInputStr, $result['BIC']) ]),
-                    sprintf($pStr, 'Descriptive_title_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Descriptive_title_VTA']))
+                    returnRow([ sprintf($labelStr, 'ID'), sprintf($fakeInputStr, $result['ID']) ]).
+                    returnRow([ sprintf($labelStr, 'Creator'), sprintf($fakeInputStr, $result['Creator']) ]).
+                    returnRow([ sprintf($labelStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
+                    returnRow([ sprintf($labelStr, 'Next_Step'), sprintf($fakeInputStr, $result['Next_Step']) ]).
+                    returnRow([ sprintf($labelStr, 'BIC'), sprintf($fakeInputStr, $result['BIC']) ]),
+                    sprintf($labelStr, 'Descriptive_title_VTA').sprintf($fakeInputStr, $result['Descriptive_title_VTA'])
                 ]
             ];
         
             $vtaFields = [
-                'Root_Prob_VTA' => [ sprintf($pStr, 'Root_Prob_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Root_Prob_VTA'])) ],
-                'Resolution_VTA' => [ sprintf($pStr, 'Resolution_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Resolution_VTA'])) ],
+                'Root_Prob_VTA' => [ sprintf($labelStr, 'Root_Prob_VTA').sprintf($labelStr, sprintf($fakeInputStr, $result['Root_Prob_VTA'])) ],
+                'Resolution_VTA' => [ sprintf($labelStr, 'Resolution_VTA').sprintf($labelStr, sprintf($fakeInputStr, $result['Resolution_VTA'])) ],
                 [
-                    returnRow([ sprintf($spanStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
-                    returnRow([ sprintf($spanStr, 'Priority_VTA'), sprintf($fakeInputStr, $result['Priority_VTA']) ]).
-                    returnRow([ sprintf($spanStr, 'Agree_VTA'), sprintf($fakeInputStr, $result['Agree_VTA']) ]).
-                    returnRow([ sprintf($spanStr, 'Safety_Cert_VTA'), sprintf($fakeInputStr, $result['Safety_Cert_VTA']) ]).
-                    returnRow([ sprintf($spanStr, 'Attachments'), sprintf($fakeInputStr, $result['Attachments']) ]), // will need sep table
-                    sprintf($pStr, 'Comments_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Comments_VTA'])). // new comments
+                    returnRow([ sprintf($labelStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
+                    returnRow([ sprintf($labelStr, 'Priority_VTA'), sprintf($fakeInputStr, $result['Priority_VTA']) ]).
+                    returnRow([ sprintf($labelStr, 'Agree_VTA'), sprintf($fakeInputStr, $result['Agree_VTA']) ]).
+                    returnRow([ sprintf($labelStr, 'Safety_Cert_VTA'), sprintf($fakeInputStr, $result['Safety_Cert_VTA']) ]).
+                    returnRow([ sprintf($labelStr, 'Attachments'), sprintf($fakeInputStr, $result['Attachments']) ]), // will need sep table
+                    sprintf($labelStr, 'Comments_VTA').sprintf($fakeInputStr, $result['Comments_VTA']). // new comments
                     // comments will need sep table
                     returnRow([
-                        sprintf($spanStr, 'Resolution_disputed'), sprintf($fakeInputStr, $result['Resolution_disputed']),
-                        sprintf($spanStr, 'Structural'), sprintf($fakeInputStr, $result['Structural'])
+                        sprintf($labelStr, 'Resolution_disputed'), sprintf($fakeInputStr, $result['Resolution_disputed']),
+                        sprintf($labelStr, 'Structural'), sprintf($fakeInputStr, $result['Structural'])
                     ])
                 ]
             ];
         
             $bartFields = [
                 [
-                    returnRow([ sprintf($spanStr, 'ID_BART'), sprintf($fakeInputStr, $result['ID_BART']) ]),
-                    sprintf($pStr, 'Description_BART').sprintf($pStr, sprintf($fakeInputStr, $result['Description_BART']))
+                    returnRow([ sprintf($labelStr, 'ID_BART'), sprintf($fakeInputStr, $result['ID_BART']) ]),
+                    sprintf($labelStr, 'Description_BART').sprintf($fakeInputStr, $result['Description_BART'])
                 ],
                 [
-                    returnRow([ sprintf($spanStr, 'Cat1_BART'), sprintf($fakeInputStr, $result['Cat1_BART']) ]).
-                    returnRow([ sprintf($spanStr, 'Cat2_BART'), sprintf($fakeInputStr, $result['Cat2_BART']) ]).
-                    returnRow([ sprintf($spanStr, 'Cat3_BART'), sprintf($fakeInputStr, $result['Cat3_BART']) ]),
-                    returnRow([ sprintf($spanStr, 'Level_BART'), sprintf($fakeInputStr, $result['Level_BART']) ]).
-                    returnRow([ sprintf($spanStr, 'DateOpen_BART'), sprintf($fakeInputStr, $result['DateOpen_BART']) ]).
-                    returnRow([ sprintf($spanStr, 'DateClose_BART'), sprintf($fakeInputStr, $result['DateClose_BART']) ]).
-                    returnRow([ sprintf($spanStr, 'Status_BART'), sprintf($fakeInputStr, $result['Status_BART']) ])
+                    returnRow([ sprintf($labelStr, 'Cat1_BART'), sprintf($fakeInputStr, $result['Cat1_BART']) ]).
+                    returnRow([ sprintf($labelStr, 'Cat2_BART'), sprintf($fakeInputStr, $result['Cat2_BART']) ]).
+                    returnRow([ sprintf($labelStr, 'Cat3_BART'), sprintf($fakeInputStr, $result['Cat3_BART']) ]),
+                    returnRow([ sprintf($labelStr, 'Level_BART'), sprintf($fakeInputStr, $result['Level_BART']) ]).
+                    returnRow([ sprintf($labelStr, 'DateOpen_BART'), sprintf($fakeInputStr, $result['DateOpen_BART']) ]).
+                    returnRow([ sprintf($labelStr, 'DateClose_BART'), sprintf($fakeInputStr, $result['DateClose_BART']) ]).
+                    returnRow([ sprintf($labelStr, 'Status_BART'), sprintf($fakeInputStr, $result['Status_BART']) ])
                 ]
             ];
         
             $stmt->close();
-            print "<header class='container page-header'>
-                <a class='btn' role='button' data-toggle='collapse' href='#varDumpResult' aria-expanded='false' aria-controls='varDumpResult'>Show result</a>
-                <div id='varDumpResult' class='collapse' class='page-header'><pre class='text-success'>";
-            var_dump($result);
-            print "</pre></div></header>";
+            // print "<header class='container page-header'>
+            //     <a class='btn' role='button' data-toggle='collapse' href='#varDumpResult' aria-expanded='false' aria-controls='varDumpResult'>Show result</a>
+            //     <div id='varDumpResult' class='collapse' class='page-header'><pre class='text-success'>";
+            // var_dump($result);
+            // print "</pre></div></header>";
             
-            print "<main class='container main-content'>";
+            if($result['Status_VTA'] === "Closed") {
+                $color = "bg-success text-white";
+            } else {
+                $color = "bg-red text-white";
+            }
+            
+            print "
+                <header class='container page-header'>
+                    <h1 class='page-title $color pad'>Deficiency No. $bartID</h1>
+                </header>
+                <main class='container main-content'>";
             foreach ($topFields as $gridRow) {
                 print returnRow($gridRow);
             }
