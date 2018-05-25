@@ -305,7 +305,7 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
             'cell' => [
                 'auth' => 2,
                 'classList' => "$tdClassList $collapseSm",
-                'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
+                'innerHtml' => "<a id='updateDef%s' href='UpdateDef.php?defID=%s' type='submit' class='btn'><i class='typcn typcn-edit'></i></button>"
             ]
         ]
     ];

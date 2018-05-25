@@ -4,7 +4,7 @@ include('session.php');
 $title = "SVBX - Update Deficiency";
 $role = $_SESSION['Role'];
 include('html_functions/bootstrapGrid.php');
-include('html_functions/htmlForms.php');
+// include('html_functions/htmlForms.php');
 include('filestart.php');
 $defID = $_GET['defID'];
 $defSql = file_get_contents("UpdateDef.sql").$defID;
