@@ -1,50 +1,52 @@
 <?php
 require_once 'html_functions/bootstrapGrid.php';
 
-function layoutTopFields($labelEl, $inputEl, $data) {
-    return $topFields = [
-        [
-            returnRow([ sprintf($spanStr, 'ID'), sprintf($fakeInputStr, $data['ID']) ]).
-            returnRow([ sprintf($spanStr, 'Creator'), sprintf($fakeInputStr, $data['Creator']) ]).
-            returnRow([ sprintf($spanStr, 'Status_VTA'), sprintf($fakeInputStr, $data['Status_VTA']) ]).
-            returnRow([ sprintf($spanStr, 'Next_Step'), sprintf($fakeInputStr, $data['Next_Step']) ]).
-            returnRow([ sprintf($spanStr, 'BIC'), sprintf($fakeInputStr, $data['BIC']) ]),
-            sprintf($pStr, 'Descriptive_title_VTA').sprintf($pStr, sprintf($fakeInputStr, $data['Descriptive_title_VTA']))
-        ]
-    ];
+function layoutSection($section, $labelEl, $inputEl, $data) {
+    if ($section === 'top') {
+        $topFields = [
+            [
+                returnRow([ sprintf($labelEl, 'ID'), sprintf($inputEl, $data['ID']) ]).
+                returnRow([ sprintf($labelEl, 'Creator'), sprintf($inputEl, $data['Creator']) ]).
+                returnRow([ sprintf($labelEl, 'Status_VTA'), sprintf($inputEl, $data['Status_VTA']) ]).
+                returnRow([ sprintf($labelEl, 'Next_Step'), sprintf($inputEl, $data['Next_Step']) ]).
+                returnRow([ sprintf($labelEl, 'BIC'), sprintf($inputEl, $data['BIC']) ]),
+                sprintf($labelEl, 'Descriptive_title_VTA').sprintf($inputEl, $data['Descriptive_title_VTA'])
+            ]
+        ];
+    } elseif ($section === 'vta') {
+        $vtaFields = [
+            'Root_Prob_VTA' => [ sprintf($labelEl, 'Root_Prob_VTA').sprintf($inputEl, $data['Root_Prob_VTA']) ],
+            'Resolution_VTA' => [ sprintf($labelEl, 'Resolution_VTA').sprintf($inputEl, $data['Resolution_VTA']) ],
+            [
+                returnRow([ sprintf($labelEl, 'Status_VTA'), sprintf($inputEl, $data['Status_VTA']) ]).
+                returnRow([ sprintf($labelEl, 'Priority_VTA'), sprintf($inputEl, $data['Priority_VTA']) ]).
+                returnRow([ sprintf($labelEl, 'Agree_VTA'), sprintf($inputEl, $data['Agree_VTA']) ]).
+                returnRow([ sprintf($labelEl, 'Safety_Cert_VTA'), sprintf($inputEl, $data['Safety_Cert_VTA']) ]).
+                returnRow([ sprintf($labelEl, 'Attachments'), sprintf($inputEl, $data['Attachments']) ]), // will need sep table
+                sprintf($labelEl, 'Comments_VTA').sprintf($inputEl, $data['Comments_VTA']). // new comments
+                // comments will need sep table
+                returnRow([
+                    sprintf($labelEl, 'Resolution_disputed'), sprintf($inputEl, $data['Resolution_disputed']),
+                    sprintf($labelEl, 'Structural'), sprintf($inputEl, $data['Structural'])
+                ])
+            ]
+        ];
+    } elseif ($section === 'bart') {
+        $bartFields = [
+            [
+                returnRow([ sprintf($labelEl, 'ID_BART'), sprintf($inputEl, $data['ID_BART']) ]),
+                sprintf($labelEl, 'Description_BART').sprintf($inputEl, $data['Description_BART'])
+            ],
+            [
+                returnRow([ sprintf($labelEl, 'Cat1_BART'), sprintf($inputEl, $data['Cat1_BART']) ]).
+                returnRow([ sprintf($labelEl, 'Cat2_BART'), sprintf($inputEl, $data['Cat2_BART']) ]).
+                returnRow([ sprintf($labelEl, 'Cat3_BART'), sprintf($inputEl, $data['Cat3_BART']) ]),
+                returnRow([ sprintf($labelEl, 'Level_BART'), sprintf($inputEl, $data['Level_BART']) ]).
+                returnRow([ sprintf($labelEl, 'DateOpen_BART'), sprintf($inputEl, $data['DateOpen_BART']) ]).
+                returnRow([ sprintf($labelEl, 'DateClose_BART'), sprintf($inputEl, $data['DateClose_BART']) ]).
+                returnRow([ sprintf($labelEl, 'Status_BART'), sprintf($fakeInputStr, $data['Status_BART']) ])
+            ]
+        ];
+    }
 }
-
-$vtaFields = [
-    'Root_Prob_VTA' => [ sprintf($pStr, 'Root_Prob_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Root_Prob_VTA'])) ],
-    'Resolution_VTA' => [ sprintf($pStr, 'Resolution_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Resolution_VTA'])) ],
-    [
-        returnRow([ sprintf($spanStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
-        returnRow([ sprintf($spanStr, 'Priority_VTA'), sprintf($fakeInputStr, $result['Priority_VTA']) ]).
-        returnRow([ sprintf($spanStr, 'Agree_VTA'), sprintf($fakeInputStr, $result['Agree_VTA']) ]).
-        returnRow([ sprintf($spanStr, 'Safety_Cert_VTA'), sprintf($fakeInputStr, $result['Safety_Cert_VTA']) ]).
-        returnRow([ sprintf($spanStr, 'Attachments'), sprintf($fakeInputStr, $result['Attachments']) ]), // will need sep table
-        sprintf($pStr, 'Comments_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Comments_VTA'])). // new comments
-        // comments will need sep table
-        returnRow([
-            sprintf($spanStr, 'Resolution_disputed'), sprintf($fakeInputStr, $result['Resolution_disputed']),
-            sprintf($spanStr, 'Structural'), sprintf($fakeInputStr, $result['Structural'])
-        ])
-    ]
-];
-
-$bartFields = [
-    [
-        returnRow([ sprintf($spanStr, 'ID_BART'), sprintf($fakeInputStr, $result['ID_BART']) ]),
-        sprintf($pStr, 'Description_BART').sprintf($pStr, sprintf($fakeInputStr, $result['Description_BART']))
-    ],
-    [
-        returnRow([ sprintf($spanStr, 'Cat1_BART'), sprintf($fakeInputStr, $result['Cat1_BART']) ]).
-        returnRow([ sprintf($spanStr, 'Cat2_BART'), sprintf($fakeInputStr, $result['Cat2_BART']) ]).
-        returnRow([ sprintf($spanStr, 'Cat3_BART'), sprintf($fakeInputStr, $result['Cat3_BART']) ]),
-        returnRow([ sprintf($spanStr, 'Level_BART'), sprintf($fakeInputStr, $result['Level_BART']) ]).
-        returnRow([ sprintf($spanStr, 'DateOpen_BART'), sprintf($fakeInputStr, $result['DateOpen_BART']) ]).
-        returnRow([ sprintf($spanStr, 'DateClose_BART'), sprintf($fakeInputStr, $result['DateClose_BART']) ]).
-        returnRow([ sprintf($spanStr, 'Status_BART'), sprintf($fakeInputStr, $result['Status_BART']) ])
-    ]
-];
 ?>
