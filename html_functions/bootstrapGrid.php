@@ -1,4 +1,5 @@
 <?php
+require_once 'htmlForms.php';
 /*
 ** available options at this point are:
 ** 'inline'

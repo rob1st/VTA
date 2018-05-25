@@ -14,6 +14,7 @@ include('filestart.php');
 $link = f_sqlConnect();
 
 $spanStr = "<span>%s</span>";
+$pStr = "<p>%s</p>";
 $fakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
 $emptyFakeInputStr = "<span class='d-block full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</span>";
 
@@ -245,20 +246,101 @@ if ($defID) {
         if ($row = $result->fetch_row()) {
             $bdPermit = $row[0];
         }
+        $result->close();
     }
     if ($bdPermit) {
         // render View for bartDef
-        $sql = 'SELECT '.file_get_contents('bartdl.sql')." WHERE id=$bartID";
+        // $fakeInputStr = "<span class='full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
+        $result = [];
+        $sql = 'SELECT '.file_get_contents('bartdl.sql')." WHERE id=?";
         
-        $vtaFields = [];
+        if ($stmt = $link->prepare($sql)) {
+            if (!$stmt->bind_param('i', $bartID)) printSqlErrorAndExit($stmt, $sql);
+            
+            if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
+            
+            $meta = $stmt->result_metadata(); 
+            while ($field = $meta->fetch_field()) { 
+                $params[] = &$row[$field->name]; 
+            }
+
+            call_user_func_array(array($stmt, 'bind_result'), $params); 
+
+            while ($stmt->fetch()) { 
+                foreach($row as $key => $val) 
+                { 
+                    $c[$key] = $val; 
+                } 
+                $result = $c; 
+            } 
+    
+            $topFields = [
+                [
+                    returnRow([ sprintf($spanStr, 'ID'), sprintf($fakeInputStr, $result['ID']) ]).
+                    returnRow([ sprintf($spanStr, 'Creator'), sprintf($fakeInputStr, $result['Creator']) ]).
+                    returnRow([ sprintf($spanStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
+                    returnRow([ sprintf($spanStr, 'Next_Step'), sprintf($fakeInputStr, $result['Next_Step']) ]).
+                    returnRow([ sprintf($spanStr, 'BIC'), sprintf($fakeInputStr, $result['BIC']) ]),
+                    sprintf($pStr, 'Descriptive_title_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Descriptive_title_VTA']))
+                ]
+            ];
         
-        $bartFields = [];
+            $vtaFields = [
+                'Root_Prob_VTA' => [ sprintf($pStr, 'Root_Prob_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Root_Prob_VTA'])) ],
+                'Resolution_VTA' => [ sprintf($pStr, 'Resolution_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Resolution_VTA'])) ],
+                [
+                    returnRow([ sprintf($spanStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
+                    returnRow([ sprintf($spanStr, 'Priority_VTA'), sprintf($fakeInputStr, $result['Priority_VTA']) ]).
+                    returnRow([ sprintf($spanStr, 'Agree_VTA'), sprintf($fakeInputStr, $result['Agree_VTA']) ]).
+                    returnRow([ sprintf($spanStr, 'Safety_Cert_VTA'), sprintf($fakeInputStr, $result['Safety_Cert_VTA']) ]).
+                    returnRow([ sprintf($spanStr, 'Attachments'), sprintf($fakeInputStr, $result['Attachments']) ]), // will need sep table
+                    sprintf($pStr, 'Comments_VTA').sprintf($pStr, sprintf($fakeInputStr, $result['Comments_VTA'])). // new comments
+                    // comments will need sep table
+                    returnRow([
+                        sprintf($spanStr, 'Resolution_disputed'), sprintf($fakeInputStr, $result['Resolution_disputed']),
+                        sprintf($spanStr, 'Structural'), sprintf($fakeInputStr, $result['Structural'])
+                    ])
+                ]
+            ];
         
-        if ($link->prepare($sql)) {
-            print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
-        } else {
-            printSqlErrorAndExit($link, $sql);
-        }
+            $bartFields = [
+                [
+                    returnRow([ sprintf($spanStr, 'ID_BART'), sprintf($fakeInputStr, $result['ID_BART']) ]),
+                    sprintf($pStr, 'Description_BART').sprintf($pStr, sprintf($fakeInputStr, $result['Description_BART']))
+                ],
+                [
+                    returnRow([ sprintf($spanStr, 'Cat1_BART'), sprintf($fakeInputStr, $result['Cat1_BART']) ]).
+                    returnRow([ sprintf($spanStr, 'Cat2_BART'), sprintf($fakeInputStr, $result['Cat2_BART']) ]).
+                    returnRow([ sprintf($spanStr, 'Cat3_BART'), sprintf($fakeInputStr, $result['Cat3_BART']) ]),
+                    returnRow([ sprintf($spanStr, 'Level_BART'), sprintf($fakeInputStr, $result['Level_BART']) ]).
+                    returnRow([ sprintf($spanStr, 'DateOpen_BART'), sprintf($fakeInputStr, $result['DateOpen_BART']) ]).
+                    returnRow([ sprintf($spanStr, 'DateClose_BART'), sprintf($fakeInputStr, $result['DateClose_BART']) ]).
+                    returnRow([ sprintf($spanStr, 'Status_BART'), sprintf($fakeInputStr, $result['Status_BART']) ])
+                ]
+            ];
+        
+            $stmt->close();
+            print "<header class='container page-header'>
+                <a class='btn' role='button' data-toggle='collapse' href='#varDumpResult' aria-expanded='false' aria-controls='varDumpResult'>Show result</a>
+                <div id='varDumpResult' class='collapse' class='page-header'><pre class='text-success'>";
+            var_dump($result);
+            print "</pre></div></header>";
+            
+            print "<main class='container main-content'>";
+            foreach ($topFields as $gridRow) {
+                print returnRow($gridRow);
+            }
+            print "<h5 class='grey-bg pad'>VTA Information</h5>";
+            foreach ($vtaFields as $gridRow) {
+                print returnRow($gridRow);
+            }
+            print "<h5 class='grey-bg pad'>BART Information</h5>";
+            foreach ($bartFields as $gridRow) {
+                print returnRow($gridRow);
+            }
+            print "</main>";
+            // print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
+        } else printSqlErrorAndExit($link, $sql);
     }
 }
 include('fileend.php');
