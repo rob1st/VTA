@@ -279,7 +279,7 @@ if ($defID) {
                 [
                     returnRow([ sprintf($labelStr, 'ID'), sprintf($fakeInputStr, $result['ID']) ]).
                     returnRow([ sprintf($labelStr, 'Creator'), sprintf($fakeInputStr, $result['Creator']) ]).
-                    returnRow([ sprintf($labelStr, 'Status_VTA'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
+                    returnRow([ sprintf($labelStr, 'Joint status'), sprintf($fakeInputStr, $result['Status_VTA']) ]).
                     returnRow([ sprintf($labelStr, 'Next_Step'), sprintf($fakeInputStr, $result['Next_Step']) ]).
                     returnRow([ sprintf($labelStr, 'BIC'), sprintf($fakeInputStr, $result['BIC']) ]),
                     sprintf($labelStr, 'Descriptive_title_VTA').sprintf($fakeInputStr, $result['Descriptive_title_VTA'])

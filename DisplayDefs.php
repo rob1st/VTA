@@ -41,16 +41,18 @@ function concatSqlStr($arr, $tableName, $initStr = '') {
 }
 
 function printInfoBox($lvl, $href) {
-    $boxStart ="
+    $box ="
         <div class='card item-margin-bottom'>
             <div class='card-body flex-row justify-content-between align-items-center grey-bg'>
-                <p class='mb-1'>Click Deficiency ID number to see full details</p>";
-    $boxEnd ="</div></div>";
-    $btn ="<a href='%s.php' class='btn btn-primary'>Add New Deficiency</a>";
+                <p class='mb-1'>Click Deficiency ID number to see full details</p>
+                %s
+            </div>
+        </div>";
+    $btn = $lvl > 1 ? "<a href='%s' class='btn btn-primary'>Add New Deficiency</a>" : '';
     
-    $box = $lvl > 1 ? $boxStart.$btn.$boxEnd : $boxStart.$boxEnd;
+    $box = sprintf($box, $btn);
             
-    return sprintf($box, $href);
+    return printf($box, $href);
 }
 
 function printSearchBar($cnxn, $post, $formAction) {
@@ -379,11 +381,11 @@ if($_POST['Search'] == NULL) {
     <h1 class="page-title">Deficiencies</h1>
     <h4 id='printUserInfo' class='text-purple'>
         <ul>
-            <li><?php print $roleLvl ?></li>
-            <li><?php print $role ?></li>
-            <li><?php print $bdPermit ?></li>
-            <li><?php print $view ?></li>
-            <li><?php print phpversion() ?></li>
+            <li>roleLvl <?php print $roleLvl ?></li>
+            <li>role <?php print $role ?></li>
+            <li>bdPermit <?php print $bdPermit ?></li>
+            <li>view <?php print $view ?></li>
+            <li>phpversion <?php print phpversion() ?></li>
         </ul>
     </h4>
     <?php
@@ -402,12 +404,13 @@ if($_POST['Search'] == NULL) {
 <?php
     echo "<main class='container main-content'>";
     echo printSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
-    echo printInfoBox($roleLvl, 'NewDef');
     if ($view !== 'BART' || !$bdPermit) {
         $sql = file_get_contents("CDList.sql").$whereCls;
+        printInfoBox($roleLvl, 'NewDef.php');
         printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bdPermit) {
         $sql = 'SELECT '.file_get_contents('bartdl.sql');
+        printInfoBox($roleLvl, 'NewDef.php?table=BART');
         printBartDefsTable($link, $sql, $bdPermit);
     }
     $result->close();
