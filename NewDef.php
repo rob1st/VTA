@@ -2,7 +2,7 @@
 include('session.php');
 include('SQLFunctions.php');
 include('html_functions/bootstrapGrid.php');
-include('html_functions/htmlForms.php');
+require_once 'html_functions/htmlForms.php';
 $link = f_sqlConnect();
 $Role = $_SESSION['Role'];
 $title = "SVBX - New Deficiency";

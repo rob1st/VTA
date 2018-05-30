@@ -15,6 +15,7 @@ $link = f_sqlConnect();
 
 // $spanStr = "<span>%s</span>";
 $labelStr = "<p>%s</p>";
+$checkbox = "<input type='checkbox' value='%s' class='form-control'>";
 $fakeInputStr = "<p class='full-width pad-less thin-grey-border border-radius fake-input'>%s</p>";
 $emptyFakeInputStr = "<p class='full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</p>";
 
@@ -297,8 +298,8 @@ if ($defID) {
                     sprintf($labelStr, 'Comments_VTA').sprintf($fakeInputStr, $result['Comments_VTA']). // new comments
                     // comments will need sep table
                     returnRow([
-                        sprintf($labelStr, 'Resolution_disputed'), sprintf($fakeInputStr, $result['Resolution_disputed']),
-                        sprintf($labelStr, 'Structural'), sprintf($fakeInputStr, $result['Structural'])
+                        sprintf($labelStr, 'Resolution_disputed'), sprintf($checkbox, $result['Resolution_disputed']),
+                        sprintf($labelStr, 'Structural'), sprintf($checkbox, $result['Structural'])
                     ])
                 ]
             ];
@@ -306,7 +307,9 @@ if ($defID) {
             $bartFields = [
                 [
                     returnRow([ sprintf($labelStr, 'ID_BART'), sprintf($fakeInputStr, $result['ID_BART']) ]),
-                    sprintf($labelStr, 'Description_BART').sprintf($fakeInputStr, $result['Description_BART'])
+                ],
+                [
+                    returnRow([ sprintf($labelStr, 'Description_BART'), sprintf($fakeInputStr, $result['Description_BART']) ])
                 ],
                 [
                     returnRow([ sprintf($labelStr, 'Cat1_BART'), sprintf($fakeInputStr, $result['Cat1_BART']) ]).
