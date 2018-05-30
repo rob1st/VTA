@@ -302,24 +302,20 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
             [
                 returnRow([
                     "<label for='Creator'>Creator</label>",
-                    [
-                        'tagName' => 'input',
-                        'element' => "<input type='text' maxlength='12' class='form-control' >"
-                    ]
+                    "<input type='text' value='' maxlength='12' class='form-control' >"
                 ]).
                 returnRow([
-                    "<label>Joint status</label>"
+                    "<label>Next step</label>",
+                    "<input type='text' value='' maxlength='25' class='form-control' >"
                 ]).
                 returnRow([
-                    "<label>Next step</label>"
-                ]).
-                returnRow([
-                    "<label>Ball in court</label>"
+                    "<label>Ball in court</label>",
+                    "<input type='text' value='' maxlength='12' class='form-control' >"
                 ]),
                 'Descriptive_title_VTA' => [
                     'label' => "<label>Description</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea name=''Descriptive_title_VTA'></textarea>",
+                    'element' => "<textarea name=''Descriptive_title_VTA' class='form-control'></textarea>",
                     'value' => '',
                     'query' => null
                 ]
@@ -327,25 +323,87 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
         ];
     
         $vtaFields = [
-            'Root_Prob_VTA' => [
-                'label' => "<label>Root problem</label>",
-                'tagName' => 'textarea',
-                'element' => '<textarea></textarea>',
-                'value' => '',
-                'query' => null
-            ],
-            'Resolution_VTA' => [ "<label>Resolution</label>" ],
             [
-                returnRow([ "<label>Status</label>" ]).
-                returnRow([ "<label>Priority</label>" ]).
-                returnRow([ "<label>Agree?</label>" ]).
-                returnRow([ "<label>Safety Cert</label>" ]).
-                returnRow([ "<label>Attachments</label>" ]), // will need sep table
-                "<label>Comments</label>". // new comments
+                'Root_Prob_VTA' => [
+                    'label' => "<label>Root problem</label>",
+                    'tagName' => 'textarea',
+                    'element' => "<textarea class='form-control'></textarea>",
+                    'value' => '',
+                    'query' => null
+                ]
+            ],
+            [
+                'Resolution_VTA' => [
+                    'label' => "<label>Resolution</label>",
+                    'tagName' => 'textarea',
+                    'element' => "<textarea class='form-control'></textarea>",
+                    'value' => '',
+                    'query' => null
+                ]
+            ],
+            [
+                returnRow([
+                    "<label for='Status_VTA'>Status</label>",
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select name='Status_VTA' id='Status_VTA' class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
+                ]).
+                returnRow([
+                    "<label for='Priority_VTA'>Priority</label>",
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select name='Priority_VTA' id='Priority_VTA' class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
+                ]).
+                returnRow([
+                    "<label for='Agree_VTA'>Agree?</label>",
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select name='Agree_VTA' id='Agree_VTA' class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
+                ]).
+                returnRow([
+                    "<label for='Safety_Cert_VTA'>Safety Certiable?</label>",
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select name='Safety_Cert_VTA' id='Safety_Cert_VTA' class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
+                ]).
+                returnRow([ // will need sep table
+                    "<label for='Attachments'>Upload attachment</label>",
+                    [
+                        'tagName' => 'input',
+                        'type' => 'file',
+                        'element' => "<input name='Attachments' id='Attachments' type='file' class='form-control'>"
+                    ]
+                ]),
+                returnRow([
+                    [
+                        'label' => "<label for='Comments_VTA'>Comments</label>",
+                        'tagName' => 'textarea',
+                        'element' => "<textarea name='Comments_VTA' id='Comments_VTA' class='form-control'>%s</textarea>",
+                        'value' => ''
+                    ]
+                ]).
                 // comments will need sep table
                 returnRow([
-                    "<label>Res disputed</label>",
-                    "<label>Structural</label>"
+                    "<div class='form-check form-check-inline'>
+                        <label for='Resolution_disputed' class='form-check-label'>Resolution disputed</label>
+                        <input name='Resolution_disputed' id='Resolution_disputed' type='checkbox' class='form-check-input'>
+                    </div>",
+                    "<div class='form-check form-check-inline'>
+                        <label for='Structural' class='form-check-label'>Structural</label>
+                        <input name='Structural' id='Structural' type='checkbox' class='form-check-input'>
+                    </div>"
                 ])
             ]
         ];
@@ -373,9 +431,20 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
             </header>
             <main role='main' class='container main-content'>
                 <form action='RecDef.php' method='POST' enctype='multipart/form-data'>
-                    <h5 class='grey-bg pad'>New BART def fields</h5>
                     <input type='hidden' name='username' value='{$_SESSION['Username']}' />
-                    <input type='hidden' name='table' value='{$_GET['table']}'";
+                    <input type='hidden' name='table' value='{$_GET['table']}' >
+                    <h5 class='grey-bg pad'>General Information</h5>";
+                    foreach ($topFields as $gridRow) {
+                        print returnRow($gridRow);
+                    }
+        echo "
+                    <h5 class='grey-bg pad'>VTA Information</h5>";
+                    foreach ($vtaFields as $gridRow) {
+                        print returnRow($gridRow);
+                    }
+        echo "
+                </form>
+            </main>";
     } else {
         include 'unauthorised.php';
     }

@@ -16,11 +16,11 @@ function returnSelectInput($data) {
             $selected = $row[0] == $value ? ' selected' : '';
             $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
         }
+        $result->close();
     } elseif ($cnxn->error) {
         $optionEls .= "<option selected>{$cnxn->error}</option>";
     } else $optionEls .= "<option selected>There was a problem with the query</option>";
     $selectEl = sprintf($data['element'], $optionEls);
-    $result->close();
     $cnxn->close();
     return $selectEl;
 }

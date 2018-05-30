@@ -17,7 +17,7 @@ function returnCol($element, $wd, $options = []) {
         $content = $isFormCtrl
             ? isset($options['inline'])
                 ? returnRow([ $element['label'], returnFormCtrl($element) ])
-                : returnFormCtrl($element)
+                : $element['label'].returnFormCtrl($element)
             : returnRow($element);
         $col = sprintf($colStr, $wd, $content);
         /*
