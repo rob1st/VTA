@@ -306,16 +306,26 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                 ]).
                 returnRow([
                     "<label>Next step</label>",
-                    "<input type='text' value='' maxlength='25' class='form-control' >"
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
                 ]).
                 returnRow([
                     "<label>Ball in court</label>",
-                    "<input type='text' value='' maxlength='12' class='form-control' >"
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
                 ]),
                 'Descriptive_title_VTA' => [
                     'label' => "<label>Description</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea name=''Descriptive_title_VTA' class='form-control'></textarea>",
+                    'element' => "<textarea name='Descriptive_title_VTA' class='form-control'></textarea>",
                     'value' => '',
                     'query' => null
                 ]
@@ -388,7 +398,7 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                 ]),
                 returnRow([
                     [
-                        'label' => "<label for='Comments_VTA'>Comments</label>",
+                        'label' => "<label for='Comments_VTA'>Comment</label>",
                         'tagName' => 'textarea',
                         'element' => "<textarea name='Comments_VTA' id='Comments_VTA' class='form-control'>%s</textarea>",
                         'value' => ''
@@ -410,19 +420,47 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
     
         $bartFields = [
             [
-                returnRow([ "<label>BART ID</label>" ]),
+                "<label for='ID_BART'>BART ID</label>
+                <input name='ID_BART' id='ID_BART' type='number' class='form-control'>"
             ],
             [
-                returnRow([ "<label>Description</label>" ])
+                "<label for='Description_BART'>Description</label>
+                <textarea name='Description_BART' id='Description_BART' class='form-control'></textarea>"
             ],
             [
-                returnRow([ "<label>Cat1</label>" ]).
-                returnRow([ "<label>Cat2</label>" ]).
-                returnRow([ "<label>Cat3</label>" ]),
-                returnRow([ "<label>Level</label>" ]).
-                returnRow([ "<label>Date open</label>" ]).
-                returnRow([ "<label>Date closed</label>" ]).
-                returnRow([ "<label>Status</label>" ])
+                returnRow([
+                    "<label for='Cat1_BART'>Cat1</label>",
+                    "<input name='Cat1_BART' id='Cat1_BART' type='text' class='form-control'>"
+                ]).
+                returnRow([
+                    "<label for='Cat2_BART'>Cat2</label>",
+                    "<input name='Cat2_BART' id='Cat2_BART' type='text' class='form-control'>"
+                ]).
+                returnRow([
+                    "<label for='Cat3_BART'>Cat3</label>",
+                    "<input name='Cat3_BART' id='Cat3_BART' type='text' class='form-control'>"
+                ]),
+                returnRow([
+                    "<label for='Level_BART'>Level</label>",
+                    "<input name='Level_BART' id='Level_BART' type='text' class='form-control'>"
+                ]).
+                returnRow([
+                    "<label for='DateOpen_BART'>Date open</label>",
+                    "<input name='DateOpen_BART' id='DateOpen_BART' type='date' class='form-control'>"
+                ]).
+                returnRow([
+                    "<label for='DateClose_BART'>Date closed</label>",
+                    "<input name='DateClose_BART' id='DateClose_BART' type='date' class='form-control'>"
+                ]).
+                returnRow([
+                    "<label for='Status_BART'>Status</label>",
+                    [
+                        'tagName' => 'select',
+                        'element' => "<select name='Status_BART' id='Status_BART' class='form-control'>%s</select>",
+                        'value' => '',
+                        'query' => null
+                    ]
+                ])
             ]
         ];
         echo "
@@ -443,6 +481,15 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                         print returnRow($gridRow);
                     }
         echo "
+                    <h5 class='grey-bg pad'>BART Information</h5>";
+                    foreach ($bartFields as $gridRow) {
+                        print returnRow($gridRow);
+                    }
+        echo "
+                    <div class='center-content'>
+                        <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
+                        <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
+                    </div>
                 </form>
             </main>";
     } else {

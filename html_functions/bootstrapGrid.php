@@ -20,14 +20,6 @@ function returnCol($element, $wd, $options = []) {
                 : $element['label'].returnFormCtrl($element)
             : returnRow($element);
         $col = sprintf($colStr, $wd, $content);
-        /*
-        // $subCol = "<div class='col-sm-6'>%s</div>";
-        // $leftColContent = $element['label'];
-        // $rightColContent = returnFormCtrl($element);
-        // $leftCol = sprintf($subCol, $leftColContent);
-        // $rightCol = sprintf($subCol, $rightColContent);
-        // $subRow = sprintf("<div class='row'>%s%s</div>", $leftCol, $rightCol);
-        // $col = sprintf($colStr, $wd, $subRow); */
     } elseif (is_string($element)) {
         $col = sprintf($colStr, $wd, $element);
     } else $col = sprintf($colStr,  $wd, '');
@@ -44,7 +36,6 @@ function returnRow($elements, $options = []) {
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1 && isset($options['colWd'])) {
         $offset = floor((12 - $options['colWd'])/2);
-        // print $elements[0];
         $elRow .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
     } else foreach ($elements as $el) {
         $elRow .= returnCol($el, $colWd, $options);
