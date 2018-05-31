@@ -36,10 +36,10 @@ if ($bdPermit) {
                     <option>BART</option>
                 </select>"
             ]),
-            'Descriptive_title_VTA' => [
-                'label' => "<label for='Descriptive_title_VTA'>Description</label>",
+            'descriptive_title_VTA' => [
+                'label' => "<label for='descriptive_title_VTA'>Description</label>",
                 'tagName' => 'textarea',
-                'element' => "<textarea name='Descriptive_title_VTA' id='Descriptive_title_VTA' class='form-control'></textarea>",
+                'element' => "<textarea name='descriptive_title_VTA' id='descriptive_title_VTA' class='form-control'></textarea>",
                 'value' => '',
                 'query' => null
             ]
@@ -67,17 +67,17 @@ if ($bdPermit) {
         ],
         [
             returnRow([
-                "<label for='Status_VTA'>Status</label>",
+                "<label for='status_vta'>Status</label>",
                 [
                     'tagName' => 'select',
-                    'element' => "<select name='Status_VTA' id='Status_VTA' class='form-control'>%s</select>",
+                    'element' => "<select name='status_vta' id='status_vta' class='form-control'>%s</select>",
                     'value' => '',
                     'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
                 ]
             ]).
             returnRow([
-                "<label for='Priority_VTA'>Priority</label>",
-                "<select name='Priority_VTA' id='Priority_VTA' class='form-control'>
+                "<label for='priority_vta'>Priority</label>",
+                "<select name='priority_vta' id='priority_vta' class='form-control'>
                     <option></option>
                     <option>1</option>
                     <option>2</option>
@@ -85,48 +85,48 @@ if ($bdPermit) {
                 </select>"
             ]).
             returnRow([
-                "<label for='Agree_VTA'>Agree</label>",
+                "<label for='agree_vta'>Agree</label>",
                 [
                     'tagName' => 'select',
-                    'element' => "<select name='Agree_VTA' id='Agree_VTA' class='form-control'>%s</select>",
+                    'element' => "<select name='agree_vta' id='agree_vta' class='form-control'>%s</select>",
                     'value' => '',
                     'query' => 'SELECT agreeDisagreeID, agreeDisagreeName from agreeDisagree'
                 ]
             ]).
             returnRow([
-                "<label for='Safety_Cert_VTA'>Safety Certiable?</label>",
+                "<label for='safety_cert_vta'>Safety Certiable?</label>",
                 [
                     'tagName' => 'select',
-                    'element' => "<select name='Safety_Cert_VTA' id='Safety_Cert_VTA' class='form-control'>%s</select>",
+                    'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control'>%s</select>",
                     'value' => '',
                     'query' => 'SELECT yesNoID, yesNo from YesNo'
                 ]
             ]).
             returnRow([ // will need sep table
-                "<label for='Attachments'>Upload attachment</label>",
+                "<label for='bdAttachments'>Upload attachment</label>",
                 [
                     'tagName' => 'input',
                     'type' => 'file',
-                    'element' => "<input name='Attachments' id='Attachments' type='file' class='form-control'>"
+                    'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control'>"
                 ]
             ]),
             returnRow([
                 [
-                    'label' => "<label for='Comments_VTA'>Comment</label>",
+                    'label' => "<label for='bdComments'>Comment</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea name='Comments_VTA' id='Comments_VTA' class='form-control'>%s</textarea>",
+                    'element' => "<textarea name='bdComments' id='bdComments' class='form-control'>%s</textarea>",
                     'value' => ''
                 ]
             ]).
             // comments will need sep table
             returnRow([
                 "<div class='form-check form-check-inline'>
-                    <label for='Resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>
-                    <input name='Resolution_disputed' id='Resolution_disputed' type='checkbox' value='1' class='form-check-input'>
+                    <label for='resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>
+                    <input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input'>
                 </div>",
                 "<div class='form-check form-check-inline'>
-                    <label for='Structural' class='form-check-label mr-2'>Structural</label>
-                    <input name='Structural' id='Structural' type='checkbox' value='1' class='form-check-input'>
+                    <label for='structural' class='form-check-label mr-2'>Structural</label>
+                    <input name='structural' id='structural' type='checkbox' value='1' class='form-check-input'>
                 </div>"
             ])
         ]
@@ -134,43 +134,43 @@ if ($bdPermit) {
 
     $bartFields = [
         [
-            "<label for='ID_BART'>BART ID</label>
-            <input name='ID_BART' id='ID_BART' type='number' class='form-control'>"
+            "<label for='id_bart'>BART ID</label>
+            <input name='id_bart' id='id_bart' type='number' class='form-control'>"
         ],
         [
-            "<label for='Description_BART'>Description</label>
-            <textarea name='Description_BART' id='Description_BART' class='form-control'></textarea>"
+            "<label for='description_bart'>Description</label>
+            <textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control'></textarea>"
         ],
         [
             returnRow([
-                "<label for='Cat1_BART'>Cat1</label>",
-                "<input name='Cat1_BART' id='Cat1_BART' type='text' class='form-control'>"
+                "<label for='cat1_bart'>Cat1</label>",
+                "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' class='form-control'>"
             ]).
             returnRow([
-                "<label for='Cat2_BART'>Cat2</label>",
-                "<input name='Cat2_BART' id='Cat2_BART' type='text' class='form-control'>"
+                "<label for='cat2_bart'>Cat2</label>",
+                "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' class='form-control'>"
             ]).
             returnRow([
-                "<label for='Cat3_BART'>Cat3</label>",
-                "<input name='Cat3_BART' id='Cat3_BART' type='text' class='form-control'>"
+                "<label for='cat3_bart'>Cat3</label>",
+                "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' class='form-control'>"
             ]),
             returnRow([
-                "<label for='Level_BART'>Level</label>",
-                "<input name='Level_BART' id='Level_BART' type='text' class='form-control'>"
+                "<label for='level_bart'>Level</label>",
+                "<input name='level_bart' id='level_bart' type='text' maxlength='24' class='form-control'>"
             ]).
             returnRow([
-                "<label for='DateOpen_BART'>Date open</label>",
-                "<input name='DateOpen_BART' id='DateOpen_BART' type='date' class='form-control'>"
+                "<label for='dateOpen_bart'>Date open</label>",
+                "<input name='dateOpen_bart' id='dateOpen_bart' type='date' class='form-control'>"
             ]).
             returnRow([
-                "<label for='DateClose_BART'>Date closed</label>",
-                "<input name='DateClose_BART' id='DateClose_BART' type='date' class='form-control'>"
+                "<label for='dateClose_bart'>Date closed</label>",
+                "<input name='dateClose_bart' id='dateClose_bart' type='date' class='form-control'>"
             ]).
             returnRow([
-                "<label for='Status_BART'>Status</label>",
+                "<label for='status_bart'>Status</label>",
                 [
                     'tagName' => 'select',
-                    'element' => "<select name='Status_BART' id='Status_BART' class='form-control'>%s</select>",
+                    'element' => "<select name='status_bart' id='status_bart' class='form-control'>%s</select>",
                     'value' => '',
                     'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
                 ]
@@ -183,7 +183,7 @@ if ($bdPermit) {
         </header>
         <main role='main' class='container main-content'>
             <form action='recBartDef.php' method='POST' enctype='multipart/form-data'>
-                <input type='hidden' name='created_by' value='{$_SESSION['Username']}' />
+                <input type='hidden' name='created_by' value='{$_SESSION['UserID']}' />
                 <h5 class='grey-bg pad'>General Information</h5>";
                 foreach ($topFields as $gridRow) {
                     print returnRow($gridRow);
