@@ -194,6 +194,10 @@ ul li {
     box-shadow: 1px 1px 8px 2px var(--tenth-trans-vta-dark-blue);
 }
 
+.box-shadow-blue {
+    box-shadow: 0 0 .3rem .15rem #007bff40;
+}
+
 .border-dark-blue {
     border-color: var(--vta-dark-blue);
 }

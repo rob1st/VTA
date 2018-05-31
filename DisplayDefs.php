@@ -389,7 +389,7 @@ if($_POST['Search'] == NULL) {
         </ul>
     </h4>
     <?php
-        $btnSelected = 'btn-light border-dark-blue box-shadow'; 
+        $btnSelected = 'btn-light border-dark-blue box-shadow-blue'; 
         $btnNotSelected = 'btn-secondary text-white';
         list($bartBtn, $projBtn) = $view === 'BART' ? [$btnSelected, $btnNotSelected] : [$btnNotSelected, $btnSelected];
         if ($bdPermit) {

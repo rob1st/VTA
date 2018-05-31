@@ -178,9 +178,8 @@ if ($bdPermit) {
             <h1 class='page-title'>Add New Deficiency</h1>
         </header>
         <main role='main' class='container main-content'>
-            <form action='RecDef.php' method='POST' enctype='multipart/form-data'>
+            <form action='recBartDef.php' method='POST' enctype='multipart/form-data'>
                 <input type='hidden' name='username' value='{$_SESSION['Username']}' />
-                <input type='hidden' name='table' value='{$_GET['table']}' >
                 <h5 class='grey-bg pad'>General Information</h5>";
                 foreach ($topFields as $gridRow) {
                     print returnRow($gridRow);
