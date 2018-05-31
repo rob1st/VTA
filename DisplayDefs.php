@@ -409,7 +409,7 @@ if($_POST['Search'] == NULL) {
         printInfoBox($roleLvl, 'NewDef.php');
         printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bdPermit) {
-        $sql = 'SELECT '.file_get_contents('bartdl.sql');
+        $sql = 'SELECT '.file_get_contents('bartdl.sql').' FROM BARTDL';
         printInfoBox($roleLvl, 'NewDef.php?table=BART');
         printBartDefsTable($link, $sql, $bdPermit);
     }

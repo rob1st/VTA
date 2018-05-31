@@ -17,10 +17,7 @@ Safety_Cert_VTA,
 Agree_VTA,
 Descriptive_title_VTA,
 Root_Prob_VTA,
-Comments_VTA,
 Priority_VTA,
-Attachments,
 Resolution_disputed,
 BIC,
 Structural
-FROM BARTDL

@@ -253,7 +253,7 @@ if ($defID) {
         // render View for bartDef
         // $fakeInputStr = "<span class='full-width pad-less thin-grey-border border-radius fake-input'>%s</span>";
         $result = [];
-        $sql = 'SELECT '.file_get_contents('bartdl.sql')." WHERE id=?";
+        $sql = 'SELECT '.file_get_contents('bartdl.sql')." FROM BARTDL WHERE id=?";
         
         if ($stmt = $link->prepare($sql)) {
             if (!$stmt->bind_param('i', $bartID)) printSqlErrorAndExit($stmt, $sql);
@@ -323,11 +323,6 @@ if ($defID) {
             ];
         
             $stmt->close();
-            // print "<header class='container page-header'>
-            //     <a class='btn' role='button' data-toggle='collapse' href='#varDumpResult' aria-expanded='false' aria-controls='varDumpResult'>Show result</a>
-            //     <div id='varDumpResult' class='collapse' class='page-header'><pre class='text-success'>";
-            // var_dump($result);
-            // print "</pre></div></header>";
             
             if($result['Status_VTA'] === "Closed") {
                 $color = "bg-success text-white";
