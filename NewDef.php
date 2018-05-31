@@ -305,27 +305,26 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                     "<input type='text' value='' maxlength='12' class='form-control' >"
                 ]).
                 returnRow([
-                    "<label>Next step</label>",
+                    "<label for='next_step'>Next step</label>",
                     [
                         'tagName' => 'select',
-                        'element' => "<select class='form-control'>%s</select>",
+                        'element' => "<select name='next_step' id='next_step' class='form-control'>%s</select>",
                         'value' => '',
                         'query' => null
                     ]
                 ]).
                 returnRow([
-                    "<label>Ball in court</label>",
-                    [
-                        'tagName' => 'select',
-                        'element' => "<select class='form-control'>%s</select>",
-                        'value' => '',
-                        'query' => null
-                    ]
+                    "<label for='bic'>Ball in court</label>",
+                    "<select name='bic' id='bic' class='form-control'>
+                        <option></option>
+                        <option>VTA</option>
+                        <option>BART</option>
+                    </select>"
                 ]),
                 'Descriptive_title_VTA' => [
-                    'label' => "<label>Description</label>",
+                    'label' => "<label for='Descriptive_title_VTA'>Description</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea name='Descriptive_title_VTA' class='form-control'></textarea>",
+                    'element' => "<textarea name='Descriptive_title_VTA' id='Descriptive_title_VTA' class='form-control'></textarea>",
                     'value' => '',
                     'query' => null
                 ]
@@ -335,18 +334,18 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
         $vtaFields = [
             [
                 'Root_Prob_VTA' => [
-                    'label' => "<label>Root problem</label>",
+                    'label' => "<label for='root_prob_vta'>Root problem</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea class='form-control'></textarea>",
+                    'element' => "<textarea name='root_prob_vta' id='root_prob_vta' class='form-control'></textarea>",
                     'value' => '',
                     'query' => null
                 ]
             ],
             [
                 'Resolution_VTA' => [
-                    'label' => "<label>Resolution</label>",
+                    'label' => "<label for='resolution_vta'>Resolution</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea class='form-control'></textarea>",
+                    'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control'></textarea>",
                     'value' => '',
                     'query' => null
                 ]
@@ -358,7 +357,7 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                         'tagName' => 'select',
                         'element' => "<select name='Status_VTA' id='Status_VTA' class='form-control'>%s</select>",
                         'value' => '',
-                        'query' => null
+                        'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
                     ]
                 ]).
                 returnRow([
@@ -371,12 +370,12 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                     ]
                 ]).
                 returnRow([
-                    "<label for='Agree_VTA'>Agree?</label>",
+                    "<label for='Agree_VTA'>Agree</label>",
                     [
                         'tagName' => 'select',
                         'element' => "<select name='Agree_VTA' id='Agree_VTA' class='form-control'>%s</select>",
                         'value' => '',
-                        'query' => null
+                        'query' => 'SELECT agreeDisagreeID, agreeDisagreeName from agreeDisagree'
                     ]
                 ]).
                 returnRow([
@@ -385,7 +384,7 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                         'tagName' => 'select',
                         'element' => "<select name='Safety_Cert_VTA' id='Safety_Cert_VTA' class='form-control'>%s</select>",
                         'value' => '',
-                        'query' => null
+                        'query' => 'SELECT yesNoID, yesNo from YesNo'
                     ]
                 ]).
                 returnRow([ // will need sep table
@@ -458,7 +457,7 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                         'tagName' => 'select',
                         'element' => "<select name='Status_BART' id='Status_BART' class='form-control'>%s</select>",
                         'value' => '',
-                        'query' => null
+                        'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
                     ]
                 ])
             ]
