@@ -140,7 +140,7 @@ if ($bdPermit) {
     $bartFields = [
         [
             "<label for='id_bart'>BART ID</label>
-            <input name='id_bart' id='id_bart' type='number' class='form-control'>"
+            <input name='id_bart' id='id_bart' type='text' class='form-control'>"
         ],
         [
             "<label for='description_bart'>Description</label>
