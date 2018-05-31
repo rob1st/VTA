@@ -225,36 +225,10 @@ function printDefsTable($cnxn, $qry, $elements, $lvl) {
             printTableHeadings(array_column($elements, 'header'), $lvl);
             populateTable($result, array_column($elements, 'cell'), $lvl);
             print "</table>";
-            /*
-            // while($row = $result->fetch_array()) {
-            //     $table .= "
-            //         <tr class='svbx-tr'>
-            //             <td class='svbx-td id-td'><a href='ViewDef.php?DefID={$row[0]}' class='class1'>{$row[0]}</a></td>
-            //             <td class='svbx-td loc-td collapse-sm collapse-xs'>{$row[1]}</td>
-            //             <td class='svbx-td sev-td collapse-xs'>{$row[2]}</td>
-            //             <td class='svbx-td created-td collapse-md  collapse-sm collapse-xs'>{$row[3]}</td>
-            //             <td class='svbx-td status-td'>{$row[4]}</td>
-            //             <td class='svbx-td system-td collapse-sm collapse-xs'>{$row[5]}</td>
-            //             <td class='svbx-td descrip-td'>".nl2br($row[6])."</td>
-            //             <td class='svbx-td collapse-md collapse-sm collapse-xs'>{$row[7]}</td>";
-            //     if ($lvl > 1) {
-            //       $table .= "
-            //             <td class='svbx-td updated-td collapse-md  collapse-sm collapse-xs'>{$row[8]}</td>
-            //             <td class='svbx-td edit-td collapse-sm collapse-xs'>
-            //                 <form action='UpdateDef.php' method='POST' onsubmit=''/>
-            //                     <button type='submit' name='q' value='".$row[0]."'><i class='typcn typcn-edit'></i></button>
-            //                 </form>
-            //             </td>";
-            //     } else $table .= "</tr>";
-            // }
-            // $table .= "</tbody></table>";
-            */
         } else {
-            // $table .=
             print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
         }
     } elseif ($cnxn->error) {
-        // $table .=
         print "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
     }
 }
@@ -307,7 +281,7 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
             'cell' => [
                 'auth' => 2,
                 'classList' => "$tdClassList $collapseSm",
-                'innerHtml' => "<a id='updateDef%s' href='UpdateDef.php?defID=%s' type='submit' class='btn'><i class='typcn typcn-edit'></i></button>"
+                'innerHtml' => "<a id='updateDef%s' href='UpdateDef.php?defID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button>"
             ]
         ]
     ];
@@ -355,8 +329,8 @@ function printBartDefsTable($cnxn, $qry, $lvl) {
         [
             'header' => [ 'text' => 'Edit', 'element' => sprintf($th, "$thClassList $collapseSm", 'Edit')],
             'cell' => [
-                'element' => sprintf("<td class='%s'><form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='q' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form></td>", "$thClassList $collapseSm", '%s', '%s'),
-                'innerHtml' => "<form action='UpdateDef.php' method='POST' onsubmit=''/><button type='submit' name='bartDef' value='%s' id='updateDef%s'><i class='typcn typcn-edit'></i></button></form>"
+                'element' => sprintf("<td class='%s'><a id='updateDef%s'  href='updateBartDef.php?bartDefID=%s'><i class='typcn typcn-edit'></i></a></td>", "$thClassList $collapseSm", '%s', '%s'),
+                'innerHtml' => "<a id='updateDef%s' href='updateBartDef.php?bartDefID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button></form>"
             ]
         ]
     ];
