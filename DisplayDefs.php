@@ -389,12 +389,15 @@ if($_POST['Search'] == NULL) {
         </ul>
     </h4>
     <?php
+        $btnSelected = 'btn-light border-dark-blue box-shadow'; 
+        $btnNotSelected = 'btn-secondary text-white';
+        list($bartBtn, $projBtn) = $view === 'BART' ? [$btnSelected, $btnNotSelected] : [$btnNotSelected, $btnSelected];
         if ($bdPermit) {
             print "
                 <div class='row'>
                     <div class='col-12 d-flex'>
-                        <a href='DisplayDefs.php' class='btn btn-secondary text-white flex-grow item-margin-right'>Project deficiencies</a>
-                        <a href='DisplayDefs.php?view=BART' class='btn btn-secondary text-white flex-grow item-margin-right'>BART deficiencies</a>
+                        <a href='DisplayDefs.php' class='btn $projBtn flex-grow item-margin-right'>Project deficiencies</a>
+                        <a href='DisplayDefs.php?view=BART' class='btn $bartBtn flex-grow item-margin-right'>BART deficiencies</a>
                     </div>
                 </div>
             ";
@@ -410,7 +413,7 @@ if($_POST['Search'] == NULL) {
         printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bdPermit) {
         $sql = 'SELECT '.file_get_contents('bartdl.sql').' FROM BARTDL';
-        printInfoBox($roleLvl, 'NewDef.php?table=BART');
+        printInfoBox($roleLvl, 'newBartDef.php');
         printBartDefsTable($link, $sql, $bdPermit);
     }
     $result->close();

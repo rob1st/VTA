@@ -129,6 +129,7 @@ if (!$post['table'] || $post['table'] !== 'BART') {
 } elseif ($post['table'] && $post['table'] === 'BART') {
   if ($stmt = $link->prepare($sql)) {
     $types = 'isissssssssiisssisisssi';
+    echo "<h1 class='text-red'>{$stmt->field_count}</h1>";
   } else {
     echo "<pre style='color: fuchsia'>{$link->error}</pre>";
     $link->close();
