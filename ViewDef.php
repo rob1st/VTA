@@ -2,6 +2,7 @@
 include('session.php');
 include('html_functions/bootstrapGrid.php');
 include('html_functions/htmlFuncs.php');
+include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
 $bartID = $_GET['bartDefID'];
@@ -260,20 +261,22 @@ if ($defID) {
             
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
             
-            $meta = $stmt->result_metadata(); 
-            while ($field = $meta->fetch_field()) { 
-                $params[] = &$row[$field->name]; 
-            }
+            // $meta = $stmt->result_metadata(); 
+            // while ($field = $meta->fetch_field()) { 
+            //     $params[] = &$row[$field->name]; 
+            // }
 
-            call_user_func_array(array($stmt, 'bind_result'), $params); 
+            // call_user_func_array(array($stmt, 'bind_result'), $params); 
 
-            while ($stmt->fetch()) { 
-                foreach($row as $key => $val) 
-                { 
-                    $c[$key] = $val; 
-                } 
-                $result = $c; 
-            } 
+            // while ($stmt->fetch()) { 
+            //     foreach($row as $key => $val) 
+            //     { 
+            //         $c[$key] = $val; 
+            //     } 
+            //     $result[] = $c; 
+            // }
+            
+            $result = stmtBindResultArray($stmt)[0];
     
             $topFields = [
                 [

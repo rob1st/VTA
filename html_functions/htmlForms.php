@@ -4,7 +4,7 @@ require_once "SQLFunctions.php";
 function returnSelectInput($data) {
     $cnxn = f_sqlConnect();
     $selectEl = $data['element'];
-    $optionFormat = "<option value='%s' %s>%s</option>";
+    $optionFormat = "<option value='%s'%s>%s</option>";
     $emptyOption = sprintf($optionFormat, '', '', '');
     $optionEls = $emptyOption;
     $value = isset($data['value']) ? $data['value'] : '';
@@ -12,11 +12,21 @@ function returnSelectInput($data) {
     // if val @ [query] is a sql query result, use it
     $result = is_string($data['query']) ? $cnxn->query($data['query']) : $data['query'];
     if ($result) {
-        while ($row = $result->fetch_row()) {
-            $selected = $row[0] == $value ? ' selected' : '';
-            $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
+        if (is_a($result, 'mysqli_result')) {
+            while ($row = $result->fetch_row()) {
+                $selected = $row[0] == $value ? ' selected' : '';
+                $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
+            }
+            $result->close();
+        } elseif (is_array($result)) {
+            print "<h1 style='color: crimson'>is array</h1>";
+            foreach ($result as $option) {
+                print "<h2 style='color: orangeRed'>option: $option</h2>";
+                $selected = $option == $value ? ' selected' : '';
+                $optionEls .= sprintf($optionFormat, $option, $selected, $option);
+            }
+            print "<p style='color: brown'>$optionEls</p>";
         }
-        $result->close();
     } elseif ($cnxn->error) {
         $optionEls .= "<option selected>{$cnxn->error}</option>";
     } else $optionEls .= "<option selected>There was a problem with the query</option>";

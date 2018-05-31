@@ -18,11 +18,12 @@ if ($bdPermit) {
         [
             returnRow([
                 "<label for='creator'>Creator</label>",
-                "<select name='creator' id='creator' class='form-control' >
-                    <option></option>
-                    <option>VTA</option>
-                    <option>BART</option>
-                </select>"
+                [
+                    'tagName' => 'select',
+                    'element' => "<select name='creator' id='creator' class='form-control'>%s</select>",
+                    'value' => '',
+                    'query' => 'SELECT bdCreatorID, bdCreatorName from bdCreator ORDER BY bdCreatorID'
+                ]
             ]).
             returnRow([
                 "<label for='next_step'>Next step</label>",
@@ -35,11 +36,12 @@ if ($bdPermit) {
             ]).
             returnRow([
                 "<label for='bic'>Ball in court</label>",
-                "<select name='bic' id='bic' class='form-control'>
-                    <option></option>
-                    <option>VTA</option>
-                    <option>BART</option>
-                </select>"
+                [
+                    'tagName' => 'select',
+                    'element' => "<select name='bic' id='bic' class='form-control'>%s</select>",
+                    'value' => '',
+                    'query' => 'SELECT bdCreatorID, bdCreatorName from bdCreator ORDER BY bdCreatorID'
+                ]
             ]),
             'descriptive_title_VTA' => [
                 'label' => "<label for='descriptive_title_VTA'>Description</label>",
