@@ -306,12 +306,7 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                 ]).
                 returnRow([
                     "<label for='next_step'>Next step</label>",
-                    [
-                        'tagName' => 'select',
-                        'element' => "<select name='next_step' id='next_step' class='form-control'>%s</select>",
-                        'value' => '',
-                        'query' => null
-                    ]
+                    "<input name='next_step' id='next_step' type='text' maxlength='25' class='form-control'>"
                 ]).
                 returnRow([
                     "<label for='bic'>Ball in court</label>",
@@ -362,12 +357,12 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                 ]).
                 returnRow([
                     "<label for='Priority_VTA'>Priority</label>",
-                    [
-                        'tagName' => 'select',
-                        'element' => "<select name='Priority_VTA' id='Priority_VTA' class='form-control'>%s</select>",
-                        'value' => '',
-                        'query' => null
-                    ]
+                    "<select name='Priority_VTA' id='Priority_VTA' class='form-control'>
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>"
                 ]).
                 returnRow([
                     "<label for='Agree_VTA'>Agree</label>",
@@ -406,11 +401,11 @@ if (!$_GET['table'] || $_GET['table'] !== 'BART') {
                 // comments will need sep table
                 returnRow([
                     "<div class='form-check form-check-inline'>
-                        <label for='Resolution_disputed' class='form-check-label'>Resolution disputed</label>
+                        <label for='Resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>
                         <input name='Resolution_disputed' id='Resolution_disputed' type='checkbox' class='form-check-input'>
                     </div>",
                     "<div class='form-check form-check-inline'>
-                        <label for='Structural' class='form-check-label'>Structural</label>
+                        <label for='Structural' class='form-check-label mr-2'>Structural</label>
                         <input name='Structural' id='Structural' type='checkbox' class='form-check-input'>
                     </div>"
                 ])
