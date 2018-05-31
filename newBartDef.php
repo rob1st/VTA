@@ -17,8 +17,12 @@ if ($bdPermit) {
     $topFields = [
         [
             returnRow([
-                "<label for='Creator'>Creator</label>",
-                "<input type='text' value='' maxlength='12' class='form-control' >"
+                "<label for='creator'>Creator</label>",
+                "<select name='creator' id='creator' class='form-control' >
+                    <option></option>
+                    <option>VTA</option>
+                    <option>BART</option>
+                </select>"
             ]).
             returnRow([
                 "<label for='next_step'>Next step</label>",
@@ -118,11 +122,11 @@ if ($bdPermit) {
             returnRow([
                 "<div class='form-check form-check-inline'>
                     <label for='Resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>
-                    <input name='Resolution_disputed' id='Resolution_disputed' type='checkbox' class='form-check-input'>
+                    <input name='Resolution_disputed' id='Resolution_disputed' type='checkbox' value='1' class='form-check-input'>
                 </div>",
                 "<div class='form-check form-check-inline'>
                     <label for='Structural' class='form-check-label mr-2'>Structural</label>
-                    <input name='Structural' id='Structural' type='checkbox' class='form-check-input'>
+                    <input name='Structural' id='Structural' type='checkbox' value='1' class='form-check-input'>
                 </div>"
             ])
         ]
@@ -179,7 +183,7 @@ if ($bdPermit) {
         </header>
         <main role='main' class='container main-content'>
             <form action='recBartDef.php' method='POST' enctype='multipart/form-data'>
-                <input type='hidden' name='username' value='{$_SESSION['Username']}' />
+                <input type='hidden' name='created_by' value='{$_SESSION['Username']}' />
                 <h5 class='grey-bg pad'>General Information</h5>";
                 foreach ($topFields as $gridRow) {
                     print returnRow($gridRow);
