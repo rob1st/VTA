@@ -19,13 +19,10 @@ function returnSelectInput($data) {
             }
             $result->close();
         } elseif (is_array($result)) {
-            print "<h1 style='color: crimson'>is array</h1>";
             foreach ($result as $option) {
-                print "<h2 style='color: orangeRed'>option: $option</h2>";
                 $selected = $option == $value ? ' selected' : '';
                 $optionEls .= sprintf($optionFormat, $option, $selected, $option);
             }
-            print "<p style='color: brown'>$optionEls</p>";
         }
     } elseif ($cnxn->error) {
         $optionEls .= "<option selected>{$cnxn->error}</option>";
@@ -33,6 +30,13 @@ function returnSelectInput($data) {
     $selectEl = sprintf($data['element'], $optionEls);
     $cnxn->close();
     return $selectEl;
+}
+
+function returnCheckboxInput($data) {
+    $value = isset($data['value']) ? $data['value'] : '';
+    $checked = $value ? ' checked' : '';
+    $inputEl = sprintf($data['element'], $checked);
+    return $inputEl;
 }
 
 function returnTextInput($data) {
@@ -63,6 +67,8 @@ function returnFormCtrl($formCtrl) {
     } elseif ($formCtrl['tagName'] === 'input') {
         if ($formCtrl['type'] === 'text') {
             return returnTextInput($formCtrl);
+        } elseif ($formCtrl['type'] === 'checkbox') {
+            return returnCheckboxInput($formCtrl);
         } elseif ($formCtrl['type'] === 'date') {
             return returnDateInput($formCtrl);
         } elseif ($formCtrl['type'] === 'file') {

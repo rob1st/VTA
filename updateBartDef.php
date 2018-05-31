@@ -29,7 +29,6 @@ if ($stmt = $link->prepare($sql)) {
     //     <div style='margin-top: 3.5rem; color: darkCyan'>
     //         <p>$sql</p>";
     if ($stmt->execute()) {
-        echo "<p style='color: cadetBlue'>execute success</p>";
         if ($result = stmtBindResultArray($stmt)[0]) {
             $topFields = [
                 [
@@ -141,14 +140,22 @@ if ($stmt = $link->prepare($sql)) {
                     ]).
                     // comments will need sep table
                     returnRow([
-                        "<div class='form-check form-check-inline'>
-                            <label for='resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>
-                            <input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input'>
-                        </div>",
-                        "<div class='form-check form-check-inline'>
-                            <label for='structural' class='form-check-label mr-2'>Structural</label>
-                            <input name='structural' id='structural' type='checkbox' value='1' class='form-check-input'>
-                        </div>"
+                        "<label for='resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>",
+                        [
+                            'tagName' => 'input',
+                            'type' => 'checkbox',
+                            'element' => "<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input' %s>",
+                            'value' => $result['resolution_disputed'],
+                            'query' => null
+                        ],
+                        "<label for='structural' class='form-check-label mr-2'>Structural</label>",
+                        [
+                            'tagName' => 'input',
+                            'type' => 'checkbox',
+                            'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input'>",
+                            'value' => $result['structural'],
+                            'query' => null
+                        ]
                     ])
                 ]
             ];
@@ -205,7 +212,7 @@ if ($stmt = $link->prepare($sql)) {
             ];
             echo "
                 <header class='container page-header'>
-                    <h1 class='page-title'>Add New Deficiency</h1>
+                    <h1 class='page-title'>Update Deficiency $defID</h1>
                 </header>
                 <main role='main' class='container main-content'>
                     <form action='recBartDef.php' method='POST' enctype='multipart/form-data'>
