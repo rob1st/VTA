@@ -42,17 +42,24 @@ if ($stmt = $link->prepare($sql)) {
         intval($post['status_bart']),
         $date
     )) {
-        echo "
-            <div style='margin-top: 3.5rem; color: brown'>
-                <p>{$stmt->field_count}</p>
-                <p>{$stmt->param_count}</p>
-                <p>$fieldList</p>
-                <p>$sql</p>
-                <p>$types</p>
-            </div>";
-        echo "<pre>";
-        var_dump($post);
-        echo "</pre>";
+        if ($stmt->execute()) {
+            echo "
+                <div style='margin-top: 3.5rem; color: purple'>
+                    <p>{$stmt->affected_rows}</p>
+                    <p>{$stmt->insert_id}</p>
+                    <p>$fieldList</p>
+                    <p>$sql</p>
+                    <p>$types</p>
+                </div>";
+            echo "<pre>";
+            var_dump($post);
+            echo "</pre>";
+        } else {
+            echo "<pre style='margin-top: 3.5rem; color: deepPink'>{$stmt->error}</pre>";
+            $stmt-close();
+            $link->close();
+            exit;
+        }
     } else {
         echo "<pre style='margin-top: 3.5rem; color: limeGreen'>{$stmt->error}</pre>";
         $stmt-close();
