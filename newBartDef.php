@@ -26,7 +26,12 @@ if ($bdPermit) {
             ]).
             returnRow([
                 "<label for='next_step'>Next step</label>",
-                "<input name='next_step' id='next_step' type='text' maxlength='25' class='form-control'>"
+                [
+                    'tagName' => 'select',
+                    'element' => "<select name='next_step' id='next_step' class='form-control'>%s</select>",
+                    'query' => 'SELECT bdNextStepID, nextStepName FROM bdNextStep ORDER BY bdNextStepID',
+                    'value' => ''
+                ]
             ]).
             returnRow([
                 "<label for='bic'>Ball in court</label>",
@@ -156,7 +161,11 @@ if ($bdPermit) {
             ]),
             returnRow([
                 "<label for='level_bart'>Level</label>",
-                "<input name='level_bart' id='level_bart' type='text' maxlength='24' class='form-control'>"
+                "<select name='level_bart' id='level_bart' class='form-control'>
+                    <option></option>
+                    <option>PROGRAM</option>
+                    <option>PROJECT</option>
+                </select>"
             ]).
             returnRow([
                 "<label for='dateOpen_bart'>Date open</label>",

@@ -16,11 +16,11 @@ $fieldList = implode(',', array_keys($fieldsArr));
 $sql = 'INSERT INTO BARTDL ('.$fieldList.') VALUES ('.implode(', ', array_values($fieldsArr)).')';
 
 if ($stmt = $link->prepare($sql)) {
-    $types = 'issssssiiiiiiisssssssis';
+    $types = 'isissssiiiiiiisssssssis';
     if ($stmt->bind_param($types,
         intval($post['created_by']),
         $link->escape_string($post['creator']),
-        $link->escape_string($post['next_step']),
+        intval($post['next_step']),
         $link->escape_string($post['bic']),
         $link->escape_string($post['descriptive_title_VTA']),
         $link->escape_string($post['root_prob_vta']),
@@ -45,6 +45,7 @@ if ($stmt = $link->prepare($sql)) {
         echo "
             <div style='margin-top: 3.5rem; color: brown'>
                 <p>{$stmt->field_count}</p>
+                <p>{$stmt->param_count}</p>
                 <p>$fieldList</p>
                 <p>$sql</p>
                 <p>$types</p>
