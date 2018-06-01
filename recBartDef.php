@@ -54,6 +54,7 @@ if ($stmt = $link->prepare($sql)) {
             echo "<pre>";
             var_dump($post);
             echo "</pre>";
+            header("Location: ViewDef.php?bartDefID={$stmt->insert_id}");
         } else {
             echo "<pre style='margin-top: 3.5rem; color: deepPink'>{$stmt->error}</pre>";
             $stmt-close();
