@@ -43,10 +43,10 @@ if ($bdPermit) {
                     'query' => 'SELECT bdCreatorID, bdCreatorName from bdCreator ORDER BY bdCreatorID'
                 ]
             ]),
-            'descriptive_title_VTA' => [
-                'label' => "<label for='descriptive_title_VTA'>Description</label>",
+            'descriptive_title_vta' => [
+                'label' => "<label for='descriptive_title_vta'>Description</label>",
                 'tagName' => 'textarea',
-                'element' => "<textarea name='descriptive_title_VTA' id='descriptive_title_VTA' class='form-control'></textarea>",
+                'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control'></textarea>",
                 'value' => '',
                 'query' => null
             ]

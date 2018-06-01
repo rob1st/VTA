@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('SQLFunctions.php');
+include('error_handling/sqlErrors.php');
 include('uploadImg.php');
 $link = f_sqlConnect();
 
@@ -19,10 +20,11 @@ if ($stmt = $link->prepare($sql)) {
     $types = 'isissssiiiiiiisssssssis';
     if ($stmt->bind_param($types,
         intval($post['created_by']),
+        intval($post['created_by']),
         intval($post['creator']),
         intval($post['next_step']),
         intval($post['bic']),
-        $link->escape_string($post['descriptive_title_VTA']),
+        $link->escape_string($post['descriptive_title_vta']),
         $link->escape_string($post['root_prob_vta']),
         $link->escape_string($post['resolution_vta']),
         intval($post['status_vta']),
@@ -43,32 +45,35 @@ if ($stmt = $link->prepare($sql)) {
         $date
     )) {
         if ($stmt->execute()) {
-            echo "
-                <div style='margin-top: 3.5rem; color: purple'>
-                    <p>{$stmt->affected_rows}</p>
-                    <p>{$stmt->insert_id}</p>
-                    <p>$fieldList</p>
-                    <p>$sql</p>
-                    <p>$types</p>
-                </div>";
-            echo "<pre>";
-            var_dump($post);
-            echo "</pre>";
+            // echo "
+            //     <div style='margin-top: 3.5rem; color: purple'>
+            //         <p>{$stmt->affected_rows}</p>
+            //         <p>{$stmt->insert_id}</p>
+            //         <p>$fieldList</p>
+            //         <p>$sql</p>
+            //         <p>$types</p>
+            //     </div>";
+            // echo "<pre>";
+            // var_dump($post);
+            // echo "</pre>";
             header("Location: ViewDef.php?bartDefID={$stmt->insert_id}");
         } else {
-            echo "<pre style='margin-top: 3.5rem; color: deepPink'>{$stmt->error}</pre>";
-            $stmt-close();
-            $link->close();
-            exit;
+            printSqlErrorAndExit($stmt, $sql);
+            // echo "<pre style='margin-top: 3.5rem; color: deepPink'>{$stmt->error}</pre>";
+            // $stmt-close();
+            // $link->close();
+            // exit;
         }
     } else {
-        echo "<pre style='margin-top: 3.5rem; color: limeGreen'>{$stmt->error}</pre>";
-        $stmt-close();
-        $link->close();
-        exit;
+        printSqlErrorAndExit($stmt, $sql);
+        // echo "<pre style='margin-top: 3.5rem; color: limeGreen'>{$stmt->error}</pre>";
+        // $stmt-close();
+        // $link->close();
+        // exit;
     }
 } else {
-    echo "<pre style='margin-top: 3.5rem; color: fuchsia'>{$link->error}</pre>";
-    $link->close();
-    exit;
+    printSqlErrorAndExit($link, $sql);
+    // echo "<pre style='margin-top: 3.5rem; color: fuchsia'>{$link->error}</pre>";
+    // $link->close();
+    // exit;
 }

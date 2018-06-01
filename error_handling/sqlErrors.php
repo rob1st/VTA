@@ -11,4 +11,9 @@ function printSqlErrorAndExit(&$cnxn, $sql = '') {
     $cnxn->close();
     exit;
 }
+
+function testForMysqliClass($obj) {
+    $classNames = [ 'mysqli', 'mysqli_stmt', 'mysqli_result' ];
+    return is_a($obj, 'mysqli');
+}
 ?>

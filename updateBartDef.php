@@ -60,9 +60,9 @@ if ($stmt = $link->prepare($sql)) {
                         ]
                     ]),
                     'descriptive_title_vta' => [
-                        'label' => "<label for='descriptive_title_VTA'>Description</label>",
+                        'label' => "<label for='descriptive_title_vta'>Description</label>",
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='descriptive_title_VTA' id='descriptive_title_VTA' class='form-control'>{$result['descriptive_title_vta']}</textarea>",
+                        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control'>{$result['descriptive_title_vta']}</textarea>",
                         'query' => null
                     ]
                 ]
@@ -215,8 +215,8 @@ if ($stmt = $link->prepare($sql)) {
                     <h1 class='page-title'>Update Deficiency $defID</h1>
                 </header>
                 <main role='main' class='container main-content'>
-                    <form action='recBartDef.php' method='POST' enctype='multipart/form-data'>
-                        <input type='hidden' name='created_by' value='{$_SESSION['UserID']}' />
+                    <form action='updateBartDefCommit.php' method='POST' enctype='multipart/form-data'>
+                        <input type='hidden' name='id' value='{$defID}' >
                         <h5 class='grey-bg pad'>General Information</h5>";
                         foreach ($topFields as $gridRow) {
                             print returnRow($gridRow);
@@ -239,9 +239,9 @@ if ($stmt = $link->prepare($sql)) {
                     </form>
                 </main>";
                 
-            echo "<pre>";
-            var_dump($result);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($result);
+            // echo "</pre>";
         } else {
             printSqlErrorAndExit($stmt, $sql);
         }

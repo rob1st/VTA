@@ -1,5 +1,6 @@
 id,
 created_by,
+updated_by,
 creator,
 next_step,
 bic,
