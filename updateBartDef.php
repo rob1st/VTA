@@ -152,7 +152,7 @@ if ($stmt = $link->prepare($sql)) {
                         [
                             'tagName' => 'input',
                             'type' => 'checkbox',
-                            'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input'>",
+                            'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input' %s>",
                             'value' => $result['structural'],
                             'query' => null
                         ]
