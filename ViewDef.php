@@ -5,7 +5,7 @@ include('html_functions/htmlFuncs.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
-$bartID = $_GET['bartDefID'];
+$bartDefID = $_GET['bartDefID'];
 $Role = $_SESSION['Role'];
 $title = "SVBX - Deficiency No".$defID;
 //ini_set('display_errors', 1);
@@ -243,7 +243,7 @@ if ($defID) {
     } else {  
         printSqlErrorAndExit($link, $sql);
     } 
-} elseif ($bartID) {
+} elseif ($bartDefID) {
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
         if ($row = $result->fetch_row()) {
             $bdPermit = $row[0];
@@ -256,7 +256,7 @@ if ($defID) {
         $sql = 'SELECT '.file_get_contents('bartdl.sql')." FROM BARTDL WHERE id=?";
         
         if ($stmt = $link->prepare($sql)) {
-            if (!$stmt->bind_param('i', $bartID)) printSqlErrorAndExit($stmt, $sql);
+            if (!$stmt->bind_param('i', $bartDefID)) printSqlErrorAndExit($stmt, $sql);
             
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
             
@@ -319,7 +319,7 @@ if ($defID) {
             
             print "
                 <header class='container page-header'>
-                    <h1 class='page-title $color pad'>Deficiency No. $bartID</h1>
+                    <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
                 </header>
                 <main class='container main-content'>";
             foreach ($topFields as $gridRow) {
@@ -333,7 +333,12 @@ if ($defID) {
             foreach ($bartFields as $gridRow) {
                 print returnRow($gridRow);
             }
-            print "</main>";
+            
+            print "
+                <div class='center-content'>
+                    <a href='updateBartDef.php?bartDefID=$bartDefID' class='btn btn-primary btn-lg'>Update</a>
+                </div>
+            </main>";
             // print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
         } else printSqlErrorAndExit($link, $sql);
     }
