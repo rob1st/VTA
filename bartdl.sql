@@ -21,5 +21,4 @@ cat3_bart,
 level_bart,
 dateOpen_bart,
 dateClose_bart,
-status_bart,
-form_modified
+status_bart
