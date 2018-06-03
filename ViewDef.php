@@ -17,7 +17,7 @@ $link = f_sqlConnect();
 // $spanStr = "<span>%s</span>";
 $labelStr = "<p>%s</p>";
 $checkbox = [
-    'element' => "<input type='checkbox' value='1' class='form-check-input x-checkbox' disabled %s>",
+    'element' => "<input type='checkbox' value='1' class='x-checkbox' disabled %s>",
     'value' => ''
 ];
 $fakeInputStr = "<p class='mb-0 full-width pad-less thin-grey-border border-radius fake-input'>%s</p>";
@@ -257,7 +257,8 @@ if ($defID) {
         // render View for bartDef
         $result = [];
         // build SELECT query string from sql file
-        $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'));
+        $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'))
+            .',form_modified';
         // replace ambiguous or JOINED keys
         $fieldList = str_replace('updated_by', 'BARTDL.updated_by AS updated_by', $fieldList);
         $fieldList = str_replace('status_vta', 's.status AS status_vta', $fieldList);
@@ -305,8 +306,8 @@ if ($defID) {
                     sprintf($labelStr, 'Comments').sprintf($fakeInputStr, $result['comments_vta']). // new comments
                     // comments will need sep table
                     returnRow([
-                        sprintf($labelStr, 'Resolution disputed'), returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
-                        sprintf($labelStr, 'Structural'), returnCheckboxInput(['value' => $result['structural']] + $checkbox)
+                        sprintf($labelStr, 'Resolution disputed').returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
+                        sprintf($labelStr, 'Structural').returnCheckboxInput(['value' => $result['structural']] + $checkbox)
                     ])
                 ]
             ];

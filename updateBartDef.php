@@ -234,7 +234,6 @@ if ($stmt = $link->prepare($sql)) {
             echo "
                         <div class='center-content'>
                             <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
-                            <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
                         </div>
                     </form>
                 </main>";
