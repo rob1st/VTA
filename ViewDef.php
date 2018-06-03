@@ -16,7 +16,10 @@ $link = f_sqlConnect();
 
 // $spanStr = "<span>%s</span>";
 $labelStr = "<p>%s</p>";
-$checkbox = "<input type='checkbox' value='%s' class='form-control'>";
+$checkbox = [
+    'element' => "<input type='checkbox' value='1' class='form-check-input x-checkbox' disabled %s>",
+    'value' => ''
+];
 $fakeInputStr = "<p class='mb-0 full-width pad-less thin-grey-border border-radius fake-input'>%s</p>";
 $emptyFakeInputStr = "<p class='full-width pad-less thin-grey-border border-radius grey-bg fake-input'>%s</p>";
 
@@ -283,46 +286,46 @@ if ($defID) {
                 [
                     returnRow([ sprintf($labelStr, 'ID'), sprintf($fakeInputStr, $result['id']) ]).
                     returnRow([ sprintf($labelStr, 'Creator'), sprintf($fakeInputStr, $result['creator']) ]).
-                    returnRow([ sprintf($labelStr, 'Joint status'), sprintf($fakeInputStr, $result['status_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Next_Step'), sprintf($fakeInputStr, $result['next_step']) ]).
+                    // returnRow([ sprintf($labelStr, 'Joint status'), sprintf($fakeInputStr, $result['status_vta']) ]).
+                    returnRow([ sprintf($labelStr, 'Next step'), sprintf($fakeInputStr, $result['next_step']) ]).
                     returnRow([ sprintf($labelStr, 'BIC'), sprintf($fakeInputStr, $result['bic']) ]),
-                    sprintf($labelStr, 'Descriptive_title_VTA').sprintf($fakeInputStr, $result['descriptive_title_vta'])
+                    sprintf($labelStr, 'Descriptive').sprintf($fakeInputStr, $result['descriptive_title_vta'])
                 ]
             ];
         
             $vtaFields = [
-                'Root_Prob_VTA' => [ sprintf($labelStr, 'Root_Prob_VTA').sprintf($labelStr, sprintf($fakeInputStr, $result['root_prob_vta'])) ],
-                'Resolution_VTA' => [ sprintf($labelStr, 'Resolution_VTA').sprintf($labelStr, sprintf($fakeInputStr, $result['resolution_vta'])) ],
+                'Root_Prob_VTA' => [ sprintf($labelStr, 'Root problem').sprintf($labelStr, sprintf($fakeInputStr, $result['root_prob_vta'])) ],
+                'Resolution_VTA' => [ sprintf($labelStr, 'Resolution').sprintf($labelStr, sprintf($fakeInputStr, $result['resolution_vta'])) ],
                 [
-                    returnRow([ sprintf($labelStr, 'Status_VTA'), sprintf($fakeInputStr, $result['status_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Priority_VTA'), sprintf($fakeInputStr, $result['priority_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Agree_VTA'), sprintf($fakeInputStr, $result['agree_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Safety_Cert_VTA'), sprintf($fakeInputStr, $result['safety_cert_vta']) ]).
+                    returnRow([ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_vta']) ]).
+                    returnRow([ sprintf($labelStr, 'Priority'), sprintf($fakeInputStr, $result['priority_vta']) ]).
+                    returnRow([ sprintf($labelStr, 'Agree'), sprintf($fakeInputStr, $result['agree_vta']) ]).
+                    returnRow([ sprintf($labelStr, 'Safety Certifiable'), sprintf($fakeInputStr, $result['safety_cert_vta']) ]).
                     returnRow([ sprintf($labelStr, 'Attachments'), sprintf($fakeInputStr, $result['attachments']) ]), // will need sep table
-                    sprintf($labelStr, 'Comments_VTA').sprintf($fakeInputStr, $result['comments_vta']). // new comments
+                    sprintf($labelStr, 'Comments').sprintf($fakeInputStr, $result['comments_vta']). // new comments
                     // comments will need sep table
                     returnRow([
-                        sprintf($labelStr, 'Resolution_disputed'), sprintf($checkbox, $result['resolution_disputed']),
-                        sprintf($labelStr, 'Structural'), sprintf($checkbox, $result['structural'])
+                        sprintf($labelStr, 'Resolution disputed'), returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
+                        sprintf($labelStr, 'Structural'), returnCheckboxInput(['value' => $result['structural']] + $checkbox)
                     ])
                 ]
             ];
         
             $bartFields = [
                 [
-                    returnRow([ sprintf($labelStr, 'ID_BART'), sprintf($fakeInputStr, $result['id_bart']) ]),
+                    returnRow([ sprintf($labelStr, 'BART ID').sprintf($fakeInputStr, $result['id_bart']) ]),
                 ],
                 [
-                    returnRow([ sprintf($labelStr, 'Description_BART'), sprintf($fakeInputStr, $result['description_bart']) ])
+                    returnRow([ sprintf($labelStr, 'Description').sprintf($fakeInputStr, $result['description_bart']) ])
                 ],
                 [
-                    returnRow([ sprintf($labelStr, 'Cat1_BART'), sprintf($fakeInputStr, $result['cat1_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Cat2_BART'), sprintf($fakeInputStr, $result['cat2_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Cat3_BART'), sprintf($fakeInputStr, $result['cat3_bart']) ]),
-                    returnRow([ sprintf($labelStr, 'Level_BART'), sprintf($fakeInputStr, $result['level_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'DateOpen_BART'), sprintf($fakeInputStr, $result['dateOpen_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'DateClose_BART'), sprintf($fakeInputStr, $result['dateClose_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Status_BART'), sprintf($fakeInputStr, $result['status_bart']) ])
+                    returnRow([ sprintf($labelStr, 'Cat1'), sprintf($fakeInputStr, $result['cat1_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'Cat2'), sprintf($fakeInputStr, $result['cat2_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'Cat3'), sprintf($fakeInputStr, $result['cat3_bart']) ]),
+                    returnRow([ sprintf($labelStr, 'Level'), sprintf($fakeInputStr, $result['level_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'DateOpen'), sprintf($fakeInputStr, $result['dateOpen_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'DateClose'), sprintf($fakeInputStr, $result['dateClose_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_bart']) ])
                 ]
             ];
         
