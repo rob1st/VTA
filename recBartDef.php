@@ -56,7 +56,7 @@ if ($stmt = $link->prepare($sql)) {
             // echo "<pre>";
             // var_dump($post);
             // echo "</pre>";
-        //     header("Location: ViewDef.php?bartDefID={$stmt->insert_id}");
+            header("Location: ViewDef.php?bartDefID={$stmt->insert_id}");
         } else {
             printSqlErrorAndExit($stmt, $sql);
         }

@@ -195,7 +195,7 @@ function printSearchBar($cnxn, $post, $formAction) {
             </div>
         </form>
     </div>";
-    return $form;
+    print $form;
 }
 
 function printDefsTable($cnxn, $qry, $elements, $lvl) {
@@ -285,7 +285,6 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
             ]
         ]
     ];
-    print "<h4 class='text-yellow'>".count($tableFields)."</h4>";
     printDefsTable($cnxn, $qry, $tableFields, $lvl);
 }
 
@@ -334,7 +333,6 @@ function printBartDefsTable($cnxn, $qry, $lvl) {
             ]
         ]
     ];
-    print "<h4 class='text-success'>".count($tableFields)."</h4>";
     printDefsTable($cnxn, $qry, $tableFields, $lvl);
 }
 
@@ -353,15 +351,6 @@ if($_POST['Search'] == NULL) {
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
-    <h4 id='printUserInfo' class='text-purple'>
-        <ul>
-            <li>roleLvl <?php print $roleLvl ?></li>
-            <li>role <?php print $role ?></li>
-            <li>bdPermit <?php print $bdPermit ?></li>
-            <li>view <?php print $view ?></li>
-            <li>phpversion <?php print phpversion() ?></li>
-        </ul>
-    </h4>
     <?php
         $btnSelected = 'btn-light border-dark-blue box-shadow-blue'; 
         $btnNotSelected = 'btn-secondary text-white';
@@ -380,9 +369,9 @@ if($_POST['Search'] == NULL) {
 </header>
 <?php
     echo "<main class='container main-content'>";
-    echo printSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
     if ($view !== 'BART' || !$bdPermit) {
         $sql = file_get_contents("CDList.sql").$whereCls;
+        printSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
         printInfoBox($roleLvl, 'NewDef.php');
         printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bdPermit) {

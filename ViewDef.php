@@ -324,8 +324,8 @@ if ($defID) {
                     returnRow([ sprintf($labelStr, 'Cat2'), sprintf($fakeInputStr, $result['cat2_bart']) ]).
                     returnRow([ sprintf($labelStr, 'Cat3'), sprintf($fakeInputStr, $result['cat3_bart']) ]),
                     returnRow([ sprintf($labelStr, 'Level'), sprintf($fakeInputStr, $result['level_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'DateOpen'), sprintf($fakeInputStr, $result['dateOpen_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'DateClose'), sprintf($fakeInputStr, $result['dateClose_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'Date open'), sprintf($fakeInputStr, $result['dateOpen_bart']) ]).
+                    returnRow([ sprintf($labelStr, 'Date closed'), sprintf($fakeInputStr, $result['dateClose_bart']) ]).
                     returnRow([ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_bart']) ])
                 ]
             ];
