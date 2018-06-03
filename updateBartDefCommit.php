@@ -45,7 +45,7 @@ echo "</pre>";
 $i++;
 
 if ($stmt = $link->prepare($sql)) {
-    $types = 'iiiisssiiiiiiisssssssi';
+    $types = 'iiiisssiiiiiissssssssi';
     echo "<p id='sql' style='color: {$colorsJson['coolColors'][$i]}'>$sql</p>";
     $i++;
     echo "
@@ -73,7 +73,7 @@ if ($stmt = $link->prepare($sql)) {
         intval($post['safety_cert_vta']),
         intval($post['resolution_disputed']),
         intval($post['structural']),
-        intval($post['id_bart']),
+        $link->escape_string($post['id_bart']),
         $link->escape_string($post['description_bart']),
         $link->escape_string($post['cat1_bart']),
         $link->escape_string($post['cat2_bart']),
