@@ -10,7 +10,7 @@ $nullVal = null;
 
 // prepare POST and sql string for commit
 $post = $_POST;
-$fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'));
+$fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql')).',date_created';
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 // unset keys that will not be INSERT'd
 unset($fieldsArr['id']);
@@ -18,7 +18,7 @@ $fieldList = implode(',', array_keys($fieldsArr));
 $sql = 'INSERT INTO BARTDL ('.implode(', ', array_keys($fieldsArr)).') VALUES ('.implode(', ', array_values($fieldsArr)).')';
 
 if ($stmt = $link->prepare($sql)) {
-    $types = 'iiiiisssiiiiiissssssssi';
+    $types = 'iiiiisssiiiiiissssssssis';
     if ($stmt->bind_param($types,
         intval($post['created_by']),
         intval($post['created_by']),
@@ -42,7 +42,8 @@ if ($stmt = $link->prepare($sql)) {
         $link->escape_string($post['level_bart']),
         $link->escape_string($post['dateOpen_bart']),
         $link->escape_string($post['dateClose_bart']),
-        intval($post['status_bart'])
+        intval($post['status_bart']),
+        $date
     )) {
         if ($stmt->execute()) {
             echo "

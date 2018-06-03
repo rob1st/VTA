@@ -264,7 +264,7 @@ if ($defID) {
         $fieldList = str_replace('status_vta', 's.status AS status_vta', $fieldList);
         $fieldList = str_replace('status_bart', 's2.status AS status_bart', $fieldList);
         $fieldList = str_replace('agree_vta', 'ag.agreeDisagreeName AS agree_vta', $fieldList);
-        $fieldList = str_replace('creator', 'c.bdCreatorName AS creator', $fieldList);
+        $fieldList = str_replace('creator', 'c.partyName AS creator', $fieldList);
         $fieldList = str_replace('next_step', 'n.nextStepName AS next_step', $fieldList);
         $sql = 'SELECT '
             .$fieldList
@@ -272,7 +272,7 @@ if ($defID) {
             ." JOIN Status s ON BARTDL.status_vta=s.statusID"
             ." JOIN Status s2 ON BARTDL.status_bart=s2.statusID"
             ." JOIN agreeDisagree ag ON BARTDL.agree_vta=ag.agreeDisagreeID"
-            ." JOIN bdCreator c ON BARTDL.creator=c.bdCreatorID"
+            ." JOIN bdParties c ON BARTDL.creator=c.partyID"
             ." JOIN bdNextStep n ON BARTDL.next_step=n.bdNextStepID"
             ." WHERE BARTDL.id=?";
         
