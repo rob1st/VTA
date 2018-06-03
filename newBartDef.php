@@ -14,37 +14,41 @@ if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESS
     $result->close();
 }
 if ($bdPermit) {
+    $labelStr = "<label for='%s'%s>%s</label>";
+    $required = " class='required'";
+    $checkboxRequired = " class='form-check-label mr-2 required'";
+    
     $topFields = [
         [
             returnRow([
-                "<label for='creator'>Creator</label>",
+                sprintf($labelStr, 'creator', $required, 'Creator'),
                 [
                     'tagName' => 'select',
                     'element' => "<select name='creator' id='creator' class='form-control'>%s</select>",
                     'value' => '',
-                    'query' => 'SELECT bdCreatorID, bdCreatorName from bdCreator ORDER BY bdCreatorID'
+                    'query' => "SELECT partyID, partyName from bdParties WHERE partyName <> '' ORDER BY partyID"
                 ]
             ]).
             returnRow([
-                "<label for='next_step'>Next step</label>",
+                sprintf($labelStr, 'next_step', $required, 'Next step'),
                 [
                     'tagName' => 'select',
                     'element' => "<select name='next_step' id='next_step' class='form-control'>%s</select>",
-                    'query' => 'SELECT bdNextStepID, nextStepName FROM bdNextStep ORDER BY bdNextStepID',
+                    'query' => "SELECT bdNextStepID, nextStepName FROM bdNextStep WHERE nextStepName <> '' ORDER BY bdNextStepID",
                     'value' => ''
                 ]
             ]).
             returnRow([
-                "<label for='bic'>Ball in court</label>",
+                sprintf($labelStr, 'bic', $required, 'Ball in court'),
                 [
                     'tagName' => 'select',
                     'element' => "<select name='bic' id='bic' class='form-control'>%s</select>",
                     'value' => '',
-                    'query' => 'SELECT bdCreatorID, bdCreatorName from bdCreator ORDER BY bdCreatorID'
+                    'query' => "SELECT partyID, partyName from bdParties WHERE partyName <> '' ORDER BY partyID"
                 ]
             ]),
             'descriptive_title_vta' => [
-                'label' => "<label for='descriptive_title_vta'>Description</label>",
+                'label' => sprintf($labelStr, 'descriptive_title_vta', $required, 'Description'),
                 'tagName' => 'textarea',
                 'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control'></textarea>",
                 'value' => '',
@@ -56,7 +60,7 @@ if ($bdPermit) {
     $vtaFields = [
         [
             'Root_Prob_VTA' => [
-                'label' => "<label for='root_prob_vta'>Root problem</label>",
+                'label' => sprintf($labelStr, 'root_prob_vta', $required, 'Root problem'),
                 'tagName' => 'textarea',
                 'element' => "<textarea name='root_prob_vta' id='root_prob_vta' class='form-control'></textarea>",
                 'value' => '',
@@ -65,7 +69,7 @@ if ($bdPermit) {
         ],
         [
             'Resolution_VTA' => [
-                'label' => "<label for='resolution_vta'>Resolution</label>",
+                'label' => sprintf($labelStr, 'resolution_vta', $required, 'Resolution'),
                 'tagName' => 'textarea',
                 'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control'></textarea>",
                 'value' => '',
@@ -74,7 +78,7 @@ if ($bdPermit) {
         ],
         [
             returnRow([
-                "<label for='status_vta'>Status</label>",
+                sprintf($labelStr, 'status_vta', $required, 'Status'),
                 [
                     'tagName' => 'select',
                     'element' => "<select name='status_vta' id='status_vta' class='form-control'>%s</select>",
@@ -83,7 +87,7 @@ if ($bdPermit) {
                 ]
             ]).
             returnRow([
-                "<label for='priority_vta'>Priority</label>",
+                sprintf($labelStr, 'priority_vta', $required, 'Priority'),
                 "<select name='priority_vta' id='priority_vta' class='form-control'>
                     <option></option>
                     <option>1</option>
@@ -92,16 +96,16 @@ if ($bdPermit) {
                 </select>"
             ]).
             returnRow([
-                "<label for='agree_vta'>Agree</label>",
+                sprintf($labelStr, 'agree_vta', $required, 'Agree'),
                 [
                     'tagName' => 'select',
                     'element' => "<select name='agree_vta' id='agree_vta' class='form-control'>%s</select>",
                     'value' => '',
-                    'query' => 'SELECT agreeDisagreeID, agreeDisagreeName from agreeDisagree'
+                    'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
                 ]
             ]).
             returnRow([
-                "<label for='safety_cert_vta'>Safety Certiable?</label>",
+                sprintf($labelStr, 'safety_cert_vta', $required, 'Safety Certiable'),
                 [
                     'tagName' => 'select',
                     'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control'>%s</select>",
@@ -114,55 +118,55 @@ if ($bdPermit) {
                 [
                     'tagName' => 'input',
                     'type' => 'file',
-                    'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control'>"
+                    'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control' disabled>"
                 ]
             ]),
             returnRow([
                 [
                     'label' => "<label for='bdComments'>Comment</label>",
                     'tagName' => 'textarea',
-                    'element' => "<textarea name='bdComments' id='bdComments' class='form-control'>%s</textarea>",
+                    'element' => "<textarea name='bdComments' id='bdComments' class='form-control' disabled>%s</textarea>",
                     'value' => ''
                 ]
             ]).
             // comments will need sep table
             returnRow([
-                "<div class='form-check form-check-inline'>
-                    <label for='resolution_disputed' class='form-check-label mr-2'>Resolution disputed</label>
-                    <input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input'>
+                "<div class='form-check form-check-inline'>."
+                    .sprintf($labelStr, 'resolution_disputed', $checkboxRequired, 'Resolution disputed')
+                    ."<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input'>
                 </div>",
-                "<div class='form-check form-check-inline'>
-                    <label for='structural' class='form-check-label mr-2'>Structural</label>
-                    <input name='structural' id='structural' type='checkbox' value='1' class='form-check-input'>
+                "<div class='form-check form-check-inline'>"
+                    .sprintf($labelStr, 'structural', $checkboxRequired, 'Structural')
+                    ."<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input'>
                 </div>"
             ])
         ]
     ];
 
     $bartFields = [
-        [
-            "<label for='id_bart'>BART ID</label>
-            <input name='id_bart' id='id_bart' type='text' class='form-control'>"
+        'id_bart' => [
+            sprintf($labelStr, 'id_bart', $required, 'BART ID')
+            ."<input name='id_bart' id='id_bart' type='text' class='form-control'>"
         ],
-        [
-            "<label for='description_bart'>Description</label>
-            <textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control'></textarea>"
+        'description_bart' => [
+            sprintf($labelStr, 'description_bart', $required, 'Description')
+            ."<textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control'></textarea>"
         ],
         [
             returnRow([
-                "<label for='cat1_bart'>Cat1</label>",
+                sprintf($labelStr, 'cat1_bart', $required, 'Category 1'),
                 "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' class='form-control'>"
             ]).
             returnRow([
-                "<label for='cat2_bart'>Cat2</label>",
+                sprintf($labelStr, 'cat2_bart', $required, 'Category 2'),
                 "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' class='form-control'>"
             ]).
             returnRow([
-                "<label for='cat3_bart'>Cat3</label>",
+                sprintf($labelStr, 'cat3_bart', $required, 'Category 3'),
                 "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' class='form-control'>"
             ]),
             returnRow([
-                "<label for='level_bart'>Level</label>",
+                sprintf($labelStr, 'level_bart', $required, 'Level'),
                 "<select name='level_bart' id='level_bart' class='form-control'>
                     <option></option>
                     <option>PROGRAM</option>
@@ -170,16 +174,16 @@ if ($bdPermit) {
                 </select>"
             ]).
             returnRow([
-                "<label for='dateOpen_bart'>Date open</label>",
+                sprintf($labelStr, 'dateOpen_bart', $required, 'Date open'),
                 "<input name='dateOpen_bart' id='dateOpen_bart' type='date' class='form-control'>"
             ]).
             returnRow([
-                "<label for='dateClose_bart'>Date closed</label>",
+                sprintf($labelStr, 'dateClose_bart', $required, 'Date closed'),
                 "<input name='dateClose_bart' id='dateClose_bart' type='date' class='form-control'>"
             ]).
             returnRow([
-                "<label for='status_bart'>Status</label>",
-                [
+                sprintf($labelStr, 'status_bart', $required, 'Status'),
+                'status_bart' => [
                     'tagName' => 'select',
                     'element' => "<select name='status_bart' id='status_bart' class='form-control'>%s</select>",
                     'value' => '',

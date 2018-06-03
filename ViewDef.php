@@ -290,13 +290,13 @@ if ($defID) {
                     // returnRow([ sprintf($labelStr, 'Joint status'), sprintf($fakeInputStr, $result['status_vta']) ]).
                     returnRow([ sprintf($labelStr, 'Next step'), sprintf($fakeInputStr, $result['next_step']) ]).
                     returnRow([ sprintf($labelStr, 'BIC'), sprintf($fakeInputStr, $result['bic']) ]),
-                    sprintf($labelStr, 'Descriptive').sprintf($fakeInputStr, $result['descriptive_title_vta'])
+                    sprintf($labelStr, 'Descriptive').sprintf($fakeInputStr, stripcslashes($result['descriptive_title_vta']))
                 ]
             ];
         
             $vtaFields = [
-                'Root_Prob_VTA' => [ sprintf($labelStr, 'Root problem').sprintf($labelStr, sprintf($fakeInputStr, $result['root_prob_vta'])) ],
-                'Resolution_VTA' => [ sprintf($labelStr, 'Resolution').sprintf($labelStr, sprintf($fakeInputStr, $result['resolution_vta'])) ],
+                'Root_Prob_VTA' => [ sprintf($labelStr, 'Root problem').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['root_prob_vta']))) ],
+                'Resolution_VTA' => [ sprintf($labelStr, 'Resolution').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['resolution_vta']))) ],
                 [
                     returnRow([ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_vta']) ]).
                     returnRow([ sprintf($labelStr, 'Priority'), sprintf($fakeInputStr, $result['priority_vta']) ]).
@@ -314,10 +314,10 @@ if ($defID) {
         
             $bartFields = [
                 [
-                    returnRow([ sprintf($labelStr, 'BART ID').sprintf($fakeInputStr, $result['id_bart']) ]),
+                    returnRow([ sprintf($labelStr, 'BART ID').sprintf($fakeInputStr, stripcslashes($result['id_bart'])) ]),
                 ],
                 [
-                    returnRow([ sprintf($labelStr, 'Description').sprintf($fakeInputStr, $result['description_bart']) ])
+                    returnRow([ sprintf($labelStr, 'Description').sprintf($fakeInputStr, stripcslashes($result['description_bart'])) ])
                 ],
                 [
                     returnRow([ sprintf($labelStr, 'Cat1'), sprintf($fakeInputStr, $result['cat1_bart']) ]).

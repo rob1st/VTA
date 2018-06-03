@@ -40,7 +40,7 @@ function returnCheckboxInput($data) {
 }
 
 function returnTextInput($data) {
-    $value = isset($data['value']) ? $data['value'] : '';
+    $value = isset($data['value']) ? stripcslashes($data['value']) : '';
     $inputEl = sprintf($data['element'], $value);
     return $inputEl;
 }
@@ -56,7 +56,7 @@ function returnFileInput($data) {
 }
 
 function returnTextarea($data) {
-    $value = isset($data['value']) ? $data['value'] : '';
+    $value = isset($data['value']) ? stripcslashes($data['value']) : '';
     $textarea = sprintf($data['element'], $value);
     return $textarea;
 }
