@@ -4,7 +4,7 @@ require_once "SQLFunctions.php";
 function returnSelectInput($data) {
     $cnxn = f_sqlConnect();
     $selectEl = $data['element'];
-    $optionFormat = "<option value='%s' %s>%s</option>";
+    $optionFormat = "<option value='%s'%s>%s</option>";
     $emptyOption = sprintf($optionFormat, '', '', '');
     $optionEls = $emptyOption;
     $value = isset($data['value']) ? $data['value'] : '';
@@ -12,21 +12,35 @@ function returnSelectInput($data) {
     // if val @ [query] is a sql query result, use it
     $result = is_string($data['query']) ? $cnxn->query($data['query']) : $data['query'];
     if ($result) {
-        while ($row = $result->fetch_row()) {
-            $selected = $row[0] == $value ? ' selected' : '';
-            $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
+        if (is_a($result, 'mysqli_result')) {
+            while ($row = $result->fetch_row()) {
+                $selected = $row[0] == $value ? ' selected' : '';
+                $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
+            }
+            $result->close();
+        } elseif (is_array($result)) {
+            foreach ($result as $option) {
+                $selected = $option == $value ? ' selected' : '';
+                $optionEls .= sprintf($optionFormat, $option, $selected, $option);
+            }
         }
     } elseif ($cnxn->error) {
         $optionEls .= "<option selected>{$cnxn->error}</option>";
     } else $optionEls .= "<option selected>There was a problem with the query</option>";
     $selectEl = sprintf($data['element'], $optionEls);
-    $result->close();
     $cnxn->close();
     return $selectEl;
 }
 
-function returnTextInput($data) {
+function returnCheckboxInput($data) {
     $value = isset($data['value']) ? $data['value'] : '';
+    $checked = $value ? ' checked' : '';
+    $inputEl = sprintf($data['element'], $checked);
+    return $inputEl;
+}
+
+function returnTextInput($data) {
+    $value = isset($data['value']) ? stripcslashes($data['value']) : '';
     $inputEl = sprintf($data['element'], $value);
     return $inputEl;
 }
@@ -42,7 +56,7 @@ function returnFileInput($data) {
 }
 
 function returnTextarea($data) {
-    $value = isset($data['value']) ? $data['value'] : '';
+    $value = isset($data['value']) ? stripcslashes($data['value']) : '';
     $textarea = sprintf($data['element'], $value);
     return $textarea;
 }
@@ -53,6 +67,8 @@ function returnFormCtrl($formCtrl) {
     } elseif ($formCtrl['tagName'] === 'input') {
         if ($formCtrl['type'] === 'text') {
             return returnTextInput($formCtrl);
+        } elseif ($formCtrl['type'] === 'checkbox') {
+            return returnCheckboxInput($formCtrl);
         } elseif ($formCtrl['type'] === 'date') {
             return returnDateInput($formCtrl);
         } elseif ($formCtrl['type'] === 'file') {

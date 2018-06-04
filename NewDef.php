@@ -2,22 +2,21 @@
 include('session.php');
 include('SQLFunctions.php');
 include('html_functions/bootstrapGrid.php');
-include('html_functions/htmlForms.php');
 $link = f_sqlConnect();
 $Role = $_SESSION['Role'];
 $title = "SVBX - New Deficiency";
 if($Role == 'V') {
-    header('location: unauthorised.php');
+    header('Location: unauthorised.php');
 }
-include('filestart.php')
-?>
-<header class="container page-header">
-    <h1 class="page-title">Add New Deficiency</h1>
+include('filestart.php');
+
+echo "
+<header class='container page-header'>
+    <h1 class='page-title'>Add New Deficiency</h1>
 </header>
-<main role="main" class="container main-content">
-    <form action="RecDef.php" method="POST" enctype="multipart/form-data">
-        <input type='hidden' name='username' value='<?php print $_SESSION['Username'] ?>' />
-        <?php
+<main role='main' class='container main-content'>
+    <form action='RecDef.php' method='POST' enctype='multipart/form-data'>
+        <input type='hidden' name='username' value='{$_SESSION['Username']}' />";
             $requiredRows = [
                 [
                     'SafetyCert' => [
@@ -281,15 +280,15 @@ include('filestart.php')
                 print returnRow($gridRow, $options);
             }
             echo "</div>";
-
-        ?>
-        <div class="center-content">
+            
+    echo "
+        <div class='center-content'>
             <button type='submit' value='submit' class='btn btn-primary btn-lg'>Submit</button>
             <button type='reset' value='reset' class='btn btn-primary btn-lg'>Reset</button>
         </div>
     </form>
-</main>
-<?php 
-MySqli_Close($link);
+</main>";
+
+$link->close();
 include('fileend.php');
 ?>

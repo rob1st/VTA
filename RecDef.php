@@ -5,8 +5,8 @@ include('uploadImg.php');
 $link = f_sqlConnect();
 $date = date('Y-m-d');
 $nullVal = null;
-$sql = file_get_contents("recDef.sql");
 $post = $_POST;
+$sql = file_get_contents("recDef.sql");
 
 // if photo in POST it will be committed to a separate table
 if ($_FILES['CDL_pics']['size']
@@ -18,10 +18,10 @@ if ($_FILES['CDL_pics']['size']
 
 $userID = $_SESSION['UserID'];
 
-echo "<p style='font-family: monospace'>SQL string: $sql</p>";
-echo "<pre style='color: blue'>";
-var_dump($post);
-echo "</pre>";
+// echo "<p style='font-family: monospace'>SQL string: $sql</p>";
+// echo "<pre style='color: blue'>";
+// var_dump($post);
+// echo "</pre>";
 
 if ($stmt = $link->prepare($sql)) {
   $types = 'iiisiisiiisisssssiisssss';

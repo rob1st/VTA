@@ -1,7 +1,8 @@
 <?php
 include('SQLFunctions.php');
-include('session.php');
+// include('session.php');
 include('uploadImg.php');
+session_start();
 
 if(!empty($_POST)) {
     $link = f_sqlConnect();

@@ -1,4 +1,5 @@
 <?php
+require_once 'htmlForms.php';
 /*
 ** available options at this point are:
 ** 'inline'
@@ -10,16 +11,15 @@ function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
     $wd = isset($options['offset']) ? $wd." offset-md-{$options['offset']}" : $wd;
     if (is_array($element)) {
-        if (isset($options['inline'])) {
-            $subCol = "<div class='col-sm-6'>%s</div>";
-            $labelCol = sprintf($subCol, $element['label']);
-            $ctrlCol = sprintf($subCol, returnFormCtrl($element));
-            $subRow = sprintf("<div class='row'>%s%s</div>", $labelCol, $ctrlCol);
-            $col = sprintf($colStr, $wd, $subRow);
-        } else {
-            // echo "<pre style='text-yellow'>".var_dump($element)."</pre>";
-            $col = sprintf($colStr, $wd, $element['label'].returnFormCtrl($element));
-        }
+        $isFormCtrl = $element['tagName'] === 'select'
+            || $element['tagName'] === 'input'
+            || $element['tagName'] === 'textarea';
+        $content = $isFormCtrl
+            ? isset($options['inline'])
+                ? returnRow([ $element['label'], returnFormCtrl($element) ])
+                : $element['label'].returnFormCtrl($element)
+            : returnRow($element);
+        $col = sprintf($colStr, $wd, $content);
     } elseif (is_string($element)) {
         $col = sprintf($colStr, $wd, $element);
     } else $col = sprintf($colStr,  $wd, '');
@@ -36,7 +36,6 @@ function returnRow($elements, $options = []) {
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1 && isset($options['colWd'])) {
         $offset = floor((12 - $options['colWd'])/2);
-        // print $elements[0];
         $elRow .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
     } else foreach ($elements as $el) {
         $elRow .= returnCol($el, $colWd, $options);
