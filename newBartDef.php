@@ -131,7 +131,7 @@ if ($bdPermit) {
             ]).
             // comments will need sep table
             returnRow([
-                "<div class='form-check form-check-inline'>."
+                "<div class='form-check form-check-inline'>"
                     .sprintf($labelStr, 'resolution_disputed', '', 'Resolution disputed')
                     ."<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input'>
                 </div>",
