@@ -287,8 +287,8 @@ if ($defID) {
             $result = stmtBindResultArray($stmt)[0];
             
             $commentFormat = "
-                <div class='thin-grey-border'>
-                    <h6><span>%s</span><span>%s</span></h6>
+                <div class='thin-grey-border pad mb-3'>
+                    <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
                     <p>%s</p>
                 </div>";
     
@@ -346,7 +346,8 @@ if ($defID) {
                 FROM bartdlComments bdc
                 JOIN users_enc u
                 ON bdc.userID=u.userID
-                WHERE bartdlID=?";
+                WHERE bartdlID=?
+                ORDER BY date_created DESC";
             
             if (!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
             
