@@ -247,6 +247,7 @@ if ($defID) {
         printSqlErrorAndExit($link, $sql);
     } 
 } elseif ($bartDefID) {
+    // check for bd permission
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
         if ($row = $result->fetch_row()) {
             $bdPermit = $row[0];
@@ -256,6 +257,8 @@ if ($defID) {
     if ($bdPermit) {
         // render View for bartDef
         $result = [];
+        $comments = [];
+        $attachments = [];
         // build SELECT query string from sql file
         $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'))
             .',form_modified';
@@ -282,6 +285,12 @@ if ($defID) {
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
             
             $result = stmtBindResultArray($stmt)[0];
+            
+            $commentFormat = "
+                <div class='thin-grey-border'>
+                    <h6><span>%s</span><span>%s</span></h6>
+                    <p>%s</p>
+                </div>";
     
             $topFields = [
                 [
@@ -313,10 +322,10 @@ if ($defID) {
             ];
         
             $bartFields = [
-                [
+                'BART ID' => [
                     returnRow([ sprintf($labelStr, 'BART ID').sprintf($fakeInputStr, stripcslashes($result['id_bart'])) ]),
                 ],
-                [
+                'Description' => [
                     returnRow([ sprintf($labelStr, 'Description').sprintf($fakeInputStr, stripcslashes($result['description_bart'])) ])
                 ],
                 [
@@ -332,6 +341,23 @@ if ($defID) {
         
             $stmt->close();
             
+            // query for comments associated with this Def
+            $sql = "SELECT firstname, lastname, date_created, bdCommText
+                FROM bartdlComments bdc
+                JOIN users_enc u
+                ON bdc.userID=u.userID
+                WHERE bartdlID=?";
+            
+            if (!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
+            
+            if (!$stmt->bind_param('i', $bartDefID)) printSqlErrorAndExit($stmt, $sql);
+            
+            if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
+            
+            $comments = stmtBindResultArray($stmt);
+            
+            $stmt->close();
+
             if($result['Status_VTA'] === "Closed") {
                 $color = "bg-success text-white";
             } else {
@@ -341,6 +367,7 @@ if ($defID) {
             print "
                 <header class='container page-header'>
                     <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
+                    <pre class='text-yellow'>$sql</pre>
                 </header>
                 <main class='container main-content'>";
             foreach ($topFields as $gridRow) {
@@ -353,6 +380,14 @@ if ($defID) {
             print "<h5 class='grey-bg pad'>BART Information</h5>";
             foreach ($bartFields as $gridRow) {
                 print returnRow($gridRow);
+            }
+            
+            print "<h5 class='grey-bg pad'>Comments</h5>";
+            // print "<pre class='text-primary'>";
+            // var_dump($comments);
+            // print "</pre>";
+            foreach ($comments as $comment) {
+                printf($commentFormat, $comment['firstname'].' '.$comment['lastname'], $comment['date_created'], $comment['bdCommText']);
             }
             
             print "
