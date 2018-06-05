@@ -167,7 +167,7 @@ if ($stmt = $link->prepare($sql)) {
                             'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
                             'value' => ''
                         ]
-                    ]).// comments will need sep table
+                    ]).
                     returnRow([
                         sprintf($labelStr, 'resolution_disputed', '', 'Resolution disputed'),
                         'resolution_disputed' => [
