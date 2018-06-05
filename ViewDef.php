@@ -367,7 +367,6 @@ if ($defID) {
             print "
                 <header class='container page-header'>
                     <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
-                    <pre class='text-yellow'>$sql</pre>
                 </header>
                 <main class='container main-content'>";
             foreach ($topFields as $gridRow) {
@@ -383,14 +382,13 @@ if ($defID) {
             }
             
             print "<h5 class='grey-bg pad'>Comments</h5>";
-            // print "<pre class='text-primary'>";
-            // var_dump($comments);
-            // print "</pre>";
             foreach ($comments as $comment) {
+                $timestamp = strtotime($comment['date_created']) - (60 * 60 * 7);
+                
                 printf(
                     $commentFormat,
                     $comment['firstname'].' '.$comment['lastname'],
-                    $comment['date_created'],
+                    date('j/n/Y • g:i a', $timestamp),
                     stripcslashes($comment['bdCommText'])
                 );
             }
