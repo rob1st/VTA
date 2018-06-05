@@ -312,8 +312,7 @@ if ($defID) {
                     returnRow([ sprintf($labelStr, 'Agree'), sprintf($fakeInputStr, $result['agree_vta']) ]).
                     returnRow([ sprintf($labelStr, 'Safety Certifiable'), sprintf($fakeInputStr, $result['safety_cert_vta']) ]).
                     returnRow([ sprintf($labelStr, 'Attachments'), sprintf($fakeInputStr, $result['attachments']) ]), // will need sep table
-                    sprintf($labelStr, 'Comments').sprintf($fakeInputStr, $result['comments_vta']). // new comments
-                    // comments will need sep table
+                    sprintf($labelStr, 'Comments').sprintf($fakeInputStr, $result['comments_vta']). // latest comment
                     returnRow([
                         sprintf($labelStr, 'Resolution disputed').returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
                         sprintf($labelStr, 'Structural').returnCheckboxInput(['value' => $result['structural']] + $checkbox)
@@ -388,7 +387,12 @@ if ($defID) {
             // var_dump($comments);
             // print "</pre>";
             foreach ($comments as $comment) {
-                printf($commentFormat, $comment['firstname'].' '.$comment['lastname'], $comment['date_created'], $comment['bdCommText']);
+                printf(
+                    $commentFormat,
+                    $comment['firstname'].' '.$comment['lastname'],
+                    $comment['date_created'],
+                    stripcslashes($comment['bdCommText'])
+                );
             }
             
             print "
