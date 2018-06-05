@@ -354,7 +354,7 @@ if ($defID) {
             
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
             
-            $comments = stmtBindResultArray($stmt);
+            $comments = stmtBindResultArray($stmt) ?: [];
             
             $stmt->close();
 

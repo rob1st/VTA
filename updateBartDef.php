@@ -135,9 +135,9 @@ if ($stmt = $link->prepare($sql)) {
                     ]),
                     returnRow([
                         [
-                            'label' => "<label for='bdComments'>Comment</label>",
+                            'label' => "<label for='bdCommText'>Add comment</label>",
                             'tagName' => 'textarea',
-                            'element' => "<textarea name='bdComments' id='bdComments' class='form-control' disabled>%s</textarea>",
+                            'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
                             'value' => ''
                         ]
                     ]).// comments will need sep table
