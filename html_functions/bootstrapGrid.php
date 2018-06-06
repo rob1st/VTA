@@ -26,8 +26,9 @@ function returnCol($element, $wd, $options = []) {
     return $col;
 }
 
-function returnRow($elements, $options = []) {
-    $elRow = "<div class='row item-margin-bottom'>";
+function returnRow(array $elements, $options = []) {
+    $elRow = "<div class='row item-margin-bottom'>%s</div>";
+    $colCollection = '';
     $numEls = count($elements);
     // if number of elements don't divide evenly by 12 substract out the remainder
     // this number will be added to the last col
@@ -36,11 +37,10 @@ function returnRow($elements, $options = []) {
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1 && isset($options['colWd'])) {
         $offset = floor((12 - $options['colWd'])/2);
-        $elRow .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
+        $colCollection .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
     } else foreach ($elements as $el) {
-        $elRow .= returnCol($el, $colWd, $options);
+        $colCollection .= returnCol($el, $colWd, $options);
     }
-    $elRow .= "</div>";
-    return $elRow;
+    return sprintf($elRow, $colCollection);
 }
 ?>
