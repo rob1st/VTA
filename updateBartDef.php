@@ -116,76 +116,66 @@ if ($stmt = $link->prepare($sql)) {
                     ]
                 ],
                 [
-                    returnRow([
-                        sprintf($labelStr, 'status_vta', $required, 'Status'),
+                    [
                         [
+                            'label' => "<label for='status_vta'>Status</label>",
                             'tagName' => 'select',
                             'element' => "<select name='status_vta' id='status_vta' class='form-control' required>%s</select>",
                             'value' => $result['status_vta'],
                             'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
-                        ]
-                    ]).
-                    returnRow([
-                        sprintf($labelStr, 'priority_vta', $required, 'Priority'),
+                        ],
                         [
+                            'label' => "<label for='priority_vta'>Priority</label>",
                             'tagName' => 'select',
                             'element' => "<select name='priority_vta' id='priority_vta' class='form-control required>%s</select>",
                             'value' => $result['priority_vta'],
                             'query' => [ 1, 2, 3 ]
-                        ]
-                    ]).
-                    returnRow([
-                        sprintf($labelStr, 'agree_vta', $required, 'Agree'),
+                        ],
                         [
+                            'label' => "<label for='agree_vta'>Agree</label>",
                             'tagName' => 'select',
                             'element' => "<select name='agree_vta' id='agree_vta' class='form-control' required>%s</select>",
                             'value' => $result['agree_vta'],
                             'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
-                        ]
-                    ]).
-                    returnRow([
-                        sprintf($labelStr, 'safety_cert_vta', $required, 'Safety Certiable'),
+                        ],
                         [
+                            'label' => "<label for='safety_cert_vta'>Safety Certiable</label>",
                             'tagName' => 'select',
                             'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control'>%s</select>",
                             'value' => $result['safety_cert_vta'],
                             'query' => 'SELECT yesNoID, yesNo from YesNo'
-                        ]
-                    ]).
-                    returnRow([ // will need sep table
-                        "<label for='bdAttachments'>Upload attachment</label>",
-                        [
+                        ],
+                        [ // will need sep table
+                            'label' => "<label for='bdAttachments'>Upload attachment</label>",
                             'tagName' => 'input',
                             'type' => 'file',
                             'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control' disabled>"
                         ]
-                    ]),
-                    returnRow([
-                        [
+                    ],
+                    [
+                        'bdCommText' => [
                             'label' => "<label for='bdCommText'>Add comment</label>",
                             'tagName' => 'textarea',
                             'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
                             'value' => ''
-                        ]
-                    ]).
-                    returnRow([
-                        sprintf($labelStr, 'resolution_disputed', '', 'Resolution disputed'),
+                        ],
                         'resolution_disputed' => [
+                            'label' => "<label for='resolution_disputed'>Resolution disputed</label>",
                             'tagName' => 'input',
                             'type' => 'checkbox',
                             'element' => "<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input' %s>",
                             'value' => $result['resolution_disputed'],
                             'query' => null
                         ],
-                        sprintf($labelStr, 'structural', '', 'Structural'),
                         'structural' => [
+                            'label' => "<label for='structural'>Stuctural</label>",
                             'tagName' => 'input',
                             'type' => 'checkbox',
                             'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input' %s>",
                             'value' => $result['structural'],
                             'query' => null
                         ]
-                    ])
+                    ]
                 ]
             ];
         
