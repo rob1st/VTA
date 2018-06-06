@@ -33,6 +33,33 @@ if ($stmt = $link->prepare($sql)) {
             $labelStr = "<label for='%s'%s>%s</label>";
             $required = " class='required'";
             $checkboxRequired = " class='form-check-label mr-2 required'";
+            $commentFormat = "
+                <div class='thin-grey-border pad mb-3'>
+                    <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
+                    <p>%s</p>
+                </div>";
+
+            
+            $stmt->close();
+            
+            // query for comments associated with this Def
+            $sql = "SELECT firstname, lastname, date_created, bdCommText
+                FROM bartdlComments bdc
+                JOIN users_enc u
+                ON bdc.userID=u.userID
+                WHERE bartdlID=?
+                ORDER BY date_created DESC";
+            
+            if (!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
+            
+            if (!$stmt->bind_param('i', $defID)) printSqlErrorAndExit($stmt, $sql);
+            
+            if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
+            
+            $comments = stmtBindResultArray($stmt) ?: [];
+            
+            $stmt->close();
+            
             $topFields = [
                 [
                     returnRow([
@@ -135,13 +162,12 @@ if ($stmt = $link->prepare($sql)) {
                     ]),
                     returnRow([
                         [
-                            'label' => "<label for='bdComments'>Comment</label>",
+                            'label' => "<label for='bdCommText'>Add comment</label>",
                             'tagName' => 'textarea',
-                            'element' => "<textarea name='bdComments' id='bdComments' class='form-control' disabled>%s</textarea>",
+                            'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
                             'value' => ''
                         ]
                     ]).
-                    // comments will need sep table
                     returnRow([
                         sprintf($labelStr, 'resolution_disputed', '', 'Resolution disputed'),
                         'resolution_disputed' => [
@@ -234,6 +260,20 @@ if ($stmt = $link->prepare($sql)) {
                         foreach ($bartFields as $gridRow) {
                             print returnRow($gridRow);
                         }
+                        
+            echo "
+                        <h5 class='grey-bg pad'>Comments</h5>";
+                        foreach ($comments as $comment) {
+                            $timestamp = strtotime($comment['date_created']) - (60 * 60 * 7);
+                            
+                            printf(
+                                $commentFormat,
+                                $comment['firstname'].' '.$comment['lastname'],
+                                date('j/n/Y • g:i a', $timestamp),
+                                stripcslashes($comment['bdCommText'])
+                            );
+                        }
+
             echo "
                         <div class='center-content'>
                             <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
