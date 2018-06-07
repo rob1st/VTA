@@ -221,21 +221,39 @@ if ($stmt = $link->prepare($sql)) {
                     ]
                 ],
                 'row3' => [
+                    'options' => [ 'inline' => true ],
                     'col1' => [
+                        // 'options' => [ 'inline' => true ],
                         [
-                            'label' => returnLabel('cat1_bart', 'Category 1'),
-                            "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' value='{$result['cat1_bart']}' class='form-control'>"
+                            [
+                                'label' => returnLabel('cat1_bart', 'Category 1'),
+                                'tagName' => 'input',
+                                'type' => 'text',
+                                'element' => "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' value='%s' class='form-control'>",
+                                'value' => $result['cat1_bart']
+                            ]
                         ],
                         [
-                            'label' => returnLabel('cat2_bart', 'Category 2'),
-                            "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' value='{$result['cat2_bart']}' class='form-control'>"
+                            [
+                                'label' => returnLabel('cat2_bart', 'Category 2'),
+                                'tagName' => 'input',
+                                'type' => 'text',
+                                'element' => "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' value='%s' class='form-control'>",
+                                'value' => $result['cat2_bart']
+                            ]
                         ],
                         [
-                            'label' => returnLabel('cat3_bart', 'Category 3'),
-                            "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' value='{$result['cat3_bart']}' class='form-control'>"
+                            [
+                                'label' => returnLabel('cat3_bart', 'Category 3'),
+                                'tagName' => 'input',
+                                'type' => 'text',
+                                'element' => "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' value='%s' class='form-control'>",
+                                'value' => $result['cat3_bart']
+                            ]
                         ]
                     ],
                     'col2' => [
+                        // 'options' => [ 'inline' => true ],
                         [
                             'level_bart' => [
                                 'label' => returnLabel('level_bart', 'Level', true),
@@ -248,7 +266,10 @@ if ($stmt = $link->prepare($sql)) {
                         [
                             [
                                 'label' => returnLabel('dateOpen_bart', 'Date open', 1),
-                                "<input name='dateOpen_bart' id='dateOpen_bart' type='date' value='{$result['dateOpen_bart']}' class='form-control' required>"
+                                'tagName' => 'input',
+                                'type' => 'date',
+                                'element' => "<input name='dateOpen_bart' id='dateOpen_bart' type='date' value='%s' class='form-control' required>",
+                                'value' => $result['dateOpen_bart']
                             ]
                         ],
                         [
