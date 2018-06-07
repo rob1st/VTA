@@ -1,5 +1,11 @@
 <?php
 require_once 'htmlForms.php';
+
+function isElementArray(array $el) {
+    return isset($el['element'])
+        || isset($el['tagName'])
+        || isset($el['label']);
+}
 /*
 ** available options at this point are:
 ** 'inline'
@@ -30,16 +36,26 @@ function returnRow(array $elements, $options = []) {
     $elRow = "<div class='row item-margin-bottom'>%s</div>";
     $colCollection = '';
     $numEls = count($elements);
-    // if number of elements don't divide evenly by 12 substract out the remainder
+    
+    $purpleStar = "<span style='color: purple'>✳</span>";
+    $yellowStar = "<span style='color: goldenRod'>✳</span>";
+    
+    // if number of elements doesn't divide evenly by 12 take the remainder
     // this number will be added to the last col
     $extraCols = 12 % $numEls;
-    $colWd = 12 / ($numEls - $extraCols);
+    $colWd = floor(12 / $numEls);
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
-    if (count($elements) === 1 && isset($options['colWd'])) {
-        $offset = floor((12 - $options['colWd'])/2);
-        $colCollection .= returnCol(array_shift($elements), $options['colWd'], ['offset' => $offset]);
-    } else foreach ($elements as $el) {
-        $colCollection .= returnCol($el, $colWd, $options);
+    if (count($elements) === 1) {
+        // $offset = floor((12 - $options['colWd'])/2);
+        $colCollection .= returnCol(array_shift($elements), $colWd, ['offset' => $offset]);
+    } else {
+        // if you're iterating you'll need a counter
+        $i = 1;
+        foreach ($elements as $el) {
+            $colWd = $i === $numEls ? $colWd + $extraCols : $colWd ;
+            $colCollection .= returnCol($el, $colWd, $options);
+            $i++;
+        }
     }
     return sprintf($elRow, $colCollection);
 }

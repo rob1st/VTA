@@ -99,7 +99,7 @@ if ($stmt = $link->prepare($sql)) {
             ];
         
             $vtaFields = [
-                [
+                'row1' => [
                     'root_prob_vta' => [
                         'label' => sprintf($labelStr, 'root_prob_vta', $required, 'Root problem'),
                         'tagName' => 'textarea',
@@ -107,7 +107,7 @@ if ($stmt = $link->prepare($sql)) {
                         'query' => null
                     ]
                 ],
-                [
+                'row2' => [
                     'resolution_vta' => [
                         'label' => sprintf($labelStr, 'resolution_vta', $required, 'Resolution'),
                         'tagName' => 'textarea',
@@ -115,7 +115,7 @@ if ($stmt = $link->prepare($sql)) {
                         'query' => null
                     ]
                 ],
-                [
+                'row3' => [
                     [
                         [
                             'label' => "<label for='status_vta'>Status</label>",
