@@ -117,6 +117,7 @@ if ($stmt = $link->prepare($sql)) {
                 ],
                 'row3' => [
                     'col1' => [
+                        'options' => [ 'inline' => true ],
                         'row1' => [
                             [
                                 'label' => "<label for='status_vta'>Status</label>",
