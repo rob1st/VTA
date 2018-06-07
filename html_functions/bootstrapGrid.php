@@ -1,5 +1,6 @@
 <?php
 require_once 'htmlForms.php';
+require_once 'utils/utils.php';
 
 function isElementArray(array $el) {
     return isset($el['element'])
@@ -25,7 +26,6 @@ function ifOptionsExtract(array &$el, array &$opts) {
 ** 'colWd'
 ** 'offset'
 */
-// this function should receive a complete element string unless it's a select element that needs iterating over
 function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
     $wd = $wd ? $wd : 12;
@@ -35,15 +35,20 @@ function returnCol($element, $wd, $options = []) {
         // if it's a singular element array then I can pass it to the relevant fcn (formCtrl or returnRow)
         // if it's a collection I need to iterate it, passing each element to returnRow
         if (isElementArray($element)) {
-            // print "<p style='color: fuchsia; font-size: .65rem;'>";
-            // var_dump($options);
-            // print "</p>";
-            
+            // if (isFormCtrl($element)) {
+            //     $content = isset($options['inline'])
+            //         ? returnRow([ $element['label'], returnFormCtrl($element) ])
+            //         : $element['label'].returnFormCtrl($element);
+            // } elseif ($element['element']) {
+            //     $content = $element['element'];
+            // } else $content = $element[0];
             $content = isFormCtrl($element)
-                ? isset($options['inline'])
+                ? (isset($options['inline'])
                     ? returnRow([ $element['label'], returnFormCtrl($element) ])
-                    : $element['label'].returnFormCtrl($element)
-                : "<h4 class='text-yellow'>return html from array from $element</h4>"; // PLACEHOLDER
+                    : $element['label'].returnFormCtrl($element))
+                : (isset($element['element'])
+                    ? $element['element']
+                    : $element[0]);
         } else {
             $content = '';
             foreach ($element as $el) {
