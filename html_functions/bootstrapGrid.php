@@ -6,6 +6,12 @@ function isElementArray(array $el) {
         || isset($el['tagName'])
         || isset($el['label']);
 }
+
+function isFormCtrl(array $el) {
+    return $el['tagName'] === 'select'
+        || $el['tagName'] === 'input'
+        || $el['tagName'] === 'textarea';
+}
 /*
 ** available options at this point are:
 ** 'inline'
@@ -17,10 +23,10 @@ function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
     $wd = isset($options['offset']) ? $wd." offset-md-{$options['offset']}" : $wd;
     if (is_array($element)) {
-        $isFormCtrl = $element['tagName'] === 'select'
-            || $element['tagName'] === 'input'
-            || $element['tagName'] === 'textarea';
-        $content = $isFormCtrl
+        // $isFormCtrl = $element['tagName'] === 'select'
+        //     || $element['tagName'] === 'input'
+        //     || $element['tagName'] === 'textarea';
+        $content = isFormCtrl($element)
             ? isset($options['inline'])
                 ? returnRow([ $element['label'], returnFormCtrl($element) ])
                 : $element['label'].returnFormCtrl($element)

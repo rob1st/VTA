@@ -118,38 +118,48 @@ if ($stmt = $link->prepare($sql)) {
                 'row3' => [
                     [
                         [
-                            'label' => "<label for='status_vta'>Status</label>",
-                            'tagName' => 'select',
-                            'element' => "<select name='status_vta' id='status_vta' class='form-control' required>%s</select>",
-                            'value' => $result['status_vta'],
-                            'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
+                            [
+                                'label' => "<label for='status_vta'>Status</label>",
+                                'tagName' => 'select',
+                                'element' => "<select name='status_vta' id='status_vta' class='form-control' required>%s</select>",
+                                'value' => $result['status_vta'],
+                                'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
+                            ]
                         ],
                         [
-                            'label' => "<label for='priority_vta'>Priority</label>",
-                            'tagName' => 'select',
-                            'element' => "<select name='priority_vta' id='priority_vta' class='form-control required>%s</select>",
-                            'value' => $result['priority_vta'],
-                            'query' => [ 1, 2, 3 ]
+                            [
+                                'label' => "<label for='priority_vta'>Priority</label>",
+                                'tagName' => 'select',
+                                'element' => "<select name='priority_vta' id='priority_vta' class='form-control required>%s</select>",
+                                'value' => $result['priority_vta'],
+                                'query' => [ 1, 2, 3 ]
+                            ]
                         ],
                         [
-                            'label' => "<label for='agree_vta'>Agree</label>",
-                            'tagName' => 'select',
-                            'element' => "<select name='agree_vta' id='agree_vta' class='form-control' required>%s</select>",
-                            'value' => $result['agree_vta'],
-                            'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
+                            [
+                                'label' => "<label for='agree_vta'>Agree</label>",
+                                'tagName' => 'select',
+                                'element' => "<select name='agree_vta' id='agree_vta' class='form-control' required>%s</select>",
+                                'value' => $result['agree_vta'],
+                                'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
+                            ]
                         ],
                         [
-                            'label' => "<label for='safety_cert_vta'>Safety Certiable</label>",
-                            'tagName' => 'select',
-                            'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control'>%s</select>",
-                            'value' => $result['safety_cert_vta'],
-                            'query' => 'SELECT yesNoID, yesNo from YesNo'
+                            [
+                                'label' => "<label for='safety_cert_vta'>Safety Certiable</label>",
+                                'tagName' => 'select',
+                                'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control'>%s</select>",
+                                'value' => $result['safety_cert_vta'],
+                                'query' => 'SELECT yesNoID, yesNo from YesNo'
+                            ]
                         ],
                         [ // will need sep table
-                            'label' => "<label for='bdAttachments'>Upload attachment</label>",
-                            'tagName' => 'input',
-                            'type' => 'file',
-                            'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control' disabled>"
+                            [
+                                'label' => "<label for='bdAttachments'>Upload attachment</label>",
+                                'tagName' => 'input',
+                                'type' => 'file',
+                                'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control' disabled>"
+                            ]
                         ]
                     ],
                     [
