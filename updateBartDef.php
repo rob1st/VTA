@@ -181,8 +181,9 @@ if ($stmt = $link->prepare($sql)) {
                             ]
                         ],
                         'row2' => [
+                            'options' => [ 'inline' => true ],
                             'resolution_disputed' => [
-                                'label' => "<label for='resolution_disputed'>Resolution disputed</label>",
+                                'label' => "<label for='resolution_disputed' class='form-check-label'>Resolution disputed</label>",
                                 'tagName' => 'input',
                                 'type' => 'checkbox',
                                 'element' => "<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input' %s>",
@@ -190,7 +191,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'query' => null
                             ],
                             'structural' => [
-                                'label' => "<label for='structural'>Stuctural</label>",
+                                'label' => "<label for='structural' class='form-check-label'>Stuctural</label>",
                                 'tagName' => 'input',
                                 'type' => 'checkbox',
                                 'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input' %s>",

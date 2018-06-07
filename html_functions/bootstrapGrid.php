@@ -35,20 +35,23 @@ function returnCol($element, $wd, $options = []) {
         // if it's a singular element array then I can pass it to the relevant fcn (formCtrl or returnRow)
         // if it's a collection I need to iterate it, passing each element to returnRow
         if (isElementArray($element)) {
-            // if (isFormCtrl($element)) {
-            //     $content = isset($options['inline'])
+            if (isFormCtrl($element)) {
+                if ($options['inline']) {
+                    if ($element['type'] === 'checkbox') {
+                        $container = "<div class='form-check form-check-inline'>%s</div>";
+                        $content = sprintf($container, $element['label'].returnFormCtrl($element));
+                    } else $content = returnRow([ $element['label'], returnFormCtrl($element) ]);
+                } else $content = $element['label'].returnFormCtrl($element);
+            } elseif ($element['element']) {
+                $content = $element['element'];
+            } else $content = $element[0];
+            // $content = isFormCtrl($element)
+            //     ? (isset($options['inline'])
             //         ? returnRow([ $element['label'], returnFormCtrl($element) ])
-            //         : $element['label'].returnFormCtrl($element);
-            // } elseif ($element['element']) {
-            //     $content = $element['element'];
-            // } else $content = $element[0];
-            $content = isFormCtrl($element)
-                ? (isset($options['inline'])
-                    ? returnRow([ $element['label'], returnFormCtrl($element) ])
-                    : $element['label'].returnFormCtrl($element))
-                : (isset($element['element'])
-                    ? $element['element']
-                    : $element[0]);
+            //         : $element['label'].returnFormCtrl($element))
+            //     : (isset($element['element'])
+            //         ? $element['element']
+            //         : $element[0]);
         } else {
             $content = '';
             foreach ($element as $el) {
