@@ -65,8 +65,9 @@ function returnRow(array $elements, $options = []) {
         // option on column takes precendence if given
         isset($options['colWd']) && $colWd = $options['colWd'];
         isset($el['options']['colWd']) && $colWd = $el['options']['colWd'];
-        $offset = $colWd < 12 ? floor(12 - $colWd)/2 : 0;
-        // $offset = floor((12 - $options['colWd'])/2);
+        $offset = isset($options['offset'])
+            ? $options['offset']
+            : floor(12 - $colWd)/2;
         $colCollection .= returnCol($el, $colWd, [ 'offset' => $offset ]);
     } else {
         // if you're iterating you'll need a counter
