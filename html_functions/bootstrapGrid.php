@@ -22,6 +22,7 @@ function isFormCtrl(array $el) {
 function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
     $wd = $wd ? $wd : 12;
+    isset($options['offset']) && $wd .= " offset-md-{$options['offset']}";
     if (is_array($element)) {
         // right here I need to test for whether $element is a collection of $elements or a singular $element array
         // if it's a singular element array then I can pass it to the relevant fcn (formCtrl or returnRow)
@@ -59,8 +60,14 @@ function returnRow(array $elements, $options = []) {
     $colWd = floor(12 / $numEls);
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1) {
+        $el = array_shift($elements);
+        // check if colWd option is present
+        // option on column takes precendence if given
+        isset($options['colWd']) && $colWd = $options['colWd'];
+        isset($el['options']['colWd']) && $colWd = $el['options']['colWd'];
+        $offset = $colWd < 12 ? floor(12 - $colWd)/2 : 0;
         // $offset = floor((12 - $options['colWd'])/2);
-        $colCollection .= returnCol(array_shift($elements), $colWd);
+        $colCollection .= returnCol($el, $colWd, [ 'offset' => $offset ]);
     } else {
         // if you're iterating you'll need a counter
         $i = 1;
