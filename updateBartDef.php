@@ -116,8 +116,8 @@ if ($stmt = $link->prepare($sql)) {
                     ]
                 ],
                 'row3' => [
-                    [
-                        [
+                    'col1' => [
+                        'row1' => [
                             [
                                 'label' => "<label for='status_vta'>Status</label>",
                                 'tagName' => 'select',
@@ -126,7 +126,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
                             ]
                         ],
-                        [
+                        'row2' => [
                             [
                                 'label' => "<label for='priority_vta'>Priority</label>",
                                 'tagName' => 'select',
@@ -135,7 +135,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'query' => [ 1, 2, 3 ]
                             ]
                         ],
-                        [
+                        'row3' => [
                             [
                                 'label' => "<label for='agree_vta'>Agree</label>",
                                 'tagName' => 'select',
@@ -144,7 +144,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
                             ]
                         ],
-                        [
+                        'row4' => [
                             [
                                 'label' => "<label for='safety_cert_vta'>Safety Certiable</label>",
                                 'tagName' => 'select',
@@ -153,7 +153,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'query' => 'SELECT yesNoID, yesNo from YesNo'
                             ]
                         ],
-                        [ // will need sep table
+                        'row5' => [ // will need sep table
                             [
                                 'label' => "<label for='bdAttachments'>Upload attachment</label>",
                                 'tagName' => 'input',
@@ -162,28 +162,32 @@ if ($stmt = $link->prepare($sql)) {
                             ]
                         ]
                     ],
-                    [
-                        'bdCommText' => [
-                            'label' => "<label for='bdCommText'>Add comment</label>",
-                            'tagName' => 'textarea',
-                            'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
-                            'value' => ''
+                    'col2' => [
+                        'row1' => [
+                            'bdCommText' => [
+                                'label' => "<label for='bdCommText'>Add comment</label>",
+                                'tagName' => 'textarea',
+                                'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
+                                'value' => ''
+                            ]
                         ],
-                        'resolution_disputed' => [
-                            'label' => "<label for='resolution_disputed'>Resolution disputed</label>",
-                            'tagName' => 'input',
-                            'type' => 'checkbox',
-                            'element' => "<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input' %s>",
-                            'value' => $result['resolution_disputed'],
-                            'query' => null
-                        ],
-                        'structural' => [
-                            'label' => "<label for='structural'>Stuctural</label>",
-                            'tagName' => 'input',
-                            'type' => 'checkbox',
-                            'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input' %s>",
-                            'value' => $result['structural'],
-                            'query' => null
+                        'row2' => [
+                            'resolution_disputed' => [
+                                'label' => "<label for='resolution_disputed'>Resolution disputed</label>",
+                                'tagName' => 'input',
+                                'type' => 'checkbox',
+                                'element' => "<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input' %s>",
+                                'value' => $result['resolution_disputed'],
+                                'query' => null
+                            ],
+                            'structural' => [
+                                'label' => "<label for='structural'>Stuctural</label>",
+                                'tagName' => 'input',
+                                'type' => 'checkbox',
+                                'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input' %s>",
+                                'value' => $result['structural'],
+                                'query' => null
+                            ]
                         ]
                     ]
                 ]

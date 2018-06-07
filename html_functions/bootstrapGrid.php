@@ -21,16 +21,23 @@ function isFormCtrl(array $el) {
 // this function should receive a complete element string unless it's a select element that needs iterating over
 function returnCol($element, $wd, $options = []) {
     $colStr = "<div class='col-md-%s'>%s</div>";
-    $wd = isset($options['offset']) ? $wd." offset-md-{$options['offset']}" : $wd;
+    $wd = $wd ? $wd : 12;
     if (is_array($element)) {
-        // $isFormCtrl = $element['tagName'] === 'select'
-        //     || $element['tagName'] === 'input'
-        //     || $element['tagName'] === 'textarea';
-        $content = isFormCtrl($element)
-            ? isset($options['inline'])
-                ? returnRow([ $element['label'], returnFormCtrl($element) ])
-                : $element['label'].returnFormCtrl($element)
-            : returnRow($element);
+        // right here I need to test for whether $element is a collection of $elements or a singular $element array
+        // if it's a singular element array then I can pass it to the relevant fcn (formCtrl or returnRow)
+        // if it's a collection I need to iterate it, passing each element to returnRow
+        if (isElementArray($element)) {
+            $content = isFormCtrl($element)
+                ? isset($options['inline'])
+                    ? returnRow([ $element['label'], returnFormCtrl($element) ])
+                    : $element['label'].returnFormCtrl($element)
+                : "<h4 class='text-yellow'>return html from array for $element</h4>"; // PLACEHOLDER
+        } else {
+            $content = '';
+            foreach ($element as $el) {
+                $content .= returnRow($el);
+            }
+        }
         $col = sprintf($colStr, $wd, $content);
     } elseif (is_string($element)) {
         $col = sprintf($colStr, $wd, $element);
@@ -53,13 +60,13 @@ function returnRow(array $elements, $options = []) {
     // if row is singular and has a specific wd, pass it and its wd to returnCol without looping
     if (count($elements) === 1) {
         // $offset = floor((12 - $options['colWd'])/2);
-        $colCollection .= returnCol(array_shift($elements), $colWd, ['offset' => $offset]);
+        $colCollection .= returnCol(array_shift($elements), $colWd);
     } else {
         // if you're iterating you'll need a counter
         $i = 1;
         foreach ($elements as $el) {
             $colWd = $i === $numEls ? $colWd + $extraCols : $colWd ;
-            $colCollection .= returnCol($el, $colWd, $options);
+            $colCollection .= returnCol($el, $colWd);
             $i++;
         }
     }
