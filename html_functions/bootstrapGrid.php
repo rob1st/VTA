@@ -36,13 +36,14 @@ function returnCol($element, $wd, $options = []) {
         // if it's a collection I need to iterate it, passing each element to returnRow
         if (isElementArray($element)) {
             if (isFormCtrl($element)) {
-                if ($options['inline']) {
-                    if ($element['type'] === 'checkbox') {
+                $label = isset($element['label']) ? $element['label'] : '';
+                if (isset($options['inline']) && $options['inline']) {
+                    if (isset($element['type']) && $element['type'] === 'checkbox') {
                         $container = "<div class='form-check form-check-inline'>%s</div>";
-                        $content = sprintf($container, $element['label'].returnFormCtrl($element));
-                    } else $content = returnRow([ $element['label'], returnFormCtrl($element) ]);
-                } else $content = $element['label'].returnFormCtrl($element);
-            } elseif ($element['element']) {
+                        $content = sprintf($container, $label.returnFormCtrl($element));
+                    } else $content = returnRow([ $label, returnFormCtrl($element) ]);
+                } else $content = $label.returnFormCtrl($element);
+            } elseif (isset($element['element']) && $element['element']) {
                 $content = $element['element'];
             } else $content = $element[0];
             // $content = isFormCtrl($element)
