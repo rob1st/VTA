@@ -100,7 +100,7 @@ if ($stmt = $link->prepare($sql)) {
                     'descriptive_title_vta' => [
                         'label' => sprintf($labelStr, 'descriptive_title_vta', $required, 'Description'),
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control' required>{$result['descriptive_title_vta']}</textarea>",
+                        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control' required>".stripcslashes($result['descriptive_title_vta'])."</textarea>",
                         'query' => null
                     ]
                 ]
@@ -111,7 +111,7 @@ if ($stmt = $link->prepare($sql)) {
                     'root_prob_vta' => [
                         'label' => sprintf($labelStr, 'root_prob_vta', $required, 'Root problem'),
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='root_prob_vta' id='root_prob_vta' class='form-control' required>{$result['root_prob_vta']}</textarea>",
+                        'element' => "<textarea name='root_prob_vta' id='root_prob_vta' class='form-control' required>".stripcslashes($result['root_prob_vta'])."</textarea>",
                         'query' => null
                     ]
                 ],
@@ -119,7 +119,7 @@ if ($stmt = $link->prepare($sql)) {
                     'resolution_vta' => [
                         'label' => sprintf($labelStr, 'resolution_vta', $required, 'Resolution'),
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control' required>{$result['resolution_vta']}</textarea>",
+                        'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control' required>".stripcslashes($result['resolution_vta'])."</textarea>",
                         'query' => null
                     ]
                 ],
@@ -218,7 +218,7 @@ if ($stmt = $link->prepare($sql)) {
                         'label' => returnLabel('description_bart', 'Description', 1),
                         'tagName' => 'textarea',
                         'element' => "<textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control' required>%s</textarea>",
-                        'value' => $result['description_bart']
+                        'value' => stripcslashes($result['description_bart'])
                     ]
                 ],
                 'row3' => [
@@ -231,7 +231,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'tagName' => 'input',
                                 'type' => 'text',
                                 'element' => "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' value='%s' class='form-control'>",
-                                'value' => $result['cat1_bart']
+                                'value' => stripcslashes($result['cat1_bart'])
                             ]
                         ],
                         [
@@ -240,7 +240,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'tagName' => 'input',
                                 'type' => 'text',
                                 'element' => "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' value='%s' class='form-control'>",
-                                'value' => $result['cat2_bart']
+                                'value' => stripcslashes($result['cat2_bart'])
                             ]
                         ],
                         [
@@ -249,7 +249,7 @@ if ($stmt = $link->prepare($sql)) {
                                 'tagName' => 'input',
                                 'type' => 'text',
                                 'element' => "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' value='%s' class='form-control'>",
-                                'value' => $result['cat3_bart']
+                                'value' => stripcslashes($result['cat3_bart'])
                             ]
                         ]
                     ],
