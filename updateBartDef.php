@@ -92,7 +92,7 @@ if ($stmt = $link->prepare($sql)) {
                     'descriptive_title_vta' => [
                         'label' => sprintf($labelStr, 'descriptive_title_vta', $required, 'Description'),
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control' required>{$result['descriptive_title_vta']}</textarea>",
+                        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control' required>".stripcslashes($result['descriptive_title_vta'])."</textarea>",
                         'query' => null
                     ]
                 ]
@@ -103,7 +103,7 @@ if ($stmt = $link->prepare($sql)) {
                     'root_prob_vta' => [
                         'label' => sprintf($labelStr, 'root_prob_vta', $required, 'Root problem'),
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='root_prob_vta' id='root_prob_vta' class='form-control' required>{$result['root_prob_vta']}</textarea>",
+                        'element' => "<textarea name='root_prob_vta' id='root_prob_vta' class='form-control' required>".stripcslashes($result['root_prob_vta'])."</textarea>",
                         'query' => null
                     ]
                 ],
@@ -111,7 +111,7 @@ if ($stmt = $link->prepare($sql)) {
                     'resolution_vta' => [
                         'label' => sprintf($labelStr, 'resolution_vta', $required, 'Resolution'),
                         'tagName' => 'textarea',
-                        'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control' required>{$result['resolution_vta']}</textarea>",
+                        'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control' required>".stripcslashes($result['resolution_vta'])."</textarea>",
                         'query' => null
                     ]
                 ],
@@ -196,20 +196,20 @@ if ($stmt = $link->prepare($sql)) {
                 ],
                 'description_bart' => [
                     sprintf($labelStr, 'description_bart', $required, 'Description')
-                    ."<textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control' required>{$result['description_bart']}</textarea>"
+                    ."<textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control' required>".stripcslashes($result['description_bart'])."</textarea>"
                 ],
                 [
                     returnRow([
                         sprintf($labelStr, 'cat1_bart', '', 'Category 1'),
-                        "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' value='{$result['cat1_bart']}' class='form-control'>"
+                        "<input name='cat1_bart' id='cat1_bart' type='text' maxlength='3' value='".stripcslashes($result['cat1_bart'])."' class='form-control'>"
                     ]).
                     returnRow([
                         sprintf($labelStr, 'cat2_bart', '', 'Category 2'),
-                        "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' value='{$result['cat2_bart']}' class='form-control'>"
+                        "<input name='cat2_bart' id='cat2_bart' type='text' maxlength='3' value='".stripcslashes($result['cat2_bart'])."' class='form-control'>"
                     ]).
                     returnRow([
                         sprintf($labelStr, 'cat3_bart', '', 'Category 3'),
-                        "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' value='{$result['cat3_bart']}' class='form-control'>"
+                        "<input name='cat3_bart' id='cat3_bart' type='text' maxlength='3' value='".stripcslashes($result['cat3_bart'])."' class='form-control'>"
                     ]),
                     returnRow([
                         sprintf($labelStr, 'level_bart', $required, 'Level'),
