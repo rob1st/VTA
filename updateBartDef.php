@@ -32,7 +32,6 @@ if ($stmt = $link->prepare($sql)) {
         if ($result = stmtBindResultArray($stmt)[0]) {
             $labelStr = "<label for='%s'%s>%s</label>";
             $required = " class='required'";
-            $checkboxRequired = " class='form-check-label mr-2 required'";
             $commentFormat = "
                 <div class='thin-grey-border pad mb-3'>
                     <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
