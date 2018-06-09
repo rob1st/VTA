@@ -20,9 +20,15 @@ if ($_FILES['bartdlAttachments']['size']
     && $_FILES['bartdlAttachments']['name']
     && $_FILES['bartdlAttachments']['tmp_name']
     && $_FILES['bartdlAttachments']['type']) {
+    $filetypes = explode(',',
+        preg_replace('/\s+/', '', file_get_contents('allowedFormats.csv')));
     $dir = 'uploads/bartdlUploads';
     $storage = new \Upload\Storage\FileSystem($dir);
     $attachment = new \Upload\File('bartdlAttachments', $storage);
+    
+    $validations =  array_map(function($type) {
+        return new \Upload\Validation\Mimetype($type);
+    }, $filetypes);
 }
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql')).',date_created';
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
@@ -90,6 +96,7 @@ if ($stmt = $link->prepare($sql)) {
             }
             
             if ($attachment) {
+                $attachment->addValidations($validations);
                 print "<h1 style='color: crimson'>{$attachment->getNameWithExtension()}</h1>";
             }
             
