@@ -4,6 +4,7 @@ include('SQLFunctions.php');
 include('html_functions/bootstrapGrid.php');
 $link = f_sqlConnect();
 $title = 'SVBX - New BART Deficiency';
+$acceptFormats = preg_replace('/\s+/', ' ', file_get_contents('allowedFormats.csv'));
 
 include('filestart.php');
 
@@ -113,11 +114,11 @@ if ($bdPermit) {
                 ]
             ]).
             returnRow([ // will need sep table
-                "<label for='bdAttachments'>Upload attachment</label>",
+                "<label for='bartdlAttachments'>Upload attachment</label>",
                 [
                     'tagName' => 'input',
                     'type' => 'file',
-                    'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control' disabled>"
+                    'element' => "<input name='bartdlAttachments' id='bartdlAttachments' type='file' accept='$acceptFormats' class='form-control'>"
                 ]
             ]),
             'col2' => [

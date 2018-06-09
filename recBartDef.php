@@ -1,4 +1,8 @@
 <?php
+use codeguy\Upload;
+
+require 'vendor/autoload.php';
+
 session_start();
 include('SQLFunctions.php');
 include('error_handling/sqlErrors.php');
@@ -12,6 +16,14 @@ $nullVal = null;
 // prepare POST and sql string for commit
 $post = $_POST;
 $bdCommText = $post['bdCommText'];
+if ($_FILES['bartdlAttachments']['size']
+    && $_FILES['bartdlAttachments']['name']
+    && $_FILES['bartdlAttachments']['tmp_name']
+    && $_FILES['bartdlAttachments']['type']) {
+    $dir = 'uploads/bartdlUploads';
+    $storage = new \Upload\Storage\FileSystem($dir);
+    $attachment = new \Upload\File('bartdlAttachments', $storage);
+}
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql')).',date_created';
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 // unset keys that will not be INSERT'd
@@ -57,9 +69,6 @@ if ($stmt = $link->prepare($sql)) {
                     <p>$sql</p>
                     <p>$types</p>
                 </div>";
-            // echo "<pre>";
-            // var_dump($post);
-            // echo "</pre>";
             $stmt->close();
             
             // insert comment if one was submitted
@@ -79,10 +88,14 @@ if ($stmt = $link->prepare($sql)) {
                 
                 $stmt->close();
             }
-
+            
+            if ($attachment) {
+                print "<h1 style='color: crimson'>{$attachment->getNameWithExtension()}</h1>";
+            }
+            
             echo "
                 <a href='ViewDef.php?bartDefID=$defID' class='btn btn-large btn-primary'>View updated deficiency</a>";
-            header("Location: ViewDef.php?bartDefID=$defID");
+            // header("Location: ViewDef.php?bartDefID=$defID");
         } else {
             printSqlErrorAndExit($stmt, $sql);
         }
