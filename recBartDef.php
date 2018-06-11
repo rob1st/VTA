@@ -1,5 +1,6 @@
 <?php
 use codeguy\Upload;
+use \Exception;
 
 require 'vendor/autoload.php';
 
@@ -16,6 +17,8 @@ $nullVal = null;
 // prepare POST and sql string for commit
 $post = $_POST;
 $bdCommText = $post['bdCommText'];
+
+// check for attachment and prepare Upload object
 if ($_FILES['bartdlAttachments']['size']
     && $_FILES['bartdlAttachments']['name']
     && $_FILES['bartdlAttachments']['tmp_name']
@@ -25,10 +28,6 @@ if ($_FILES['bartdlAttachments']['size']
     $dir = 'uploads/bartdlUploads';
     $storage = new \Upload\Storage\FileSystem($dir);
     $attachment = new \Upload\File('bartdlAttachments', $storage);
-    
-    $validations =  array_map(function($type) {
-        return new \Upload\Validation\Mimetype($type);
-    }, $filetypes);
 }
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql')).',date_created';
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
@@ -96,8 +95,36 @@ if ($stmt = $link->prepare($sql)) {
             }
             
             if ($attachment) {
-                $attachment->addValidations($validations);
-                print "<h1 style='color: crimson'>{$attachment->getNameWithExtension()}</h1>";
+                $newFilename = substr($_SESSION['Username'], 0, 6)
+                    ."_".str_pad($defID, 11, '0', STR_PAD_LEFT)
+                    ."_".time();
+                $filepath = $dir.'/'.$newFilename;
+                $attachment->addValidations($filetypes);
+                $sql = 'INSERT bartdlAttachments (bdaFilepath, bartdlID) VALUES (?, ?)';
+                $types = 'si';
+                print "<h3 style='color: blue'>{$attachment->getNameWithExtension()}</h3>";
+                try {
+                    $attachment->upload($newFilename);
+                    if (!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
+                    else print "<p id='attachmentSql' style='color: dodgerBlue'>$sql</p>";
+                    if (!$stmt->bind_param($types,
+                        $link->escape_string($filepath),
+                        intval($defID))) printSqlErrorAndExit($stmt, $sql);
+                    else print "<p id='attachParams' style='color: lavender'>$types, $filepath, $defID</p>";
+                    if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
+                    else print "
+                        <p id='attachID' style='color: coral'>
+                            $stmt->insert_id
+                            <a href='/{$dir}/{$attachment->getNameWithExtension()}'>{$dir}/{$attachment->getNameWithExtension()}</a>
+                        </p>";
+                    $stmt->close();
+                } catch (\Exception $e) {
+                    print "
+                        <h1>
+                            <pre style='color: crimson'>";
+                                var_dump($attachment->getErrors());
+                    print "</pre>";
+                }
             }
             
             echo "

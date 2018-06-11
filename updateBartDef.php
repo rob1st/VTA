@@ -1,5 +1,6 @@
 <?php
 include('session.php');
+include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
