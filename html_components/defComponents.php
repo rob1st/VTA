@@ -257,7 +257,7 @@ $projectDefEls = [
     ]
 ];
 
-$bartDefEls = [ &$topElements, &$vtaElements, &$bartElements ];
+$bartDefEls = [ 'topElement' => &$topElements, 'vtaELements' => &$vtaElements, 'bartElements' => &$bartElements ];
 
 $topElements = [
     'creator' => [
