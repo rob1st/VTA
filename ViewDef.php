@@ -259,7 +259,8 @@ if ($defID) {
         printSqlErrorAndExit($link, $sql);
     } 
 } elseif ($bartDefID) {
-    // check for bd permission
+    include('html_components/defComponents.php');
+    // check for bartdl permission
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
         if ($row = $result->fetch_row()) {
             $bdPermit = $row[0];

@@ -6,6 +6,26 @@ function returnLabel($for, $text, $required = '', $str = "<label for='%s'%s>%s</
     return sprintf($str, $for, $requiredAttr, $text);
 }
 
+function getAttachments($cnxn, $id) {
+    $sql = "SELECT bdaFilepath, filename from bartdlAttachments WHERE bartdlID = ?";
+    if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);
+    if (!$stmt->bind_param('i', intval($id))) printSqlErrorAndExit($stmt, $sql);
+    if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
+    $attachments = stmtBindResultArray($stmt) ?: [];
+    $stmt->close();
+    return $attachments;
+}
+
+function renderAttachmentsAsAnchors(array $attachments = []) {
+    $list = '';
+    if (count($attachments)) {
+        foreach ($attachments as $attachment) {
+            $list .= "<li><a href='{$attachment['bdaFilepath']}'>{$attachment['filename']}</a></li>";
+        }
+    }
+    return sprintf("<ul class='pl-0 mb-0'>%s</ul>", $list);
+}
+
 $projectDefEls = [
     $requiredRows = [
         [
@@ -333,7 +353,7 @@ $vtaElements = [
     ],
     'bartdlAttachments' => [
         'label' => returnLabel('bartdlAttachments', 'Attachments'),
-        'element' => "<div class='border-radius thin-grey-border pad scroll-y' style='height: 5.6rem'>%s</div>",
+        'element' => "<div class='border-radius thin-grey-border pad scroll-y' style='height: 6.8rem'>%s</div>",
         'query' => "SELECT filepath, filename from bartdlAttachments WHERE bartdlID = ?"
     ],
     'attachment' => [

@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 
 session_start();
 include('SQLFunctions.php');
-include('error_handling/sqlErrors.php');
+include_once('error_handling/sqlErrors.php');
 include('utils/utils.php');
 include('uploadAttachment.php');
 $colorsJson = json_decode(file_get_contents('webColors.json'), true);
@@ -22,12 +22,12 @@ $userID = $_SESSION['UserID'];
 // hold onto comments separately
 $bdCommText = $post['bdCommText'];
 // check for attachment and prepare Upload object
-if ($_FILES['bartdlAttachments']['size']
-    && $_FILES['bartdlAttachments']['name']
-    && $_FILES['bartdlAttachments']['tmp_name']
-    && $_FILES['bartdlAttachments']['type']) {
+if ($_FILES['attachment']['size']
+    && $_FILES['attachment']['name']
+    && $_FILES['attachment']['tmp_name']
+    && $_FILES['attachment']['type']) {
     $folder = 'uploads/bartdlUploads';
-    $attachmentKey = 'bartdlAttachments';
+    $attachmentKey = 'attachment';
 }
 // unset keys from field list that will not be UPDATE'd
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'));

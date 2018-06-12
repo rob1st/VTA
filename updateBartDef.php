@@ -14,26 +14,6 @@ $fieldList = implode(',', array_keys($fieldsArr));
 
 $link = f_sqlConnect();
 
-function getAttachments($cnxn, $id) {
-    $sql = "SELECT bdaFilepath, filename from bartdlAttachments WHERE bartdlID = ?";
-    if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);
-    if (!$stmt->bind_param('i', intval($id))) printSqlErrorAndExit($stmt, $sql);
-    if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
-    $attachments = stmtBindResultArray($stmt) ?: [];
-    $stmt->close();
-    return $attachments;
-}
-
-function renderAttachmentsAsAnchors(array $attachments = []) {
-    $list = '';
-    if (count($attachments)) {
-        foreach ($attachments as $attachment) {
-            $list .= "<li><a href='{$attachment['bdaFilepath']}'>{$attachment['filename']}</a></li>";
-        }
-    }
-    return sprintf('<ul>%s</ul>', $list);
-}
-
 if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
     if ($row = $result->fetch_row()) {
         $bdPermit = $row[0];
@@ -48,7 +28,8 @@ $elements = $topElements + $vtaElements + $bartElements;
 $attachments = getAttachments($link, $defID);
 $attachmentList = renderAttachmentsAsAnchors($attachments);
 $elements['bartdlAttachments']['element'] =
-    sprintf($elements['bartdlAttachments']['element'], $attachmentList);
+    $elements['bartdlAttachments']['label']
+    .sprintf($elements['bartdlAttachments']['element'], $attachmentList);
 
 include('filestart.php');
 
