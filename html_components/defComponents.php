@@ -1,4 +1,5 @@
 <?php
+$attachmentFormats = preg_replace('/\s+/', ' ', file_get_contents('allowedFormats.csv'));
 
 function returnLabel($for, $text, $required = '', $str = "<label for='%s'%s>%s</label>") {
     $required && $requiredAttr = " class='required'";
@@ -331,10 +332,10 @@ $vtaElements = [
         'query' => 'SELECT yesNoID, yesNo from YesNo'
     ],
     'bartdlAttachments' => [
-        'label' => "<label for='bdAttachments'>Upload attachment</label>",
+        'label' => "<label for='bartdlAttachments'>Upload attachment</label>",
         'tagName' => 'input',
         'type' => 'file',
-        'element' => "<input name='bdAttachments' id='bdAttachments' type='file' class='form-control' disabled>"
+        'element' => "<input name='bartdlAttachments' id='bartdlAttachments' type='file' accept='$attachmentFormats' class='form-control'>"
     ],
     'bdCommText' => [
         'label' => "<label for='bdCommText'>Add comment</label>",

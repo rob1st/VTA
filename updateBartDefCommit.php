@@ -1,8 +1,12 @@
 <?php
+use codeguy\Upload;
+require 'vendor/autoload.php';
+
 session_start();
 include('SQLFunctions.php');
 include('error_handling/sqlErrors.php');
 include('utils/utils.php');
+include('uploadAttachment.php');
 $colorsJson = json_decode(file_get_contents('webColors.json'), true);
 $i = 0;
 $j = 0;
@@ -10,17 +14,21 @@ $j = 0;
 $link = f_sqlConnect();
 
 $date = date('Y-m-d');
-$nullVal = null;
-$one = '1';
-$two = 2;
 
 // prepare POST and sql string for commit
 $post = $_POST;
 $defID = $post['id'];
 $userID = $_SESSION['UserID'];
-// hold onto comments and attachments separately
+// hold onto comments separately
 $bdCommText = $post['bdCommText'];
-$attachment = $post['bdAttachments'];
+// check for attachment and prepare Upload object
+if ($_FILES['bartdlAttachments']['size']
+    && $_FILES['bartdlAttachments']['name']
+    && $_FILES['bartdlAttachments']['tmp_name']
+    && $_FILES['bartdlAttachments']['type']) {
+    $folder = 'uploads/bartdlUploads';
+    $attachmentKey = 'bartdlAttachments';
+}
 // unset keys from field list that will not be UPDATE'd
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'));
 
@@ -110,14 +118,21 @@ if ($stmt = $link->prepare($sql)) {
                 
                 $stmt->close();
             }
+            
+            if ($attachmentKey) {
+                if ($href = uploadAttachment($link, $attachmentKey, $folder, $defID)) {
+                    print "
+                        <h4 style='darkTurquoise'>
+                            <a href='$href'>$href</a>
+                        </h4>";
+                } else print "<h2 style='color: mediumVioletRed'>There musta been some problem with the upload</h4>";
+            }
 
             echo "
                 <a href='ViewDef.php?bartDefID=$defID' class='btn btn-large btn-primary'>View updated deficiency</a>";
-                
-            header("Location: ViewDef.php?bartDefID={$defID}");
+            
+            $link->close();
+            // header("Location: ViewDef.php?bartDefID={$defID}");
         } else printSqlErrorAndExit($stmt, $sql);
     } else printSqlErrorAndExit($stmt, $sql);
-    
-    echo "</div>";
 } else printSqlErrorAndExit($link, $sql);
-$link->close();

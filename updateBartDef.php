@@ -127,7 +127,6 @@ if ($stmt = $link->prepare($sql)) {
                 'row3' => [
                     'options' => [ 'inline' => true ],
                     'col1' => [
-                        // 'options' => [ 'inline' => true ],
                         [
                             $elements['cat1_bart']
                         ],
@@ -139,7 +138,6 @@ if ($stmt = $link->prepare($sql)) {
                         ]
                     ],
                     'col2' => [
-                        // 'options' => [ 'inline' => true ],
                         [
                             $elements['level_bart']
                         ],
