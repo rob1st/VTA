@@ -2,7 +2,7 @@
 session_start();
 include('SQLFunctions.php');
 include('error_handling/sqlErrors.php');
-include('uploadImg.php');
+include('uploadAttachment.php');
 $link = f_sqlConnect();
 
 $date = date('Y-m-d');
@@ -12,6 +12,15 @@ $nullVal = null;
 // prepare POST and sql string for commit
 $post = $_POST;
 $bdCommText = $post['bdCommText'];
+
+// check for attachment and prepare Upload object
+if ($_FILES['attachment']['size']
+    && $_FILES['attachment']['name']
+    && $_FILES['attachment']['tmp_name']
+    && $_FILES['attachment']['type']) {
+    $folder = 'uploads/bartdlUploads';
+    $attachmentKey = 'attachment';
+}
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql')).',date_created';
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 // unset keys that will not be INSERT'd
@@ -57,9 +66,6 @@ if ($stmt = $link->prepare($sql)) {
                     <p>$sql</p>
                     <p>$types</p>
                 </div>";
-            // echo "<pre>";
-            // var_dump($post);
-            // echo "</pre>";
             $stmt->close();
             
             // insert comment if one was submitted
@@ -79,7 +85,16 @@ if ($stmt = $link->prepare($sql)) {
                 
                 $stmt->close();
             }
-
+            
+            if ($attachmentKey) {
+                if ($href = uploadAttachment($link, $attachmentKey, $folder, $defID)) {
+                    print "
+                        <h4 style='color: limeGreen'>
+                            <a href='$href'>$href</a>
+                        </h4>";
+                } else print "<h2 style='color: orangeRed'>There musta been some problem with the upload</h2>";
+            }
+            
             echo "
                 <a href='ViewDef.php?bartDefID=$defID' class='btn btn-large btn-primary'>View updated deficiency</a>";
             header("Location: ViewDef.php?bartDefID=$defID");
