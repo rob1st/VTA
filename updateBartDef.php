@@ -14,6 +14,26 @@ $fieldList = implode(',', array_keys($fieldsArr));
 
 $link = f_sqlConnect();
 
+function getAttachments($cnxn, $id) {
+    $sql = "SELECT bdaFilepath, filename from bartdlAttachments WHERE bartdlID = ?";
+    if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);
+    if (!$stmt->bind_param('i', intval($id))) printSqlErrorAndExit($stmt, $sql);
+    if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
+    $attachments = stmtBindResultArray($stmt) ?: [];
+    $stmt->close();
+    return $attachments;
+}
+
+function renderAttachmentsAsAnchors(array $attachments = []) {
+    $list = '';
+    if (count($attachments)) {
+        foreach ($attachments as $attachment) {
+            $list .= "<li><a href='{$attachment['bdaFilepath']}'>{$attachment['filename']}</a></li>";
+        }
+    }
+    return sprintf('<ul>%s</ul>', $list);
+}
+
 if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
     if ($row = $result->fetch_row()) {
         $bdPermit = $row[0];
@@ -21,16 +41,21 @@ if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESS
     $result->close();
 }
 
+// copy elements from external file '/html_components/defComponents.php'
+$elements = $topElements + $vtaElements + $bartElements;
+
+// query for attachments and render then as a list of links
+$attachments = getAttachments($link, $defID);
+$attachmentList = renderAttachmentsAsAnchors($attachments);
+$elements['bartdlAttachments']['element'] =
+    sprintf($elements['bartdlAttachments']['element'], $attachmentList);
+
 include('filestart.php');
 
 $sql = "SELECT $fieldList FROM BARTDL WHERE id=$defID";
 
 if ($stmt = $link->prepare($sql)) {
-    // echo "
-    //     <div style='margin-top: 3.5rem; color: darkCyan'>
-    //         <p>$sql</p>";
     if ($stmt->execute()) {
-        $elements = $topElements + $vtaElements + $bartElements;
         stmtBindResultArrayRef($stmt, $elements);
             $labelStr = "<label for='%s'%s>%s</label>";
             $required = " class='required'";
@@ -100,20 +125,20 @@ if ($stmt = $link->prepare($sql)) {
                         'row4' => [
                             $elements['safety_cert_vta']
                         ],
-                        'row5' => [ // will need sep table
-                            $elements['bartdlAttachments']
-                        ]
-                    ],
-                    'col2' => [
-                        'row1' => [
-                            $elements['bdCommText']
-                        ],
-                        'row2' => [
+                        [
                             'options' => [ 'inline' => true ],
                             $elements['resolution_disputed'],
                             $elements['structural']
                         ]
-                    ]
+                    ],
+                    'col2' => [
+                        [
+                            $elements['bartdlAttachments']
+                        ],
+                        [
+                            'options' => [ 'inline' => true ],
+                            $elements['attachment']
+                        ]                    ]
                 ]
             ];
         
@@ -178,6 +203,7 @@ if ($stmt = $link->prepare($sql)) {
                         
             echo "
                         <h5 class='grey-bg pad'>Comments</h5>";
+                        print returnRow([ $elements['bdCommText'] ], [ 'colWd' => 8 ]);
                         foreach ($comments as $comment) {
                             $timestamp = strtotime($comment['date_created']) - (60 * 60 * 7);
                             

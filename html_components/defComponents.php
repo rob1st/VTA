@@ -332,10 +332,15 @@ $vtaElements = [
         'query' => 'SELECT yesNoID, yesNo from YesNo'
     ],
     'bartdlAttachments' => [
-        'label' => "<label for='bartdlAttachments'>Upload attachment</label>",
+        'label' => returnLabel('bartdlAttachments', 'Attachments'),
+        'element' => "<div class='border-radius thin-grey-border pad scroll-y' style='height: 5.6rem'>%s</div>",
+        'query' => "SELECT filepath, filename from bartdlAttachments WHERE bartdlID = ?"
+    ],
+    'attachment' => [
+        'label' => returnLabel('attachment', 'Upload attachment'),
         'tagName' => 'input',
         'type' => 'file',
-        'element' => "<input name='bartdlAttachments' id='bartdlAttachments' type='file' accept='$attachmentFormats' class='form-control'>"
+        'element' => "<input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>"
     ],
     'bdCommText' => [
         'label' => "<label for='bdCommText'>Add comment</label>",

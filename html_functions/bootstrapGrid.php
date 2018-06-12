@@ -77,9 +77,6 @@ function returnRow(array $elements, $options = []) {
     $colCollection = '';
     $numEls = count($elements);
     
-    $purpleStar = "<span style='color: purple'>✳</span>";
-    $yellowStar = "<span style='color: goldenRod'>✳</span>";
-    
     // if number of elements doesn't divide evenly by 12 take the remainder
     // this number will be added to the last col
     $extraCols = 12 % $numEls;

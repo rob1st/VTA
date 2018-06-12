@@ -119,6 +119,7 @@ if ($stmt = $link->prepare($sql)) {
                 $stmt->close();
             }
             
+            // upload and insert new attachment if submitted
             if ($attachmentKey) {
                 if ($href = uploadAttachment($link, $attachmentKey, $folder, $defID)) {
                     print "
