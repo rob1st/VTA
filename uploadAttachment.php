@@ -1,5 +1,6 @@
 <?php
 use codeguy\Upload;
+require 'vendor/autoload.php';
 
 include_once('error_handling/sqlErrors.php');
 

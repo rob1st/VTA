@@ -1,7 +1,4 @@
 <?php
-use codeguy\Upload;
-require 'vendor/autoload.php';
-
 session_start();
 include('SQLFunctions.php');
 include('error_handling/sqlErrors.php');
@@ -17,12 +14,12 @@ $post = $_POST;
 $bdCommText = $post['bdCommText'];
 
 // check for attachment and prepare Upload object
-if ($_FILES['bartdlAttachments']['size']
-    && $_FILES['bartdlAttachments']['name']
-    && $_FILES['bartdlAttachments']['tmp_name']
-    && $_FILES['bartdlAttachments']['type']) {
-    $attachmentKey = 'bartdlAttachments';
-    $folder = 'upload/bartdlUploads';
+if ($_FILES['attachment']['size']
+    && $_FILES['attachment']['name']
+    && $_FILES['attachment']['tmp_name']
+    && $_FILES['attachment']['type']) {
+    $folder = 'uploads/bartdlUploads';
+    $attachmentKey = 'attachment';
 }
 $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql')).',date_created';
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');

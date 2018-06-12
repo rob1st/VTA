@@ -33,6 +33,12 @@ function renderAttachmentsAsAnchors(array $attachments = []) {
     return sprintf("<ul class='pl-0 mb-0'>%s</ul>", $list);
 }
 
+$commentFormat = "
+    <div class='thin-grey-border pad mb-3'>
+        <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
+        <p>%s</p>
+    </div>";
+
 $projectDefEls = [
     $requiredRows = [
         [
@@ -331,30 +337,30 @@ $vtaElements = [
         'query' => null
     ],
     'status_vta' => [
-        'label' => "<label for='status_vta'>Status</label>",
+        'label' => returnLabel('status_vta', 'Status', 1),
         'tagName' => 'select',
         'element' => "<select name='status_vta' id='status_vta' class='form-control' required>%s</select>",
         'value' => '',
         'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
     ],
     'priority_vta' => [
-        'label' => "<label for='priority_vta'>Priority</label>",
+        'label' => returnLabel('priority_vta', 'Priority', 1),
         'tagName' => 'select',
-        'element' => "<select name='priority_vta' id='priority_vta' class='form-control required>%s</select>",
+        'element' => "<select name='priority_vta' id='priority_vta' class='form-control' required>%s</select>",
         'value' => '',
         'query' => [ 1, 2, 3 ]
     ],
     'agree_vta' => [
-        'label' => "<label for='agree_vta'>Agree</label>",
+        'label' => returnLabel('agree_vta', 'Agree', 1),
         'tagName' => 'select',
         'element' => "<select name='agree_vta' id='agree_vta' class='form-control' required>%s</select>",
         'value' => '',
         'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
     ],
     'safety_cert_vta' => [
-        'label' => "<label for='safety_cert_vta'>Safety Certiable</label>",
+        'label' => returnLabel('safety_cert_vta', 'Safety Certiable', 1),
         'tagName' => 'select',
-        'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control'>%s</select>",
+        'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control' required>%s</select>",
         'value' => '',
         'query' => 'SELECT yesNoID, yesNo from YesNo'
     ],
@@ -370,7 +376,7 @@ $vtaElements = [
         'element' => "<input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>"
     ],
     'bdCommText' => [
-        'label' => "<label for='bdCommText'>Add comment</label>",
+        'label' => returnLabel('bdCommText', 'Add comment'),
         'tagName' => 'textarea',
         'element' => "<textarea name='bdCommText' id='bdCommText' class='form-control'>%s</textarea>",
         'value' => ''
