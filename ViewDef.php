@@ -271,7 +271,13 @@ if ($defID) {
         // render View for bartDef
         $result = [];
         $comments = [];
-        $attachments = [];
+        // query for attachments and render then as a list of links
+        $attachments = getAttachments($link, $bartDefID);
+        $attachmentList = renderAttachmentsAsAnchors($attachments);
+        $attachmentDisplay =
+            $vtaElements['bartdlAttachments']['label']
+            .sprintf($vtaElements['bartdlAttachments']['element'], $attachmentList);
+
         // build SELECT query string from sql file
         $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'))
             .',form_modified';
@@ -320,16 +326,19 @@ if ($defID) {
                 'Root_Prob_VTA' => [ sprintf($labelStr, 'Root problem').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['root_prob_vta']))) ],
                 'Resolution_VTA' => [ sprintf($labelStr, 'Resolution').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['resolution_vta']))) ],
                 [
-                    returnRow([ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Priority'), sprintf($fakeInputStr, $result['priority_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Agree'), sprintf($fakeInputStr, $result['agree_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Safety Certifiable'), sprintf($fakeInputStr, $result['safety_cert_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Attachments'), sprintf($fakeInputStr, $result['attachments']) ]), // will need sep table
-                    sprintf($labelStr, 'Comments').sprintf($fakeInputStr, $result['comments_vta']). // latest comment
-                    returnRow([
-                        sprintf($labelStr, 'Resolution disputed').returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
-                        sprintf($labelStr, 'Structural').returnCheckboxInput(['value' => $result['structural']] + $checkbox)
-                    ])
+                    [
+                        [ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_vta']) ],
+                        [ sprintf($labelStr, 'Priority'), sprintf($fakeInputStr, $result['priority_vta']) ],
+                        [ sprintf($labelStr, 'Agree'), sprintf($fakeInputStr, $result['agree_vta']) ],
+                        [ sprintf($labelStr, 'Safety Certifiable'), sprintf($fakeInputStr, $result['safety_cert_vta']) ],
+                        [
+                            sprintf($labelStr, 'Resolution disputed').returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
+                            sprintf($labelStr, 'Structural').returnCheckboxInput(['value' => $result['structural']] + $checkbox)
+                        ]
+                    ],
+                    [
+                        [ $attachmentDisplay ]
+                    ]
                 ]
             ];
         

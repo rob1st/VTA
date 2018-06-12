@@ -94,18 +94,10 @@ if ($stmt = $link->prepare($sql)) {
                 'row3' => [
                     'col1' => [
                         'options' => [ 'inline' => true ],
-                        'row1' => [
-                            $elements['status_vta']
-                        ],
-                        'row2' => [
-                            $elements['priority_vta']
-                        ],
-                        'row3' => [
-                            $elements['agree_vta']
-                        ],
-                        'row4' => [
-                            $elements['safety_cert_vta']
-                        ],
+                        'row1' => [ $elements['status_vta'] ],
+                        'row2' => [ $elements['priority_vta'] ],
+                        'row3' => [ $elements['agree_vta'] ],
+                        'row4' => [ $elements['safety_cert_vta'] ],
                         [
                             'options' => [ 'inline' => true ],
                             $elements['resolution_disputed'],
@@ -113,9 +105,7 @@ if ($stmt = $link->prepare($sql)) {
                         ]
                     ],
                     'col2' => [
-                        [
-                            $elements['bartdlAttachments']
-                        ],
+                        [ $elements['bartdlAttachments'] ],
                         [
                             'options' => [ 'inline' => true ],
                             $elements['attachment']
