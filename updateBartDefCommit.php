@@ -133,7 +133,7 @@ if ($stmt = $link->prepare($sql)) {
                 <a href='ViewDef.php?bartDefID=$defID' class='btn btn-large btn-primary'>View updated deficiency</a>";
             
             $link->close();
-            // header("Location: ViewDef.php?bartDefID={$defID}");
+            header("Location: ViewDef.php?bartDefID={$defID}");
         } else printSqlErrorAndExit($stmt, $sql);
     } else printSqlErrorAndExit($stmt, $sql);
 } else printSqlErrorAndExit($link, $sql);

@@ -15,13 +15,13 @@ function returnSelectInput($data) {
         if (is_a($result, 'mysqli_result')) {
             while ($row = $result->fetch_row()) {
                 $selected = $row[0] == $value ? ' selected' : '';
-                $optionEls .= sprintf($optionFormat, $row[0], $selected, '!'.$row[1].'!');
+                $optionEls .= sprintf($optionFormat, $row[0], $selected, $row[1]);
             }
             $result->close();
         } elseif (is_array($result)) {
             foreach ($result as $option) {
                 $selected = $option == $value ? ' selected' : '';
-                $curOpt = sprintf($optionFormat, $option, $selected, '*'.$option.'*');
+                $curOpt = sprintf($optionFormat, $option, $selected, $option);
                 $optionEls .= $curOpt;
             }
         }
