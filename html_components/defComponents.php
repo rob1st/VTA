@@ -6,6 +6,11 @@ function returnLabel($for, $text, $required = '', $str = "<label for='%s'%s>%s</
     return sprintf($str, $for, $requiredAttr, $text);
 }
 
+function checkboxLabel($for, $text, $required = '') {
+    $str =  "<label for='%s' class='form-check-label check-label-left'%s>%s</label>";
+    return returnLabel($for, $text, $required, $str);
+}
+
 function getAttachments($cnxn, $id) {
     $sql = "SELECT bdaFilepath, filename from bartdlAttachments WHERE bartdlID = ?";
     if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);
@@ -369,7 +374,7 @@ $vtaElements = [
         'value' => ''
     ],
     'resolution_disputed' => [
-        'label' => "<label for='resolution_disputed' class='form-check-label check-label-left'>Resolution disputed</label>",
+        'label' => checkboxLabel('resolution_disputed', 'Resolution disputed'),
         'tagName' => 'input',
         'type' => 'checkbox',
         'element' => "<input name='resolution_disputed' id='resolution_disputed' type='checkbox' value='1' class='form-check-input' %s>",
@@ -377,7 +382,7 @@ $vtaElements = [
         'query' => null
     ],
     'structural' => [
-        'label' => "<label for='structural' class='form-check-label check-label-left'>Stuctural</label>",
+        'label' => checkboxLabel('structural', 'Stuctural'),
         'tagName' => 'input',
         'type' => 'checkbox',
         'element' => "<input name='structural' id='structural' type='checkbox' value='1' class='form-check-input' %s>",

@@ -332,8 +332,8 @@ if ($defID) {
                         [ sprintf($labelStr, 'Agree'), sprintf($fakeInputStr, $result['agree_vta']) ],
                         [ sprintf($labelStr, 'Safety Certifiable'), sprintf($fakeInputStr, $result['safety_cert_vta']) ],
                         [
-                            sprintf($labelStr, 'Resolution disputed').returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
-                            sprintf($labelStr, 'Structural').returnCheckboxInput(['value' => $result['structural']] + $checkbox)
+                            checkboxLabel('resolution_disputed', 'Resolution disputed').returnCheckboxInput(['value' => $result['resolution_disputed']] + $checkbox),
+                            checkboxLabel('structural', 'Structural').returnCheckboxInput(['value' => $result['structural']] + $checkbox)
                         ]
                     ],
                     [

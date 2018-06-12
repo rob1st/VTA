@@ -114,38 +114,20 @@ if ($stmt = $link->prepare($sql)) {
             ];
         
             $bartFields = [
-                'row1' => [
-                    $elements['id_bart']
-                ],
-                'row2' => [
-                    $elements['description_bart']
-                ],
+                'row1' => [ $elements['id_bart'] ],
+                'row2' => [ $elements['description_bart'] ],
                 'row3' => [
                     'options' => [ 'inline' => true ],
                     'col1' => [
-                        [
-                            $elements['cat1_bart']
-                        ],
-                        [
-                            $elements['cat2_bart']
-                        ],
-                        [
-                            $elements['cat3_bart']
-                        ]
+                        [ $elements['cat1_bart'] ],
+                        [ $elements['cat2_bart'] ],
+                        [ $elements['cat3_bart'] ]
                     ],
                     'col2' => [
-                        [
-                            $elements['level_bart']
-                        ],
-                        [
-                            $elements['dateOpen_bart']
-                        ],
-                        [
-                            $elements['dateClose_bart']
-                        ],
-                        [
-                            $elements['status_bart']
-                        ]
+                        [ $elements['level_bart'] ],
+                        [ $elements['dateOpen_bart'] ],
+                        [ $elements['dateClose_bart'] ],
+                        [ $elements['status_bart'] ]
                     ]
                 ]
             ];
