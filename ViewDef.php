@@ -403,16 +403,18 @@ if ($defID) {
                 print returnRow($gridRow);
             }
             
-            print "<h5 class='grey-bg pad'>Comments</h5>";
-            foreach ($comments as $comment) {
-                $timestamp = strtotime($comment['date_created']) - (60 * 60 * 7);
-                
-                printf(
-                    $commentFormat,
-                    $comment['firstname'].' '.$comment['lastname'],
-                    date('j/n/Y • g:i a', $timestamp),
-                    stripcslashes($comment['bdCommText'])
-                );
+            if (count($comments)) {
+                print "<h5 class='grey-bg pad'>Comments</h5>";
+                foreach ($comments as $comment) {
+                    $timestamp = strtotime($comment['date_created']) - (60 * 60 * 7);
+                    
+                    printf(
+                        $commentFormat,
+                        $comment['firstname'].' '.$comment['lastname'],
+                        date('j/n/Y • g:i a', $timestamp),
+                        stripcslashes($comment['bdCommText'])
+                    );
+                }
             }
             
             print "

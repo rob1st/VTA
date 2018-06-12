@@ -25,7 +25,9 @@ function renderAttachmentsAsAnchors(array $attachments = []) {
     $list = '';
     if (count($attachments)) {
         foreach ($attachments as $attachment) {
-            $list .= "<li><a href='{$attachment['bdaFilepath']}'>{$attachment['filename']}</a></li>";
+            $list .= "<li><a href='"
+                .htmlentities(stripcslashes($attachment['bdaFilepath']))."'>"
+                .htmlentities(stripcslashes($attachment['filename']))."</a></li>";
         }
     }
     return sprintf("<ul class='pl-0 mb-0'>%s</ul>", $list);

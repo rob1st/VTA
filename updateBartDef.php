@@ -37,6 +37,7 @@ $sql = "SELECT $fieldList FROM BARTDL WHERE id=$defID";
 
 if ($stmt = $link->prepare($sql)) {
     if ($stmt->execute()) {
+        // bind result to 'value' prop of each corresponding element
         stmtBindResultArrayRef($stmt, $elements);
             $labelStr = "<label for='%s'%s>%s</label>";
             $required = " class='required'";
@@ -84,7 +85,7 @@ if ($stmt = $link->prepare($sql)) {
                 ]
             ];
         
-            $vtaFields = [
+            $vtaRows = [
                 'row1' => [
                     $elements['root_prob_vta']
                 ],
@@ -113,7 +114,7 @@ if ($stmt = $link->prepare($sql)) {
                 ]
             ];
         
-            $bartFields = [
+            $bartRows = [
                 'row1' => [ $elements['id_bart'] ],
                 'row2' => [ $elements['description_bart'] ],
                 'row3' => [
@@ -139,18 +140,17 @@ if ($stmt = $link->prepare($sql)) {
                     <form action='updateBartDefCommit.php' method='POST' enctype='multipart/form-data'>
                         <input type='hidden' name='id' value='{$defID}' >
                         <h5 class='grey-bg pad'>General Information</h5>";
-                        foreach ($topRows as $element) {
-                            // $element['value'] = $result[$name];
-                            print returnRow($element);
+                        foreach ($topRows as $gridRow) {
+                            print returnRow($gridRow);
                         }
             echo "
                         <h5 class='grey-bg pad'>VTA Information</h5>";
-                        foreach ($vtaFields as $gridRow) {
+                        foreach ($vtaRows as $gridRow) {
                             print returnRow($gridRow);
                         }
             echo "
                         <h5 class='grey-bg pad'>BART Information</h5>";
-                        foreach ($bartFields as $gridRow) {
+                        foreach ($bartRows as $gridRow) {
                             print returnRow($gridRow);
                         }
                         
