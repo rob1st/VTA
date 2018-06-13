@@ -305,7 +305,7 @@ $generalElements = [
         'label' => returnLabel('next_step', 'Next step'),
         'tagName' => 'select',
         'element' => "<select name='next_step' id='next_step' class='form-control'>%s</select>",
-        'query' => 'SELECT bdNextStepID, nextStepName FROM bdNextStep ORDER BY bdNextStepID',
+        'query' => "SELECT bdNextStepID, nextStepName FROM bdNextStep WHERE nextStepName <> '' ORDER BY bdNextStepID",
         'value' => ''
     ],
     'bic' => [
@@ -316,9 +316,9 @@ $generalElements = [
         'value' => ''
     ],
     'status' => [
-        'label' => returnLabel('status', 'Status'),
+        'label' => returnLabel('status', 'Status', 1),
         'tagName' => 'select',
-        'element' => "<select name='status' id='status' class='form-control'>%s</select>",
+        'element' => "<select name='status' id='status' class='form-control' required>%s</select>",
         'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'",
         'value' => ''
     ],
@@ -375,7 +375,7 @@ $vtaElements = [
         'type' => 'file',
         'element' => "
             <input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>
-            <label class='text-red'>max. allowed attachment size 5Mb</label>"
+            <label class='text-red'>max. allowed file size 5Mb</label>"
     ],
     'bdCommText' => [
         'label' => returnLabel('bdCommText', 'Add comment'),

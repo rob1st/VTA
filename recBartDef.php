@@ -49,17 +49,17 @@ try {
 }
 
 try {
-    $types = 'iiiiisssiiiiiissssssssis';
+    $types = 'iiiiiisssiiiiisssssssss';
     if (!$stmt->bind_param($types,
         intval($post['created_by']),
         intval($post['created_by']),
         intval($post['creator']),
         intval($post['next_step']),
         intval($post['bic']),
+        intval($post['status']),
         $link->escape_string($post['descriptive_title_vta']),
         $link->escape_string($post['root_prob_vta']),
         $link->escape_string($post['resolution_vta']),
-        intval($post['status_vta']),
         intval($post['priority_vta']),
         intval($post['agree_vta']),
         intval($post['safety_cert_vta']),
@@ -73,15 +73,13 @@ try {
         $link->escape_string($post['level_bart']),
         $link->escape_string($post['dateOpen_bart']),
         $link->escape_string($post['dateClose_bart']),
-        intval($post['status_bart']),
         $date
-    )) throw new Exception($stmt->error);
-} catch (Exception $e) {
-    printException($e);
-}
+    )) throw new mysqli_sql_exception($stmt->error);
 
-try {
-    if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error.': '.intval($post['safety_cert_vta']));
+    if (!$stmt->execute()) {
+        var_dump($post);
+        throw new mysqli_sql_exception($stmt->error);
+    }
     $defID = $stmt->insert_id;
     $location = "ViewDef.php?bartDefID=$defID";
     http_response_code(201);
@@ -125,8 +123,7 @@ $link->close();
 
 print "
     <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
+    <p><a href='$location'>view new def</a></p>
     <p><a href='newBartDef.php'>back to newBartDef</a></p>";
     
-if (http_response_code() < 400 && $location) {
-    header("Location: $location");
-}
+header("Location: $location");
