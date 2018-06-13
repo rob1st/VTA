@@ -373,7 +373,9 @@ $vtaElements = [
         'label' => returnLabel('attachment', 'Upload attachment'),
         'tagName' => 'input',
         'type' => 'file',
-        'element' => "<input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>"
+        'element' => "
+            <input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>
+            <label class='text-red'>max. allowed attachment size 5Mb</label>"
     ],
     'bdCommText' => [
         'label' => returnLabel('bdCommText', 'Add comment'),
