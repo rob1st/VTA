@@ -22,7 +22,7 @@ if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESS
 }
 
 // copy elements from external file '/html_components/defComponents.php'
-$elements = $topElements + $vtaElements + $bartElements;
+$elements = $generalElements + $vtaElements + $bartElements;
 
 // query for attachments and render then as a list of links
 $attachments = getAttachments($link, $defID);
@@ -67,7 +67,7 @@ if ($stmt = $link->prepare($sql)) {
             
             $stmt->close();
             
-            $topRows = [
+            $generalRows = [
                 'row1' => [
                     'col1' => [
                         'options' => [ 'inline' => true ],
@@ -79,6 +79,9 @@ if ($stmt = $link->prepare($sql)) {
                         ],
                         [
                             $elements['bic']
+                        ],
+                        [
+                            $elements['status']
                         ]
                     ],
                     $elements['descriptive_title_vta']
@@ -86,19 +89,14 @@ if ($stmt = $link->prepare($sql)) {
             ];
         
             $vtaRows = [
-                'row1' => [
-                    $elements['root_prob_vta']
-                ],
-                'row2' => [
-                    $elements['resolution_vta']
-                ],
+                'row1' => [ $elements['root_prob_vta'] ],
+                'row2' => [ $elements['resolution_vta'] ],
                 'row3' => [
                     'col1' => [
                         'options' => [ 'inline' => true ],
-                        'row1' => [ $elements['status_vta'] ],
-                        'row2' => [ $elements['priority_vta'] ],
-                        'row3' => [ $elements['agree_vta'] ],
-                        'row4' => [ $elements['safety_cert_vta'] ],
+                        [ $elements['priority_vta'] ],
+                        [ $elements['agree_vta'] ],
+                        [ $elements['safety_cert_vta'] ],
                         [
                             'options' => [ 'inline' => true ],
                             $elements['resolution_disputed'],
@@ -127,8 +125,7 @@ if ($stmt = $link->prepare($sql)) {
                     'col2' => [
                         [ $elements['level_bart'] ],
                         [ $elements['dateOpen_bart'] ],
-                        [ $elements['dateClose_bart'] ],
-                        [ $elements['status_bart'] ]
+                        [ $elements['dateClose_bart'] ]
                     ]
                 ]
             ];
@@ -140,7 +137,7 @@ if ($stmt = $link->prepare($sql)) {
                     <form action='updateBartDefCommit.php' method='POST' enctype='multipart/form-data'>
                         <input type='hidden' name='id' value='{$defID}' >
                         <h5 class='grey-bg pad'>General Information</h5>";
-                        foreach ($topRows as $gridRow) {
+                        foreach ($generalRows as $gridRow) {
                             print returnRow($gridRow);
                         }
             echo "

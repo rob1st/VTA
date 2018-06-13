@@ -311,7 +311,7 @@ if ($defID) {
                     <p>%s</p>
                 </div>";
     
-            $topFields = [
+            $generalFields = [
                 [
                     returnRow([ sprintf($labelStr, 'ID'), sprintf($fakeInputStr, $result['id']) ]).
                     returnRow([ sprintf($labelStr, 'Creator'), sprintf($fakeInputStr, $result['creator']) ]).
@@ -380,7 +380,7 @@ if ($defID) {
             
             $stmt->close();
 
-            if($result['Status_VTA'] === "Closed") {
+            if($result['status'] === "Closed") {
                 $color = "bg-success text-white";
             } else {
                 $color = "bg-red text-white";
@@ -391,7 +391,7 @@ if ($defID) {
                     <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
                 </header>
                 <main class='container main-content'>";
-            foreach ($topFields as $gridRow) {
+            foreach ($generalFields as $gridRow) {
                 print returnRow($gridRow);
             }
             print "<h5 class='grey-bg pad'>VTA Information</h5>";
