@@ -108,9 +108,12 @@ try {
     }
         
     // upload and insert attachment if found    
-    if ($attachmentKey) {
-        uploadAttachment($link, $attachmentKey, $folder, $defID);
-    }
+    if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
+    
+    // print "
+    //     <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
+    //     <p><a href='$location'>view new def</a></p>
+    //     <p><a href='newBartDef.php'>back to newBartDef</a></p>";
 } catch (mysqli_sql_exception $e) {
     printException($e);
 } catch (UploadException $e) {
@@ -121,9 +124,4 @@ try {
 
 $link->close();
 
-print "
-    <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
-    <p><a href='$location'>view new def</a></p>
-    <p><a href='newBartDef.php'>back to newBartDef</a></p>";
-    
 header("Location: $location");

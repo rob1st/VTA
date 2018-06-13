@@ -4,8 +4,7 @@ require 'vendor/autoload.php';
 
 session_start();
 include('SQLFunctions.php');
-include_once('error_handling/sqlErrors.php');
-include('utils/utils.php');
+// include('utils/utils.php');
 include('uploadAttachment.php');
 
 $link = f_sqlConnect();
@@ -83,7 +82,6 @@ try {
     $stmt->close();
     
     $location = "ViewDef.php?bartDefID=$defID";
-    http_response_code(201);
     
     // insert new comment if one was submitted
     if ($bdCommText) {
@@ -102,6 +100,7 @@ try {
             
     // upload and insert new attachment if submitted
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
+    
 } catch (mysqli_sql_exception $e) {
     http_response_code(500);
     printException($e);
@@ -115,17 +114,7 @@ try {
 
 $link->close();
 
-print "
-    <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
-    <p><a href='ViewDef.php?bartDefID=$defID'>view updated def</a></p>
-    <p><a href='updateBartDef.php?bartDefID=$defID'>back to updateBartDef</a></p>";
-
-if (http_response_code() < 400) {
-    print "<h2 style='color: dodgerBlue'>".http_response_code()."</h2>";
+if (http_response_code() < 400 && $location) {
+    header("Location: $location");
 }
-
-if ($location) {
-    print "<h3 style='color: dodgerBlue'>$location</h3>";
-}
-
-header("Location: $location");
+exit();
