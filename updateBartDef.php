@@ -47,6 +47,7 @@ if ($stmt = $link->prepare($sql)) {
                     <p>%s</p>
                 </div>";
 
+
             $stmt->close();
             
             // query for comments associated with this Def
