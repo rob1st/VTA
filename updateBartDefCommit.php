@@ -9,13 +9,13 @@ include('uploadAttachment.php');
 
 $link = f_sqlConnect();
 
-function printException(Exception $exc) {
+function printException(Exception $exc, $sql = '') {
     print "
         <div style='font-family: monospace'>
             <h4>Caught exception:</h4>
-            <h2 style='color: orangeRed'>".$exc->getMessage()."</h2>
-            <h3>".$exc->getFile().": ".$exc->getLine()."</h3>
-            <h4>$line</h4>
+            <h2 id='errmsg' style='color: orangeRed'>".$exc->getMessage()."</h2>
+            <h3 id='fileline'>".$exc->getFile().": ".$exc->getLine()."</h3>
+            <h3 id='sql'>$sql</h3>
         </div>";
 }
 
@@ -23,6 +23,12 @@ function printException(Exception $exc) {
 $post = $_POST;
 $defID = $post['id'];
 $userID = $_SESSION['UserID'];
+
+// validate POST data, if it's empty bump user back to form
+if (!count($post) || !$defID) {
+    include('js/emptyPostRedirect.php');
+    exit;
+}
 
 // hold onto comments separately
 $bdCommText = $post['bdCommText'];
@@ -102,19 +108,23 @@ try {
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
     
 } catch (mysqli_sql_exception $e) {
-    http_response_code(500);
-    printException($e);
+    $location = '';
+    printException($e, 'orangeRed', $sql);
 } catch (UploadException $e) {
-    http_response_code(500);
-    printException($e);
+    $location = '';
+    printException($e, 'fuchsia');
 } catch (Exception $e) {
-    http_response_code(500);
-    printException($e);
+    $location = '';
+    printException($e, 'crimson');
 }
 
 $link->close();
 
-if (http_response_code() < 400 && $location) {
+if ($location) {
     header("Location: $location");
+} else {
+    print "
+        <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
+        <p><a href='newBartDef.php'>back to newBartDef</a></p>";
 }
 exit();

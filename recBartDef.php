@@ -81,9 +81,9 @@ try {
         throw new mysqli_sql_exception($stmt->error);
     }
     $defID = $stmt->insert_id;
-    $location = "ViewDef.php?bartDefID=$defID";
-    http_response_code(201);
     $stmt->close();
+
+    $location = "ViewDef.php?bartDefID=$defID";
 
     // insert comment if one was submitted
     if ($bdCommText) {
@@ -109,19 +109,24 @@ try {
         
     // upload and insert attachment if found    
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
-    
-    // print "
-    //     <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
-    //     <p><a href='$location'>view new def</a></p>
-    //     <p><a href='newBartDef.php'>back to newBartDef</a></p>";
 } catch (mysqli_sql_exception $e) {
+    $location = '';
     printException($e);
 } catch (UploadException $e) {
+    $location = '';
     printException($e);
 } catch (Exception $e) {
+    $location = '';
     printException($e);
 }
 
 $link->close();
 
-header("Location: $location");
+if ($location) {
+    header("Location:$location");
+} else {
+    print "
+        <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
+        <p><a href='newBartDef.php'>back to newBartDef</a></p>";
+}
+exit();
