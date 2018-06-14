@@ -12,11 +12,11 @@ $date = date('Y-m-d');
 $userID = $_SESSION['UserID'];
 $nullVal = null;
 
-function printException(\Exception $exc) {
+function printException(\Exception $exc, $color = 'orangeRed') {
     print "
         <div style='font-family: monospace'>
             <h4>Caught exception:</h4>
-            <h2 style='color: orangeRed'>".$exc->getCode().": ".$exc->getMessage()."</h2>
+            <h2 style='color: $color'>".$exc->getCode().": ".$exc->getMessage()."</h2>
             <h3>".$exc->getFile().": ".$exc->getLine()."</h3>
             <h4>$line</h4>
         </div>";
@@ -115,13 +115,32 @@ try {
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
 } catch (\mysqli_sql_exception $e) {
     $location = '';
-    printException($e);
+    if (strpos($e->getMessage(), 'Duplicate entry') == false) {
+        $msg = $link->escape_string($e->getMessage());
+        print "
+            <script>
+                (function () {
+                    window.history.go(-1);
+                    window.alert('$msg')
+                })();
+            </script>";
+        $link->close();
+        exit;
+    } else {
+        printException($e);
+        $link->close();
+        exit;
+    }
 } catch (UploadException $e) {
     $location = '';
     printException($e);
+    $link->close();
+    exit;
 } catch (\Exception $e) {
     $location = '';
     printException($e);
+    $link->close();
+    exit;
 }
 
 $link->close();
