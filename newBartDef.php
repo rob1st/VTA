@@ -23,11 +23,12 @@ if ($bdPermit) {
         'row1' => [
             'col1' => [
                 'options' => [ 'inline' => true ],
-                [ $topElements['creator'] ],
-                [ $topElements['next_step'] ],
-                [ $topElements['bic'] ]
+                [ $generalElements['creator'] ],
+                [ $generalElements['next_step'] ],
+                [ $generalElements['bic'] ],
+                [ $generalElements['status'] ]
             ],
-            $topElements['descriptive_title_vta']
+            $generalElements['descriptive_title_vta']
         ]
     ];
 
@@ -37,10 +38,9 @@ if ($bdPermit) {
         'row3' => [
             'col1' => [
                 'options' => [ 'inline' => true ],
-                'row1' => [ $vtaElements['status_vta'] ],
-                'row2' => [ $vtaElements['priority_vta'] ],
-                'row3' => [ $vtaElements['agree_vta'] ],
-                'row4' => [ $vtaElements['safety_cert_vta'] ],
+                [ $vtaElements['priority_vta'] ],
+                [ $vtaElements['agree_vta'] ],
+                [ $vtaElements['safety_cert_vta'] ],
                 [
                     'options' => [ 'inline' => true ],
                     $vtaElements['resolution_disputed'],
@@ -70,8 +70,7 @@ if ($bdPermit) {
             'col2' => [
                 [ $bartElements['level_bart'] ],
                 [ $bartElements['dateOpen_bart'] ],
-                [ $bartElements['dateClose_bart'] ],
-                [ $bartElements['status_bart'] ]
+                [ $bartElements['dateClose_bart'] ]
             ]
         ]
     ];

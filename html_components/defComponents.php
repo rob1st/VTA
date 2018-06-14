@@ -293,7 +293,7 @@ $projectDefEls = [
 
 $bartDefEls = [ 'topElement' => &$topElements, 'vtaELements' => &$vtaElements, 'bartElements' => &$bartElements ];
 
-$topElements = [
+$generalElements = [
     'creator' => [
         'label' => returnLabel('creator', 'Creator', 'required'),
         'tagName' => 'select',
@@ -305,7 +305,7 @@ $topElements = [
         'label' => returnLabel('next_step', 'Next step'),
         'tagName' => 'select',
         'element' => "<select name='next_step' id='next_step' class='form-control'>%s</select>",
-        'query' => 'SELECT bdNextStepID, nextStepName FROM bdNextStep ORDER BY bdNextStepID',
+        'query' => "SELECT bdNextStepID, nextStepName FROM bdNextStep WHERE nextStepName <> '' ORDER BY bdNextStepID",
         'value' => ''
     ],
     'bic' => [
@@ -315,10 +315,17 @@ $topElements = [
         'query' => "SELECT partyID, partyName from bdParties WHERE partyName <> '' ORDER BY partyID",
         'value' => ''
     ],
+    'status' => [
+        'label' => returnLabel('status', 'Status', 1),
+        'tagName' => 'select',
+        'element' => "<select name='status' id='status' class='form-control' required>%s</select>",
+        'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'",
+        'value' => ''
+    ],
     'descriptive_title_vta' => [
         'label' => returnLabel('descriptive_title_vta', 'Description', 'required'),
         'tagName' => 'textarea',
-        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control' required>%s</textarea>",
+        'element' => "<textarea name='descriptive_title_vta' id='descriptive_title_vta' class='form-control' maxlength='1000' required>%s</textarea>",
         'query' => null
     ]
 ];
@@ -335,13 +342,6 @@ $vtaElements = [
         'tagName' => 'textarea',
         'element' => "<textarea name='resolution_vta' id='resolution_vta' class='form-control' required>%s</textarea>",
         'query' => null
-    ],
-    'status_vta' => [
-        'label' => returnLabel('status_vta', 'Status', 1),
-        'tagName' => 'select',
-        'element' => "<select name='status_vta' id='status_vta' class='form-control' required>%s</select>",
-        'value' => '',
-        'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
     ],
     'priority_vta' => [
         'label' => returnLabel('priority_vta', 'Priority', 1),
@@ -373,7 +373,9 @@ $vtaElements = [
         'label' => returnLabel('attachment', 'Upload attachment'),
         'tagName' => 'input',
         'type' => 'file',
-        'element' => "<input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>"
+        'element' => "
+            <input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>
+            <label class='text-red'>max. allowed file size 5Mb</label>"
     ],
     'bdCommText' => [
         'label' => returnLabel('bdCommText', 'Add comment'),
@@ -454,12 +456,5 @@ $bartElements = [
         'type' => 'date',
         'value' => '',
         'element' => "<input name='dateClose_bart' id='dateClose_bart' type='date' value='%s' class='form-control'>"
-    ],
-    'status_bart' => [
-        'label' => returnLabel('status_bart', 'Status', 1),
-        'tagName' => 'select',
-        'element' => "<select name='status_bart' id='status_bart' class='form-control' required>%s</select>",
-        'value' => '',
-        'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'"
     ]
 ];

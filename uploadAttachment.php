@@ -18,34 +18,28 @@ function uploadAttachment($cnxn, $key, $dir, $assocID) {
     $types = 'siiiss';
     try {
         $attachment->upload();
-    } catch (\Exception $e) {
-        print "
-            <h1>
-                <pre style='color: crimson'>"
-                    .$e->getMessage()
-                ."</pre>
-            </h1>";
+    } catch (Exception $e) {
+        http_response_code(500);
+        throw new UploadException($e);
     }
     try {
-        if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);
+        if (!$stmt = $cnxn->prepare($sql)) throw new mysqli_sql_exception($cnxn->error);
         if (!$stmt->bind_param($types,
             $cnxn->escape_string($filepath),
             intval($assocID),
             intval($_SESSION['UserID']),
             intval($filesize),
             $cnxn->escape_string($fileext),
-            $cnxn->escape_string($filename))) printSqlErrorAndExit($stmt, $sql);
-        if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
-        else {
-            $stmt->close();
-            return $filepath;
-        }
-    } catch (\Exception $e) {
-        print "
-            <h1>
-                <pre style='color: deepPink'>"
-                    .$e->getMessage()
-                ."</pre>
-            </h1>";
+            $cnxn->escape_string($filename))) throw new mysqli_sql_exception($stmt->error);
+        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+        $stmt->close();
+        return $filepath;
+    } catch (mysqli_sql_exception $e) {
+        $stmt->close();
+        http_response_code(500);
+        throw new mysqli_sql_exception($e);
+    } catch (Exception $e) {
+        http_response_code(500);
+        throw new Exception($e);
     }
 }

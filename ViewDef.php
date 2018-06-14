@@ -283,16 +283,14 @@ if ($defID) {
             .',form_modified';
         // replace ambiguous or JOINED keys
         $fieldList = str_replace('updated_by', 'BARTDL.updated_by AS updated_by', $fieldList);
-        $fieldList = str_replace('status_vta', 's.status AS status_vta', $fieldList);
-        $fieldList = str_replace('status_bart', 's2.status AS status_bart', $fieldList);
+        $fieldList = str_replace('status', 's.status AS status', $fieldList);
         $fieldList = str_replace('agree_vta', 'ag.agreeDisagreeName AS agree_vta', $fieldList);
         $fieldList = str_replace('creator', 'c.partyName AS creator', $fieldList);
         $fieldList = str_replace('next_step', 'n.nextStepName AS next_step', $fieldList);
         $sql = 'SELECT '
             .$fieldList
             ." FROM BARTDL"
-            ." JOIN Status s ON BARTDL.status_vta=s.statusID"
-            ." JOIN Status s2 ON BARTDL.status_bart=s2.statusID"
+            ." JOIN Status s ON BARTDL.status=s.statusID"
             ." JOIN agreeDisagree ag ON BARTDL.agree_vta=ag.agreeDisagreeID"
             ." JOIN bdParties c ON BARTDL.creator=c.partyID"
             ." JOIN bdNextStep n ON BARTDL.next_step=n.bdNextStepID"
@@ -305,20 +303,41 @@ if ($defID) {
             
             $result = stmtBindResultArray($stmt)[0];
             
+            function validateFormatDate($dateStr, $inputFormat, $outputFormat, $nullChar = '—') {
+                return (
+                    strtotime($dateStr) <= 0
+                        ? $nullChar
+                        : DateTime::createFromFormat($inputFormat, $dateStr)->format($outputFormat)
+                );
+            }
+            
+            function formatOpenCloseDate($dateStr) {
+                $inputFormat = 'Y-m-d';
+                $outputFormat = 'd/m/Y';
+                return validateFormatDate($dateStr, $inputFormat, $outputFormat);
+            }
+            
+            $dateOpen = formatOpenCloseDate($result['dateOpen_bart']);
+            $dateClosed = formatOpenCloseDate($result['dateClose_bart']);
+            
             $commentFormat = "
                 <div class='thin-grey-border pad mb-3'>
                     <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
                     <p>%s</p>
                 </div>";
     
-            $topFields = [
+            $generalFields = [
                 [
-                    returnRow([ sprintf($labelStr, 'ID'), sprintf($fakeInputStr, $result['id']) ]).
-                    returnRow([ sprintf($labelStr, 'Creator'), sprintf($fakeInputStr, $result['creator']) ]).
-                    // returnRow([ sprintf($labelStr, 'Joint status'), sprintf($fakeInputStr, $result['status_vta']) ]).
-                    returnRow([ sprintf($labelStr, 'Next step'), sprintf($fakeInputStr, $result['next_step']) ]).
-                    returnRow([ sprintf($labelStr, 'BIC'), sprintf($fakeInputStr, $result['bic']) ]),
-                    sprintf($labelStr, 'Descriptive').sprintf($fakeInputStr, stripcslashes($result['descriptive_title_vta']))
+                    [
+                        [ sprintf($labelStr, 'ID'), sprintf($fakeInputStr, $result['id']) ],
+                        [ sprintf($labelStr, 'Creator'), sprintf($fakeInputStr, $result['creator']) ],
+                        [ sprintf($labelStr, 'Next step'), sprintf($fakeInputStr, $result['next_step']) ],
+                        [ sprintf($labelStr, 'BIC'), sprintf($fakeInputStr, $result['bic']) ],
+                        [ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status']) ]
+                    ],
+                    [
+                        [ sprintf($labelStr, 'Descriptive').sprintf($fakeInputStr, stripcslashes($result['descriptive_title_vta'])) ]
+                    ]
                 ]
             ];
         
@@ -327,7 +346,6 @@ if ($defID) {
                 'Resolution_VTA' => [ sprintf($labelStr, 'Resolution').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['resolution_vta']))) ],
                 [
                     [
-                        [ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_vta']) ],
                         [ sprintf($labelStr, 'Priority'), sprintf($fakeInputStr, $result['priority_vta']) ],
                         [ sprintf($labelStr, 'Agree'), sprintf($fakeInputStr, $result['agree_vta']) ],
                         [ sprintf($labelStr, 'Safety Certifiable'), sprintf($fakeInputStr, $result['safety_cert_vta']) ],
@@ -354,9 +372,8 @@ if ($defID) {
                     returnRow([ sprintf($labelStr, 'Cat2'), sprintf($fakeInputStr, $result['cat2_bart']) ]).
                     returnRow([ sprintf($labelStr, 'Cat3'), sprintf($fakeInputStr, $result['cat3_bart']) ]),
                     returnRow([ sprintf($labelStr, 'Level'), sprintf($fakeInputStr, $result['level_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Date open'), sprintf($fakeInputStr, $result['dateOpen_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Date closed'), sprintf($fakeInputStr, $result['dateClose_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Status'), sprintf($fakeInputStr, $result['status_bart']) ])
+                    returnRow([ sprintf($labelStr, 'Date open'), sprintf($fakeInputStr, $dateOpen) ]).
+                    returnRow([ sprintf($labelStr, 'Date closed'), sprintf($fakeInputStr, $dateClosed) ])
                 ]
             ];
         
@@ -380,7 +397,7 @@ if ($defID) {
             
             $stmt->close();
 
-            if($result['Status_VTA'] === "Closed") {
+            if($result['status'] === "Closed") {
                 $color = "bg-success text-white";
             } else {
                 $color = "bg-red text-white";
@@ -391,7 +408,7 @@ if ($defID) {
                     <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
                 </header>
                 <main class='container main-content'>";
-            foreach ($topFields as $gridRow) {
+            foreach ($generalFields as $gridRow) {
                 print returnRow($gridRow);
             }
             print "<h5 class='grey-bg pad'>VTA Information</h5>";

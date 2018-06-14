@@ -1,4 +1,8 @@
 <?php
+use codeguy\Upload;
+
+require 'vendor/autoload.php';
+
 session_start();
 include('SQLFunctions.php');
 include('error_handling/sqlErrors.php');
@@ -9,9 +13,25 @@ $date = date('Y-m-d');
 $userID = $_SESSION['UserID'];
 $nullVal = null;
 
+function printException(Exception $exc) {
+    print "
+        <div style='font-family: monospace'>
+            <h4>Caught exception:</h4>
+            <h2 style='color: orangeRed'>".$exc->getMessage()."</h2>
+            <h3>".$exc->getFile().": ".$exc->getLine()."</h3>
+            <h4>$line</h4>
+        </div>";
+}
+
 // prepare POST and sql string for commit
 $post = $_POST;
 $bdCommText = $post['bdCommText'];
+
+// validate POST data, if it's empty bump user back to form
+if (!count($post) || !$defID) {
+    include('js/emptyPostRedirect.php');
+    exit;
+}
 
 // check for attachment and prepare Upload object
 if ($_FILES['attachment']['size']
@@ -28,18 +48,24 @@ unset($fieldsArr['id']);
 $fieldList = implode(',', array_keys($fieldsArr));
 $sql = 'INSERT INTO BARTDL ('.implode(', ', array_keys($fieldsArr)).') VALUES ('.implode(', ', array_values($fieldsArr)).')';
 
-if ($stmt = $link->prepare($sql)) {
-    $types = 'iiiiisssiiiiiissssssssis';
-    if ($stmt->bind_param($types,
+try {
+    if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
+} catch (Exception $e) {
+    printException($e);
+}
+
+try {
+    $types = 'iiiiiisssiiiiisssssssss';
+    if (!$stmt->bind_param($types,
         intval($post['created_by']),
         intval($post['created_by']),
         intval($post['creator']),
         intval($post['next_step']),
         intval($post['bic']),
+        intval($post['status']),
         $link->escape_string($post['descriptive_title_vta']),
         $link->escape_string($post['root_prob_vta']),
         $link->escape_string($post['resolution_vta']),
-        intval($post['status_vta']),
         intval($post['priority_vta']),
         intval($post['agree_vta']),
         intval($post['safety_cert_vta']),
@@ -53,57 +79,60 @@ if ($stmt = $link->prepare($sql)) {
         $link->escape_string($post['level_bart']),
         $link->escape_string($post['dateOpen_bart']),
         $link->escape_string($post['dateClose_bart']),
-        intval($post['status_bart']),
         $date
-    )) {
-        if ($stmt->execute()) {
-            $defID = $stmt->insert_id;
-            echo "
-                <div style='margin-top: 3.5rem; color: purple'>
-                    <p>{$stmt->affected_rows}</p>
-                    <p>{$stmt->insert_id}</p>
-                    <p>$fieldList</p>
-                    <p>$sql</p>
-                    <p>$types</p>
-                </div>";
-            $stmt->close();
-            
-            // insert comment if one was submitted
-            if ($bdCommText) {
-                $sql = "INSERT bartdlComments (bdCommText, userID, bartdlID) VALUES (?, ?, ?)";
-                $types = 'sii';
-                
-                if(!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
-                else print "<p id='commentSql'>$sql</p>";
-                if(!$stmt->bind_param($types,
-                    $link->escape_string($bdCommText),
-                    intval($userID),
-                    intval($defID))) printSqlErrorAndExit($stmt, $sql);
-                else print "<p id='commentsParams'>$types, $bdCommText, $userID, $defID</p>";
-                if(!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
-                else print "<p id='newCommentID'>$stmt->insert_id</p>";
-                
-                $stmt->close();
-            }
-            
-            if ($attachmentKey) {
-                if ($href = uploadAttachment($link, $attachmentKey, $folder, $defID)) {
-                    print "
-                        <h4 style='color: limeGreen'>
-                            <a href='$href'>$href</a>
-                        </h4>";
-                } else print "<h2 style='color: orangeRed'>There musta been some problem with the upload</h2>";
-            }
-            
-            echo "
-                <a href='ViewDef.php?bartDefID=$defID' class='btn btn-large btn-primary'>View updated deficiency</a>";
-            header("Location: ViewDef.php?bartDefID=$defID");
-        } else {
-            printSqlErrorAndExit($stmt, $sql);
-        }
-    } else {
-        printSqlErrorAndExit($stmt, $sql);
+    )) throw new mysqli_sql_exception($stmt->error);
+
+    if (!$stmt->execute()) {
+        var_dump($post);
+        throw new mysqli_sql_exception($stmt->error);
     }
-} else {
-    printSqlErrorAndExit($link, $sql);
+    $defID = $stmt->insert_id;
+    $stmt->close();
+
+    $location = "ViewDef.php?bartDefID=$defID";
+
+    // insert comment if one was submitted
+    if ($bdCommText) {
+        $sql = "INSERT bartdlComments (bdCommText, userID, bartdlID) VALUES (?, ?, ?)";
+        $types = 'sii';
+        if (!$stmt = $link->prepare($sql)) {
+            http_response_code(500);
+            throw new mysqli_sql_exception($link->error);
+        }
+        if (!$stmt->bind_param($types,
+            $link->escape_string($bdCommText),
+            intval($userID),
+            intval($defID))) {
+                http_response_code(500);
+                throw new mysqli_sql_exception($stmt->error);
+        }
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            throw new mysqli_sql_exception($stmt->error);
+        }
+        $stmt->close();
+    }
+        
+    // upload and insert attachment if found    
+    if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
+} catch (mysqli_sql_exception $e) {
+    $location = '';
+    printException($e);
+} catch (UploadException $e) {
+    $location = '';
+    printException($e);
+} catch (Exception $e) {
+    $location = '';
+    printException($e);
 }
+
+$link->close();
+
+if ($location) {
+    header("Location:$location");
+} else {
+    print "
+        <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
+        <p><a href='newBartDef.php'>back to newBartDef</a></p>";
+}
+exit();
