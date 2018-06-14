@@ -1,5 +1,6 @@
 <?php
 use codeguy\Upload;
+use codeguy\Upload\Exception;
 require 'vendor/autoload.php';
 
 include_once('error_handling/sqlErrors.php');
@@ -18,10 +19,11 @@ function uploadAttachment($cnxn, $key, $dir, $assocID) {
     $types = 'siiiss';
     try {
         $attachment->upload();
-    } catch (Exception $e) {
+    } catch (UploadException $e) {
         http_response_code(500);
         throw new UploadException($e);
     }
+    
     try {
         if (!$stmt = $cnxn->prepare($sql)) throw new mysqli_sql_exception($cnxn->error);
         if (!$stmt->bind_param($types,
@@ -34,11 +36,11 @@ function uploadAttachment($cnxn, $key, $dir, $assocID) {
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
         $stmt->close();
         return $filepath;
-    } catch (mysqli_sql_exception $e) {
+    } catch (\mysqli_sql_exception $e) {
         $stmt->close();
         http_response_code(500);
         throw new mysqli_sql_exception($e);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         http_response_code(500);
         throw new Exception($e);
     }

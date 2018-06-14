@@ -1,5 +1,5 @@
 <?php
-use codeguy\Upload;
+use codeguy\Upload\Exception;
 require 'vendor/autoload.php';
 
 session_start();
@@ -107,13 +107,13 @@ try {
     // upload and insert new attachment if submitted
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
     
-} catch (mysqli_sql_exception $e) {
+} catch (\mysqli_sql_exception $e) {
     $location = '';
     printException($e, 'orangeRed', $sql);
 } catch (UploadException $e) {
     $location = '';
     printException($e, 'fuchsia');
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $location = '';
     printException($e, 'crimson');
 }
