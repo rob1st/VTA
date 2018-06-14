@@ -27,6 +27,12 @@ function printException(Exception $exc) {
 $post = $_POST;
 $bdCommText = $post['bdCommText'];
 
+// validate POST data, if it's empty bump user back to form
+if (!count($post) || !$defID) {
+    include('js/emptyPostRedirect.php');
+    exit;
+}
+
 // check for attachment and prepare Upload object
 if ($_FILES['attachment']['size']
     && $_FILES['attachment']['name']

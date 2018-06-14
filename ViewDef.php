@@ -303,6 +303,23 @@ if ($defID) {
             
             $result = stmtBindResultArray($stmt)[0];
             
+            function validateFormatDate($dateStr, $inputFormat, $outputFormat, $nullChar = '—') {
+                return (
+                    strtotime($dateStr) <= 0
+                        ? $nullChar
+                        : DateTime::createFromFormat($inputFormat, $dateStr)->format($outputFormat)
+                );
+            }
+            
+            function formatOpenCloseDate($dateStr) {
+                $inputFormat = 'Y-m-d';
+                $outputFormat = 'd/m/Y';
+                return validateFormatDate($dateStr, $inputFormat, $outputFormat);
+            }
+            
+            $dateOpen = formatOpenCloseDate($result['dateOpen_bart']);
+            $dateClosed = formatOpenCloseDate($result['dateClose_bart']);
+            
             $commentFormat = "
                 <div class='thin-grey-border pad mb-3'>
                     <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
@@ -355,8 +372,8 @@ if ($defID) {
                     returnRow([ sprintf($labelStr, 'Cat2'), sprintf($fakeInputStr, $result['cat2_bart']) ]).
                     returnRow([ sprintf($labelStr, 'Cat3'), sprintf($fakeInputStr, $result['cat3_bart']) ]),
                     returnRow([ sprintf($labelStr, 'Level'), sprintf($fakeInputStr, $result['level_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Date open'), sprintf($fakeInputStr, $result['dateOpen_bart']) ]).
-                    returnRow([ sprintf($labelStr, 'Date closed'), sprintf($fakeInputStr, $result['dateClose_bart']) ])
+                    returnRow([ sprintf($labelStr, 'Date open'), sprintf($fakeInputStr, $dateOpen) ]).
+                    returnRow([ sprintf($labelStr, 'Date closed'), sprintf($fakeInputStr, $dateClosed) ])
                 ]
             ];
         
