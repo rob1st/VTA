@@ -241,6 +241,10 @@ ul li {
     background-color: var(--vta-bright-blue-tone-1);
 }
 
+.text-wrap {
+    white-space: normal;
+}
+
 .text-blue {
     color: var(--vta-blue);
 }

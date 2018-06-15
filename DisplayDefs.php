@@ -361,8 +361,8 @@ if($_POST['Search'] == NULL) {
             print "
                 <div class='row'>
                     <div class='col-12 d-flex'>
-                        <a href='DisplayDefs.php' class='btn $projBtn flex-grow item-margin-right'>Project deficiencies</a>
-                        <a href='DisplayDefs.php?view=BART' class='btn $bartBtn flex-grow item-margin-right'>BART deficiencies</a>
+                        <a href='DisplayDefs.php' class='btn $projBtn flex-grow item-margin-right text-wrap'>Project deficiencies</a>
+                        <a href='DisplayDefs.php?view=BART' class='btn $bartBtn flex-grow item-margin-right text-wrap'>BART deficiencies</a>
                     </div>
                 </div>
             ";
