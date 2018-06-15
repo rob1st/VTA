@@ -54,13 +54,13 @@ function PieChart(d3, id, d, palette, wd = '200', ht = '200') {
     
     function drawLegend(container, data, colorScheme) {
         var legend = container.appendChild(document.createElement('div'));
-        legend.classList.add('d-flex', 'flex-column', 'flex-wrap');
+        legend.classList.add('d-flex', 'flex-column', 'flex-wrap', 'mt-3');
     
         data.forEach((datum, i) => {
             const label = legend.appendChild(document.createElement('span'))
             const swatch = document.createElement('i')
             
-            label.classList.add('legend-label')
+            label.classList.add('mr-2', 'mb-1', 'ml-2')
             label.textContent = datum.label
     
             swatch.classList.add('legend-swatch')

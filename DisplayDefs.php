@@ -42,7 +42,7 @@ function concatSqlStr($arr, $tableName, $initStr = '') {
 
 function printInfoBox($lvl, $href, $dataGraphic = false) {
     $dataContainer = $dataGraphic
-        ? "<div class='row mb-3'><div id='dataContainer' class='col-12 d-flex flex-row flex-wrap justify-content-center'></div></div>"
+        ? "<div class='row mb-3'><div id='dataContainer' class='col-md-4 offset-md-4 d-flex flex-row flex-wrap justify-content-start'></div></div>"
         : '';
     $box ="
         <div class='card item-margin-bottom'>
@@ -50,7 +50,7 @@ function printInfoBox($lvl, $href, $dataGraphic = false) {
                 $dataContainer
                 <div class='row'>
                     <div class='col-12 d-flex flex-row flex-wrap justify-content-between align-items-center'>
-                        <span>Click Deficiency ID number to see full details</span>
+                        <span class='mb-2'>Click Deficiency ID number to see full details</span>
                         %s
                     </div>
                 </div>
