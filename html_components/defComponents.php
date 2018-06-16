@@ -39,78 +39,77 @@ $commentFormat = "
         <p>%s</p>
     </div>";
 
-$projectDefEls = [];
 $requiredElements = [
-    'SafetyCert' => [
-        "label" => returnLabel('SafetyCert', 'Safety Certifiable', 1),
+    'safetyCert' => [
+        "label" => returnLabel('safetyCert', 'Safety Certifiable', 1),
         "tagName" => 'select',
-        'element' => "<select name='SafetyCert' id='SafetyCert' class='form-control' required>%s</select>",
+        'element' => "<select name='safetyCert' id='safetyCert' class='form-control' required>%s</select>",
         "type" => '',
         "query" => "SELECT YesNoID, YesNo FROM YesNo ORDER BY YesNo",
         'value' => ''
     ],
-    'SystemAffected' => [
-        "label" => returnLabel('SystemAffected', 'System Affected', 1),
+    'systemAffected' => [
+        "label" => returnLabel('systemAffected', 'System Affected', 1),
         "tagName" => 'select',
-        'element' => "<select name='SystemAffected' id='SystemAffected' class='form-control' required>%s</select>",
+        'element' => "<select name='systemAffected' id='systemAffected' class='form-control' required>%s</select>",
         "type" => '',
         "query" => "SELECT SystemID, System FROM System ORDER BY System",
         'value' => ''
     ],
-    'LocationName' => [
-        "label" => returnLabel('LocationName', 'General Location', 1),
+    'locationName' => [
+        "label" => returnLabel('locationName', 'General Location', 1),
         "tagName" => 'select',
-        'element' => "<select name='LocationName' id='LocationName' class='form-control' required>%s</select>",
+        'element' => "<select name='locationName' id='locationName' class='form-control' required>%s</select>",
         "type" => '',
         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
         'value' => ''
     ],
-    'SpecLoc' => [
-        "label" => returnLabel('SpecLoc', 'Specific Location', 1),
+    'specLoc' => [
+        "label" => returnLabel('specLoc', 'Specific Location', 1),
         "tagName" => "input",
-        "element" => "<input type='text' name='SpecLoc' id='SpecLoc' value='%s' class='form-control' required>",
+        "element" => "<input type='text' name='specLoc' id='specLoc' value='%s' class='form-control' required>",
         "type" => 'text',
         "name" => 'SpecLoc',
         "id" => 'SpecLoc',
         "query" => null,
         'value' => ''
     ],
-    'Status' => [
-        "label" => returnLabel('Status', 'Status', 1),
+    'status' => [
+        "label" => returnLabel('status', 'Status', 1),
         "tagName" => "select",
-        "element" => "<select name='Status' id='Status' class='form-control' required>%s</select>",
+        "element" => "<select name='status' id='status' class='form-control' required>%s</select>",
         "type" => null,
         "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID",
         'value' => ''
     ],
-    'SeverityName' => [
-        "label" => returnLabel('SeverityName', 'Severity', 1),
+    'severityName' => [
+        "label" => returnLabel('severityName', 'Severity', 1),
         "tagName" => "select",
-        "element" => "<select name='SeverityName' id='SeverityName' class='form-control' required>%s</select>",
+        "element" => "<select name='severityName' id='severityName' class='form-control' required>%s</select>",
         "type" => null,
         "query" => "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName",
         'value' => ''
     ],
-    'DueDate' => [
-        "label" => returnLabel('DueDate', 'To be resolved by', 1),
+    'dueDate' => [
+        "label" => returnLabel('dueDate', 'To be resolved by', 1),
         "tagName" => "input",
-        "element" => "<input type='date' name='DueDate' id='DueDate' value='%s' class='form-control' required>",
+        "element" => "<input type='date' name='dueDate' id='dueDate' value='%s' class='form-control' required>",
         "type" => 'date',
         "query" => null,
         'value' => ''
     ],
-    'GroupToResolve' =>[
-        "label" => returnLabel('GroupToResolve', 'Group to Resolve', 1),
+    'groupToResolve' =>[
+        "label" => returnLabel('groupToResolve', 'Group to Resolve', 1),
         "tagName" => "select",
-        "element" => "<select name='GroupToResolve' id='GroupToResolve' class='form-control' required>%s</select>",
+        "element" => "<select name='groupToResolve' id='groupToResolve' class='form-control' required>%s</select>",
         "type" => null,
         "query" => "SELECT SystemID, System FROM System ORDER BY System",
         'value' => ''
     ],
-    'RequiredBy' => [
-        "label" => returnLabel('RequiredBy', 'Required for', 1),
+    'requiredBy' => [
+        "label" => returnLabel('requiredBy', 'Required for', 1),
         "tagName" => "select",
-        "element" => "<select name='RequiredBy' id='RequiredBy' class='form-control' required>%s</select>",
+        "element" => "<select name='requiredBy' id='requiredBy' class='form-control' required>%s</select>",
         "type" => null,
         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
         'value' => ''
@@ -123,10 +122,10 @@ $requiredElements = [
         'query' => "SELECT contractID, contract FROM Contract ORDER BY contractID",
         'value' => ''
     ],
-    'IdentifiedBy' => [
-        "label" => returnLabel('IdentifiedBy', 'Identified By', 1),
+    'identifiedBy' => [
+        "label" => returnLabel('identifiedBy', 'Identified By', 1),
         "tagName" => "input",
-        "element" => "<input type='text' name='IdentifiedBy' id='IdentifiedBy' class='form-control' value='%s' required>",
+        "element" => "<input type='text' name='identifiedBy' id='identifiedBy' class='form-control' value='%s' required>",
         "type" => 'text',
         "query" => null,
         'value' => ''
@@ -139,7 +138,7 @@ $requiredElements = [
         'query' => 'SELECT defTypeID, defTypeName FROM defType',
         'value' => ''
     ],
-    'Description' => [
+    'description' => [
         "label" => returnLabel('Description', 'Deficiency description', 1),
         "tagName" => "textarea",
         "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000' required>%s</textarea>",
@@ -149,108 +148,80 @@ $requiredElements = [
     ]
 ];
 
-$optionalRows = [
-    [
-        'Spec' => [
-            "label" => "<label for='Spec'>Spec or Code</label>",
-            "tagName" => "input",
-            "element" => "<input type='text' name='Spec' id='Spec' value='%s' class='form-control'>",
-            "type" => 'text',
-            "name" => 'Spec',
-            "id" => 'Spec',
-            "query" => null,
-            'value' => stripcslashes($spec)
-        ],
-        'ActionOwner' => [
-            "label" => "<label for='ActionOwner'>Action Owner</label>",
-            "tagName" => "input",
-            "element" => "<input type='text' name='ActionOwner' id='ActionOwner' value='%s' class='form-control'>",
-            "type" => 'text',
-            "name" => 'ActionOwner',
-            "id" => 'ActionOwner',
-            "query" => null,
-            'value' => stripcslashes($actionOwner)
-        ]
+$optionalElements = [
+    'spec' => [
+        "label" => returnLabel('spec', 'Spec or Code'),
+        "tagName" => "input",
+        "element" => "<input type='text' name='spec' id='spec' value='%s' class='form-control'>",
+        "type" => 'text',
+        "query" => null,
+        'value' => ''
     ],
-    [
-        'OldID' => [
-            "label" => "<label for='OldID'>Old Id</label>",
-            "tagName" => "input",
-            "element" => "<input type='text' name='OldID' id='OldID' value='%s' class='form-control'>",
-            "type" => 'text',
-            "name" => 'OldID',
-            "id" => 'OldID',
-            "query" => null,
-            'value' => stripcslashes($oldID)
-        ],
-        'CDL_pics' => [
-            'label' => "<label for='CDL_pics'>Upload Photo</label>",
-            'tagName' => 'input',
-            'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control-file'>",
-            'type' => 'file',
-            'name' => 'CDL_pics',
-            'id' => 'CDL_pics',
-            'query' => null
-        ]
+    'actionOwner' => [
+        "label" => returnLabel('actionOwner', 'Action Owner'),
+        "tagName" => "input",
+        "element" => "<input type='text' name='actionOwner' id='actionOwner' value='%s' class='form-control'>",
+        "type" => 'text',
+        "query" => null,
+        'value' => ''
     ],
-    [
-        'comments' => [
-            "label" => "<label for='comments'>More Information</label>",
-            "tagName" => "textarea",
-            "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
-            "type" => null,
-            "name" => 'comments',
-            "id" => 'comments',
-            "query" => null,
-            'value' => stripcslashes($comments)
-        ]
+    'oldID' => [
+        "label" => returnLabel('oldID', 'Old Id'),
+        "tagName" => "input",
+        "element" => "<input type='text' name='oldID' id='oldID' value='%s' class='form-control'>",
+        "type" => 'text',
+        "query" => null,
+        'value' => ''
+    ],
+    'CDL_pics' => [
+        'label' => returnLabel('CDL_pics', 'Upload Photo'),
+        'tagName' => 'input',
+        'element' => "<input type='file' accept='image/*' name='CDL_pics' id='CDL_pics' class='form-control form-control-file'>",
+        'type' => 'file',
+        'query' => null
+    ],
+    'comments' => [
+        "label" => returnLabel('comments', 'More Information'),
+        "tagName" => "textarea",
+        "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
+        "type" => null,
+        "query" => null,
+        'value' => ''
     ]
 ];
 
-$closureRows = [
-    [
-        'EviType' => [
-            "label" => "<label for='EviType'>Evidence Type</label>",
-            "tagName" => 'select',
-            'element' => "<select name='EviType' id='EviType' class='form-control'>%s</select>",
-            "type" => '',
-            "name" => 'EviType',
-            "id" => 'EviType',
-            "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType",
-            'value' => $eviType
-        ],
-        'Repo' => [
-            'label' => "<label for='Repo'>Evidence Repository</label>",
-            'tagName' => 'select',
-            'element' => "<select name='Repo' id='Repo' class='form-control'>%s</select>",
-            'type' => '',
-            'name' => 'Repo',
-            'id' => 'Repo',
-            'query' => "SELECT RepoID, Repo FROM Repo ORDER BY Repo",
-            'value' => $repo
-        ],
-        'EvidenceLink' => [
-            'label' => "<label for='EvidenceLink'>Repository Number</label>",
-            'tagName' => "input",
-            'element' => "<input type='text' name='EvidenceLink' id='EvidenceLink' class='form-control' value='%s'>",
-            'type' => 'text',
-            'name' => 'EvidenceLink',
-            'id' => 'EvidenceLink',
-            'query' => null,
-            'value' => stripcslashes($evidenceLink)
-        ]
+$closureElements = [
+    'eviType' => [
+        "label" => returnLabel('eviType', 'Evidence Type'),
+        "tagName" => 'select',
+        'element' => "<select name='eviType' id='eviType' class='form-control'>%s</select>",
+        "type" => '',
+        "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType",
+        'value' => ''
     ],
-    [
-        'ClosureComments' => [
-            "label" => "<label for='ClosureComments'>Closure Comments</label>",
-            "tagName" => "textarea",
-            "element" => "<textarea name='ClosureComments' id='ClosureComments' class='form-control' maxlength='1000'>%s</textarea>",
-            "type" => null,
-            "name" => 'ClosureComments',
-            "id" => 'ClosureComments',
-            "query" => null,
-            'value' => stripcslashes($ClosureComments)
-        ]
+    'repo' => [
+        'label' => returnLabel('repo', 'Evidence Repository'),
+        'tagName' => 'select',
+        'element' => "<select name='repo' id='repo' class='form-control'>%s</select>",
+        'type' => '',
+        'query' => "SELECT RepoID, Repo FROM Repo ORDER BY Repo",
+        'value' => ''
+    ],
+    'evidenceLink' => [
+        'label' => returnLabel('evidenceLink', 'Repository Number'),
+        'tagName' => "input",
+        'element' => "<input type='text' name='evidenceLink' id='evidenceLink' class='form-control' value='%s'>",
+        'type' => 'text',
+        'query' => null,
+        'value' => ''
+    ],
+    'ClosureComments' => [
+        "label" => returnLabel('closureComments', 'Closure Comments'),
+        "tagName" => "textarea",
+        "element" => "<textarea name='closureComments' id='closureComments' class='form-control' maxlength='1000'>%s</textarea>",
+        "type" => null,
+        "query" => null,
+        'value' => ''
     ]
 ];
 
