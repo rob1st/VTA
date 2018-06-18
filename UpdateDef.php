@@ -160,7 +160,8 @@ try {
         echo returnRow([ $optionalElements['cdlCommText'] ], [ 'colWd' => 8 ]);
             foreach ($comments as $comment) {
                 $userFullName = $comment['firstname'].' '.$comment['lastname'];
-                printf($commentFormat, $userFullName, $comment['date_created'], $comment['cdlCommText']);
+                $text = stripcslashes($comment['cdlCommText']);
+                printf($commentFormat, $userFullName, $comment['date_created'], $text);
             }
         echo "
             </div>

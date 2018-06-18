@@ -51,63 +51,38 @@ $sql = "UPDATE CDL SET $assignmentList WHERE defID=$defID";
 $post += ['updated_by' => $username];
 
 try {
-    $success = "<div style='background-color: pink; background-clip: padding-box; border: 5px dashed limeGreen;>%s</div>";
+    $success = "<div style='background-color: pink; background-clip: padding-box; border: 5px dashed limeGreen;'>%s</div>";
     $successFormat = "<p style='color: %s'>%s</p>";
+    $linkBtn = "<a href='UpdateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
     
     if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
     
-    $success = sprintf($success, sprintf($successFormat, 'blue', '&#x2714; CDL update stmt prepared') . '%s');
+    $success = sprintf($success, sprintf($successFormat, 'blue', '&#x2714; CDL stmt prepared') . '%s');
     
     $types = 'iiisiisiiisissssiisss';
     if (!$stmt->bind_param($types,
         intval($post['safetyCert']),
         intval($post['systemAffected']),
         intval($post['location']),
-        $link->escape_string($post['specLoc']),
+        filter_var($link->escape_string($post['specLoc']), FILTER_SANITIZE_STRING),
         intval($post['status']),
         intval($post['severity']),
-        $link->escape_string($post['dueDate']),
+        filter_var($link->escape_string($post['dueDate']), FILTER_SANITIZE_STRING),
         intval($post['groupToResolve']),
         intval($post['requiredBy']),
         intval($post['contractID']),
-        $link->escape_string($post['identifiedBy']),
+        filter_var($link->escape_string($post['identifiedBy']), FILTER_SANITIZE_STRING),
         intval($post['defType']),
-        $link->escape_string($post['description']),
-        $link->escape_string($post['spec']),
-        $link->escape_string($post['actionOwner']),
-        $link->escape_string($post['oldID']),
+        filter_var($link->escape_string($post['description']), FILTER_SANITIZE_STRING),
+        filter_var($link->escape_string($post['spec']), FILTER_SANITIZE_STRING),
+        filter_var($link->escape_string($post['actionOwner']), FILTER_SANITIZE_STRING),
+        filter_var($link->escape_string($post['oldID']), FILTER_SANITIZE_STRING),
         intval($post['evidenceType']),
         intval($post['repo']),
-        $link->escape_string($post['evidenceLink']),
-        $link->escape_string($post['closureComments']),
-        $link->escape_string($post['updated_by'])
-    )) throw new mysqli_sql_exception(
-        $stmt->error
-        . ': ' . strlen($types)
-        . ', ' . count([
-            intval($post['safetyCert']),
-            intval($post['systemAffected']),
-            intval($post['location']),
-            $link->escape_string($post['specLoc']),
-            intval($post['status']),
-            intval($post['severity']),
-            $link->escape_string($post['dueDate']),
-            intval($post['groupToResolve']),
-            intval($post['requiredBy']),
-            intval($post['contractID']),
-            $link->escape_string($post['identifiedBy']),
-            intval($post['defType']),
-            $link->escape_string($post['description']),
-            $link->escape_string($post['spec']),
-            $link->escape_string($post['actionOwner']),
-            $link->escape_string($post['oldID']),
-            intval($post['evidenceType']),
-            intval($post['repo']),
-            $link->escape_string($post['evidenceLink']),
-            $link->escape_string($post['closureComments']),
-            $link->escape_string($post['updated_by'])
-            ])
-        . '\n' . $sql);
+        filter_var($link->escape_string($post['evidenceLink']), FILTER_SANITIZE_STRING),
+        filter_var($link->escape_string($post['closureComments']), FILTER_SANITIZE_STRING),
+        filter_var($link->escape_string($post['updated_by']), FILTER_SANITIZE_STRING)
+    )) throw new mysqli_sql_exception($stmt->error);
     
     $success= sprintf($success, sprintf($successFormat, 'forestGreen', '&#x2714; CDL params bound') . '%s');
     
@@ -131,17 +106,18 @@ try {
         $stmt->close();
         $success = sprintf($success, sprintf($successFormat, 'aquamarine', '&#x2714; cdlPics stmt closed') . '%s');
     } else {
-        $success = sprintf($success, sprintf($successFormat, 'cyan', '&#x2714; no cdlPics found') . '%s');
+        $success = sprintf($success, sprintf($successFormat, 'cyan', '&#x2718; no cdlPics found') . '%s');
     }
     
     // if comment submitted commit it to a separate table
-    if (count($cdlCommText)) {
+    if (strlen($cdlCommText)) {
         $sql = "INSERT cdlComments (defID, cdlCommText, userID) VALUES (?, ?, ?)";
+        $commentText = filter_var(filter_var($cdlCommText, FILTER_SANITIZE_STRING), FILTER_SANITIZE_SPECIAL_CHARS);
         if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
         $success = sprintf($success, sprintf($successFormat, 'darkCyan', '&#x2714; cdlComments stmt prepared') . '%s');
         if (!$stmt->bind_param('isi',
             intval($defID),
-            $link->escape_string($cdlCommText),
+            $commentText,
             intval($userID))) throw new mysqli_sql_exception($stmt->error);
         $success = sprintf($success, sprintf($successFormat, 'darkBlue', '&#x2714; cdlComments params bound') . '%s');
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
@@ -149,12 +125,13 @@ try {
         $stmt->close();
         $success = sprintf($success, sprintf($successFormat, 'deepSkyBlue', '&#x2714; cdlComments stmt closed') . '%s');
     } else {
-        $success = sprintf($success, sprintf($successFormat, 'mediumAquamarine', '&#x2714; no cdlComments found') . '%s');
+        $success = sprintf($success, sprintf($successFormat, 'mediumAquamarine', '&#x2718; no cdlComments found') . '%s');
     }
 
     $link->close();
     
-    $success = sprintf($success, sprintf($successFormat, 'lightSteelBlue', '&#x2714; link closed'));
+    $success = sprintf($success, sprintf($successFormat, 'lightSteelBlue', '&#x2714; link closed') . '%s');
+    $success = sprintf($success, sprintf($linkBtn, $defID));
     print $success;
     
     // header("Location: ViewDef.php?defID=$defID");
