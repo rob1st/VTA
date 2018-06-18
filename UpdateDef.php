@@ -8,14 +8,24 @@ include('filestart.php');
 $title = "SVBX - Update Deficiency";
 $role = $_SESSION['Role'];
 $defID = $_GET['defID'];
-$defSql = file_get_contents("UpdateDef.sql").$defID;
+
+// prepare sql statement
+$fieldList = preg_replace('/\s+/', '', file_get_contents('UpdateDef.sql'));
+$fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
+
+// replace fields that reference other tables with JOINs
+$fieldsArr['safetyCert'];
+
+$sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
 
 $link = f_sqlConnect();
 
 try {
     $elements = $requiredElements + $optionalElements + $closureElements;
     
-    if (!$stmt = $link->prepare($defSql)) throw mysqli_sql_exception($link->error);
+    if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
+    
+    if (!$stmt->bind_param('i', intval($defID))) throw new mysqli_sql_exception($stmt->error);
 
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
     
@@ -173,9 +183,17 @@ try {
     }
     echo "</main>";
 } catch (mysqli_sql_exception $e) {
-    print "<p style='margin-top: 5rem;'>{$e->getMessage()}</p>";
+    print "
+        <div style='margin-top: 5rem; background-color: coral'>
+            <p>{$e->getMessage()}</p>
+            <p>$sql</p>
+        </div>";
 } catch (Exception $e) {
-    print "<div style='width: 5rem; height: 6rem; background-color: indigo'></div>";
+    print "
+        <div style='margin-top: 5rem; background-color: lavender'>
+            <p>{$e->getMessage()}</p>
+            <p>$sql</p>
+        </div>";
 }
 $link->close();
 include('fileend.php');

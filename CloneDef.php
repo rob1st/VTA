@@ -7,7 +7,7 @@ include('filestart.php');
 $title = "SVBX - Update Deficiency";
 $link = f_sqlConnect();
 $defID = $_POST['defID'];
-$defSql = file_get_contents("UpdateDef.sql").$defID;
+$defSql = 'SELECT ' . file_get_contents("UpdateDef.sql") . ' FROM CDL WHERE defID=' . $defID;
 error_reporting(E_ALL);  
 ini_set("display_errors", 1);
 // $sql1 = "SELECT LocationID, LocationName FROM Location ORDER BY LocationName";
