@@ -1,8 +1,46 @@
 <?php
-include('SQLFunctions.php');
-// include('session.php');
-include('uploadImg.php');
 session_start();
+include('SQLFunctions.php');
+include('uploadImg.php');
+
+// prepare POST and sql string for commit
+$post = $_POST;
+$defID = $post['defID'];
+$userID = $_SESSION['UserID'];
+
+// validate POST data
+// if it's empty then file upload exceeds post_max_size
+// bump user back to form
+if (!count($post) || !$defID) {
+    include('js/emptyPostRedirect.php');
+    exit;
+}
+
+// hold onto comments separately
+$cdlCommText = $post['cdlCommText'];
+
+// check for attachment and prepare Upload object
+if ($_FILES['attachment']['size']
+    && $_FILES['attachment']['name']
+    && $_FILES['attachment']['tmp_name']
+    && $_FILES['attachment']['type']) {
+    $folder = 'uploads/bartdlUploads';
+    $attachmentKey = 'attachment';
+}
+
+// unset keys from field list that will not be UPDATE'd
+$fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'));
+$fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
+unset($fieldsArr['id'], $fieldsArr['created_by'], $fieldsArr['form_modified']);
+
+// append keys that do not or may not come from html form
+$post = ['updated_by' => $_SESSION['UserID']] + $post;
+$post['resolution_disputed'] || $post['resolution_disputed'] = 0;
+$post['structural'] || $post['structural'] = 0;
+
+$assignmentList = implode(' = ?, ', array_keys($fieldsArr)).' = ?';
+$sql = "UPDATE BARTDL SET $assignmentList WHERE id=$defID";
+
 
 if(!empty($_POST)) {
     $link = f_sqlConnect();

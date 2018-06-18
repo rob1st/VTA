@@ -20,8 +20,26 @@ try {
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
     
     if (!stmtBindResultArrayRef($stmt, $elements))
-        throw new mysqli_sql_exception($stmt-error);
+        throw new mysqli_sql_exception($stmt->error);
         
+    $stmt->close();
+    
+    // query for comments associated with this Def
+    $sql = "SELECT firstname, lastname, date_created, cdlCommText
+        FROM cdlComments c
+        JOIN users_enc u
+        ON c.userID=u.userID
+        WHERE c.defID=?
+        ORDER BY c.date_created DESC";
+        
+    if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
+    
+    if (!$stmt->bind_param('i', $defID)) throw new mysqli_sql_exception($stmt->error);
+    
+    if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+    
+    $comments = stmtBindResultArray($stmt) ?: [];
+    
     $stmt->close();
     
     $toggleBtn = '<a data-toggle=\'collapse\' href=\'#%1$s\' role=\'button\' aria-expanded=\'false\' aria-controls=\'%1$s\' class=\'collapsed\'>%2$s<i class=\'typcn typcn-arrow-sorted-down\'></i></a>';
@@ -84,7 +102,7 @@ try {
         </header>
         <main class='container main-content'>
         <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
-            <input type='hidden' name='DefID' value='$defID'>
+            <input type='hidden' name='defID' value='$defID'>
             <div class='row'>
                 <div class='col-12'>
                     <h4 class='pad grey-bg'>Deficiency No. $defID</h4>
@@ -116,7 +134,7 @@ try {
                 <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
             </h5>
             <div id='closureInfo' class='collapse item-margin-bottom'>";
-           foreach ($closureRows as $gridRow) {
+            foreach ($closureRows as $gridRow) {
                 $options = [ 'required' => true ];
                 if (count($gridRow) > 1) $options['inline'] = true;
                 else $options['colWd'] = 6;
@@ -124,11 +142,16 @@ try {
             }
         echo "
             </div>
-            <h5>";
-        printf($toggleBtn, '', '');
+            <h5 class='grey-bg pad'>";
+        printf($toggleBtn, 'comments', 'Comments');
         echo "
             </h5>
-            <div id='comments' class='collapse item-margin-bottom'>
+            <div id='comments' class='collapse item-margin-bottom'>";
+        echo returnRow([ $optionalElements['comments'] ], [ 'colWd' => 8 ]);
+            foreach ($comments as $comment) {
+                printf($commentFormat);
+            }
+        echo "
             </div>
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>
@@ -150,9 +173,9 @@ try {
     }
     echo "</main>";
 } catch (mysqli_sql_exception $e) {
-
+    print "<p style='margin-top: 5rem;'>{$e->getMessage()}</p>";
 } catch (Exception $e) {
-    
+    print "<div style='width: 5rem; height: 6rem; background-color: indigo'></div>";
 }
 $link->close();
 include('fileend.php');

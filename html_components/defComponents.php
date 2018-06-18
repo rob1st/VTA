@@ -186,9 +186,9 @@ $optionalElements = [
         'query' => null
     ],
     'comments' => [
-        "label" => returnLabel('comments', 'More Information'),
+        "label" => returnLabel('cdlCommText', 'Comments'),
         "tagName" => "textarea",
-        "element" => "<textarea name='comments' id='comments' class='form-control' maxlength='1000'>%s</textarea>",
+        "element" => "<textarea name='cdlCommText' id='cdlCommText' class='form-control' maxlength='1000'>%s</textarea>",
         "type" => null,
         "query" => null,
         'value' => ''
