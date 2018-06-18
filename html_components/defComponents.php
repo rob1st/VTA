@@ -215,7 +215,7 @@ $closureElements = [
         'query' => null,
         'value' => ''
     ],
-    'ClosureComments' => [
+    'closureComments' => [
         "label" => returnLabel('closureComments', 'Closure Comments'),
         "tagName" => "textarea",
         "element" => "<textarea name='closureComments' id='closureComments' class='form-control' maxlength='1000'>%s</textarea>",

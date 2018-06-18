@@ -143,6 +143,7 @@ try {
                 </div>
             </form>";
     }
+    echo "</main>";
 } catch (mysqli_sql_exception $e) {
 
 } catch (Exception $e) {
