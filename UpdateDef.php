@@ -23,6 +23,8 @@ try {
         throw new mysqli_sql_exception($stmt-error);
         
     $stmt->close();
+    
+    $toggleBtn = '<a data-toggle=\'collapse\' href=\'#%1$s\' role=\'button\' aria-expanded=\'false\' aria-controls=\'%1$s\' class=\'collapsed\'>%2$s<i class=\'typcn typcn-arrow-sorted-down\'></i></a>';
             
     $requiredRows = [
         [
@@ -62,9 +64,6 @@ try {
         [
             $elements['oldID'],
             $elements['CDL_pics']
-        ],
-        [
-            $elements['comments']
         ]
     ];
             
@@ -124,6 +123,12 @@ try {
                 print returnRow($gridRow, $options);
             }
         echo "
+            </div>
+            <h5>";
+        printf($toggleBtn, '', '');
+        echo "
+            </h5>
+            <div id='comments' class='collapse item-margin-bottom'>
             </div>
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>

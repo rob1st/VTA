@@ -33,6 +33,11 @@ function renderAttachmentsAsAnchors(array $attachments = []) {
     return sprintf("<ul class='pl-0 mb-0'>%s</ul>", $list);
 }
 
+/* takes:
+    1. user first- + lastname;
+    2. date_created;
+    3. comment text
+*/
 $commentFormat = "
     <div class='thin-grey-border pad mb-3'>
         <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
@@ -285,9 +290,9 @@ $vtaElements = [
         'query' => [ 1, 2, 3 ]
     ],
     'agree_vta' => [
-        'label' => returnLabel('agree_vta', 'Agree', 1),
+        'label' => returnLabel('agree_vta', 'Agree'),
         'tagName' => 'select',
-        'element' => "<select name='agree_vta' id='agree_vta' class='form-control' required>%s</select>",
+        'element' => "<select name='agree_vta' id='agree_vta' class='form-control'>%s</select>",
         'value' => '',
         'query' => "SELECT agreeDisagreeID, agreeDisagreeName FROM agreeDisagree WHERE agreeDisagreeName <> ''"
     ],
@@ -337,16 +342,16 @@ $vtaElements = [
 
 $bartElements = [
     'id_bart' => [
-        'label' => returnLabel('id_bart', 'BART ID', 'required'),
+        'label' => returnLabel('id_bart', 'BART ID'),
         'tagName' => 'input',
         'type' => 'text',
-        'element' => "<input name='id_bart' id='id_bart' type='text' value='%s' class='form-control' required>",
+        'element' => "<input name='id_bart' id='id_bart' type='text' value='%s' class='form-control'>",
         'value' => ''
     ],
     'description_bart' => [
-        'label' => returnLabel('description_bart', 'Description', 1),
+        'label' => returnLabel('description_bart', 'Description'),
         'tagName' => 'textarea',
-        'element' => "<textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control' required>%s</textarea>",
+        'element' => "<textarea name='description_bart' id='description_bart' maxlength='1000' class='form-control'>%s</textarea>",
         'value' => ''
     ],
     'cat1_bart' => [
@@ -371,17 +376,17 @@ $bartElements = [
         'value' => ''
     ],
     'level_bart' => [
-        'label' => returnLabel('level_bart', 'Level', true),
+        'label' => returnLabel('level_bart', 'Level'),
         'tagName' => 'select',
-        'element' => "<select name='level_bart' id='level_bart' class='form-control' required>%s</select>",
+        'element' => "<select name='level_bart' id='level_bart' class='form-control'>%s</select>",
         'value' => '',
         'query' => [ 'PROGRAM', 'PROJECT' ]
     ],
     'dateOpen_bart' => [
-        'label' => returnLabel('dateOpen_bart', 'Date open', 1),
+        'label' => returnLabel('dateOpen_bart', 'Date open'),
         'tagName' => 'input',
         'type' => 'date',
-        'element' => "<input name='dateOpen_bart' id='dateOpen_bart' type='date' value='%s' class='form-control' required>",
+        'element' => "<input name='dateOpen_bart' id='dateOpen_bart' type='date' value='%s' class='form-control'>",
         'value' => ''
     ],
     'dateClose_bart' => [
