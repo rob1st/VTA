@@ -39,26 +39,27 @@ unset(
     $fieldsArr['defID'],
     $fieldsArr['created_by'],
     $fieldsArr['dateCreated'],
-    $fieldsArr['lastUpdated']
+    $fieldsArr['lastUpdated'],
+    $fieldsArr['dateClosed']
 );
 
 $assignmentList = implode(' = ?, ', array_keys($fieldsArr)).' = ?';
-$sql = "UPDATE CDL SET $assignmentList WHERE id=$defID";
+$sql = "UPDATE CDL SET $assignmentList WHERE defID=$defID";
 
 // append keys that do not or may not come from html form
 // or whose values may be ambiguous in $_POST (e.g., checkboxes)
 $post += ['updated_by' => $username];
 
 try {
-    $success = "<div style='background-color: pink; border: 5px dashed limeGreen;>%s</div>";
+    $success = "<div style='background-color: pink; background-clip: padding-box; border: 5px dashed limeGreen;>%s</div>";
     $successFormat = "<p style='color: %s'>%s</p>";
     
-    if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
+    if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
     
-    $success = sprintf($success, sprintf($successFormat, 'blue', '✓ CDL update stmt prepared') . '%s');
+    $success = sprintf($success, sprintf($successFormat, 'blue', '&#x2714; CDL update stmt prepared') . '%s');
     
-    $types = 'iiisiisiiisissssiissss';
-    if (!$stmt->bind_param(
+    $types = 'iiisiisiiisissssiisss';
+    if (!$stmt->bind_param($types,
         intval($post['safetyCert']),
         intval($post['systemAffected']),
         intval($post['location']),
@@ -79,27 +80,52 @@ try {
         intval($post['repo']),
         $link->escape_string($post['evidenceLink']),
         $link->escape_string($post['closureComments']),
-        $link->escape_string($post['updated_by']),
-        $link->escape_string($post['dateClosed'])
-    )) throw new mysqli_sql_exception($stmt->error);
+        $link->escape_string($post['updated_by'])
+    )) throw new mysqli_sql_exception(
+        $stmt->error
+        . ': ' . strlen($types)
+        . ', ' . count([
+            intval($post['safetyCert']),
+            intval($post['systemAffected']),
+            intval($post['location']),
+            $link->escape_string($post['specLoc']),
+            intval($post['status']),
+            intval($post['severity']),
+            $link->escape_string($post['dueDate']),
+            intval($post['groupToResolve']),
+            intval($post['requiredBy']),
+            intval($post['contractID']),
+            $link->escape_string($post['identifiedBy']),
+            intval($post['defType']),
+            $link->escape_string($post['description']),
+            $link->escape_string($post['spec']),
+            $link->escape_string($post['actionOwner']),
+            $link->escape_string($post['oldID']),
+            intval($post['evidenceType']),
+            intval($post['repo']),
+            $link->escape_string($post['evidenceLink']),
+            $link->escape_string($post['closureComments']),
+            $link->escape_string($post['updated_by'])
+            ])
+        . '\n' . $sql);
     
-    $success= sprintf($success, sprintf($successFormat, 'forestGreen', '✓ CDL params bound') . '%s');
+    $success= sprintf($success, sprintf($successFormat, 'forestGreen', '&#x2714; CDL params bound') . '%s');
     
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
     
-    $success = sprintf($success, sprintf($successFormat, 'dodgerBlue', '✓ CDL insert executed') . '%s');
+    $success = sprintf($success, sprintf($successFormat, 'dodgerBlue', '&#x2714; CDL insert executed') . '%s');
     
     $stmt->close();
     
-    $success = sprintf($success, sprintf($successFormat, 'indigo', '✓ CDL stmt closed') . '%s');
+    $success = sprintf($success, sprintf($successFormat, 'indigo', '&#x2714; CDL stmt closed') . '%s');
     
     // if INSERT succesful, prepare, upload, and INSERT photo
     if ($CDL_pics) {
         $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
-        if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-        $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '✓ cdlPics stmt prepared') . '%s');
+        if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
+        $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '&#x2714; cdlPics stmt prepared') . '%s');
         if (!$stmt->bind_param('is', $defID, $pathToFile)) throw new mysqli_sql_exception($stmt->error);
-        $success = sprintf($success, sprintf($successFormat, 'cornFlower', '✓ cdlPics params bound') . '%s');
+        $success = sprintf($success, sprintf($successFormat, 'cornFlower', '&#x2714; cdlPics params bound') . '%s');
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
         $success = sprintf($success, sprintf($successFormat, 'aqua', '&#x2714; cdlPics insert executed') . '%s');
         $stmt->close();
@@ -111,12 +137,12 @@ try {
     // if comment submitted commit it to a separate table
     if (count($cdlCommText)) {
         $sql = "INSERT cdlComments (defID, cdlCommText, userID) VALUES (?, ?, ?)";
-        if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
+        if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
         $success = sprintf($success, sprintf($successFormat, 'darkCyan', '&#x2714; cdlComments stmt prepared') . '%s');
         if (!$stmt->bind_param('isi',
             intval($defID),
             $link->escape_string($cdlCommText),
-            intval($userid))) throw new mysqli_sql_exception($stmt->error);
+            intval($userID))) throw new mysqli_sql_exception($stmt->error);
         $success = sprintf($success, sprintf($successFormat, 'darkBlue', '&#x2714; cdlComments params bound') . '%s');
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
         $success = sprintf($success, sprintf($successFormat, 'darkTurquoise', '&#x2714; cdlComments stmt executed') . '%s');
@@ -128,13 +154,13 @@ try {
 
     $link->close();
     
-    $success = sprintf($success, sprintf($successFormat, 'lightSteelBlue', '&#x2714; link closed') . '%s');
+    $success = sprintf($success, sprintf($successFormat, 'lightSteelBlue', '&#x2714; link closed'));
     print $success;
     
     // header("Location: ViewDef.php?defID=$defID");
 } catch (mysqli_sql_exception $e) {
     print "
-        <div style='margin-top: 5.5rem; text-align: center;'>
+        <div style='margin-top: 5.5rem;'>
             <p style='min-width: 7.5rem; min-height: 6rem; background-color: coral;'>{$e->getMessage()}</p>
         </div>";
     $stmt->close();
@@ -142,10 +168,9 @@ try {
     exit;
 } catch (Exception $e) {
     print "
-        <div style='margin-top: 5.5rem; text-align: center;'>
+        <div style='margin-top: 5.5rem;'>
             <p style='min-width: 9rem; min-height: 5rem; background-color: purple;'>{$e->getMessage()}</p>
         </div>";
-    $stmt->close();
     $link->close();
     exit;
 }

@@ -21,6 +21,6 @@ evidenceLink,
 closureComments,
 created_by,
 updated_by,
-DATE_FORMAT(dateCreated, "%d %b %Y"),
+dateCreated,
 lastUpdated,
 dateClosed

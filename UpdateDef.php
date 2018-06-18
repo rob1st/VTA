@@ -157,9 +157,10 @@ try {
         echo "
             </h5>
             <div id='comments' class='collapse item-margin-bottom'>";
-        echo returnRow([ $optionalElements['comments'] ], [ 'colWd' => 8 ]);
+        echo returnRow([ $optionalElements['cdlCommText'] ], [ 'colWd' => 8 ]);
             foreach ($comments as $comment) {
-                printf($commentFormat);
+                $userFullName = $comment['firstname'].' '.$comment['lastname'];
+                printf($commentFormat, $userFullName, $comment['date_created'], $comment['cdlCommText']);
             }
         echo "
             </div>

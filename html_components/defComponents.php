@@ -144,9 +144,9 @@ $requiredElements = [
         'value' => ''
     ],
     'description' => [
-        "label" => returnLabel('Description', 'Deficiency description', 1),
+        "label" => returnLabel('description', 'Deficiency description', 1),
         "tagName" => "textarea",
-        "element" => "<textarea name='Description' id='Description' class='form-control' maxlength='1000' required>%s</textarea>",
+        "element" => "<textarea name='description' id='description' class='form-control' maxlength='1000' required>%s</textarea>",
         "type" => null,
         "query" => null,
         'value' => ''
@@ -185,8 +185,8 @@ $optionalElements = [
         'type' => 'file',
         'query' => null
     ],
-    'comments' => [
-        "label" => returnLabel('cdlCommText', 'Comments'),
+    'cdlCommText' => [
+        "label" => returnLabel('cdlCommText', 'Add comment'),
         "tagName" => "textarea",
         "element" => "<textarea name='cdlCommText' id='cdlCommText' class='form-control' maxlength='1000'>%s</textarea>",
         "type" => null,
