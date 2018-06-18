@@ -61,10 +61,10 @@ $requiredElements = [
         "query" => "SELECT SystemID, System FROM System ORDER BY System",
         'value' => ''
     ],
-    'locationName' => [
-        "label" => returnLabel('locationName', 'General Location', 1),
+    'location' => [
+        "label" => returnLabel('location', 'General Location', 1),
         "tagName" => 'select',
-        'element' => "<select name='locationName' id='locationName' class='form-control' required>%s</select>",
+        'element' => "<select name='location' id='location' class='form-control' required>%s</select>",
         "type" => '',
         "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
         'value' => ''
@@ -87,10 +87,10 @@ $requiredElements = [
         "query" => "SELECT StatusID, Status FROM Status WHERE StatusID <> 3 ORDER BY StatusID",
         'value' => ''
     ],
-    'severityName' => [
-        "label" => returnLabel('severityName', 'Severity', 1),
+    'severity' => [
+        "label" => returnLabel('severity', 'Severity', 1),
         "tagName" => "select",
-        "element" => "<select name='severityName' id='severityName' class='form-control' required>%s</select>",
+        "element" => "<select name='severity' id='severity' class='form-control' required>%s</select>",
         "type" => null,
         "query" => "SELECT SeverityID, SeverityName FROM Severity ORDER BY SeverityName",
         'value' => ''
@@ -119,8 +119,8 @@ $requiredElements = [
         "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
         'value' => ''
     ],
-    'contract' => [
-        'label' => returnLabel('contract', 'Contract', 1),
+    'contractID' => [
+        'label' => returnLabel('contractID', 'Contract', 1),
         'tagName' => 'select',
         'element' => "<select name='contractID' id='contractID' class='form-control' required>%s</select>",
         'type' => null,
@@ -196,10 +196,10 @@ $optionalElements = [
 ];
 
 $closureElements = [
-    'eviType' => [
-        "label" => returnLabel('eviType', 'Evidence Type'),
+    'evidenceType' => [
+        "label" => returnLabel('evidenceType', 'Evidence Type'),
         "tagName" => 'select',
-        'element' => "<select name='eviType' id='eviType' class='form-control'>%s</select>",
+        'element' => "<select name='evidenceType' id='evidenceType' class='form-control'>%s</select>",
         "type" => '',
         "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType",
         'value' => ''

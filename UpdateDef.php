@@ -60,12 +60,12 @@ try {
             $elements['systemAffected']
         ],
         [
-            $elements['locationName'],
+            $elements['location'],
             $elements['specLoc']
         ],
         [
             $elements['status'],
-            $elements['severityName']
+            $elements['severity']
         ],
         [
             $elements['dueDate'],
@@ -73,7 +73,7 @@ try {
         ],
         [
             $elements['requiredBy'],
-            $elements['contract']
+            $elements['contractID']
         ],
         [
             $elements['identifiedBy'],
@@ -97,7 +97,7 @@ try {
             
     $closureRows = [
         [
-            $elements['eviType'],
+            $elements['evidenceType'],
             $elements['repo'],
             $elements['evidenceLink']
         ],
