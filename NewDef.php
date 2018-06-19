@@ -62,6 +62,9 @@ $optionalRows = [
         'options' => [ 'inline' => true ],
         $elements['oldID'],
         $elements['CDL_pics']
+    ],
+    [
+        $elements['cdlCommText']
     ]
 ];
         

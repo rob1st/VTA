@@ -105,6 +105,9 @@ try {
         [
             $elements['oldID'],
             $elements['CDL_pics']
+        ],
+        [
+            $elements['cdlCommText']
         ]
     ];
             

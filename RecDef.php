@@ -4,7 +4,7 @@ include('SQLFunctions.php');
 include('uploadImg.php');
 
 $date = date('Y-m-d');
-$userID = $_SESSION['UserID'];
+$userID = intval($_SESSION['UserID']);
 $username = $_SESSION['Username'];
 $nullVal = null;
 
@@ -58,8 +58,8 @@ if ($_FILES['CDL_pics']['size']
     $CDL_pics = $_FILES['CDL_pics'];
 } else $CDL_pics = null;
 
-// not yet accepting comments on new defs
-$cdlCommText = '';
+// hold onto comments separately
+$cdlCommText = trim($_POST['cdlCommText']);
     
 // prepare parameterized string from external .sql file
 $fieldList = preg_replace('/\s+/', '', file_get_contents('UpdateDef.sql'));
@@ -90,8 +90,6 @@ if ($_FILES['CDL_pics']['size']
     && $_FILES['CDL_pics']['type']) {
     $CDL_pics = $_FILES['CDL_pics'];
 } else $CDL_pics = null;
-
-$userID = $_SESSION['UserID'];
 
 // echo "<p style='font-family: monospace'>SQL string: $sql</p>";
 // echo "<pre style='color: blue'>";
@@ -146,7 +144,7 @@ try {
     
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
     
-    $defID = $stmt->insert_id;
+    $defID = intval($stmt->insert_id);
     
     $success = sprintf($success, sprintf($successFormat, 'dodgerBlue', '&#x2714; CDL insert executed') . '%s');
     
@@ -181,9 +179,9 @@ try {
         if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
         $success = sprintf($success, sprintf($successFormat, 'darkCyan', '&#x2714; cdlComments stmt prepared') . '%s');
         if (!$stmt->bind_param('isi',
-            intval($defID),
+            $defID,
             $commentText,
-            intval($userID))) throw new mysqli_sql_exception($stmt->error);
+            $userID)) throw new mysqli_sql_exception($stmt->error);
         $success = sprintf($success, sprintf($successFormat, 'darkBlue', '&#x2714; cdlComments params bound') . '%s');
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
         $success = sprintf($success, sprintf($successFormat, 'darkTurquoise', '&#x2714; cdlComments stmt executed') . '%s');
@@ -216,97 +214,3 @@ try {
     $link->close();
     exit;
 }
-// if ($stmt = $link->prepare($sql)) {
-//   $types = 'iiisiisiiisisssssiisssss';
-//   if ($stmt->bind_param($types,
-//     $post['SafetyCert'],
-//     $post['SystemAffected'],
-//     $post['Location'],
-//     $link->escape_string($post['SpecLoc']),
-//     $post['Status'],
-//     $post['Severity'],
-//     $link->escape_string($post['DueDate']),
-//     $post['GroupToResolve'],
-//     $post['RequiredBy'],
-//     $post['contractID'],
-//     $link->escape_string($post['IdentifiedBy']),
-//     $post['defType'],
-//     $link->escape_string($post['Description']),
-//     $link->escape_string($post['Spec']),
-//     $link->escape_string($post['ActionOwner']),
-//     $link->escape_string($post['OldID']),
-//     $link->escape_string($post['comments']),
-//     $post['EvidenceType'],
-//     $post['Repo'],
-//     $link->escape_string($post['EvidenceLink']),
-//     $link->escape_string($post['ClosureComments']),
-//     $link->escape_string($post['username']),
-//     $date,
-//     $nullVal
-//   )) {
-//     echo "<p style='color: lightSeaGreen; font-family: monospace'>{$stmt->param_count}</p>";
-//     if ($stmt->execute()) {
-//       $newDefID = $stmt->insert_id;
-//       echo "<p style='color: tomato; font-family: cursive'>AFFECTED ROWS: ";
-//       echo $stmt->affected_rows;
-//       echo "</p>";
-//       $stmt->close();
-//       // if INSERT succesful, prepare, upload, and INSERT photo
-//       if ($newDefID) {
-//         echo "<p style='color: teal'>INSERT ID: $newDefID</p>";
-//         // echo "<pre style='color: royalBlue'>";
-//         // echo var_dump($_FILES);
-//         // echo "</pre>";
-
-//         if ($CDL_pics) {
-//           $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $newDefID));
-//           $qs .= "&$pathToFile";
-//           $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
-//           if ($stmt = $link->prepare($sql)) {
-//             echo "
-//               <p style='font-family: sans-serif; color: chocolate'>
-//               $sql<br>
-//               $newDefID<br>
-//               $pathToFile
-//               </p>";
-//               if ($stmt->bind_param('is', $newDefID, $pathToFile)) {
-//                 echo "<p style='color: grey'>CDL_pics PARAM_CT: {$stmt->param_count}</p>";
-//                   if ($stmt->execute()) {
-//                     echo "
-//                       <p id='CDL_picINSERTsuccess' style='color: oliveDrab'>new CDL_pic id: {$stmt->insert_id}<br>
-//                       affected CDL_pic rows: {$stmt->affected_rows}</p>";
-//                   } else {
-//                     echo "<pre id='CDL_picINSERT->error' style='color: olive; font-size: 1.2rem'>";
-//                     echo $stmt->error;
-//                     echo "</pre>";
-//                   }
-//                   $stmt->close();
-//               } else {
-//                 echo "<p style='color: orangeRed'>";
-//                 echo $stmt->error;
-//                 echo "</p>";
-//               }
-//           } else {
-//             echo "<p style='color: forestGreen'>";
-//             echo $link->error;
-//             echo "</p>";
-//             exit;
-//           }
-//         }
-//       }
-//       $link->close();
-//       header("Location: ViewDef.php?defID=$newDefID");
-//     } elseif ($stmt->error) {
-//       $stmt->close();
-//       printSqlErrorAndExit($link, $sql);
-//     } else {
-//       $stmt->close();
-//       printSqlErrorAndExit($link, $sql);
-//     }
-//     // echo "<h4>did it execute? what was the result? who knows?</h4>";
-//   } else {
-//     printSqlErrorAndExit($link, $sql);
-//   }
-// } else {
-//   printSqlErrorAndExit($link, $sql);
-// }
