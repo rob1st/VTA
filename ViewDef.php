@@ -54,12 +54,18 @@ function returnCollapseSection($sectionName, $id, $content, $addClasses = '', $e
     return sprintf($section, $sectionHeading, $id, $content);
 }
 
-function iterateRows(array $rowGroup, $sectionName) {
-    print returnSectionHeading($sectionName);
+function printSection($sectionTitle, $content) {
+    print returnSectionHeading($sectionTitle);
+    print $content;
+}
+
+function iterateRows(array $rowGroup) {
+    $group = '';
     foreach ($rowGroup as $row) {
         $options = count($row) === 1 ? ['colWd' => 6] : [];
-        print returnRow($row, $options);
+        $group .= returnRow($row, $options);
     }
+    return $group;
 }
 
 if ($defID) {
@@ -169,7 +175,6 @@ if ($defID) {
             ];
             
             $modHistory = [
-                'Modification History',
                 [
                     sprintf($labelStr, 'Date Created'),
                     sprintf($labelStr, $DateCreated),
@@ -196,7 +201,8 @@ if ($defID) {
                 <main class='container main-content'>";
             foreach ([$requiredRows, $optionalRows, $closureRows] as $rowGroup) {
                 $rowName = array_shift($rowGroup);
-                iterateRows($rowGroup, $rowName);
+                $content = iterateRows($rowGroup);
+                printSection($rowName, $content);
             }
         }
         
@@ -222,6 +228,12 @@ if ($defID) {
             'Comments',
             'comments',
             returnCommentsHTML($comments)
+        );
+        
+        print returnCollapseSection(
+            'Modification History',
+            'modHistory',
+            iterateRows($modHistory)
         );
         
         // show photos linked to this Def

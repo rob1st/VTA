@@ -112,7 +112,12 @@ try {
     // if comment submitted commit it to a separate table
     if (strlen($cdlCommText)) {
         $sql = "INSERT cdlComments (defID, cdlCommText, userID) VALUES (?, ?, ?)";
-        $commentText = filter_var(filter_var($cdlCommText, FILTER_SANITIZE_STRING), FILTER_SANITIZE_SPECIAL_CHARS);
+        $commentText = filter_var(
+            filter_var(
+                $cdlCommText,
+                FILTER_SANITIZE_STRING,
+                FILTER_FLAG_NO_ENCODE_QUOTES
+            ), FILTER_SANITIZE_SPECIAL_CHARS);
         if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
         $success = sprintf($success, sprintf($successFormat, 'darkCyan', '&#x2714; cdlComments stmt prepared') . '%s');
         if (!$stmt->bind_param('isi',

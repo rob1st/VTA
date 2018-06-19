@@ -43,9 +43,7 @@ function returnCommentsHTML(array $comments) {
     
     foreach ($comments as $comment) {
         $userFullName = $comment['firstname'].' '.$comment['lastname'];
-        $text = filter_var(
-            stripcslashes($comment['cdlCommText']),
-            FILTER_SANITIZE_SPECIAL_CHARS);
+        $text = stripcslashes($comment['cdlCommText']);
         $content .= sprintf($commentFormat, $userFullName, $comment['date_created'], $text);
     }
 
