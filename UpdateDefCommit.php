@@ -97,14 +97,22 @@ try {
     // if INSERT succesful, prepare, upload, and INSERT photo
     if ($CDL_pics) {
         $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
-        if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
-        $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '&#x2714; cdlPics stmt prepared') . '%s');
-        if (!$stmt->bind_param('is', $defID, $pathToFile)) throw new mysqli_sql_exception($stmt->error);
-        $success = sprintf($success, sprintf($successFormat, 'cornFlower', '&#x2714; cdlPics params bound') . '%s');
-        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-        $success = sprintf($success, sprintf($successFormat, 'aqua', '&#x2714; cdlPics insert executed') . '%s');
-        $stmt->close();
-        $success = sprintf($success, sprintf($successFormat, 'aquamarine', '&#x2714; cdlPics stmt closed') . '%s');
+        
+        $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $newDefID));
+        if ($pathToFile) {
+            if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
+            $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '&#x2714; cdlPics stmt prepared') . '%s');
+            
+            if (!$stmt->bind_param('is', $defID, $pathToFile)) throw new mysqli_sql_exception($stmt->error);
+            $success = sprintf($success, sprintf($successFormat, 'cornFlower', '&#x2714; cdlPics params bound') . '%s');
+            
+            if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+            $success = sprintf($success, sprintf($successFormat, 'aqua', '&#x2714; cdlPics insert executed') . '%s');
+            
+            $stmt->close();
+            
+            $success = sprintf($success, sprintf($successFormat, 'aquamarine', '&#x2714; cdlPics stmt closed') . '%s');
+        }
     } else {
         $success = sprintf($success, sprintf($successFormat, 'cyan', '&#x2718; no cdlPics found') . '%s');
     }

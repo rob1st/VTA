@@ -3,7 +3,6 @@ include('session.php');
 include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
 include('sql_functions/stmtBindResultArray.php');
-include('filestart.php');
 
 $title = "SVBX - Update Deficiency";
 $role = $_SESSION['Role'];
@@ -16,11 +15,13 @@ $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 // replace fields that reference other tables with JOINs
 $fieldsArr['safetyCert'];
 
-$sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
-
 $link = f_sqlConnect();
 
+include('filestart.php');
+
 try {
+    $sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
+
     $elements = $requiredElements + $optionalElements + $closureElements;
     
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);

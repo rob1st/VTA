@@ -223,11 +223,13 @@ if ($defID) {
         
         $comments = stmtBindResultArray($stmt) ?: [];
         
-        print returnCollapseSection(
-            'Comments',
-            'comments',
-            returnCommentsHTML($comments)
-        );
+        if (count($comments)) {
+            print returnCollapseSection(
+                'Comments',
+                'comments',
+                returnCommentsHTML($comments)
+            );
+        }
         
         print returnCollapseSection(
             'Modification History',
@@ -283,9 +285,11 @@ if ($defID) {
         // if Role has permission level show Update and Clone buttons
         if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
             echo "
-                <div style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
-                    <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
-                    <a href='CloneDef.php?defID=$defID' class='btn btn-primary btn-lg'>Clone</a>
+                <div class='row item-margin-botom'>
+                    <div class='col-12 center-content'>
+                        <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
+                        <a href='CloneDef.php?defID=$defID' class='btn btn-primary btn-lg'>Clone</a>
+                    </div>
                 </div>";
         }
         echo "</main>";
@@ -304,7 +308,6 @@ if ($defID) {
     if ($bdPermit) {
         // render View for bartDef
         $result = [];
-        $comments = [];
         // query for attachments and render then as a list of links
         $attachments = getAttachments($link, $bartDefID);
         $attachmentList = renderAttachmentsAsAnchors($attachments);

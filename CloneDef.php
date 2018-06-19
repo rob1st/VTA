@@ -15,7 +15,6 @@ include('session.php');
 include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
 include('sql_functions/stmtBindResultArray.php');
-include('filestart.php');
 
 $title = "SVBX - Update Deficiency";
 $role = $_SESSION['Role'];
@@ -28,11 +27,13 @@ $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 // replace fields that reference other tables with JOINs
 $fieldsArr['safetyCert'];
 
-$sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
-
 $link = f_sqlConnect();
 
+include('filestart.php');
+
 try {
+    $sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
+
     $elements = $requiredElements + $optionalElements + $closureElements;
     
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
@@ -120,10 +121,10 @@ try {
     
     echo "
         <header class='container page-header'>
-            <h1 class='page-title'>Update Deficiency ".$defID."</h1>
+            <h1 class='page-title'>Clone Deficiency ".$defID."</h1>
         </header>
         <main class='container main-content'>
-        <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
+        <form action='RecDef.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
             <input type='hidden' name='defID' value='$defID'>
             <div class='row'>
                 <div class='col-12'>
@@ -164,19 +165,6 @@ try {
             }
         echo "
             </div>
-            <h5 class='grey-bg pad'>";
-        printf($toggleBtn, 'comments', 'Comments');
-        echo "
-            </h5>
-            <div id='comments' class='collapse item-margin-bottom'>";
-        echo returnRow([ $optionalElements['cdlCommText'] ], [ 'colWd' => 8 ]);
-            foreach ($comments as $comment) {
-                $userFullName = $comment['firstname'].' '.$comment['lastname'];
-                $text = stripcslashes($comment['cdlCommText']);
-                printf($commentFormat, $userFullName, $comment['date_created'], $text);
-            }
-        echo "
-            </div>
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>
                     <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
@@ -184,17 +172,6 @@ try {
                 </div>
             </div>
         </form>";
-    if ($role === 'S') {
-        echo "
-            <form action='DeleteDef.php' method='POST' onsubmit=''>
-                <div class='row'>
-                    <div class='col-12 center-content'>
-                        <button class='btn btn-danger btn-lg' type='submit' name='q' value='$defID'
-                            onclick='return confirm(`ARE YOU SURE? Deficiencies should not be deleted, your deletion will be logged.`)'>delete</button>
-                    </div>
-                </div>
-            </form>";
-    }
     echo "</main>";
 } catch (mysqli_sql_exception $e) {
     print "
@@ -560,4 +537,3 @@ include('fileend.php');
 // } 
 // $link->close();             
 // include('fileend.php');
-// ?>
