@@ -53,6 +53,23 @@ try {
     
     $stmt->close();
     
+    // query for photos linked to this Def
+    if (!$stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?"))
+        throw new mysqli_sql_exception($link->error);
+        
+    if (!$stmt->bind_param('i', $defID))
+        throw new mysqli_sql_exception($stmt->error);
+        
+    if (!$stmt->execute())
+        throw new mysqli_sql_exception($stmt->error);
+        
+    if (!$stmt->store_result())
+        throw new mysqli_sql_exception($stmt->error);
+        
+    $photos = stmtBindResultArray($stmt);
+    
+    $stmt->close();
+        
     $toggleBtn = '<a data-toggle=\'collapse\' href=\'#%1$s\' role=\'button\' aria-expanded=\'false\' aria-controls=\'%1$s\' class=\'collapsed\'>%2$s<i class=\'typcn typcn-arrow-sorted-down\'></i></a>';
             
     $requiredRows = [
@@ -166,34 +183,16 @@ try {
             }
         echo "</div>";
             
-        // show photos linked to this Def
-        if (!$stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?"))
-            throw new mysqli_sql_exception($link->error);
-            
-        if (!$stmt->bind_param('i', $defID))
-            throw new mysqli_sql_exception($stmt->error);
-        
-        if (!$stmt->execute())
-            throw new mysqli_sql_exception($stmt->error);
-        
-        if (!$stmt->store_result())
-            throw new mysqli_sql_exception($stmt->error);
-        
-        if (!$stmt->bind_result($pathToFile))
-            throw new mysqli_sql_exception($stmt->error);
-        
-        if ($count = $stmt->num_rows) {
+        if ($photos) {
             $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
             $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
             $curRow = "<div class='row item-margin-bottom'>%s</div>";
         
             $i = 0;
             $j = 1;
-            while ($stmt->fetch()) {
-                $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $defID);
+            foreach ($photos as $photo) {
+                $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $photo['pathToFile'], $defID);
                 $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
-                
-                // print each set of 3 photos in a row
                 $marker = $j < $count ? '%s' : '';
                 
                 if ($i < 2) {
@@ -218,8 +217,6 @@ try {
             }
             echo $photoSection;
         }
-        
-        $stmt->close();
         
         echo "
             <div class='row item-margin-bottom'>

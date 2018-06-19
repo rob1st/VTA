@@ -243,9 +243,6 @@ if ($defID) {
         if (!$stmt->store_result())
             throw new mysqli_sql_exception($stmt->error);
             
-        // if (!$stmt->bind_result($pathToFile))
-        //     throw new mysqli_sql_exception($stmt->error);
-            
         $photos = stmtBindResultArray($stmt);
         
         $stmt->close();
