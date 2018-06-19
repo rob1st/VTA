@@ -164,12 +164,68 @@ try {
                 $text = stripcslashes($comment['cdlCommText']);
                 printf($commentFormat, $userFullName, $comment['date_created'], $text);
             }
+        echo "</div>";
+            
+        // show photos linked to this Def
+        if (!$stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?"))
+            throw new mysqli_sql_exception($link->error);
+            
+        if (!$stmt->bind_param('i', $defID))
+            throw new mysqli_sql_exception($stmt->error);
+        
+        if (!$stmt->execute())
+            throw new mysqli_sql_exception($stmt->error);
+        
+        if (!$stmt->store_result())
+            throw new mysqli_sql_exception($stmt->error);
+        
+        if (!$stmt->bind_result($pathToFile))
+            throw new mysqli_sql_exception($stmt->error);
+        
+        if ($count = $stmt->num_rows) {
+            $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
+            $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
+            $curRow = "<div class='row item-margin-bottom'>%s</div>";
+        
+            $i = 0;
+            $j = 1;
+            while ($stmt->fetch()) {
+                $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $defID);
+                $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
+                
+                // print each set of 3 photos in a row
+                $marker = $j < $count ? '%s' : '';
+                
+                if ($i < 2) {
+                    // if this is not 3rd col in row, append an extra format marker '%s' after col
+                    $curRow = sprintf($curRow, $col.$marker);
+                    // if this is the last photo in resultset, append row to section
+                    if ($j >= $count) {
+                        $photoSection = sprintf($photoSection, $curRow);
+                    }
+                    $i++;
+                }
+                // if this is 3rd col in row append row to section
+                else {
+                    // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
+                    $curRow = sprintf($curRow, $col).$marker;
+                    $photoSection = sprintf($photoSection, $curRow);
+                    // reset row string
+                    $curRow = "<div class='row item-margin-bottom'>%s</div>";
+                    $i = 0;
+                }
+                $j++;
+            }
+            echo $photoSection;
+        }
+        
+        $stmt->close();
+        
         echo "
-            </div>
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>
-                    <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
-                    <input type='reset' value='reset' class='btn btn-primary btn-lg' />
+                    <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
+                    <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
                 </div>
             </div>
         </form>";
