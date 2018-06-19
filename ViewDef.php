@@ -6,9 +6,8 @@ include('html_components/defComponents.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
-$bartDefID = $_GET['bartDefID'];
 $Role = $_SESSION['Role'];
-$title = "SVBX - Deficiency No".$defID;
+$title = "SVBX - Deficiency No. " . $defID;
 include('filestart.php'); 
 $link = f_sqlConnect();
 
@@ -286,11 +285,7 @@ if ($defID) {
             echo "
                 <div style='display: flex; align-items: center; justify-content: center; hspace:20; margin-bottom:3rem'>
                     <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
-                    <form action='CloneDef.php' method='POST' onsubmit='' style='text-align:center'>
-                        <div style='width:5px; height:auto; display:inline-block'></div>
-                        <input type='hidden' name='defID' value='$defID'/>
-                        <input type='submit' value='Clone' class='btn btn-primary btn-lg'  />
-                    </form>
+                    <a href='CloneDef.php?defID=$defID' class='btn btn-primary btn-lg'>Clone</a>
                 </div>";
         }
         echo "</main>";

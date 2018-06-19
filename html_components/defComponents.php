@@ -2,7 +2,7 @@
 $attachmentFormats = preg_replace('/\s+/', ' ', file_get_contents('allowedFormats.csv'));
 
 function returnLabel($for, $text, $required = '', $str = "<label for='%s'%s>%s</label>") {
-    $required && $requiredAttr = " class='required'";
+    $requiredAttr = $required ? " class='required'" : '';
     return sprintf($str, $for, $requiredAttr, $text);
 }
 
