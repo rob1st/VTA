@@ -70,9 +70,12 @@ function iterateRows(array $rowGroup) {
 if ($defID) {
     $sql = file_get_contents("ViewDef.sql").$defID;
     
-    if($stmt = $link->prepare($sql)) {
-        $stmt->execute();  
-        $stmt->bind_result(
+    try {
+        if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
+        
+        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+        
+        if (!$stmt->bind_result(
                 $OldID, 
                 $Location, 
                 $SpecLoc, 
@@ -98,7 +101,8 @@ if ($defID) {
                 $ClosureComments,
                 $DueDate,
                 $SafetyCert,
-                $defType);  
+                $defType)) throw new mysqli_sql_exception($stmt->error);
+                
         while ($stmt->fetch()) {
             $requiredRows = [
                 'Required Information',
@@ -215,13 +219,36 @@ if ($defID) {
             WHERE c.defID=?
             ORDER BY c.date_created DESC";
             
-        if (!$stmt = $link->prepare($sql)) print "<p style='font-family: monospace'>Could not retrieve comments</p>";
+        if (!$stmt = $link->prepare($sql))
+            throw new mysqli_sql_exception($link->error);
         
-        if (!$stmt->bind_param('i', intval($defID))) print "<p style='font-family: monospace'>Could not retrieve comments</p>";
+        if (!$stmt->bind_param('i', intval($defID)))
+            throw new mysqli_sql_exception($stmt->error);
         
-        if (!$stmt->execute()) "<p style='font-family: monospace'>Could not retrieve comments</p>";
+        if (!$stmt->execute())
+            throw new mysqli_sql_exception($stmt->error);
         
         $comments = stmtBindResultArray($stmt) ?: [];
+        
+        // query for photos linked to this Def
+        if (!$stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?"))
+            throw new mysqli_sql_exception($link->error);
+            
+        if (!$stmt->bind_param('i', $defID))
+            throw new mysqli_sql_exception($stmt->error);
+            
+        if (!$stmt->execute())
+            throw new mysqli_sql_exception($stmt->error);
+            
+        if (!$stmt->store_result())
+            throw new mysqli_sql_exception($stmt->error);
+            
+        // if (!$stmt->bind_result($pathToFile))
+        //     throw new mysqli_sql_exception($stmt->error);
+            
+        $photos = stmtBindResultArray($stmt);
+        
+        $stmt->close();
         
         if (count($comments)) {
             print returnCollapseSection(
@@ -237,51 +264,41 @@ if ($defID) {
             iterateRows($modHistory)
         );
         
-        // show photos linked to this Def
-        if ($stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?")) {
-            $stmt->bind_param('i', $defID);
-            $stmt->execute();
-            $stmt->store_result();
-            $stmt->bind_result($pathToFile);
-            
-            if ($count = $stmt->num_rows) {
-                $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-                $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
-                $curRow = "<div class='row item-margin-bottom'>%s</div>";
-            
-                $i = 0;
-                $j = 1;
-                while ($stmt->fetch()) {
-                    $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $pathToFile, $defID);
-                    $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
-                    $marker = $j < $count ? '%s' : '';
-                    
-                    if ($i < 2) {
-                        // if this is not 3rd col in row, append an extra format marker '%s' after col
-                        $curRow = sprintf($curRow, $col.$marker);
-                        // if this is the last photo in resultset, append row to section
-                        if ($j >= $count) {
-                            $photoSection = sprintf($photoSection, $curRow);
-                        }
-                        $i++;
-                    }
-                    // if this is 3rd col in row append row to section
-                    else {
-                        // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
-                        $curRow = sprintf($curRow, $col).$marker;
+        if ($photos) {
+            $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
+            $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
+            $curRow = "<div class='row item-margin-bottom'>%s</div>";
+        
+            $i = 0;
+            $j = 1;
+            foreach ($photos as $photo) {
+                $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $photo['pathToFile'], $defID);
+                $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
+                $marker = $j < $count ? '%s' : '';
+                
+                if ($i < 2) {
+                    // if this is not 3rd col in row, append an extra format marker '%s' after col
+                    $curRow = sprintf($curRow, $col.$marker);
+                    // if this is the last photo in resultset, append row to section
+                    if ($j >= $count) {
                         $photoSection = sprintf($photoSection, $curRow);
-                        // reset row string
-                        $curRow = "<div class='row item-margin-bottom'>%s</div>";
-                        $i = 0;
                     }
-                    $j++;
+                    $i++;
                 }
-                echo $photoSection;
+                // if this is 3rd col in row append row to section
+                else {
+                    // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
+                    $curRow = sprintf($curRow, $col).$marker;
+                    $photoSection = sprintf($photoSection, $curRow);
+                    // reset row string
+                    $curRow = "<div class='row item-margin-bottom'>%s</div>";
+                    $i = 0;
+                }
+                $j++;
             }
-            $stmt->close();
-        } else {
-            printSqlErrorAndExit($link, $sql);
+            echo $photoSection;
         }
+        
         // if Role has permission level show Update and Clone buttons
         if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
             echo "
@@ -293,9 +310,11 @@ if ($defID) {
                 </div>";
         }
         echo "</main>";
-    } else {  
-        printSqlErrorAndExit($link, $sql);
-    } 
+    } catch (mysqli_sql_exception $e) {  
+        print $e->getMessage();
+    } catch (Exception $e) {
+        print $e->getMessage();
+    }
 } elseif ($bartDefID) {
     include('html_components/defComponents.php');
     // check for bartdl permission
@@ -357,12 +376,6 @@ if ($defID) {
             $dateOpen = formatOpenCloseDate($result['dateOpen_bart']);
             $dateClosed = formatOpenCloseDate($result['dateClose_bart']);
             
-            $commentFormat = "
-                <div class='thin-grey-border pad mb-3'>
-                    <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
-                    <p>%s</p>
-                </div>";
-    
             $generalFields = [
                 [
                     [
