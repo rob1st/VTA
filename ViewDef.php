@@ -25,48 +25,6 @@ function returnFakeInputStr($val) {
     return returnHtmlForVal($val, $str, $altStr);
 }
 
-function returnSectionHeading($innerHTML) {
-    return "<h5 class='grey-bg pad'>$innerHTML</h5>";
-}
-
-function returnCollapseHeading($id, $text, $expanded = false) {
-    $collapsed = $expanded ? '' : 'collapsed';
-    return "
-    <a data-toggle='collapse' href='#$id' role='button' aria-expanded='$expanded' aria-controls='$id' class='$collapsed'>
-        $text
-        <i class='typcn typcn-arrow-sorted-down'></i>
-    </a>";
-}
-
-/* 
-** @param (string) $sectionHeading = the heading element of seciont, with title
-** @param (string) $id = the id of the element to be collapsed
-** @param (string) $content = the html content of the collapsible section
-** @return (string) html content complete with heading, button, and collapse content
-*/
-function returnCollapseSection($sectionName, $id, $content, $addClasses = '', $expanded = false) {
-    $collapse = $expanded ? '' : 'collapse';
-    $classList = $addClasses ? $collapse.' '.$addClasses : $collapse;
-    $section = "%s<section id='%s' class='$classList'>%s</section>";
-    
-    $sectionHeading = returnSectionHeading(returnCollapseHeading($id, $sectionName, $expanded));
-    return sprintf($section, $sectionHeading, $id, $content);
-}
-
-function printSection($sectionTitle, $content) {
-    print returnSectionHeading($sectionTitle);
-    print $content;
-}
-
-function iterateRows(array $rowGroup) {
-    $group = '';
-    foreach ($rowGroup as $row) {
-        $options = count($row) === 1 ? ['colWd' => 6] : [];
-        $group .= returnRow($row, $options);
-    }
-    return $group;
-}
-
 if ($defID) {
     $sql = file_get_contents("ViewDef.sql").$defID;
     
@@ -192,7 +150,7 @@ if ($defID) {
                 ]
             ];
     
-            if($Status == "Open") {
+            if ($Status == "Open") {
                 $color = "bg-red text-white";
             } else {
                 $color = "bg-success text-white"; 
