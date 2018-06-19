@@ -33,6 +33,25 @@ function renderAttachmentsAsAnchors(array $attachments = []) {
     return sprintf("<ul class='pl-0 mb-0'>%s</ul>", $list);
 }
 
+function returnCommentsHTML(array $comments) {
+    $content = '';
+    $commentFormat = "
+        <div class='thin-grey-border pad mb-3'>
+            <h6 class='d-flex flex-row justify-content-between text-secondary'><span>%s</span><span>%s</span></h6>
+            <p>%s</p>
+        </div>";
+    
+    foreach ($comments as $comment) {
+        $userFullName = $comment['firstname'].' '.$comment['lastname'];
+        $text = filter_var(
+            stripcslashes($comment['cdlCommText']),
+            FILTER_SANITIZE_SPECIAL_CHARS);
+        $content .= sprintf($commentFormat, $userFullName, $comment['date_created'], $text);
+    }
+
+    return $content;
+}
+
 /* takes:
     1. user first- + lastname;
     2. date_created;

@@ -2,19 +2,16 @@
 include('session.php');
 include('html_functions/bootstrapGrid.php');
 include('html_functions/htmlFuncs.php');
+include('html_components/defComponents.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
 $bartDefID = $_GET['bartDefID'];
 $Role = $_SESSION['Role'];
 $title = "SVBX - Deficiency No".$defID;
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
 include('filestart.php'); 
 $link = f_sqlConnect();
 
-// $spanStr = "<span>%s</span>";
 $labelStr = "<p>%s</p>";
 $checkbox = [
     'element' => "<input type='checkbox' value='1' class='x-checkbox' disabled %s>",
@@ -29,8 +26,36 @@ function returnFakeInputStr($val) {
     return returnHtmlForVal($val, $str, $altStr);
 }
 
-function iterateRows(array $rowGroup, $title) {
-    print "<h5 class='grey-bg pad'>$title</h5>";
+function returnSectionHeading($innerHTML) {
+    return "<h5 class='grey-bg pad'>$innerHTML</h5>";
+}
+
+function returnCollapseHeading($id, $text, $expanded = false) {
+    $collapsed = $expanded ? '' : 'collapsed';
+    return "
+    <a data-toggle='collapse' href='#$id' role='button' aria-expanded='$expanded' aria-controls='$id' class='$collapsed'>
+        $text
+        <i class='typcn typcn-arrow-sorted-down'></i>
+    </a>";
+}
+
+/* 
+** @param (string) $sectionHeading = the heading element of seciont, with title
+** @param (string) $id = the id of the element to be collapsed
+** @param (string) $content = the html content of the collapsible section
+** @return (string) html content complete with heading, button, and collapse content
+*/
+function returnCollapseSection($sectionName, $id, $content, $addClasses = '', $expanded = false) {
+    $collapse = $expanded ? '' : 'collapse';
+    $classList = $addClasses ? $collapse.' '.$addClasses : $collapse;
+    $section = "%s<section id='%s' class='$classList'>%s</section>";
+    
+    $sectionHeading = returnSectionHeading(returnCollapseHeading($id, $sectionName, $expanded));
+    return sprintf($section, $sectionHeading, $id, $content);
+}
+
+function iterateRows(array $rowGroup, $sectionName) {
+    print returnSectionHeading($sectionName);
     foreach ($rowGroup as $row) {
         $options = count($row) === 1 ? ['colWd' => 6] : [];
         print returnRow($row, $options);
@@ -129,7 +154,7 @@ if ($defID) {
             ];
             
             $closureRows = [
-                'Clouser Information',
+                'Closure Information',
                 [
                     sprintf($labelStr, 'Evidence Type'),
                     returnFakeInputStr($EvidenceType),
@@ -169,33 +194,35 @@ if ($defID) {
                     <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
                 </header>
                 <main class='container main-content'>";
-                    foreach ([$requiredRows, $optionalRows, $closureRows, $modHistory] as $rowGroup) {
-                        $rowName = array_shift($rowGroup);
-                        iterateRows($rowGroup, $rowName);
-                    }
-                    // iterateRows($requiredRows, 'Required Information');
-                    // <h5 class='grey-bg pad'>Required Information</h5>";
-                    // foreach ($requiredRows as $gridRow) {
-                    //     $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
-                    //     print returnRow($gridRow, $options);
-                    // }
-                    // print "<h5 class='grey-bg pad'>Optional Information</h5>";
-                    // foreach ($optionalRows as $gridRow) {
-                    //     $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
-                    //     print returnRow($gridRow, $options);
-                    // }
-                    // print "<h5 class='grey-bg pad'>Closure Information</h5>";
-                    // foreach ($closureRows as $gridRow) {
-                    //     $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
-                    //     print returnRow($gridRow, $options);
-                    // }
-                    // print "<h5 class='grey-bg pad'>Modification Details</h5>";
-                    // foreach ($modHistory as $gridRow) {
-                    //     $options = count($gridRow) === 1 ? ['colWd' => 6] : [];
-                    //     print returnRow($gridRow, $options);
-                    // }
+            foreach ([$requiredRows, $optionalRows, $closureRows] as $rowGroup) {
+                $rowName = array_shift($rowGroup);
+                iterateRows($rowGroup, $rowName);
+            }
         }
+        
         $stmt->close();
+        
+        // query for comments associated with this Def
+        $sql = "SELECT firstname, lastname, date_created, cdlCommText
+            FROM cdlComments c
+            JOIN users_enc u
+            ON c.userID=u.userID
+            WHERE c.defID=?
+            ORDER BY c.date_created DESC";
+            
+        if (!$stmt = $link->prepare($sql)) print "<p style='font-family: monospace'>Could not retrieve comments</p>";
+        
+        if (!$stmt->bind_param('i', intval($defID))) print "<p style='font-family: monospace'>Could not retrieve comments</p>";
+        
+        if (!$stmt->execute()) "<p style='font-family: monospace'>Could not retrieve comments</p>";
+        
+        $comments = stmtBindResultArray($stmt) ?: [];
+        
+        print returnCollapseSection(
+            'Comments',
+            'comments',
+            returnCommentsHTML($comments)
+        );
         
         // show photos linked to this Def
         if ($stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?")) {
@@ -206,7 +233,7 @@ if ($defID) {
             
             if ($count = $stmt->num_rows) {
                 $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-                $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl)."%s</section>";
+                $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
                 $curRow = "<div class='row item-margin-bottom'>%s</div>";
             
                 $i = 0;
