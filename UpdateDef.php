@@ -238,18 +238,10 @@ try {
             </form>";
     }
     echo "</main>";
-} catch (mysqli_sql_exception $e) {
-    print "
-        <div style='margin-top: 5rem; background-color: coral'>
-            <p>{$e->getMessage()}</p>
-            <p>$sql</p>
-        </div>";
 } catch (Exception $e) {
-    print "
-        <div style='margin-top: 5rem; background-color: lavender'>
-            <p>{$e->getMessage()}</p>
-            <p>$sql</p>
-        </div>";
+    print "Unable to retrieve record";
+    $link->close();
+    exit;
 }
 $link->close();
 include('fileend.php');

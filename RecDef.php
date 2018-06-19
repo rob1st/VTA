@@ -197,20 +197,9 @@ try {
     $success = sprintf($success, sprintf($linkBtn, $defID));
     print $success;
     
-    // header("Location: ViewDef.php?defID=$defID");
-} catch (mysqli_sql_exception $e) {
-    print "
-        <div style='margin-top: 5.5rem;'>
-            <p style='min-width: 7.5rem; min-height: 6rem; background-color: indianRed;'>{$e->getMessage()}</p>
-        </div>";
-    $stmt->close();
-    $link->close();
-    exit;
+    header("Location: ViewDef.php?defID=$defID");
 } catch (Exception $e) {
-    print "
-        <div style='margin-top: 5.5rem;'>
-            <p style='min-width: 9rem; min-height: 5rem; background-color: orchid;'>{$e->getMessage()}</p>
-        </div>";
+    print "There was an error in committing your submission";
     $link->close();
     exit;
 }

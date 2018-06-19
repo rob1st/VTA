@@ -265,10 +265,10 @@ if ($defID) {
                 </div>";
         }
         echo "</main>";
-    } catch (mysqli_sql_exception $e) {  
-        print $e->getMessage();
     } catch (Exception $e) {
-        print $e->getMessage();
+        print "Unable to retrieve record";
+        $link->close();
+        exit;
     }
 } elseif ($bartDefID) {
     include('html_components/defComponents.php');
