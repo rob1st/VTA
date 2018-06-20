@@ -98,7 +98,8 @@ try {
     if ($CDL_pics) {
         $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
         
-        $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $newDefID));
+        // execute save image and hold onto its new file path
+        $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $defID));
         if ($pathToFile) {
             if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
             $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '&#x2714; cdlPics stmt prepared') . '%s');
