@@ -53,6 +53,49 @@ function checkboxLabel($for, $text, $required = '') {
     return returnLabel($for, $text, $required, $str);
 }
 
+function returnSubarrays(array $arr, $num, $key) {
+    $i = 0;
+    
+    $reducer = function ($acc, $el) use ($num, $key) {
+        $index = floor($i/$num);
+        
+        $acc[$index][] = $el[$key];
+        
+        $i++;
+        
+        return $acc;
+    };
+    
+    return array_reduce($arr, $reducer, array());
+}
+
+function wrapArrayEls(array $arr, $format) {
+    $acc = array();
+    
+    foreach($arr as $el) {
+        if (is_array($el)) {
+            $acc[] = wrapArrayEls($el, $format);
+        } else $acc[] = sprintf($format, $el);
+    }
+    
+    return $acc;
+}
+
+function returnPhotoSection($pics, $imgFormat) {
+    $acc = '';
+    
+    foreach (wrapArrayEls(
+        returnSubarrays($pics, 3, 'pathToFile'),
+        $imgFormat
+        ) as $el)
+    {
+        $acc .= returnRow($el, ['colWd' => 4]);
+    }
+    
+    return $acc;
+}
+
+
 function getAttachments($cnxn, $id) {
     $sql = "SELECT bdaFilepath, filename from bartdlAttachments WHERE bartdlID = ?";
     if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);

@@ -219,39 +219,70 @@ if ($defID) {
             iterateRows($modHistory)
         );
         
-        if ($photos) {
-            $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-            $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
-            $curRow = "<div class='row item-margin-bottom'>%s</div>";
+        $numPhotos = count($photos);
         
-            $i = 0;
-            $j = 1;
-            foreach ($photos as $photo) {
-                $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $photo['pathToFile'], $defID);
-                $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
-                $marker = $j < $count ? '%s' : '';
+        // this system should use my bootstrap iterator fcns
+        // and array_reduce??
+        
+        // $photosInThrees = wrapArrayEls(
+        //     returnSubarrays($photos, 3, 'pathToFile'),
+        //     "<img src='%s' alt='photo related to deficiency number {$defID}'>"
+        // );
+        
+        // foreach ($photosInThrees as $three) {
+        //     print returnRow($three, [ 'colWd' => 4 ]);
+        // }
+        
+        // echo "<pre style='color: blue'>";
+        // var_dump($photosInThrees);
+        // echo "</pre>";
+        
+        if ($numPhotos) {
+            print returnCollapseSection(
+                'Photos',
+                'defPics',
+                returnPhotoSection(
+                    $photos,
+                    "<img src='%s' alt='photo related to deficiency number {$defID}'>"
+                ),
+                'item-margin-bottom'
+            );
+            
+            // $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
+            // $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
+            
+            // $imgFormat = "<img src='%s' alt='photo related to deficiency number %s'>";
+
+            // $curRow = "<div class='row item-margin-bottom'>%s</div>";
+        
+            // $i = 0;
+            // $j = 1;
+            // foreach ($photos as $photo) {
+            //     $img = sprintf($imgFormat, $photo['pathToFile'], $defID);
+            //     $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
+            //     $marker = $j < $numPhotos ? '%s' : '';
                 
-                if ($i < 2) {
-                    // if this is not 3rd col in row, append an extra format marker '%s' after col
-                    $curRow = sprintf($curRow, $col.$marker);
-                    // if this is the last photo in resultset, append row to section
-                    if ($j >= $count) {
-                        $photoSection = sprintf($photoSection, $curRow);
-                    }
-                    $i++;
-                }
-                // if this is 3rd col in row append row to section
-                else {
-                    // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
-                    $curRow = sprintf($curRow, $col).$marker;
-                    $photoSection = sprintf($photoSection, $curRow);
-                    // reset row string
-                    $curRow = "<div class='row item-margin-bottom'>%s</div>";
-                    $i = 0;
-                }
-                $j++;
-            }
-            echo $photoSection;
+            //     if ($i < 2) {
+            //         // if this is not 3rd col in row, append an extra format marker '%s' after col
+            //         $curRow = sprintf($curRow, $col.$marker);
+            //         // if this is the last photo in resultset, append row to section
+            //         if ($j >= $numPhotos) {
+            //             $photoSection = sprintf($photoSection, $curRow);
+            //         }
+            //         $i++;
+            //     }
+            //     // if this is 3rd col in row append row to section
+            //     else {
+            //         // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
+            //         $curRow = sprintf($curRow, $col).$marker;
+            //         $photoSection = sprintf($photoSection, $curRow);
+            //         // reset row string
+            //         $curRow = "<div class='row item-margin-bottom'>%s</div>";
+            //         $i = 0;
+            //     }
+            //     $j++;
+            // }
+            // echo $photoSection;
         }
         
         // if Role has permission level show Update and Clone buttons
