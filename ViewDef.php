@@ -219,25 +219,7 @@ if ($defID) {
             iterateRows($modHistory)
         );
         
-        $numPhotos = count($photos);
-        
-        // this system should use my bootstrap iterator fcns
-        // and array_reduce??
-        
-        // $photosInThrees = wrapArrayEls(
-        //     returnSubarrays($photos, 3, 'pathToFile'),
-        //     "<img src='%s' alt='photo related to deficiency number {$defID}'>"
-        // );
-        
-        // foreach ($photosInThrees as $three) {
-        //     print returnRow($three, [ 'colWd' => 4 ]);
-        // }
-        
-        // echo "<pre style='color: blue'>";
-        // var_dump($photosInThrees);
-        // echo "</pre>";
-        
-        if ($numPhotos) {
+        if (count($photos)) {
             print returnCollapseSection(
                 'Photos',
                 'defPics',

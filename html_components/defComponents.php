@@ -61,8 +61,6 @@ function returnSubarrays(array $arr, $num, $key) {
         
         $acc[$index][] = $el[$key];
         
-        print $i;
-        
         $i++;
         
         return $acc;
@@ -86,10 +84,6 @@ function wrapArrayEls(array $arr, $format) {
 function returnPhotoSection($pics, $imgFormat) {
     $arr = returnSubarrays($pics, 3, 'pathToFile');
     $acc = '';
-    
-    print "<pre>";
-    var_dump($arr);
-    print "</pre>";
     
     foreach (wrapArrayEls(
         $arr,

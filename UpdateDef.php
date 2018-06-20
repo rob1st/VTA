@@ -183,39 +183,48 @@ try {
             }
         echo "</div>";
             
-        if ($photos) {
-            $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-            $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
-            $curRow = "<div class='row item-margin-bottom'>%s</div>";
+        if (count($photos)) {
+            print returnCollapseSection(
+                'Photos',
+                'defPics',
+                returnPhotoSection(
+                    $photos,
+                    "<img src='%s' alt='photo related to deficiency number {$defID}'>"
+                ),
+                'item-margin-bottom'
+            );
+            // $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
+            // $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
+            // $curRow = "<div class='row item-margin-bottom'>%s</div>";
         
-            $i = 0;
-            $j = 1;
-            foreach ($photos as $photo) {
-                $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $photo['pathToFile'], $defID);
-                $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
-                $marker = $j < $count ? '%s' : '';
+            // $i = 0;
+            // $j = 1;
+            // foreach ($photos as $photo) {
+            //     $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $photo['pathToFile'], $defID);
+            //     $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
+            //     $marker = $j < $count ? '%s' : '';
                 
-                if ($i < 2) {
-                    // if this is not 3rd col in row, append an extra format marker '%s' after col
-                    $curRow = sprintf($curRow, $col.$marker);
-                    // if this is the last photo in resultset, append row to section
-                    if ($j >= $count) {
-                        $photoSection = sprintf($photoSection, $curRow);
-                    }
-                    $i++;
-                }
-                // if this is 3rd col in row append row to section
-                else {
-                    // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
-                    $curRow = sprintf($curRow, $col).$marker;
-                    $photoSection = sprintf($photoSection, $curRow);
-                    // reset row string
-                    $curRow = "<div class='row item-margin-bottom'>%s</div>";
-                    $i = 0;
-                }
-                $j++;
-            }
-            echo $photoSection;
+            //     if ($i < 2) {
+            //         // if this is not 3rd col in row, append an extra format marker '%s' after col
+            //         $curRow = sprintf($curRow, $col.$marker);
+            //         // if this is the last photo in resultset, append row to section
+            //         if ($j >= $count) {
+            //             $photoSection = sprintf($photoSection, $curRow);
+            //         }
+            //         $i++;
+            //     }
+            //     // if this is 3rd col in row append row to section
+            //     else {
+            //         // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
+            //         $curRow = sprintf($curRow, $col).$marker;
+            //         $photoSection = sprintf($photoSection, $curRow);
+            //         // reset row string
+            //         $curRow = "<div class='row item-margin-bottom'>%s</div>";
+            //         $i = 0;
+            //     }
+            //     $j++;
+            // }
+            // echo $photoSection;
         }
         
         echo "
