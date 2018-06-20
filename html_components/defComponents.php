@@ -54,12 +54,14 @@ function checkboxLabel($for, $text, $required = '') {
 }
 
 function returnSubarrays(array $arr, $num, $key) {
-    $i = 0;
-    
     $reducer = function ($acc, $el) use ($num, $key) {
+        static $i = 0;
+        
         $index = floor($i/$num);
         
         $acc[$index][] = $el[$key];
+        
+        print $i;
         
         $i++;
         
@@ -82,10 +84,15 @@ function wrapArrayEls(array $arr, $format) {
 }
 
 function returnPhotoSection($pics, $imgFormat) {
+    $arr = returnSubarrays($pics, 3, 'pathToFile');
     $acc = '';
     
+    print "<pre>";
+    var_dump($arr);
+    print "</pre>";
+    
     foreach (wrapArrayEls(
-        returnSubarrays($pics, 3, 'pathToFile'),
+        $arr,
         $imgFormat
         ) as $el)
     {
