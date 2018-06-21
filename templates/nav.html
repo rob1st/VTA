@@ -2,4 +2,18 @@
     <span class="navbar-brand navbar-heading">
         <a href='navbarLink' class='navbar-link navbar-brand-link'>{{ navbarHeading }}</a>
     </span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapseMenu" aria-controls="navbarCollapseMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapseMenu">
+        <ul class="navbar-nav mr-auto">
+            {% for name, href in navItems %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ href }}">{{ name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+
 </nav>
