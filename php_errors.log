@@ -1,0 +1,43 @@
+[21-Jun-2018 13:05:46 America/Los_Angeles] PHP Warning:  require_once(vendor/autoload.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:05:46 America/Los_Angeles] PHP Fatal error:  require_once(): Failed opening required 'vendor/autoload.php' (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:07:31 America/Los_Angeles] PHP Warning:  require_once(vendor/autoload.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:07:31 America/Los_Angeles] PHP Fatal error:  require_once(): Failed opening required 'vendor/autoload.php' (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:07:48 America/Los_Angeles] PHP Warning:  require_once(vendor/autoload.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:07:48 America/Los_Angeles] PHP Fatal error:  require_once(): Failed opening required 'vendor/autoload.php' (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:08:05 America/Los_Angeles] PHP Warning:  require_once(vendor/autoload.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:08:05 America/Los_Angeles] PHP Fatal error:  require_once(): Failed opening required 'vendor/autoload.php' (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/assets.php on line 2
+[21-Jun-2018 13:39:02 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "" (looked into: ../templates). in /home/ubuntu/workspace/templates/manage.html:1
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey(NULL)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass(NULL)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate(NULL, NULL)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(22): Twig_Template->loadTemplate(NULL, 'manage.html', 1)
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(100): __TwigTemplate_23fc52b84d794f043293a454a332bf5b7443422ab1ba9505baa6d2400c27dd21->doGetParent(Array)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(27):  in /home/ubuntu/workspace/templates/manage.html on line 1
+[21-Jun-2018 13:40:52 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "" (looked into: ../templates). in /home/ubuntu/workspace/templates/manage.html:1
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey(NULL)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass(NULL)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate(NULL, NULL)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(22): Twig_Template->loadTemplate(NULL, 'manage.html', 1)
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(100): __TwigTemplate_23fc52b84d794f043293a454a332bf5b7443422ab1ba9505baa6d2400c27dd21->doGetParent(Array)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(27):  in /home/ubuntu/workspace/templates/manage.html on line 1
+[21-Jun-2018 14:07:18 America/Los_Angeles] PHP Warning:  include(config.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/inc/sqlFunctions.php on line 2
+[21-Jun-2018 14:07:18 America/Los_Angeles] PHP Warning:  include(): Failed opening 'config.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/inc/sqlFunctions.php on line 2
+[21-Jun-2018 14:10:20 America/Los_Angeles] PHP Warning:  include(config.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/inc/sqlFunctions.php on line 2
+[21-Jun-2018 14:10:20 America/Los_Angeles] PHP Warning:  include(): Failed opening 'config.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/inc/sqlFunctions.php on line 2
+[21-Jun-2018 14:10:20 America/Los_Angeles] PHP Warning:  mysqli::__construct(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/ubuntu/workspace/inc/sqlFunctions.php on line 8
+[21-Jun-2018 14:10:20 America/Los_Angeles] PHP Warning:  mysqli::__construct(): (HY000/2002): php_network_getaddresses: getaddrinfo failed: Name or service not known in /home/ubuntu/workspace/inc/sqlFunctions.php on line 8
+[21-Jun-2018 14:31:01 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected character "&". in /home/ubuntu/workspace/templates/manage.html:9
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(191): Twig_Lexer->lexExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(101): Twig_Lexer->lexBlock()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(512): Twig_Lexer->tokenize(Object(Twig_Source))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->tokenize(Object(Twig_Source))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('manage.html')
+#6 /home/ubuntu/workspace/public_html/components.php(18): Twig_Environment->load('manage.html')
+#7 {main}
+  thrown in /home/ubuntu/workspace/templates/manage.html on line 9
