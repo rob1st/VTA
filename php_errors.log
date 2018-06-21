@@ -41,3 +41,33 @@ Stack trace:
 #6 /home/ubuntu/workspace/public_html/components.php(18): Twig_Environment->load('manage.html')
 #7 {main}
   thrown in /home/ubuntu/workspace/templates/manage.html on line 9
+[21-Jun-2018 16:01:22 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:22 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:31 America/Los_Angeles] PHP Warning:  include(../inc/list.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:31 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/list.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:38 America/Los_Angeles] PHP Warning:  include(../inc/list.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:38 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/list.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:42 America/Los_Angeles] PHP Warning:  include(../inc/list.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:01:42 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/list.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:02:30 America/Los_Angeles] PHP Warning:  include(../inc/list.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:02:30 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/list.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:03:14 America/Los_Angeles] PHP Warning:  include(../inc/list.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:03:14 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/list.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 30
+[21-Jun-2018 16:08:52 America/Los_Angeles] PHP Warning:  include(../inc/l.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:08:52 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/l.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:09:12 America/Los_Angeles] PHP Warning:  include(../inc/l.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:09:12 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/l.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:10:20 America/Los_Angeles] PHP Warning:  include(../inc/l.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:10:20 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/l.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:10:40 America/Los_Angeles] PHP Warning:  include(../inc/l.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:10:40 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/l.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:11:29 America/Los_Angeles] PHP Warning:  include(../inc/l.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:11:29 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/l.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:11:40 America/Los_Angeles] PHP Warning:  include(../inc/l.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:11:40 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/l.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:12:20 America/Los_Angeles] PHP Warning:  include(../inc/i.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:12:20 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/i.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:13:36 America/Los_Angeles] PHP Warning:  include(../inc/i.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:13:36 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/i.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:13:56 America/Los_Angeles] PHP Warning:  include(../inc/i.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:13:56 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/i.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34

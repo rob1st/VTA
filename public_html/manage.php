@@ -7,6 +7,16 @@ require_once '../inc/sqlFunctions.php';
 */
 session_start();
 
+/* parse url to establish which view to display
+** [0] => action of view, e.g., 'list', 'add'
+** [1] => name of table to manage
+*/
+$pathinfo = strpos($_SERVER['PATH_INFO'], '/') === 0
+    ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
+    : $_SERVER['PATH_INFO'];
+    
+$pathParams = explode("/", $pathinfo);
+
 $loader = new Twig_Loader_Filesystem('../templates');
 $twig = new Twig_Environment($loader,
     array(
@@ -20,16 +30,19 @@ $template = $twig->load('manage.html');
 // process some data here...
 $link = connect();
 
-$sql = "SELECT *, count(compID) FROM component WHERE compName <> ''";
+// appropriately named file provides sql string
+include "../inc/{$pathParams[1]}.php";
 
-try {
-    if (!$res = $link->query($sql)) throw new mysqli_sql_exception('Unable to connect to database');
-    $count = $res->num_rows;
-} catch (mysqli_sql_exception $e) {
-    echo $e;
-} catch (Exception $e) {
-    echo $e;
-}
+$sql = $queries[$pathParams[0]];
+
+// try {
+//     if (!$res = $link->query($sql)) throw new mysqli_sql_exception('Unable to connect to database');
+//     $count = $res->num_rows;
+// } catch (mysqli_sql_exception $e) {
+//     echo $e;
+// } catch (Exception $e) {
+//     echo $e;
+// }
 
 // then render the template with appropriate variables
 /* !! navbar only has two possible states
@@ -47,7 +60,8 @@ $template->display(array(
         'Help' => 'help.php',
         'Logout' => 'logout.php'
     ),
-    'pageHeading' => 'Manage Components',
-    'tableName' => 'component',
+    'pageHeading' => ucwords($pathParams[1]).'s',
+    'global' => $pathinfo ." ". $sql,
+    'tableName' => $pathParams[1],
     'count' => $count
 ));
