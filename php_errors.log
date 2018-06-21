@@ -71,3 +71,12 @@ Stack trace:
 [21-Jun-2018 16:13:36 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/i.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
 [21-Jun-2018 16:13:56 America/Los_Angeles] PHP Warning:  include(../inc/i.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 34
 [21-Jun-2018 16:13:56 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/i.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 34
+[21-Jun-2018 16:22:03 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "" (looked into: ../templates). in /home/ubuntu/workspace/templates/list.html:1
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey(NULL)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass(NULL)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate(NULL, NULL)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(22): Twig_Template->loadTemplate(NULL, 'list.html', 1)
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(100): __TwigTemplate_53d0536b8c79cefdbcdad8a98eeeb678a8f8e7203ec1fa9de22cf457784b3a03->doGetParent(Array)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(27): Twig in /home/ubuntu/workspace/templates/list.html on line 1

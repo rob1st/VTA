@@ -5,6 +5,15 @@ require_once '../inc/sqlFunctions.php';
 /* !! much of this boilerplate could be abstracted away
 **    How? a function? the includes folder??
 */
+
+// instantiate Twig classes
+$loader = new Twig_Loader_Filesystem('../templates');
+$twig = new Twig_Environment($loader,
+    array(
+        'debug' => true
+    )
+);
+
 session_start();
 
 /* parse url to establish which view to display
@@ -17,32 +26,26 @@ $pathinfo = strpos($_SERVER['PATH_INFO'], '/') === 0
     
 $pathParams = explode("/", $pathinfo);
 
-$loader = new Twig_Loader_Filesystem('../templates');
-$twig = new Twig_Environment($loader,
-    array(
-        'debug' => true
-    )
-);
-
+// appropriately named file selects template, sql string
 // load template into new TemplateWrapper
-$template = $twig->load('manage.html');
+$template = $twig->load("{$pathParams[0]}.html");
+include "../inc/{$pathParams[1]}.php";
+
 
 // process some data here...
 $link = connect();
 
-// appropriately named file provides sql string
-include "../inc/{$pathParams[1]}.php";
-
+// query for relevant data
 $sql = $queries[$pathParams[0]];
 
-// try {
-//     if (!$res = $link->query($sql)) throw new mysqli_sql_exception('Unable to connect to database');
-//     $count = $res->num_rows;
-// } catch (mysqli_sql_exception $e) {
-//     echo $e;
-// } catch (Exception $e) {
-//     echo $e;
-// }
+try {
+    if (!$res = $link->query($sql)) throw new mysqli_sql_exception('Unable to connect to database');
+    $count = $res->num_rows;
+} catch (mysqli_sql_exception $e) {
+    echo $e;
+} catch (Exception $e) {
+    echo $e;
+}
 
 // then render the template with appropriate variables
 /* !! navbar only has two possible states
