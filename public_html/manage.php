@@ -64,7 +64,7 @@ $template->display(array(
         'Logout' => 'logout.php'
     ),
     'pageHeading' => ucwords($pathParams[1]).'s',
-    'global' => $pathinfo ." ". $sql,
-    'tableName' => $pathParams[1],
+    'meta' => $pathinfo ." ". $sql,
+    'cardHeading' => $pathParams[1],
     'count' => $count
 ));
