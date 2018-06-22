@@ -38,7 +38,7 @@ $count = 0;
 // appropriately named file selects template and sql string
 // otherwise use default
 list($view, $action) = count($pathParams) >= 2
-    ? [ $pathParam[1], $pathParma[0] ]
+    ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', 'list' ];
 
 $template = $twig->load("$view.html");

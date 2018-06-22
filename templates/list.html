@@ -16,7 +16,9 @@
             <h5 class='text-secondary text-center'>No {{ tableName }}s found</h5>
         {% endif %}
     </ul>
-    <div class='center-content'>
-        <a href='/public_html/manage.php/add/{{ tableName }}' class='btn btn-primary btn-lg text-light'>Add new {{ tableName }}</a>
-    </div>
+    {% if tableName %}
+        <div class='center-content'>
+            <a href='/public_html/manage.php/add/{{ tableName }}' class='btn btn-primary btn-lg text-light'>Add new {{ tableName }}</a>
+        </div>
+    {% endif %}
 {% endblock %}

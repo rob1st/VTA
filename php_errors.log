@@ -139,3 +139,30 @@ Stack trace:
 #4 /home/ubuntu/workspace/public_html/manage.php(34): Twig_Environment->load('manage.php.html')
 #5 {main}
   thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
+[22-Jun-2018 15:34:24 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template ".html" (looked into: ../templates). in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php:226
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('.html')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey('.html')
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass('.html')
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('.html')
+#4 /home/ubuntu/workspace/public_html/manage.php(44): Twig_Environment->load('.html')
+#5 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
+[22-Jun-2018 15:37:49 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template ".html" (looked into: ../templates). in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php:226
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('.html')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey('.html')
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass('.html')
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('.html')
+#4 /home/ubuntu/workspace/public_html/manage.php(44): Twig_Environment->load('.html')
+#5 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
+[22-Jun-2018 15:39:24 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "component.html" (looked into: ../templates). in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php:226
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('component.html')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey('component.html')
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass('component.html')
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('component.html')
+#4 /home/ubuntu/workspace/public_html/manage.php(44): Twig_Environment->load('component.html')
+#5 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
