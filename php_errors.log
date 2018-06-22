@@ -107,3 +107,35 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home/ubuntu/workspace/public_html/manage.php on line 63
+[22-Jun-2018 11:31:31 America/Los_Angeles] PHP Warning:  include(../inc/location.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 40
+[22-Jun-2018 11:31:31 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/location.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 40
+[22-Jun-2018 11:38:10 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected character "$". in /home/ubuntu/workspace/templates/list.html:16
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(202): Twig_Lexer->lexExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(105): Twig_Lexer->lexVar()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(512): Twig_Lexer->tokenize(Object(Twig_Source))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->tokenize(Object(Twig_Source))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('list.html')
+#6 /home/ubuntu/workspace/public_html/manage.php(34): Twig_Environment->load('list.html')
+#7 {main}
+  thrown in /home/ubuntu/workspace/templates/list.html on line 16
+[22-Jun-2018 11:48:43 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::num_rows() in /home/ubuntu/workspace/inc/component.php:25
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(40): include()
+#1 {main}
+  thrown in /home/ubuntu/workspace/inc/component.php on line 25
+[22-Jun-2018 11:48:55 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_result::num_rows() in /home/ubuntu/workspace/inc/component.php:25
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(40): include()
+#1 {main}
+  thrown in /home/ubuntu/workspace/inc/component.php on line 25
+[22-Jun-2018 14:58:54 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "manage.php.html" (looked into: ../templates). in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php:226
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('manage.php.html')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey('manage.php.html')
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass('manage.php.html')
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('manage.php.html')
+#4 /home/ubuntu/workspace/public_html/manage.php(34): Twig_Environment->load('manage.php.html')
+#5 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226

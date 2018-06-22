@@ -27,15 +27,23 @@ $pathinfo = strpos($_SERVER['PATH_INFO'], '/') === 0
     
 $pathParams = explode("/", $pathinfo);
 
+//* DEFAULTS */
+$title = 'Manage Data';
+$pageHeading = 'List of ___';
+$cardHeading = '';
+$tableName = '';
+$data = [];
+$count = 0;
+
 // appropriately named file selects template and sql string
 // otherwise use default
-$template = $twig->load($pathParams[0]
-    ? "{$pathParams[0]}.html"
-    : $defaultView . '.html');
+list($view, $action) = count($pathParams) >= 2
+    ? [ $pathParam[1], $pathParma[0] ]
+    : [ 'list', 'list' ];
+
+$template = $twig->load("$view.html");
     
-$include = ( $pathParams[1]
-    ? $pathParams[1]
-    : $defaultView ) . '.php';
+$include = "$action.php";
 
 include "../inc/$include";
 
@@ -46,6 +54,8 @@ include "../inc/$include";
 ** $title
 ** $pageHeading
 ** $cardHeading
+** $tableName
+** $data
 ** $count
 */
 
@@ -55,7 +65,6 @@ include "../inc/$include";
 **    and pass it only a loggedIn/notLoggiedIn param
 */
 $template->display(array(
-    'title' => 'Components',
     'navbarHeading' => $_SESSION['Username'],
     'navItems' => array(
         'Home' => 'account.php',
@@ -65,9 +74,11 @@ $template->display(array(
         'Help' => 'help.php',
         'Logout' => 'logout.php'
     ),
+    'title' => $title,
     'pageHeading' => $pageHeading,
     'meta' => 'meta',
     'cardHeading' => $cardHeading,
+    'tableName' => $tableName,
     'data' => $data,
     'count' => $count
 ));

@@ -14,12 +14,10 @@ while ($row = $res->fetch_row()) {
     $data[] = array(
         'name' => ucfirst($row[0]),
         'count' => $row[1],
-        'href' => "manage.php/list/{$row[0]}"
+        'href' => "/public_html/manage.php/list/{$row[0]}"
     );
 }
 
-$title = 'Manage data';
-$pageHeading = 'Manage';
 $cardHeading = '';
 $count = $res->num_rows;
 
