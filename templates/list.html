@@ -1,5 +1,9 @@
 {% extends "manage.html" %}
 
+{# list array expects:
+## 'name' => (string)
+## 'href' => (string)
+#}
 {% block cardBody %}
     <ul class="pl-0 item-margin-bottom">
         {% if data is iterable and data|length %}

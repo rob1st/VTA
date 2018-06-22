@@ -1,6 +1,5 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../inc/sqlFunctions.php';
 
 /* !! much of this boilerplate could be abstracted away
 **    How? a function? the includes folder??
@@ -20,32 +19,35 @@ session_start();
 ** [0] => action of view, e.g., 'list', 'add'
 ** [1] => name of table to manage
 */
+$defaultView = 'list';
+
 $pathinfo = strpos($_SERVER['PATH_INFO'], '/') === 0
     ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
     : $_SERVER['PATH_INFO'];
     
 $pathParams = explode("/", $pathinfo);
 
-// appropriately named file selects template, sql string
-// load template into new TemplateWrapper
-$template = $twig->load("{$pathParams[0]}.html");
-include "../inc/{$pathParams[1]}.php";
+// appropriately named file selects template and sql string
+// otherwise use default
+$template = $twig->load($pathParams[0]
+    ? "{$pathParams[0]}.html"
+    : $defaultView . '.html');
+    
+$include = ( $pathParams[1]
+    ? $pathParams[1]
+    : $defaultView ) . '.php';
 
+include "../inc/$include";
 
 // process some data here...
-$link = connect();
 
-// query for relevant data
-$sql = $queries[$pathParams[0]];
-
-try {
-    if (!$res = $link->query($sql)) throw new mysqli_sql_exception('Unable to connect to database');
-    $count = $res->num_rows;
-} catch (mysqli_sql_exception $e) {
-    echo $e;
-} catch (Exception $e) {
-    echo $e;
-}
+// included sql file should perform the query and return the data
+/* included file will also include relevant vars for display
+** $title
+** $pageHeading
+** $cardHeading
+** $count
+*/
 
 // then render the template with appropriate variables
 /* !! navbar only has two possible states
@@ -63,8 +65,9 @@ $template->display(array(
         'Help' => 'help.php',
         'Logout' => 'logout.php'
     ),
-    'pageHeading' => ucwords($pathParams[1]).'s',
-    'meta' => $pathinfo ." ". $sql,
-    'cardHeading' => $pathParams[1],
+    'pageHeading' => $pageHeading,
+    'meta' => 'meta',
+    'cardHeading' => $cardHeading,
+    'data' => $data,
     'count' => $count
 ));

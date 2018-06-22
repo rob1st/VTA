@@ -80,3 +80,30 @@ Stack trace:
 #4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(22): Twig_Template->loadTemplate(NULL, 'list.html', 1)
 #5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(100): __TwigTemplate_53d0536b8c79cefdbcdad8a98eeeb678a8f8e7203ec1fa9de22cf457784b3a03->doGetParent(Array)
 #6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(27): Twig in /home/ubuntu/workspace/templates/list.html on line 1
+[22-Jun-2018 09:07:53 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template ".html" (looked into: ../templates). in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php:226
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('.html')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey('.html')
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass('.html')
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('.html')
+#4 /home/ubuntu/workspace/public_html/manage.php(31): Twig_Environment->load('.html')
+#5 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
+[22-Jun-2018 09:37:43 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 36
+[22-Jun-2018 09:37:43 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 36
+[22-Jun-2018 09:37:43 America/Los_Angeles] PHP Warning:  mysqli::query(): Empty query in /home/ubuntu/workspace/public_html/manage.php on line 46
+[22-Jun-2018 09:37:43 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to a member function display() on string in /home/ubuntu/workspace/public_html/manage.php:59
+Stack trace:
+#0 {main}
+  thrown in /home/ubuntu/workspace/public_html/manage.php on line 59
+[22-Jun-2018 10:46:57 America/Los_Angeles] PHP Warning:  include(../inc/list.php.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 41
+[22-Jun-2018 10:46:57 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/list.php.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 41
+[22-Jun-2018 10:46:57 America/Los_Angeles] PHP Warning:  mysqli::query(): Empty query in /home/ubuntu/workspace/public_html/manage.php on line 50
+[22-Jun-2018 10:46:57 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to a member function display() on string in /home/ubuntu/workspace/public_html/manage.php:63
+Stack trace:
+#0 {main}
+  thrown in /home/ubuntu/workspace/public_html/manage.php on line 63
+[22-Jun-2018 10:47:26 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to a member function display() on string in /home/ubuntu/workspace/public_html/manage.php:63
+Stack trace:
+#0 {main}
+  thrown in /home/ubuntu/workspace/public_html/manage.php on line 63
