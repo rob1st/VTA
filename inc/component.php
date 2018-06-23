@@ -46,6 +46,7 @@ $title = ucwords($action . ' ' . $table);
 $pageHeading = ucfirst($action . ' ' . $table);
 $cardHeading = 'Components';
 $tableName = 'component';
+$target = 'commitComponent.php';
 $data = array(
     "<label for='compName'>Component name</label>
     <input type='text' name='compName' maxlength='100' value='' class='form-control item-margin-bottom'>",

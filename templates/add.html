@@ -2,7 +2,7 @@
 
 {% block cardBody %}
     {% import "forms.html" as forms %}
-    <form action='' method='' enctype='multipart/form-data' onsubmit=''>
+    <form action='{{ target }}' method='' enctype='multipart/form-data' onsubmit=''>
         {% for element in data %}
             {{ element|raw }}
         {% endfor %}

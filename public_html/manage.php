@@ -77,6 +77,7 @@ $template->display(array(
     'meta' => 'meta',
     'cardHeading' => $cardHeading,
     'tableName' => $tableName,
+    'target' => $target,
     'data' => $data,
     'count' => $count
 ));
