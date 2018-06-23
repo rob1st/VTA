@@ -4,7 +4,6 @@
     {% import "forms.html" as forms %}
     <form action='' method='' enctype='multipart/form-data' onsubmit=''>
         {% for element in data %}
-            <label></label>
             {{ element|raw }}
         {% endfor %}
         <button type='submit' class='btn btn-primary btn-lg'>Submit</button>

@@ -47,6 +47,8 @@ $pageHeading = ucfirst($action . ' ' . $table);
 $cardHeading = 'Components';
 $tableName = 'component';
 $data = array(
-    "<input type='text' name='compName' maxlength='100' value='' class='form-control'>",
-    "<textarea name='compDescrip' maxlength='1000' class='form-control'></textarea>"
+    "<label for='compName'>Component name</label>
+    <input type='text' name='compName' maxlength='100' value='' class='form-control item-margin-bottom'>",
+    "<label for='compDescrip'>Component description</label>
+    <textarea name='compDescrip' maxlength='1000' class='form-control item-margin-bottom'></textarea>"
 );
