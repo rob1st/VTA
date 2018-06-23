@@ -46,4 +46,7 @@ $title = ucwords($action . ' ' . $table);
 $pageHeading = ucfirst($action . ' ' . $table);
 $cardHeading = 'Components';
 $tableName = 'component';
-$data = $formCtrls;
+$data = array(
+    "<input type='text' name='compName' maxlength='100' value='' class='form-control'>",
+    "<textarea name='compDescrip' maxlength='1000' class='form-control'></textarea>"
+);

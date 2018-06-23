@@ -5,7 +5,7 @@
     <form action='' method='' enctype='multipart/form-data' onsubmit=''>
         {% for element in data %}
             <label></label>
-            {{ forms.input('text', element.name, element.max, '') }}
+            {{ element|raw }}
         {% endfor %}
         <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
         <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
