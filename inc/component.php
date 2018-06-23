@@ -7,20 +7,12 @@ $queries = array(
     'list' => "SELECT * FROM component WHERE compName <> ''"
 );
 
-$formCtrls = [
-    [
-        'tagName' => 'input',
-        'type' => 'text',
-        'name' => 'compName',
-        'max' => 100,
-    ],
-    [
-        'tagName' => 'textarea',
-        'type' => '',
-        'name' => 'compDescrip',
-        'max' => 1000
-    ]
-];
+$formCtrls = array(
+    "<label for='compName'>Component name</label>
+    <input type='text' name='compName' maxlength='100' value='' class='form-control item-margin-bottom'>",
+    "<label for='compDescrip'>Component description</label>
+    <textarea name='compDescrip' maxlength='1000' class='form-control item-margin-bottom'></textarea>"
+);
 
 $sql = $queries['list'];
 
@@ -44,12 +36,8 @@ $link->close();
 
 $title = ucwords($action . ' ' . $table);
 $pageHeading = ucfirst($action . ' ' . $table);
-$cardHeading = 'Components';
+$cardHeading = $action === 'list'
+    ? 'Components'
+    : 'Enter component information';
 $tableName = 'component';
 $target = 'commitComponent.php';
-$data = array(
-    "<label for='compName'>Component name</label>
-    <input type='text' name='compName' maxlength='100' value='' class='form-control item-margin-bottom'>",
-    "<label for='compDescrip'>Component description</label>
-    <textarea name='compDescrip' maxlength='1000' class='form-control item-margin-bottom'></textarea>"
-);

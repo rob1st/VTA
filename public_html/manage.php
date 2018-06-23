@@ -79,5 +79,6 @@ $template->display(array(
     'tableName' => $tableName,
     'target' => $target,
     'data' => $data,
+    'formCtrls' => $formCtrls,
     'count' => $count
 ));
