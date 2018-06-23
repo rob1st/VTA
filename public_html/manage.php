@@ -15,35 +15,33 @@ $twig = new Twig_Environment($loader,
 
 session_start();
 
+//* DEFAULTS */
+$title = 'Manage Data';
+$pageHeading = 'List of _____';
+$cardHeading = '';
+$tableName = '';
+$data = [];
+$count = 0;
+
 /* parse url to establish which view to display
 ** [0] => action of view, e.g., 'list', 'add'
 ** [1] => name of table to manage
 */
-$defaultView = 'list';
-
 $pathinfo = strpos($_SERVER['PATH_INFO'], '/') === 0
     ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
     : $_SERVER['PATH_INFO'];
     
 $pathParams = explode("/", $pathinfo);
 
-//* DEFAULTS */
-$title = 'Manage Data';
-$pageHeading = 'List of ___';
-$cardHeading = '';
-$tableName = '';
-$data = [];
-$count = 0;
-
 // appropriately named file selects template and sql string
 // otherwise use default
-list($view, $action) = count($pathParams) >= 2
+list($action, $table) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', 'list' ];
 
-$template = $twig->load("$view.html");
+$template = $twig->load("$action.html");
     
-$include = "$action.php";
+$include = "$table.php";
 
 include "../inc/$include";
 

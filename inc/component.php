@@ -7,6 +7,21 @@ $queries = array(
     'list' => "SELECT * FROM component WHERE compName <> ''"
 );
 
+$formCtrls = [
+    [
+        'tagName' => 'input',
+        'type' => 'text',
+        'name' => 'compName',
+        'max' => 100,
+    ],
+    [
+        'tagName' => 'textarea',
+        'type' => '',
+        'name' => 'compDescrip',
+        'max' => 1000
+    ]
+];
+
 $sql = $queries['list'];
 
 $link = connect();
@@ -27,7 +42,8 @@ $count = $res->num_rows;
 $res->close();
 $link->close();
 
-$title = 'Components';
-$pageHeading = 'Manage Components';
+$title = ucwords($action . ' ' . $table);
+$pageHeading = ucfirst($action . ' ' . $table);
 $cardHeading = 'Components';
 $tableName = 'component';
+$data = $formCtrls;

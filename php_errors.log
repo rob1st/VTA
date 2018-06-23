@@ -166,3 +166,117 @@ Stack trace:
 #4 /home/ubuntu/workspace/public_html/manage.php(44): Twig_Environment->load('component.html')
 #5 {main}
   thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
+[22-Jun-2018 16:36:45 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to undefined method Twig_TemplateWrapper::getTemplateName() in /home/ubuntu/workspace/inc/component.php:4
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(46): include()
+#1 {main}
+  thrown in /home/ubuntu/workspace/inc/component.php on line 4
+[22-Jun-2018 16:38:42 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag? in /home/ubuntu/workspace/templates/add.html:2
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(341): Twig_Parser->filterBodyNodes(Object(Twig_Node_Include))
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(83): Twig_Parser->filterBodyNodes(Object(Twig_Node))
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->parse(Object(Twig_TokenStream))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('add.html')
+#6 /home/ubuntu/workspace/public_html/manage.php(42): Twig_Environme in /home/ubuntu/workspace/templates/add.html on line 2
+[22-Jun-2018 16:39:27 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "end of statement block" of value "" ("text" expected). in /home/ubuntu/workspace/templates/add.html:4
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Import.php(24): Twig_TokenStream->expect('as')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Import->parse(Object(Twig_Token))
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/E in /home/ubuntu/workspace/templates/add.html on line 4
+[22-Jun-2018 16:43:45 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected character "#". in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(202): Twig_Lexer->lexExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(105): Twig_Lexer->lexVar()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(512): Twig_Lexer->tokenize(Object(Twig_Source))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->tokenize(Object(Twig_Source))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('add.html')
+#6 /home/ubuntu/workspace/public_html/manage.php(42): Twig_Environment->load('add.html')
+#7 {main}
+  thrown in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:44:28 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:45:21 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:45:36 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:47:05 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:52:14 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:52:25 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 16:52:46 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "punctuation" of value "(" ("end of print statement" expected). in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_E in /home/ubuntu/workspace/templates/add.html on line 8
+[22-Jun-2018 17:24:29 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses (unexpected token "punctuation" of value "{". in /home/ubuntu/workspace/templates/add.html:8
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(197): Twig_ExpressionParser->parseHashExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(92): Twig_ExpressionParser->parsePrimaryExpression()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(45): Twig_ExpressionParser->getPrimary()
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(509): Twig_ExpressionParser->parseExpression()
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(393): Twig_ExpressionParser->parseArguments()
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(311): Twig_ExpressionParser->parseSubscriptExpression(Object(Twig_Node_Expression_Name))
+#6 /home/ubuntu/workspace/vend in /home/ubuntu/workspace/templates/add.html on line 8

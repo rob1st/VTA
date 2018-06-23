@@ -1,9 +1,13 @@
 {% extends "manage.html" %}
 
 {% block cardBody %}
+    {% import "forms.html" as forms %}
     <form action='' method='' enctype='multipart/form-data' onsubmit=''>
-        <label>Form</label>
-        <label>Elements</label>
-        <label>Here</label>
+        {% for element in data %}
+            <label></label>
+            {{ forms.input('text', element.name, element.max, '') }}
+        {% endfor %}
+        <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
+        <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
     </form>
 {% endblock %}
