@@ -282,3 +282,22 @@ Stack trace:
 #6 /home/ubuntu/workspace/vend in /home/ubuntu/workspace/templates/add.html on line 8
 [25-Jun-2018 09:57:09 America/Los_Angeles] PHP Warning:  include(../inc/commitNewData.php.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 46
 [25-Jun-2018 09:57:09 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/commitNewData.php.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 46
+[25-Jun-2018 14:06:45 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected "]". in /home/ubuntu/workspace/templates/template_fcns/row.html:4
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(191): Twig_Lexer->lexExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Lexer.php(101): Twig_Lexer->lexBlock()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(512): Twig_Lexer->tokenize(Object(Twig_Source))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->tokenize(Object(Twig_Source))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate('template_fcns/r...', NULL)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(29): Twig_Template->loadTemplate('template_fcns/r...', 'list.html', 7)
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php in /home/ubuntu/workspace/templates/template_fcns/row.html on line 4
+[25-Jun-2018 14:52:26 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected operator of value "=". Did you try to use "===" or "!==" for strict comparison? Use "is same as(value)" instead. in /home/ubuntu/workspace/templates/template_fcns/row.html:4
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(92): Twig_ExpressionParser->parsePrimaryExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(45): Twig_ExpressionParser->getPrimary()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(58): Twig_ExpressionParser->parseExpression(21)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(36): Twig_ExpressionParser->parseExpression()
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/If.php(34): Twig_Parser->subparse(Array)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_If->parse(O in /home/ubuntu/workspace/templates/template_fcns/row.html on line 4

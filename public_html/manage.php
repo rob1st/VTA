@@ -38,6 +38,12 @@ $pathParams = explode("/", $pathinfo);
 list($action, $table) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', 'list' ];
+    
+$pageHeading = $action === $table
+    ? 'List of data tables'
+    : ( $action === 'list'
+        ? $action . ' of ' . $table . 's'
+        : $action . ' ' . $table );
 
 $template = $twig->load("$action.html");
     

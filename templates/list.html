@@ -4,16 +4,13 @@
 ## 'name' => (string)
 ## 'href' => (string)
 #}
+{% from 'template_fcns/row.html' import row %}
 {% block cardBody %}
     <ul class="pl-0 item-margin-bottom">
         {% if data is iterable and data|length %}
-            {% for element in data %}
-                <li class="item-margin-bottom">
-                    {% if element.href %}
-                        <a href="{{ element.href }}">{{ element.name }}</a>
-                    {% else %}
-                        {{ element.name }}
-                    {% endif %}
+            {% for item in data %}
+                <li class="row item-margin-bottom">
+                    {{ row(item) }}
                 </li>
             {% endfor %}
         {% else %}

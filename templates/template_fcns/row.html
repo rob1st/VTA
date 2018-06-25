@@ -1,0 +1,15 @@
+{% macro row(cols) %}
+    {% if cols is iterable and cols|length %}
+        {% set colWd = 12//(cols|length) %}
+        {% for key, content in cols if not key is same as('href') %}
+            <div class='col-{{ colWd }}'>
+                {% if key is same as('name') %}
+                    <a href='{{ cols.href }}'>{{ content }}</a>
+                {% else %}
+                    {{ content }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+    {% endif %}
+{% endmacro %}

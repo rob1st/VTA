@@ -27,7 +27,8 @@ if ($action === 'list') {
         $data[] = array(
             'id' => $row[0],
             'name' => $row[1],
-            'description' => $row[2]
+            'description' => $row[2],
+            'href' => "/public_html/manage.php/update/component?id={$row[0]}"
         );
     }
     

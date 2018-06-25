@@ -4,8 +4,10 @@
     <h3 class='text-yellow'>{{ meta }}</h3>
     <div class="card item-margin-bottom no-border-radius box-shadow">
         <div class="card-body pad-more">
-            <h4 class="text-secondary">{{ cardHeading }}</h4>
-            <hr class="thick-grey-line">
+            {% if cardHeading %}
+                <h4 class="text-secondary">{{ cardHeading }}</h4>
+                <hr class="thick-grey-line">
+            {% endif %}
             {% block cardBody %}
             {% endblock %}
         </div>
