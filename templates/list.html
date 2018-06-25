@@ -19,7 +19,14 @@
     </ul>
     {% if tableName %}
         <div class='center-content'>
-            <a href='/public_html/manage.php/add/{{ tableName }}' class='btn btn-primary btn-lg text-light'>Add new {{ tableName }}</a>
+            <a href='/public_html/manage.php/add/{{ tableName }}' class='btn btn-primary text-light'>Add new {{ tableName }}</a>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block backButton %}
+    {% if tableName %}
+        <div class='center-content'>
+            <a href='/public_html/manage.php' class='btn btn-primary btn-lg'>Back to table list</a>
         </div>
     {% endif %}
 {% endblock %}

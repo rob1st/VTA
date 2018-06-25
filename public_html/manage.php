@@ -80,7 +80,7 @@ $template->display(array(
     ),
     'title' => $title,
     'pageHeading' => $pageHeading,
-    'meta' => $_SERVER['DOCUMENT_ROOT'],
+    'meta' => realpath(__FILE__),
     'cardHeading' => $cardHeading,
     'tableName' => $tableName,
     'target' => $target,

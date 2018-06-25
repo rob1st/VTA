@@ -316,3 +316,23 @@ Stack trace:
   thrown in /home/ubuntu/workspace/inc/list.php on line 14
 [25-Jun-2018 15:42:32 America/Los_Angeles] PHP Warning:  include(../inc/deficiency type.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 52
 [25-Jun-2018 15:42:32 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/deficiency type.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 52
+[25-Jun-2018 16:06:03 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "operator" of value "/". in /home/ubuntu/workspace/templates/list.html:28
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(92): Twig_ExpressionParser->parsePrimaryExpression()
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(45): Twig_ExpressionParser->getPrimary()
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(125): Twig_ExpressionParser->parseExpression()
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environm in /home/ubuntu/workspace/templates/list.html on line 28
+[25-Jun-2018 16:06:25 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected "backButton" tag (expecting closing tag for the "block" tag defined near line 27). in /home/ubuntu/workspace/templates/list.html:30
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/Block.php(38): Twig_Parser->subparse(Array, true)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->parse(Object(Twig_TokenStream))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('list.html')
+#7 /home/ubuntu/ in /home/ubuntu/workspace/templates/list.html on line 30
