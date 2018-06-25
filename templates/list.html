@@ -9,7 +9,11 @@
         {% if data is iterable and data|length %}
             {% for element in data %}
                 <li class="item-margin-bottom">
-                    <a href="{{ element.href }}">{{ element.name }}</a>
+                    {% if element.href %}
+                        <a href="{{ element.href }}">{{ element.name }}</a>
+                    {% else %}
+                        {{ element.name }}
+                    {% endif %}
                 </li>
             {% endfor %}
         {% else %}

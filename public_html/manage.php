@@ -74,7 +74,7 @@ $template->display(array(
     ),
     'title' => $title,
     'pageHeading' => $pageHeading,
-    'meta' => 'meta',
+    'meta' => $_SERVER['DOCUMENT_ROOT'],
     'cardHeading' => $cardHeading,
     'tableName' => $tableName,
     'target' => $target,

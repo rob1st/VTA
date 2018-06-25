@@ -280,3 +280,5 @@ Stack trace:
 #4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(393): Twig_ExpressionParser->parseArguments()
 #5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(311): Twig_ExpressionParser->parseSubscriptExpression(Object(Twig_Node_Expression_Name))
 #6 /home/ubuntu/workspace/vend in /home/ubuntu/workspace/templates/add.html on line 8
+[25-Jun-2018 09:57:09 America/Los_Angeles] PHP Warning:  include(../inc/commitNewData.php.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 46
+[25-Jun-2018 09:57:09 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/commitNewData.php.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 46

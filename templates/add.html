@@ -2,7 +2,8 @@
 
 {% block cardBody %}
     {% import "forms.html" as forms %}
-    <form action='{{ target }}' method='' enctype='multipart/form-data' onsubmit=''>
+    <form action='/commit/{{ target }}' method='POST' enctype='multipart/form-data' onsubmit=''>
+        <input type='hidden' name='category' value='{{ tableName }}'>
         {% for element in formCtrls %}
             {{ element|raw }}
         {% endfor %}
