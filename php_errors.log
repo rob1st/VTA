@@ -301,3 +301,10 @@ Stack trace:
 #4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
 #5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/If.php(34): Twig_Parser->subparse(Array)
 #6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_If->parse(O in /home/ubuntu/workspace/templates/template_fcns/row.html on line 4
+[25-Jun-2018 15:14:25 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: The "loop.last" variable is not defined when looping with a condition. in /home/ubuntu/workspace/templates/template_fcns/row.html:6
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(115): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Object(Twig_Node_Expression_GetAttr))
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(115): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Object(Twig_Node_Expression_Conditional))
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(115): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Object(Twig_Node))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(115): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Object(Twig_Node_Set))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(62): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Objec in /home/ubuntu/workspace/templates/template_fcns/row.html on line 6
