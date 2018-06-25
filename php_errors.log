@@ -308,3 +308,11 @@ Stack trace:
 #2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(115): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Object(Twig_Node))
 #3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(115): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Object(Twig_Node_Set))
 #4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(62): Twig_TokenParser_For->checkLoopUsageBody(Object(Twig_TokenStream), Objec in /home/ubuntu/workspace/templates/template_fcns/row.html on line 6
+[25-Jun-2018 15:33:30 America/Los_Angeles] PHP Warning:  mysqli::query() expects parameter 1 to be string, array given in /home/ubuntu/workspace/inc/list.php on line 9
+[25-Jun-2018 15:33:30 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to a member function fetch_row() on null in /home/ubuntu/workspace/inc/list.php:14
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(52): include()
+#1 {main}
+  thrown in /home/ubuntu/workspace/inc/list.php on line 14
+[25-Jun-2018 15:42:32 America/Los_Angeles] PHP Warning:  include(../inc/deficiency type.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 52
+[25-Jun-2018 15:42:32 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/deficiency type.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 52
