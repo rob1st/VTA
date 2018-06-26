@@ -1,6 +1,6 @@
 <?php
 $sqlStrings = [
-    'listAll' => "SELECT 'location' AS element, COUNT(locationID) AS count FROM location WHERE locationName <> ''
+    'listAll' => "SELECT 'location' AS name, COUNT(locationID) AS count FROM location WHERE locationName <> ''
             UNION
             SELECT 'system', COUNT(systemID) FROM System WHERE system <> ''
             UNION

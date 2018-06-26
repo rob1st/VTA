@@ -19,26 +19,16 @@ $linkPointers = [
 try {
     $link = connect();
     
-    if (!$res = $link->query($sql)) throw new mysqli_sql_exception($link->error);
+    if (!$data = $link->query($sql)) throw new mysqli_sql_exception($link->getLastError());
     
-    // initialize empty array to store results
-    $data = array();
-    
-    while ($row = $res->fetch_row()) {
-        $data[] = array(
-            'name' => ucfirst($row[0]),
-            'count' => $row[1],
-            'href' => "/public_html/manage.php/list/{$linkPointers[$row[0]]}"
-        );
+    foreach ($data as &$row) {
+        $row['href'] = "/public_html/manage.php/list/{$linkPointers[$row['name']]}";
+        $row['name'] = ucwords($row['name']);
     }
     
-    $count = $res->num_rows;
+    $count = $link->count;
 } catch (mysqli_sql_exception $e) {
     echo "<pre style='color: deepPink'>There was a problem fetching from the database: $e</pre>";
 } finally {
     $cardHeading = '';
-
-    if (isset($res)) $res->close();
-    $link->close();
-    exit;
 }
