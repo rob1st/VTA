@@ -129,7 +129,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>System</label>
                     <select name='SystemAffected' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
+    if ($result = $cnxn->query('SELECT s.SystemID, s.Systemname from CDL c JOIN system s ON s.SystemID=c.SystemAffected GROUP BY SystemName ORDER BY SystemID')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['SystemAffected'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
@@ -142,7 +142,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>Group to resolve</label>
                     <select name='GroupToResolve' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
+    if ($result = $cnxn->query('SELECT s.SystemID, s.System FROM CDL c JOIN system s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['GroupToResolve'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";

@@ -2,7 +2,7 @@
 $sqlStrings = [
     'listAll' => "SELECT 'location' AS name, COUNT(locationID) AS count FROM location WHERE locationName <> ''
             UNION
-            SELECT 'system', COUNT(systemID) FROM System WHERE system <> ''
+            SELECT 'system', COUNT(systemID) FROM system WHERE system <> ''
             UNION
             SELECT 'component', COUNT(compID) FROM component WHERE compName <> ''
             UNION

@@ -161,7 +161,7 @@ $requiredElements = [
         "tagName" => 'select',
         'element' => "<select name='systemAffected' id='systemAffected' class='form-control' required>%s</select>",
         "type" => '',
-        "query" => "SELECT SystemID, System FROM System ORDER BY System",
+        "query" => "SELECT SystemID, SystemName FROM system ORDER BY System",
         'value' => ''
     ],
     'location' => [
@@ -211,7 +211,7 @@ $requiredElements = [
         "tagName" => "select",
         "element" => "<select name='groupToResolve' id='groupToResolve' class='form-control' required>%s</select>",
         "type" => null,
-        "query" => "SELECT SystemID, System FROM System ORDER BY System",
+        "query" => "SELECT SystemID, SystemName FROM system ORDER BY System",
         'value' => ''
     ],
     'requiredBy' => [

@@ -4,7 +4,7 @@ SELECT
     S.SeverityName,
     DATE_FORMAT(D.DateCreated, "%d %b %Y"),
     T.Status,
-    Y.System,
+    Y.SystemName,
     D.Description,
     D.SpecLoc,
     D.LastUpdated
@@ -23,6 +23,6 @@ LEFT JOIN
 ON 
     D.Status = T.StatusID
 LEFT JOIN 
-    System Y
+    system Y
 ON 
     D.SystemAffected = Y.SystemID

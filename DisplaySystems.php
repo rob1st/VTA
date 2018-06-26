@@ -3,7 +3,7 @@ include('session.php');
 include('SQLFunctions.php');
 $link = f_sqlConnect();
 $Role = $_SESSION['Role'];
-$table = System;
+$table = 'system';
 $title = "SVBX - Display Status Types";
 include('filestart.php');
         //echo '<br>Source table: ' .$table;
@@ -12,7 +12,7 @@ include('filestart.php');
         die('<br>Destination table does not exist: '.$table);
     }
     
-    $sql = "SELECT SystemID, System, Update_TS, Updated_by FROM $table ORDER BY System";
+    $sql = "SELECT SystemID, SystemName, Update_TS, Updated_by FROM $table ORDER BY SystemName";
     $sql1 = "SELECT COUNT(*) FROM $table";
     
     // display Page Heading

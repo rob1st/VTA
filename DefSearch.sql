@@ -34,9 +34,9 @@ if($_POST['Search'] == NULL) {
             ON 
                 C.SeverityID = A.Severity
             LEFT JOIN 
-                System Y
+                system Y
             ON 
-                Y.SystemID = A.System";
+                Y.SystemID = A.SystemName";
     $count = "SELECT COUNT(*) FROM CDL A";
     
     if($DefIDS <> NULL) {

@@ -18,7 +18,7 @@ if ($action === 'list') {
         $data = $link->query($sql);
         
         foreach ($data as &$row) {
-            $row['href'] = "/public_html/manage.php/update/component?id={$row[0]}";
+            $row['href'] = "/public_html/manage.php/update/component?id={$row['id']}";
         }
         
         $count = $link->count;

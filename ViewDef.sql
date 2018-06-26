@@ -8,7 +8,7 @@ SELECT
     DATE_FORMAT(D.DateCreated, "%d %b %Y"),
     T.Status,
     D.IdentifiedBy,
-    Y.System,
+    Y.SystemName,
     Y1.System,
     D.ActionOwner,
     E.EviType,
@@ -34,7 +34,7 @@ LEFT JOIN Severity S
 ON D.Severity = S.SeverityID
 LEFT JOIN Status T
 ON D.Status = T.StatusID
-LEFT JOIN System Y
+LEFT JOIN system Y
 ON D.SystemAffected = Y.SystemID
 LEFT JOIN System Y1
 ON D.GroupToResolve = Y1.SystemID

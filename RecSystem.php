@@ -1,14 +1,14 @@
 <?PHP
     include('SQLFunctions.php');
     Session_Start();
-    $table = System;
+    $table = system;
     
 
     echo '<br>display full contents of the _POST: <br>';
     var_dump($_POST);
     
     $link = f_sqlConnect();
-    $check = "SELECT * FROM $table WHERE System = '".$_POST['Status']."'";
+    $check = "SELECT * FROM $table WHERE systemName = '".$_POST['Status']."'";
     $UserID = $_SESSION['UserID'];
     $Username = $_SESSION['Username'];
     
