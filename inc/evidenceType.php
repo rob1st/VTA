@@ -20,11 +20,17 @@ if ($action === 'list') { // should 'list' be the default $action, i.e., this al
         $link->disconnect();
     }
 } elseif ($action === 'add') {
+    $displayName = ucfirst(isset($displayNames[$table])
+        ? $displayNames[$table]
+        : $table);
+    $nameLabel = $sqlStrings[$table]['insertFields'][0];
+    $descripLabel = $sqlStrings[$table]['insertFields'][1];
+        
     $formCtrls = array(
-        "<label for='compName' class='required'>Component name</label>
-        <input type='text' name='compName' maxlength='100' value='' class='form-control item-margin-bottom' required>",
-        "<label for='compDescrip'>Component description</label>
-        <textarea name='compDescrip' maxlength='1000' class='form-control item-margin-bottom'></textarea>"
+        "<label for='$nameLabel' class='required'>$displayName name</label>
+        <input name='$nameLabel' type='text' maxlength='25' class='form-control item-margin-bottom' required>",
+        "<label for='$descripLabel'>$displayName description</label>
+        <textarea name='$descripLabel' maxlength='255' class='form-control item-margin-bottom'></textarea>"
     );
 
     $cardHeading = 'Enter ' . $table . ' information';

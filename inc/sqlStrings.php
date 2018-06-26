@@ -6,23 +6,38 @@ $sqlStrings = [
             UNION
             SELECT 'component', COUNT(compID) FROM component WHERE compName <> ''
             UNION
-            SELECT 'deficiency type', COUNT(deftypeID) FROM defType WHERE deftypeName <> ''
+            SELECT 'defType', COUNT(deftypeID) FROM defType WHERE deftypeName <> ''
             UNION
-            SELECT 'contract', COUNT(contractID) FROM Contract WHERE contract <> ''
+            SELECT 'contract', COUNT(contractID) FROM contract WHERE contractName <> ''
             UNION
-            SELECT 'evidence', COUNT(eviTypeID) FROM EvidenceType WHERE eviType <> ''
+            SELECT 'evidenceType', COUNT(eviTypeID) FROM evidenceType WHERE eviTypeName <> ''
             UNION
             SELECT 'status', COUNT(statusID) FROM Status WHERE Status <> ''
             UNION
             SELECT 'severity', COUNT(severityID) FROM Severity WHERE severityName <> ''
             UNION
-            SELECT 'test status', COUNT(testStatID) FROM testStatus WHERE testStatName <> ''",
+            SELECT 'testStatus', COUNT(testStatID) FROM testStatus WHERE testStatName <> ''",
     'component' => [
         'types' => 'ssi',
         'insert' => "INSERT component (compName, compDescrip) VALUES (?, ?)",
         'update' => "UPDATE component SET compName=?, compDescrip=?",
         'list' => "SELECT compID, compName, compDescrip FROM component WHERE compName <> ''",
         'insertFields' => ['compName', 'compDescrip', 'updatedBy']
+    ],
+    'contract' => [
+        'list' => "SELECT contractID, contractName, contractDescrip FROM contract WHERE contractName <> ''",
+        'selectFields' => ['contractID', 'contractName', 'contractDescrip'],
+        'insertFields' => ['contractName', 'contractDescrip', 'updatedBy']
+    ],
+    'defType' => [
+        'list' => "SELECT defTypeID, defTypeName, defTypeDescrip FROM defType WHERE defTypeName <> ''",
+        'selectFields' => ['defTypeID', 'defTypeName', 'defTypeDescrip'],
+        'insertFields' => ['defTypeName', 'defTypeDescrip', 'updatedBy']
+    ],
+    'evidenceType' => [
+        'list' => "SELECT eviTypeID, eviTypeName, eviTypeDescrip FROM evidenceType WHERE eviTypeName <> ''",
+        'selectFields' => ['eviTypeID', 'eviTypeName', 'eviTypeDescrip'],
+        'insertFields' => ['eviTypeName', 'eviTypeDescrip', 'updatedBy']
     ],
     'location' => [
         'types' => 'ss',

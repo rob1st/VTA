@@ -35,6 +35,12 @@ $pathParams = explode("/", $pathinfo);
 
 // appropriately named file selects template and sql string
 // otherwise use default
+$displayNames = [
+    'defType' => 'deficiency type',
+    'evidenceType' => 'evidence type',
+    'testStatus' => 'test status'
+];
+
 list($action, $table) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', 'list' ];
@@ -46,14 +52,8 @@ $title = $pageHeading = $action === $table
         : ucfirst($action . ' ' . $table));
 
 $template = $twig->load("$action.html");
-    
-$include = "$table.php";
 
-include "../inc/$include";
-
-// process some data here...
-
-// included sql file should perform the query and return the data
+// included sql file should perform the query and return table data
 /* included file will also include relevant vars for display
 ** $title
 ** $pageHeading
@@ -62,6 +62,9 @@ include "../inc/$include";
 ** $data
 ** $count
 */
+$include = "$table.php";
+
+include "../inc/$include";
 
 // then render the template with appropriate variables
 /* !! navbar only has two possible states

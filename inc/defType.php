@@ -21,10 +21,10 @@ if ($action === 'list') { // should 'list' be the default $action, i.e., this al
     }
 } elseif ($action === 'add') {
     $formCtrls = array(
-        "<label for='compName' class='required'>Component name</label>
-        <input type='text' name='compName' maxlength='100' value='' class='form-control item-margin-bottom' required>",
-        "<label for='compDescrip'>Component description</label>
-        <textarea name='compDescrip' maxlength='1000' class='form-control item-margin-bottom'></textarea>"
+        "<label for='defTypeName' class='required'>Deficiency type name</label>
+        <input name='defTypeName' type='text' maxlength='15' class='form-control item-margin-bottom' required>",
+        "<label for='defTypeDescrip'>Deficiency type description</label>
+        <textarea name='defTypeDescrip' maxlength='100' class='form-control item-margin-bottom'></textarea>"
     );
 
     $cardHeading = 'Enter ' . $table . ' information';

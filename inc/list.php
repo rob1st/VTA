@@ -4,26 +4,18 @@ require_once '../inc/sqlStrings.php';
 
 $sql = $sqlStrings['listAll'];
 
-$linkPointers = [
-    'location' => 'location',
-    'system' => 'system',
-    'component' => 'component',
-    'deficiency type' => 'defType',
-    'contract' => 'contract',
-    'evidence' => 'evidence',
-    'status' => 'status',
-    'severity' => 'severity',
-    'test status' => 'testStatus'
-];
-
 try {
     $link = connect();
     
     if (!$data = $link->query($sql)) throw new mysqli_sql_exception($link->getLastError());
     
     foreach ($data as &$row) {
-        $row['href'] = "/public_html/manage.php/list/{$linkPointers[$row['name']]}";
-        $row['name'] = ucwords($row['name']);
+        $row['href'] = "/public_html/manage.php/list/{$row['name']}";
+        $row['name'] = ucwords(
+            isset($displayNames[$row['name']])
+                ? $displayNames[$row['name']]
+                : $row['name']
+        );
     }
     
     $count = $link->count;
