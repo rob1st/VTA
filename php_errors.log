@@ -398,3 +398,8 @@ Stack trace:
 #3 /home/ubuntu/workspace/public_html/manage.php(52): include('/home/ubuntu/wo...')
 #4 {main}
   thrown in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 1926
+[26-Jun-2018 12:12:30 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to a member function fetch_row() on array in /home/ubuntu/workspace/inc/component.php:21
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(52): include()
+#1 {main}
+  thrown in /home/ubuntu/workspace/inc/component.php on line 21
