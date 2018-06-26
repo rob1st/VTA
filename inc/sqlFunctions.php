@@ -1,16 +1,13 @@
-<?PHP
+<?php
+    require_once '../vendor/autoload.php';
     include('../config.php');
-    $rejectredirecturl = 'Fail.html';
-    $successredirecturl = 'stats.php';
-    $duplicate = 'duplicate.php'; // this file doesn't exist
+    // $rejectredirecturl = 'Fail.html';
+    // $duplicate = 'duplicate.php'; // this file doesn't exist
     
     function connect() {
-        $link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
-        if ($link->connect_error) {
-            die("Connection failed: " . $link->connect_error);
-        }
-        return $link;
-        
+        if (!$db = new MysqliDb(DB_Host, DB_USER, DB_PWD, DB_Name))
+            throw new mysqli_sql_exception($db->connect_error);
+        return $db;
     }
 
     function f_sqlConnect1() {
@@ -257,4 +254,3 @@ function getUserName($UserID)
     }
     return $uname;
 }
-?>

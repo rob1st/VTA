@@ -350,3 +350,13 @@ Stack trace:
 [26-Jun-2018 08:43:46 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50
 [26-Jun-2018 08:44:02 America/Los_Angeles] PHP Warning:  include(../inc/Location.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 50
 [26-Jun-2018 08:44:02 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/Location.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 10:53:59 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to a member function fetch_row() on array in /home/ubuntu/workspace/inc/list.php:27
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(52): include()
+#1 {main}
+
+Next Error: Call to a member function close() on array in /home/ubuntu/workspace/inc/list.php:41
+Stack trace:
+#0 /home/ubuntu/workspace/public_html/manage.php(52): include()
+#1 {main}
+  thrown in /home/ubuntu/workspace/inc/list.php on line 41

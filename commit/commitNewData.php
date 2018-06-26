@@ -5,9 +5,9 @@ require_once "../inc/sqlStrings.php";
 
 session_start();
 
-$link = connect();
-
 try {
+    $link = connect();
+
     if (!$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS))
         throw new Exception('There was a problem with the post data');
         
