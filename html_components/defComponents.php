@@ -169,7 +169,7 @@ $requiredElements = [
         "tagName" => 'select',
         'element' => "<select name='location' id='location' class='form-control' required>%s</select>",
         "type" => '',
-        "query" => "SELECT LocationID, LocationName FROM Location ORDER BY LocationName",
+        "query" => "SELECT LocationID, LocationName FROM location ORDER BY LocationName",
         'value' => ''
     ],
     'specLoc' => [

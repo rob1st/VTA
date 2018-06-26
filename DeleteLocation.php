@@ -11,7 +11,7 @@ if(!empty($_POST)) {
     $link = f_sqlConnect();
  
     $sql = "DELETE 
-            FROM Location
+            FROM location
             WHERE LocationID = ".$LocationID.";";
     //echo "sql: " .$sql. "Comment out Later";
     

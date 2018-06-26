@@ -8,7 +8,7 @@ if($_POST['Search'] == NULL) {
     $DefIDS = $_POST['DefID'];
     $SafetyCertS = $_POST['SafetyCert'];
     $SystemAffectedS = $_POST['SystemAffected'];
-    $LocationS = $_POST['Location'];
+    $locationS = $_POST['location'];
     $SpecLocS = $_POST['SpecLoc'];
     $StatusS = $_POST['Status'];
     $SeverityS = $_POST['Severity'];
@@ -26,7 +26,7 @@ if($_POST['Search'] == NULL) {
             FROM 
                 CDL A 
             LEFT JOIN 
-                Location L 
+                location L 
             ON 
                 L.LocationID = A.Location
             LEFT JOIN 
@@ -75,15 +75,15 @@ if($_POST['Search'] == NULL) {
     } else {
         $GroupToResolveSQL = "";
     }
-    if($LocationS <> NULL) {
+    if($locationS <> NULL) {
         if($AND == 1) {
-            $LocationSQL = " AND A.Location = '".$LocationS."'";
+            $locationSQL = " AND A.Location = '".$locationS."'";
         } else {
-            $LocationSQL = " WHERE A.Location = '".$LocationS."'";
+            $locationSQL = " WHERE A.Location = '".$locationS."'";
             $AND = 1;
         }
     } else {
-        $LocationSQL = "";
+        $locationSQL = "";
     }
     if($SpecLocS <> NULL) {
        if($AND == 1) {
@@ -135,7 +135,7 @@ if($_POST['Search'] == NULL) {
     } else {
         $DescriptionSQL = "";
     }
-    $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
-    $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$LocationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    $sql = $sql.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$locationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
+    $count = $count.$DefIDSQL.$SafetyCertSQL.$SystemAffectedSQL.$GroupToResolveSQL.$locationSQL.$SpecLocSQL.$StatusSQL.$SeveritySQL.$IdentifiedBySQL.$DescriptionSQL;
     
 }

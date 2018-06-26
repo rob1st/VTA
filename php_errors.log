@@ -338,3 +338,15 @@ Stack trace:
 #7 /home/ubuntu/ in /home/ubuntu/workspace/templates/list.html on line 30
 [26-Jun-2018 08:17:19 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 52
 [26-Jun-2018 08:17:19 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 52
+[26-Jun-2018 08:39:49 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 52
+[26-Jun-2018 08:39:49 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 52
+[26-Jun-2018 08:43:00 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:00 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:40 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:40 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:43 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:43 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:46 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:43:46 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:44:02 America/Los_Angeles] PHP Warning:  include(../inc/Location.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 50
+[26-Jun-2018 08:44:02 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/Location.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 50

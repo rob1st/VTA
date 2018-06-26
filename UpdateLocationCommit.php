@@ -18,7 +18,7 @@ if(!empty($_POST)) {
           }
         }
     
-    $sql = "UPDATE Location
+    $sql = "UPDATE location
             SET LocationName = '".$LocationName."'
                 ,Updated_by = '".$Username."'
                 ,Update_TS = NOW()

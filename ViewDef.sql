@@ -28,7 +28,7 @@ SELECT
 FROM CDL D
 LEFT JOIN RequiredBy R
 ON R.ReqByID = D.RequiredBy
-LEFT JOIN Location L
+LEFT JOIN location L
 ON L.LocationID = D.Location
 LEFT JOIN Severity S
 ON D.Severity = S.SeverityID

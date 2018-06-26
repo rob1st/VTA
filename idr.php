@@ -52,7 +52,7 @@ OR (((IDR i
 );
 */
 
-$locQry = "SELECT LocationID, LocationName FROM Location ORDER BY LocationID";
+$locQry = "SELECT LocationID, LocationName FROM location ORDER BY LocationID";
 
 if ($userAuth < 1) {
     // view is unauthorized to view
@@ -74,12 +74,12 @@ if ($userAuth < 1) {
             WHERE i.idrID=$idrID";
         $laborQry = "SELECT laborID, laborTotal, laborDesc, idrID, laborNotes, LocationName FROM
             labor la JOIN
-            Location L ON
+            location L ON
             la.LocationID=L.LocationID
             WHERE la.idrID=$idrID";
         $equipQry = "SELECT equipID, equipTotal, equipDesc, idrID, equipNotes, LocationName FROM
             equipment e JOIN
-            Location L ON
+            location L ON
             e.LocationID=L.LocationID
             WHERE e.idrID=$idrID";
         

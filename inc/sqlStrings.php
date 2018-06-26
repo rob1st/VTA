@@ -1,6 +1,6 @@
 <?php
 $sqlStrings = [
-    'listAll' => "SELECT 'location' AS element, COUNT(locationID) AS count FROM Location WHERE locationName <> ''
+    'listAll' => "SELECT 'location' AS element, COUNT(locationID) AS count FROM location WHERE locationName <> ''
             UNION
             SELECT 'system', COUNT(systemID) FROM System WHERE system <> ''
             UNION
@@ -25,8 +25,8 @@ $sqlStrings = [
     ],
     'location' => [
         'types' => '',
-        'insert' => 'INSERT Location (locationName, updated_ts, updated_by) VALUES (?, ?, ?)',
-        'update' => 'UPDATE Location SET locationName=?, update_by=?',
-        'list' => "SELECT * from Location WHERE locationName <> ''"
+        'insert' => 'INSERT location (locationName, locationDescrip, updatedBy) VALUES (?, ?, ?)',
+        'update' => 'UPDATE location SET locationName=?, update_by=?',
+        'list' => "SELECT * from location WHERE locationName <> ''"
     ]
 ];

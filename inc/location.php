@@ -2,8 +2,15 @@
 require_once '../inc/sqlFunctions.php';
 require_once '../inc/sqlStrings.php';
 
+$formCtrls = [
+    "<label for='locationName' class='required'>Location name</label>
+    <input name='locationName' type='text' maxlength='100' class='form-control item-margin-bottom' required>",
+    "<label for='locationDescrip'>Location description</label>
+    <textarea name='locationDescrip' maxlength='100' class='form-control item-margin-bottom'></textarea>"
+];
+
 if ($action === 'list') {
-    $sql = $sqlStrings['component']['list'];
+    $sql = $sqlStrings['location']['list'];
     
     $link = connect();
     
@@ -25,3 +32,9 @@ if ($action === 'list') {
     $res->close();
     $link->close();
 }
+
+$cardHeading = $action === 'list'
+    ? 'Locations'
+    : 'Enter location information';
+$tableName = 'location';
+$target = 'commitNewData.php';

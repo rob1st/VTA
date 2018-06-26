@@ -9,12 +9,12 @@ session_start();
     $System = "SELECT S.System, COUNT(C.GroupToResolve) FROM CDL C LEFT JOIN System S ON C.GroupToResolve=S.SystemID GROUP BY System ORDER BY S.System"; //Count Actions by System
     $Sev = "SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN Severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY Severity ORDER BY S.SeverityName"; 
     $Status = "SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID";
-    $location = "SELECT L.LocationName, COUNT(C.Location) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location GROUP BY Location  ORDER BY L.LocationName";
+    $location = "SELECT L.LocationName, COUNT(C.Location) FROM CDL C LEFT JOIN location L ON L.LocationID=C.Location GROUP BY Location  ORDER BY L.LocationName";
     $Comp = "SELECT CompName FROM Comp ORDER BY CompName";
     $sqlSys = "SELECT COUNT(*) FROM System"; //Systems Count
     $sqlStat = "SELECT COUNT(*) FROM Status"; //Status Counts
     $sqlSev = "SELECT COUNT(*) FROM Severity"; //Severity Counts
-    $sqlLoc = "SELECT COUNT(*) FROM Location"; //Location Counts
+    $sqlLoc = "SELECT COUNT(*) FROM location"; //Location Counts
     $sqlET = "SELECT COUNT(*) FROM CDL WHERE Status=2"; //Status Closed Counts
         
     // vars to pass to JS scripts    
@@ -43,7 +43,7 @@ session_start();
       'Status' => 'SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID',
       'Severity' => 'SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN Severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY Severity ORDER BY S.SeverityName',
       'System' => 'SELECT S.System, COUNT(C.Status) FROM CDL C LEFT JOIN System S ON C.GroupToResolve=S.SystemID WHERE Status = 1 GROUP BY System ORDER BY S.System',
-      'Location' => 'SELECT L.LocationName, COUNT(C.Status) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location WHERE Status = 1 GROUP BY Location  ORDER BY L.LocationName'
+      'Location' => 'SELECT L.LocationName, COUNT(C.Status) FROM CDL C LEFT JOIN location L ON L.LocationID=C.Location WHERE Status = 1 GROUP BY Location  ORDER BY L.LocationName'
     ];
     
     function writeDashCard($tot, $qry, $cardSpecs) {

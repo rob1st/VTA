@@ -2,7 +2,7 @@
 include('session.php');
 include('SQLFunctions.php');
 $link = f_sqlConnect();
-$table = Location;
+$table = location;
 $title = "SVBX - Display Locations";
 include('filestart.php');
         //echo '<br>Source table: ' .$table;

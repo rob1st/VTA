@@ -159,9 +159,9 @@ function printSearchBar($cnxn, $post, $formAction) {
                 </div>
                 <div class='col-sm-2 pl-1 pr-1'>
                     <label class='input-label'>Location</label>
-                    <select name='Location' class='form-control'>
+                    <select name='location' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
+    if ($result = $cnxn->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['Location'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";

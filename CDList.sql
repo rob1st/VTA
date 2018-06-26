@@ -11,7 +11,7 @@ SELECT
 FROM
     CDL D
 LEFT JOIN 
-    Location L
+    location L
 ON 
     L.LocationID = D.Location
 LEFT JOIN 

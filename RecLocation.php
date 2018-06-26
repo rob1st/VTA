@@ -1,7 +1,7 @@
 <?PHP
     include('SQLFunctions.php');
     session_Start();
-    $table = Location;
+    $table = location;
     
 
     echo '<br>display full contents of the _POST: <br>';

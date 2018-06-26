@@ -1,6 +1,8 @@
 <?php
 require_once '../vendor/autoload.php';
 
+session_start();
+
 /* !! much of this boilerplate could be abstracted away
 **    How? a function? the includes folder??
 */
@@ -27,9 +29,7 @@ $count = 0;
 ** [0] => action of view, e.g., 'list', 'add'
 ** [1] => name of table to manage
 */
-$pathinfo = strpos($_SERVER['PATH_INFO'], '/') === 0
-    ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
-    : $_SERVER['PATH_INFO'];
+$pathinfo = substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1);
     
 $pathParams = explode("/", $pathinfo);
 
@@ -39,11 +39,11 @@ list($action, $table) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', 'list' ];
     
-$pageHeading = $action === $table
+$title = $pageHeading = $action === $table
     ? 'List of data tables'
     : ( $action === 'list'
-        ? $action . ' of ' . $table . 's'
-        : $action . ' ' . $table );
+        ? ucfirst($action . ' of ' . $table . 's')
+        : ucfirst($action . ' ' . $table));
 
 $template = $twig->load("$action.html");
     
@@ -80,7 +80,7 @@ $template->display(array(
     ),
     'title' => $title,
     'pageHeading' => $pageHeading,
-    'meta' => realpath(__FILE__),
+    'meta' => $pathinfo,
     'cardHeading' => $cardHeading,
     'tableName' => $tableName,
     'target' => $target,

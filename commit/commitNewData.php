@@ -1,6 +1,9 @@
 <?php
+require_once "../vendor/autoload.php";
 require_once "../inc/sqlFunctions.php";
 require_once "../inc/sqlStrings.php";
+
+session_start();
 
 $link = connect();
 
@@ -26,10 +29,10 @@ try {
     
 } catch (mysqli_sql_exception $e) {
     echo "<pre style='color: coral'>$e</pre>";
-    if (isset($stmt)) $stmt->close();
 } catch (Exception $e) {
     echo "<pre style='color: salmon'>$e</pre>";
+} finally {
+    if (isset($stmt)) $stmt->close();
+    $link->close();
+    exit;    
 }
-
-$link->close();
-exit;
