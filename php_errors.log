@@ -403,3 +403,20 @@ Stack trace:
 #0 /home/ubuntu/workspace/public_html/manage.php(52): include()
 #1 {main}
   thrown in /home/ubuntu/workspace/inc/component.php on line 21
+[26-Jun-2018 14:19:40 America/Los_Angeles] PHP Fatal error:  Uncaught Exception: Unknown column 'system' in 'where clause' query: SELECT 'location' AS name, COUNT(locationID) AS count FROM location WHERE locationName <> ''
+            UNION
+            SELECT 'system', COUNT(systemID) FROM system WHERE system <> ''
+            UNION
+            SELECT 'component', COUNT(compID) FROM component WHERE compName <> ''
+            UNION
+            SELECT 'deficiency type', COUNT(deftypeID) FROM defType WHERE deftypeName <> ''
+            UNION
+            SELECT 'contract', COUNT(contractID) FROM Contract WHERE contract <> ''
+            UNION
+            SELECT 'evidence', COUNT(eviTypeID) FROM EvidenceType WHERE eviType <> ''
+            UNION
+            SELECT 'status', COUNT(statusID) FROM Status WHERE Status <> ''
+            UNION
+            SELECT 'severity', COUNT(severityID) FROM Severity WHERE severityName <> ''
+            UNION
+            SELECT 'test status', COUNT(testStatID) FROM testStatus WHERE testStatName <> '' in /home/ubuntu/workspace/vendor/joshcam/ in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 1926
