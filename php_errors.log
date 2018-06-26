@@ -336,3 +336,5 @@ Stack trace:
 #5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
 #6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(328): Twig_Environment->loadTemplate('list.html')
 #7 /home/ubuntu/ in /home/ubuntu/workspace/templates/list.html on line 30
+[26-Jun-2018 08:17:19 America/Los_Angeles] PHP Warning:  include(../inc/.php): failed to open stream: No such file or directory in /home/ubuntu/workspace/public_html/manage.php on line 52
+[26-Jun-2018 08:17:19 America/Los_Angeles] PHP Warning:  include(): Failed opening '../inc/.php' for inclusion (include_path='.:/usr/share/php') in /home/ubuntu/workspace/public_html/manage.php on line 52

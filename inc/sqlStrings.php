@@ -22,5 +22,11 @@ $sqlStrings = [
         'insert' => "INSERT component (compName, compDescrip) VALUES (?, ?)",
         'update' => "UPDATE component SET compName=?, compDescrip=?",
         'list' => "SELECT * FROM component WHERE compName <> ''"
+    ],
+    'location' => [
+        'types' => '',
+        'insert' => 'INSERT Location (locationName, updated_ts, updated_by) VALUES (?, ?, ?)',
+        'update' => 'UPDATE Location SET locationName=?, update_by=?',
+        'list' => "SELECT * from Location WHERE locationName <> ''"
     ]
 ];

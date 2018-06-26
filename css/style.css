@@ -656,13 +656,13 @@ select:invalid {
 }
 
 .btn.btn-outline {
-    background-color: var(--quarter-trans-grey);
+    background-color: var(--tenth-trans-grey);
     border: 1px solid var(--secondary);
     color: var(--dark);
 }
 
 .btn-outline:hover {
-    background-color: var(--tenth-trans-grey);
+    background-color: white;
 }
 
 .btn.btn-a {
