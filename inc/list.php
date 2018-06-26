@@ -30,5 +30,6 @@ try {
 } catch (mysqli_sql_exception $e) {
     echo "<pre style='color: deepPink'>There was a problem fetching from the database: $e</pre>";
 } finally {
+    $link->disconnect();
     $cardHeading = '';
 }

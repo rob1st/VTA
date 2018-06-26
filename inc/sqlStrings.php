@@ -21,12 +21,14 @@ $sqlStrings = [
         'types' => 'ss',
         'insert' => "INSERT component (compName, compDescrip) VALUES (?, ?)",
         'update' => "UPDATE component SET compName=?, compDescrip=?",
-        'list' => "SELECT * FROM component WHERE compName <> ''"
+        'list' => "SELECT compID as id, compName as name, compDescrip as description FROM component WHERE compName <> ''",
+        'insertFields' => ['compName', 'compDescrip']
     ],
     'location' => [
         'types' => '',
         'insert' => 'INSERT location (locationName, locationDescrip, updatedBy) VALUES (?, ?, ?)',
         'update' => 'UPDATE location SET locationName=?, update_by=?',
-        'list' => "SELECT * from location WHERE locationName <> ''"
+        'list' => "SELECT locationID as id, locationName as name, locationDescrip as description from location WHERE locationName <> ''",
+        'insertFields' => ['locationName', 'locationDescrip']
     ]
 ];

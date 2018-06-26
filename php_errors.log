@@ -390,3 +390,11 @@ Stack trace:
 #0 /home/ubuntu/workspace/public_html/manage.php(52): include()
 #1 {main}
   thrown in /home/ubuntu/workspace/inc/list.php on line 38
+[26-Jun-2018 11:42:33 America/Los_Angeles] PHP Fatal error:  Uncaught Exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT * from location WHERE locationName <> ''' at line 1 query: SELECT  * FROM SELECT * from location WHERE locationName <> '' in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php:1926
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php(1519): MysqliDb->_prepareQuery()
+#1 /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php(686): MysqliDb->_buildQuery(NULL)
+#2 /home/ubuntu/workspace/inc/location.php(18): MysqliDb->get('SELECT * from l...')
+#3 /home/ubuntu/workspace/public_html/manage.php(52): include('/home/ubuntu/wo...')
+#4 {main}
+  thrown in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 1926
