@@ -621,3 +621,13 @@ Stack trace:
 #3 {main}
   thrown in /home/ubuntu/workspace/inc/sqlStrings.php on line 101
 [27-Jun-2018 15:17:13 America/Los_Angeles] PHP Parse error:  syntax error, unexpected '$displayName' (T_VARIABLE) in /home/ubuntu/workspace/inc/sqlStrings.php on line 134
+[27-Jun-2018 16:15:08 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to undefined function connect() in /home/ubuntu/workspace/commit/updateLookupData.php:8
+Stack trace:
+#0 {main}
+
+Next Error: Call to a member function disconnect() on null in /home/ubuntu/workspace/commit/updateLookupData.php:28
+Stack trace:
+#0 {main}
+  thrown in /home/ubuntu/workspace/commit/updateLookupData.php on line 28
+[27-Jun-2018 16:15:34 America/Los_Angeles] PHP Warning:  Missing argument 2 for MysqliDb::update(), called in /home/ubuntu/workspace/commit/updateLookupData.php on line 19 and defined in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 846
+[27-Jun-2018 16:15:56 America/Los_Angeles] PHP Warning:  Missing argument 2 for MysqliDb::update(), called in /home/ubuntu/workspace/commit/updateLookupData.php on line 19 and defined in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 846

@@ -13,7 +13,7 @@ try {
         
     // get sql string by value of hidden input in form
     $table = $post['target'];
-    $sql = $sqlStrings[$table]['insert'];
+    $sql = $sqlStrings[$table]['add'];
 
     unset($post['target']);
     $post['updatedBy'] = $_SESSION['UserID'];

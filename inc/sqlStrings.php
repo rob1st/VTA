@@ -104,13 +104,12 @@ function mapDisplayKeys(array &$row) {
 **  @param MysqliDb $link = db link object from joshcam's MySqliDB library
 **  @return array $data = array of rows--as arrays--returned from query
 */
-function queryLookupTable($table, $action, &$link) {
+function queryLookupTable($table, $action, &$link, $id = null) {
     global $sqlStrings;
 
     $fields = $sqlStrings[$table]['list'];
     
     if ($action === 'update') {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
         $link->where($sqlStrings[$table]['list'][0], $id);
         $data = $link->getOne($table, $fields);
     } else {
@@ -149,16 +148,18 @@ function getLookupData($action, $tableName, &$link) {
             'formCtrls' => $formCtrls
         );
     } elseif ($action ==='update') {
-        $data = queryLookupTable($tableName, 'update', $link);
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+        $data = queryLookupTable($tableName, 'update', $link, $id);
         $formCtrls = array_map(function ($n) use ($names, $displayName, $data) {
             static $i = 0;
-            $ctrl = sprintf($n, $names[$i], $displayName, $data[$names[$i]]);
+            $ctrl = sprintf($n, $names[$i], ucfirst($displayName), $data[$names[$i]]);
             $i++;
             return $ctrl;
         }, $sqlStrings[$tableName]['formCtrls']);
         return array(
             'cardHeading' => 'Enter ' . $displayName . ' information',
-            'formCtrls' => $formCtrls
+            'formCtrls' => $formCtrls,
+            'id' => $id
         );
     } else {
         return array(
