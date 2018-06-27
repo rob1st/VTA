@@ -9,8 +9,8 @@
 
 {% block cardBody %}
     {% import "template_fcns/forms.html" as forms %}
-    <form action='/commit/{{ target }}' method='POST' enctype='multipart/form-data' onsubmit=''>
-        <input type='hidden' name='category' value='{{ tableName }}'>
+    <form action='/commit/commitNewLookupData.php' method='POST' enctype='multipart/form-data' onsubmit=''>
+        <input type='hidden' name='target' value='{{ tableName }}'>
         {% for element in formCtrls %}
             {{ element|raw }}
         {% endfor %}

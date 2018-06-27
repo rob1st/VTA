@@ -37,12 +37,6 @@ $pathParams = explode("/", $pathinfo);
 
 // appropriately named file selects template and sql string
 // otherwise use default
-$displayNames = [
-    'defType' => 'deficiency type',
-    'evidenceType' => 'evidence type',
-    'testStatus' => 'test status'
-];
-
 list($action, $tableName) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', '' ];
@@ -69,7 +63,7 @@ if ($tableName) {
     $contextVars['pageHeading'] = $contextVars['title'] = ucfirst(
         $action === 'list'
             ? $action . ' of '. pluralize($displayName)
-            : $action . ' ' . $tableName
+            : $action . ' ' . $displayName
     );
     $contextVars['cardHeading'] = ucfirst(pluralize($displayName));
 

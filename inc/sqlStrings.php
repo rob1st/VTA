@@ -71,6 +71,12 @@ $sqlStrings = [
     ]
 ];
 
+$displayNames = [
+    'defType' => 'deficiency type',
+    'evidenceType' => 'evidence type',
+    'testStatus' => 'test status'
+];
+
 /* mutates array $row passed to it, mapping values to keys as they appear in template
 **  @param array $row = a row of data returned from sql query
 */
@@ -107,24 +113,24 @@ function queryLookupTable($table, &$link) {
 
 function getLookupData($action, $tableName, &$link) {
     global $sqlStrings;
+    global $displayNames;
     
     if ($action === 'add') {
-        $displayName = ucfirst(isset($displayNames[$tableName])
+        $displayName = isset($displayNames[$tableName])
             ? $displayNames[$tableName]
-            : $tableName);
+            : $tableName;
         $nameLabel = $sqlStrings[$tableName]['insertFields'][0];
         $descripLabel = $sqlStrings[$tableName]['insertFields'][1];
             
         $formCtrls = array(
-            "<label for='$nameLabel' class='required'>$displayName name</label>
+            "<label for='$nameLabel' class='required'>" . ucfirst($displayName) . " name</label>
             <input name='$nameLabel' type='text' maxlength='10' class='form-control item-margin-bottom' required>",
-            "<label for='$descripLabel'>$displayName description</label>
+            "<label for='$descripLabel'>" . ucfirst($displayName) . " description</label>
             <textarea name='$descripLabel' maxlength='255' class='form-control item-margin-bottom'></textarea>"
         );
     
         return array(
-            'cardHeading' => 'Enter ' . $tableName . ' information',
-            'target' => 'commitNewData.php',
+            'cardHeading' => 'Enter ' . $displayName . ' information',
             'formCtrls' => $formCtrls
         );
     } elseif ($action ==='update') {

@@ -12,18 +12,14 @@ try {
         throw new Exception('There was a problem with the post data');
         
     // get sql string by value of hidden input in form
-    $table = $post['category'];
+    $table = $post['target'];
     $sql = $sqlStrings[$table]['insert'];
-    $types = $sqlStrings[$table]['types'];
 
-    if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-    if (!$stmt->bind_param($types,
-        $post[$sqlStrings[$table]['insertFields'][0]],
-        $post[$sqlStrings[$table]['insertFields'][1]])
-    )
-        throw new mysqli_sql_exception($stmt->error);
-    if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    $stmt->close();
+    unset($post['target']);
+    $post['updatedBy'] = $_SESSION['UserID'];
+    $post['dateCreated'] = date('Y-m-d H:i:s');
+    
+    if (!$id = $link->insert($table, $post)) throw new mysqli_sql_exception($link->getLastError());
     
     header("Location: /public_html/manage.php/list/$table");
     
@@ -32,7 +28,6 @@ try {
 } catch (Exception $e) {
     echo "<pre style='color: salmon'>$e</pre>";
 } finally {
-    if (isset($stmt)) $stmt->close();
-    $link->close();
+    $link->disconnect();
     exit;    
 }

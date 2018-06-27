@@ -568,3 +568,7 @@ Stack trace:
 #5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
 #6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
 #7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environmen in /home/ubuntu/workspace/templates/nav.html on line 10
+[27-Jun-2018 13:02:16 America/Los_Angeles] PHP Fatal error:  Uncaught Error: Call to undefined method MysqliDb::close() in /home/ubuntu/workspace/commit/commitNewLookupData.php:30
+Stack trace:
+#0 {main}
+  thrown in /home/ubuntu/workspace/commit/commitNewLookupData.php on line 30
