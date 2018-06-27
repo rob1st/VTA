@@ -1,13 +1,11 @@
 <?php
 require_once '../vendor/autoload.php';
+require_once '../inc/sqlFunctions.php';
+require_once '../inc/sqlStrings.php';
 
 session_start();
 
-/* !! much of this boilerplate could be abstracted away
-**    How? a function? the includes folder??
-*/
-
-// instantiate Twig classes
+// instantiate classes
 $loader = new Twig_Loader_Filesystem('../templates');
 $twig = new Twig_Environment($loader,
     array(
@@ -18,12 +16,15 @@ $twig = new Twig_Environment($loader,
 session_start();
 
 //* DEFAULTS */
-$title = 'Manage Data';
-$pageHeading = 'List of _____';
-$cardHeading = '';
-$tableName = '';
-$data = [];
-$count = 0;
+$contextVars = array(
+    'navbarHeading' => $_SESSION['Username'],
+    'title' => 'Manage Data',
+    'pageHeading' => 'List of lookup tables',
+    'cardHeading' => '',
+    'tableName' => '',
+    'data' => [],
+    'count' => 0
+);
 
 /* parse url to establish which view to display
 ** [0] => action of view, e.g., 'list', 'add'
@@ -41,17 +42,21 @@ $displayNames = [
     'testStatus' => 'test status'
 ];
 
-list($action, $table) = count($pathParams) >= 2
+list($action, $tableName) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
-    : [ 'list', 'list' ];
+    : [ 'list', '' ];
     
-$title = $pageHeading = $action === $table
-    ? 'List of data tables'
-    : ( $action === 'list'
-        ? ucfirst($action . ' of ' . $table . 's')
-        : ucfirst($action . ' ' . $table));
+list($title, $include) = $tableName
+    ? ['List of lookup tables', 'list.php']
+    : [
+        ( $action === 'list'
+            ? ucfirst($action . ' of ' . $tableName . 's')
+            : ucfirst($action . ' ' . $tableName)),
+        "$tableName.php"
+      ];
 
 $template = $twig->load("$action.html");
+$contextVars['meta'] = $action;
 
 // included sql file should perform the query and return table data
 /* included file will also include relevant vars for display
@@ -62,32 +67,23 @@ $template = $twig->load("$action.html");
 ** $data
 ** $count
 */
-$include = "$table.php";
+// include "../inc/$include";
 
-include "../inc/$include";
+if ($tableName) {
+    $link = connect();
+
+    try {
+        $contextVars = getLookupData($action, $tableName, $link) + $contextVars;
+    } catch (Exception $e) {
+        echo "<pre style='color: orangeRed'>There was a problem retrieving the data: $e</pre>";
+    } finally {
+        $link->disconnect();
+    }
+} else include '../inc/list.php';
 
 // then render the template with appropriate variables
 /* !! navbar only has two possible states
 **    should rely on the nav template for which state is shown
 **    and pass it only a loggedIn/notLoggiedIn param
 */
-$template->display(array(
-    'navbarHeading' => $_SESSION['Username'],
-    'navItems' => array(
-        'Home' => 'account.php',
-        'Asset List' => 'assets.php',
-        'Deficiencies' => 'defs.php',
-        'Daily Report' => 'idr.php',
-        'Help' => 'help.php',
-        'Logout' => 'logout.php'
-    ),
-    'title' => $title,
-    'pageHeading' => $pageHeading,
-    'meta' => $pathinfo,
-    'cardHeading' => $cardHeading,
-    'tableName' => $tableName,
-    'target' => $target,
-    'data' => $data,
-    'formCtrls' => $formCtrls,
-    'count' => $count
-));
+$template->display($contextVars);

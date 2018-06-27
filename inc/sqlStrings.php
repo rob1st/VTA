@@ -12,9 +12,9 @@ $sqlStrings = [
             UNION
             SELECT 'evidenceType', COUNT(eviTypeID) FROM evidenceType WHERE eviTypeName <> ''
             UNION
-            SELECT 'status', COUNT(statusID) FROM Status WHERE Status <> ''
+            SELECT 'status', COUNT(statusID) FROM status WHERE statusName <> ''
             UNION
-            SELECT 'severity', COUNT(severityID) FROM Severity WHERE severityName <> ''
+            SELECT 'severity', COUNT(severityID) FROM severity WHERE severityName <> ''
             UNION
             SELECT 'testStatus', COUNT(testStatID) FROM testStatus WHERE testStatName <> ''",
     'component' => [
@@ -46,10 +46,28 @@ $sqlStrings = [
         'list' => "SELECT locationID, locationName, locationDescrip FROM location WHERE locationName <> ''",
         'insertFields' => ['locationName', 'locationDescrip', 'updatedBy']
     ],
+    'severity' => [
+        'list' => "SELECT severityID, severityName, severityDescrip FROM severity WHERE severityName <> ''",
+        'insertFields' => ['severityName', 'severityDescrip', 'updatedBy'],
+        'updateFields' => ['severityName', 'severityDescrip', 'updatedBy'],
+        'selectFields' => ['severityID', 'severityName', 'severityDescrip']
+    ],
+    'status' => [
+        'list' => "SELECT statusID, statusName, statusDescrip FROM status WHERE statusName <> ''",
+        'insertFields' => ['statusName', 'statusDescrip', 'updatedBy'],
+        'updateFields' => ['statusName', 'statusDescrip', 'updatedBy'],
+        'selectFields' => ['statusID', 'statusName', 'statusDescrip']
+    ],
     'system' => [
-        'type' => 'ssi',
+        'types' => 'ssi',
         'list' => "SELECT systemID, systemName, systemDescrip FROM system WHERE systemName <> ''",
         'insertFields' => ['systemName', 'systemDescription', 'updatedBy']
+    ],
+    'testStatus' => [
+        'list' => "SELECT testStatID, testStatName, testStatDescrip FROM testStatus WHERE testStatName <> ''",
+        'insertFields' => ['testStatName', 'testStatDescrip', 'updatedBy'],
+        'updateFields' => ['testStatName', 'testStatDescrip', 'updatedBy'],
+        'selectFields' => ['testStatID', 'testStatName', 'testStatDescrip']
     ]
 ];
 
@@ -71,12 +89,10 @@ function mapDisplayKeys(array &$row) {
 **  @param MysqliDb $link = db link object from joshcam's MySqliDB library
 **  @return array $data = array of rows--as arrays--returned from query
 */
-function getLookupItems($table, &$link) {
+function queryLookupTable($table, &$link) {
     global $sqlStrings;
 
     $sql = $sqlStrings[$table]['list'];
-    
-    $link = connect();
     
     $data = $link->query($sql);
     
@@ -87,4 +103,37 @@ function getLookupItems($table, &$link) {
     }
     
     return $data;
+}
+
+function getLookupData($action, $tableName, &$link) {
+    global $sqlStrings;
+    
+    if ($action === 'add') {
+        $displayName = ucfirst(isset($displayNames[$tableName])
+            ? $displayNames[$tableName]
+            : $tableName);
+        $nameLabel = $sqlStrings[$tableName]['insertFields'][0];
+        $descripLabel = $sqlStrings[$tableName]['insertFields'][1];
+            
+        $formCtrls = array(
+            "<label for='$nameLabel' class='required'>$displayName name</label>
+            <input name='$nameLabel' type='text' maxlength='10' class='form-control item-margin-bottom' required>",
+            "<label for='$descripLabel'>$displayName description</label>
+            <textarea name='$descripLabel' maxlength='255' class='form-control item-margin-bottom'></textarea>"
+        );
+    
+        return array(
+            'cardHeading' => 'Enter ' . $tableName . ' information',
+            'target' => 'commitNewData.php',
+            'formCtrls' => $formCtrls
+        );
+    } elseif ($action ==='update') {
+        
+    } else {
+        return array(
+            'data' => queryLookupTable($tableName, $link),
+            'count' => $link->count,
+            'cardHeading' => ucfirst($tableName) . 's'
+        );
+    }
 }

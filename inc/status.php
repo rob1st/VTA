@@ -28,9 +28,9 @@ if ($action === 'list') { // should 'list' be the default $action, i.e., this al
         
     $formCtrls = array(
         "<label for='$nameLabel' class='required'>$displayName name</label>
-        <input name='$nameLabel' type='text' maxlength='15' class='form-control item-margin-bottom' required>",
+        <input name='$nameLabel' type='text' maxlength='10' class='form-control item-margin-bottom' required>",
         "<label for='$descripLabel'>$displayName description</label>
-        <textarea name='$descripLabel' maxlength='100' class='form-control item-margin-bottom'></textarea>"
+        <textarea name='$descripLabel' maxlength='255' class='form-control item-margin-bottom'></textarea>"
     );
 
     $cardHeading = 'Enter ' . $table . ' information';

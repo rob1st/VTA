@@ -18,8 +18,8 @@ try {
 
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
     if (!$stmt->bind_param($types,
-        $post['compName'],
-        $post['compDescrip'])
+        $post[$sqlStrings[$table]['insertFields'][0]],
+        $post[$sqlStrings[$table]['insertFields'][1]])
     )
         throw new mysqli_sql_exception($stmt->error);
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
