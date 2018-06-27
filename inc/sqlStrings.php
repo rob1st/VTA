@@ -108,11 +108,13 @@ function queryLookupTable($table, $action, &$link, $id = null) {
     global $sqlStrings;
 
     $fields = $sqlStrings[$table]['list'];
+    $idField = $sqlStrings[$table]['list'][0];
     
     if ($action === 'update') {
-        $link->where($sqlStrings[$table]['list'][0], $id);
+        $link->where($idField, $id);
         $data = $link->getOne($table, $fields);
     } else {
+        $link->where("$idField <> ''");
         $data = $link->get($table, null, $fields);
         foreach ($data as &$row) {
             // re-map row's keys to keys as named in template file
@@ -163,7 +165,7 @@ function getLookupData($action, $tableName, &$link) {
         );
     } else {
         return array(
-            'data' => queryLookupTable($tableName, 'select', $link),
+            'data' => queryLookupTable($tableName, 'list', $link),
             'count' => $link->count
         );
     }
