@@ -1,4 +1,11 @@
 <?php
+$defaultFormCtrls = array(
+    'name' => '<label for="%1$s" class="required">%2$s name</label>
+        <input name="%1$s" type="text" maxlength="10" value="%3$s" class="form-control item-margin-bottom" required>',
+    'description' => '<label for="%1$s">%2$s description</label>
+        <textarea name="%1$s" maxlength="255" class="form-control item-margin-bottom">%3$s</textarea>'
+);
+        
 $sqlStrings = [
     'listAll' => "SELECT 'location' AS name, COUNT(locationID) AS count FROM location WHERE locationName <> ''
             UNION
@@ -18,56 +25,58 @@ $sqlStrings = [
             UNION
             SELECT 'testStatus', COUNT(testStatID) FROM testStatus WHERE testStatName <> ''",
     'component' => [
-        'types' => 'ssi',
-        'insert' => "INSERT component (compName, compDescrip) VALUES (?, ?)",
-        'update' => "UPDATE component SET compName=?, compDescrip=?",
-        'list' => "SELECT compID, compName, compDescrip FROM component WHERE compName <> ''",
-        'insertFields' => ['compName', 'compDescrip', 'updatedBy']
+        'add' => ['compName', 'compDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['compID', 'compName', 'compDescrip'],
+        'update' => ['compName', 'compDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'contract' => [
-        'list' => "SELECT contractID, contractName, contractDescrip FROM contract WHERE contractName <> ''",
-        'selectFields' => ['contractID', 'contractName', 'contractDescrip'],
-        'insertFields' => ['contractName', 'contractDescrip', 'updatedBy']
+        'add' => ['contractName', 'contractDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['contractID', 'contractName', 'contractDescrip'],
+        'update' => ['contractName', 'contractDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'defType' => [
-        'list' => "SELECT defTypeID, defTypeName, defTypeDescrip FROM defType WHERE defTypeName <> ''",
-        'selectFields' => ['defTypeID', 'defTypeName', 'defTypeDescrip'],
-        'insertFields' => ['defTypeName', 'defTypeDescrip', 'updatedBy']
+        'add' => ['defTypeName', 'defTypeDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['defTypeID', 'defTypeName', 'defTypeDescrip'],
+        'update' => ['defTypeName', 'defTypeDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'evidenceType' => [
-        'list' => "SELECT eviTypeID, eviTypeName, eviTypeDescrip FROM evidenceType WHERE eviTypeName <> ''",
-        'selectFields' => ['eviTypeID', 'eviTypeName', 'eviTypeDescrip'],
-        'insertFields' => ['eviTypeName', 'eviTypeDescrip', 'updatedBy']
+        'add' => ['eviTypeName', 'eviTypeDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['eviTypeID', 'eviTypeName', 'eviTypeDescrip'],
+        'update' => ['eviTypeName', 'eviTypeDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'location' => [
-        'types' => 'ss',
-        'insert' => 'INSERT location (locationName, locationDescrip, updatedBy) VALUES (?, ?, ?)',
-        'update' => 'UPDATE location SET locationName=?, update_by=?',
-        'list' => "SELECT locationID, locationName, locationDescrip FROM location WHERE locationName <> ''",
-        'insertFields' => ['locationName', 'locationDescrip', 'updatedBy']
+        'add' => ['locationName', 'locationDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['locationID', 'locationName', 'locationDescrip'],
+        'update' => ['locationName', 'locationDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'severity' => [
-        'list' => "SELECT severityID, severityName, severityDescrip FROM severity WHERE severityName <> ''",
-        'insertFields' => ['severityName', 'severityDescrip', 'updatedBy'],
-        'updateFields' => ['severityName', 'severityDescrip', 'updatedBy'],
-        'selectFields' => ['severityID', 'severityName', 'severityDescrip']
+        'add' => ['severityName', 'severityDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['severityID', 'severityName', 'severityDescrip'],
+        'update' => ['severityName', 'severityDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'status' => [
-        'list' => "SELECT statusID, statusName, statusDescrip FROM status WHERE statusName <> ''",
-        'insertFields' => ['statusName', 'statusDescrip', 'updatedBy'],
-        'updateFields' => ['statusName', 'statusDescrip', 'updatedBy'],
-        'selectFields' => ['statusID', 'statusName', 'statusDescrip']
+        'add' => ['statusName', 'statusDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['statusID', 'statusName', 'statusDescrip'],
+        'update' => ['statusName', 'statusDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'system' => [
-        'types' => 'ssi',
-        'list' => "SELECT systemID, systemName, systemDescrip FROM system WHERE systemName <> ''",
-        'insertFields' => ['systemName', 'systemDescription', 'updatedBy']
+        'add' => ['systemName', 'systemDescription', 'updatedBy', 'dateCreated'],
+        'list' => ['systemID', 'systemName', 'systemDescription'],
+        'update' => ['systemName', 'systemDescription', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ],
     'testStatus' => [
-        'list' => "SELECT testStatID, testStatName, testStatDescrip FROM testStatus WHERE testStatName <> ''",
-        'insertFields' => ['testStatName', 'testStatDescrip', 'updatedBy'],
-        'updateFields' => ['testStatName', 'testStatDescrip', 'updatedBy'],
-        'selectFields' => ['testStatID', 'testStatName', 'testStatDescrip']
+        'add' => ['testStatName', 'testStatDescrip', 'updatedBy', 'dateCreated'],
+        'list' => ['testStatID', 'testStatName', 'testStatDescrip'],
+        'update' => ['testStatName', 'testStatDescrip', 'updatedBy'],
+        'formCtrls' => $defaultFormCtrls
     ]
 ];
 
@@ -84,7 +93,7 @@ function mapDisplayKeys(array &$row) {
     $displayKeys = [ 'id', 'name', 'description' ];
     
     if (count($row) !== count($displayKeys))
-        throw new InvalidArgumentException('Too few keys in row. Expected 3 keys but found ' . count($row));
+        throw new InvalidArgumentException('Wrong number of values in query. Expected 3 keys but found ' . count($row));
     
     $indexed = array_values($row);
     $row = array_combine($displayKeys, $indexed);
@@ -95,38 +104,44 @@ function mapDisplayKeys(array &$row) {
 **  @param MysqliDb $link = db link object from joshcam's MySqliDB library
 **  @return array $data = array of rows--as arrays--returned from query
 */
-function queryLookupTable($table, &$link) {
+function queryLookupTable($table, $action, &$link) {
     global $sqlStrings;
 
-    $sql = $sqlStrings[$table]['list'];
+    $fields = $sqlStrings[$table]['list'];
     
-    $data = $link->query($sql);
-    
-    foreach ($data as &$row) {
-        // re-map row's keys to keys as named in template file
-        mapDisplayKeys($row);
-        $row['href'] = "/public_html/manage.php/update/component?id={$row['id']}";
+    if ($action === 'update') {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+        $link->where($sqlStrings[$table]['list'][0], $id);
+        $data = $link->getOne($table, $fields);
+    } else {
+        $data = $link->get($table, null, $fields);
+        foreach ($data as &$row) {
+            // re-map row's keys to keys as named in template file
+            mapDisplayKeys($row);
+            $row['href'] = "/public_html/manage.php/update/component?id={$row['id']}";
+        }
     }
     
     return $data;
 }
 
 function getLookupData($action, $tableName, &$link) {
-    global $sqlStrings;
-    global $displayNames;
+    global $sqlStrings, $displayNames;
     
-    if ($action === 'add') {
-        $displayName = isset($displayNames[$tableName])
-            ? $displayNames[$tableName]
-            : $tableName;
-        $nameLabel = $sqlStrings[$tableName]['insertFields'][0];
-        $descripLabel = $sqlStrings[$tableName]['insertFields'][1];
+    $displayName = isset($displayNames[$tableName])
+        ? $displayNames[$tableName]
+        : $tableName;
+    $names = array(
+        $sqlStrings[$tableName]['update'][0],
+        $sqlStrings[$tableName]['update'][1]
+    );
             
+    if ($action === 'add') {
         $formCtrls = array(
-            "<label for='$nameLabel' class='required'>" . ucfirst($displayName) . " name</label>
-            <input name='$nameLabel' type='text' maxlength='10' class='form-control item-margin-bottom' required>",
-            "<label for='$descripLabel'>" . ucfirst($displayName) . " description</label>
-            <textarea name='$descripLabel' maxlength='255' class='form-control item-margin-bottom'></textarea>"
+            "<label for='{$names[0]}' class='required'>" . ucfirst($displayName) . " name</label>
+            <input name='{$names[0]}' type='text' maxlength='10' class='form-control item-margin-bottom' required>",
+            "<label for='{$names[1]}'>" . ucfirst($displayName) . " description</label>
+            <textarea name='{$names[1]}' maxlength='255' class='form-control item-margin-bottom'></textarea>"
         );
     
         return array(
@@ -134,10 +149,20 @@ function getLookupData($action, $tableName, &$link) {
             'formCtrls' => $formCtrls
         );
     } elseif ($action ==='update') {
-        
+        $data = queryLookupTable($tableName, 'update', $link);
+        $formCtrls = array_map(function ($n) use ($names, $displayName, $data) {
+            static $i = 0;
+            $ctrl = sprintf($n, $names[$i], $displayName, $data[$names[$i]]);
+            $i++;
+            return $ctrl;
+        }, $sqlStrings[$tableName]['formCtrls']);
+        return array(
+            'cardHeading' => 'Enter ' . $displayName . ' information',
+            'formCtrls' => $formCtrls
+        );
     } else {
         return array(
-            'data' => queryLookupTable($tableName, $link),
+            'data' => queryLookupTable($tableName, 'select', $link),
             'count' => $link->count
         );
     }

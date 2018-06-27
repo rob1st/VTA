@@ -572,3 +572,52 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home/ubuntu/workspace/commit/commitNewLookupData.php on line 30
+[27-Jun-2018 13:08:06 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "template_fcns/row.html" (looked into: ../templates) in "list.html" at line 3. in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php:226
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('template_fcns/r...')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey('template_fcns/r...')
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass('template_fcns/r...')
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate('template_fcns/r...', NULL)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(30): Twig_Template->loadTemplate('template_fcns/r...', 'list.html', 3)
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(390): __TwigTemplate_53d0536b8c79cefdbcdad8a9 in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php on line 226
+[27-Jun-2018 13:28:22 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unexpected token "string" of value "scripts.html" ("end of print statement" expected). in /home/ubuntu/workspace/templates/page.html:17
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(126): Twig_TokenStream->expect(4)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(81): Twig_Parser->subparse(NULL, false)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(533): Twig_Parser->parse(Object(Twig_TokenStream))
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->parse(Object(Twig_TokenStream))
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate('page.html', NULL)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(15): Twig_Template->loadTemplate('page.html', 'manage.html', 1)
+#7  in /home/ubuntu/workspace/templates/page.html on line 17
+[27-Jun-2018 13:31:32 America/Los_Angeles] PHP Warning:  array_merge(): Argument #2 is not an array in /home/ubuntu/workspace/public_html/manage.php on line 75
+[27-Jun-2018 13:31:32 America/Los_Angeles] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to Twig_Template::display() must be of the type array, null given, called in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TemplateWrapper.php on line 53 and defined in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php:365
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TemplateWrapper.php(53): Twig_Template->display(NULL)
+#1 /home/ubuntu/workspace/public_html/manage.php(89): Twig_TemplateWrapper->display(NULL)
+#2 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php on line 365
+[27-Jun-2018 14:24:37 America/Los_Angeles] PHP Warning:  array_merge(): Argument #2 is not an array in /home/ubuntu/workspace/public_html/manage.php on line 75
+[27-Jun-2018 14:24:37 America/Los_Angeles] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to Twig_Template::display() must be of the type array, null given, called in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TemplateWrapper.php on line 53 and defined in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php:365
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TemplateWrapper.php(53): Twig_Template->display(NULL)
+#1 /home/ubuntu/workspace/public_html/manage.php(89): Twig_TemplateWrapper->display(NULL)
+#2 {main}
+  thrown in /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php on line 365
+[27-Jun-2018 14:25:50 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Loader: Unable to find template "" (looked into: ../templates). in /home/ubuntu/workspace/templates/update.html:1
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Loader/Filesystem.php(143): Twig_Loader_Filesystem->findTemplate('')
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(270): Twig_Loader_Filesystem->getCacheKey(NULL)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(350): Twig_Environment->getTemplateClass(NULL)
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(330): Twig_Environment->loadTemplate(NULL, NULL)
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(24): Twig_Template->loadTemplate(NULL, 'update.html', 1)
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Template.php(100): __TwigTemplate_b42f94d1ef93e4e4e134b3878da2dbc728748aabfa9c5a549f9f0178d5385c6c->doGetParent(Array)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(378) : eval()'d code(29):  in /home/ubuntu/workspace/templates/update.html on line 1
+[27-Jun-2018 14:45:02 America/Los_Angeles] PHP Fatal error:  Uncaught TypeError: Argument 1 passed to mapDisplayKeys() must be of the type array, integer given, called in /home/ubuntu/workspace/inc/sqlStrings.php on line 129 and defined in /home/ubuntu/workspace/inc/sqlStrings.php:101
+Stack trace:
+#0 /home/ubuntu/workspace/inc/sqlStrings.php(129): mapDisplayKeys(1)
+#1 /home/ubuntu/workspace/inc/sqlStrings.php(159): queryLookupTable('component', 'update', Object(MysqliDb))
+#2 /home/ubuntu/workspace/public_html/manage.php(75): getLookupData('update', 'component', Object(MysqliDb))
+#3 {main}
+  thrown in /home/ubuntu/workspace/inc/sqlStrings.php on line 101
+[27-Jun-2018 15:17:13 America/Los_Angeles] PHP Parse error:  syntax error, unexpected '$displayName' (T_VARIABLE) in /home/ubuntu/workspace/inc/sqlStrings.php on line 134
