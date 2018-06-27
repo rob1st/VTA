@@ -2,6 +2,7 @@
 require_once '../vendor/autoload.php';
 require_once '../inc/sqlFunctions.php';
 require_once '../inc/sqlStrings.php';
+require_once '../inc/utils.php';
 
 session_start();
 
@@ -45,15 +46,6 @@ $displayNames = [
 list($action, $tableName) = count($pathParams) >= 2
     ? [ $pathParams[0], $pathParams[1] ]
     : [ 'list', '' ];
-    
-list($title, $include) = $tableName
-    ? ['List of lookup tables', 'list.php']
-    : [
-        ( $action === 'list'
-            ? ucfirst($action . ' of ' . $tableName . 's')
-            : ucfirst($action . ' ' . $tableName)),
-        "$tableName.php"
-      ];
 
 $template = $twig->load("$action.html");
 $contextVars['meta'] = $action;
@@ -70,10 +62,24 @@ $contextVars['meta'] = $action;
 // include "../inc/$include";
 
 if ($tableName) {
+    $displayName = $displayNames[$tableName] ?: $tableName;
+    
+    $contextVars['meta'] = $tableName;
+    $contextVars['tableName'] = $tableName;
+    $contextVars['pageHeading'] = $contextVars['title'] = ucfirst(
+        $action === 'list'
+            ? $action . ' of '. pluralize($displayName)
+            : $action . ' ' . $tableName
+    );
+    $contextVars['cardHeading'] = ucfirst(pluralize($displayName));
+
     $link = connect();
 
     try {
-        $contextVars = getLookupData($action, $tableName, $link) + $contextVars;
+        $contextVars = array_merge(
+            $contextVars,
+            getLookupData($action, $tableName, $link)
+        );
     } catch (Exception $e) {
         echo "<pre style='color: orangeRed'>There was a problem retrieving the data: $e</pre>";
     } finally {

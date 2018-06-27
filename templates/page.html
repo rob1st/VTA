@@ -9,6 +9,7 @@
             <h1 class='page-title'>{{ pageHeading }}</h1>
         </header>
         <main class='container main-content'>
+            {% block breadcrumb %}{% endblock %}
             {% block content %}
             {% endblock %}
         </main>

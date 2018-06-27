@@ -132,8 +132,7 @@ function getLookupData($action, $tableName, &$link) {
     } else {
         return array(
             'data' => queryLookupTable($tableName, $link),
-            'count' => $link->count,
-            'cardHeading' => ucfirst($tableName) . 's'
+            'count' => $link->count
         );
     }
 }
