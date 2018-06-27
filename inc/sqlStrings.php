@@ -104,22 +104,22 @@ function mapDisplayKeys(array &$row) {
 **  @param MysqliDb $link = db link object from joshcam's MySqliDB library
 **  @return array $data = array of rows--as arrays--returned from query
 */
-function queryLookupTable($table, $action, &$link, $id = null) {
+function queryLookupTable($tableName, $action, &$link, $id = null) {
     global $sqlStrings;
 
-    $fields = $sqlStrings[$table]['list'];
-    $idField = $sqlStrings[$table]['list'][0];
+    $fields = $sqlStrings[$tableName]['list'];
+    $idField = $sqlStrings[$tableName]['list'][0];
     
     if ($action === 'update') {
         $link->where($idField, $id);
-        $data = $link->getOne($table, $fields);
+        $data = $link->getOne($tableName, $fields);
     } else {
         $link->where("$idField <> ''");
-        $data = $link->get($table, null, $fields);
+        $data = $link->get($tableName, null, $fields);
         foreach ($data as &$row) {
             // re-map row's keys to keys as named in template file
             mapDisplayKeys($row);
-            $row['href'] = "/public_html/manage.php/update/component?id={$row['id']}";
+            $row['href'] = "/public_html/manage.php/update/$tableName?id={$row['id']}";
         }
     }
     
