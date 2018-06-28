@@ -1,7 +1,11 @@
 <?php
 require_once '../vendor/autoload.php';
+require_once '../inc/sqlFunctions.php';
 
 session_start();
+
+// instantiate objects
+$link = connect();
 
 $loader = new Twig_Loader_Filesystem('../templates');
 $twig = new Twig_Environment($loader,
@@ -11,7 +15,9 @@ $twig = new Twig_Environment($loader,
 );
 
 // load template into new TemplateWrapper
-$template = $twig->load('page.html');
+$template = $twig->load('list.html');
+
+// grab data from db
 
 // process some data here...
 
@@ -19,13 +25,5 @@ $template = $twig->load('page.html');
 $template->display(array(
     'title' => 'Asset list',
     'navbarHeading' => $_SESSION['Username'],
-    'navItems' => array(
-        'Home' => 'account.php',
-        'Asset List' => 'assets.php',
-        'Deficiencies' => 'defs.php',
-        'Daily Report' => 'idr.php',
-        'Help' => 'help.php',
-        'Logout' => 'logout.php'
-    ),
     'pageHeading' => 'Assets',
 ));

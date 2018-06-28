@@ -1,6 +1,6 @@
 {% extends "manage.html" %}
 
-{% from 'template_fcns/row.html' import row %}
+{% from 'template_fcns/tablelikeRow.html' import tablelikeRow %}
 
 {% block breadcrumb %}
     <h3 class='text-yellow'>{{ meta }}</h3>
@@ -18,7 +18,7 @@
         {% if data is iterable and data|length %}
             {% for item in data %}
                 <li class="row item-margin-bottom">
-                    {{ row(item) }}
+                    {{ tablelikeRow(item) }}
                 </li>
             {% endfor %}
         {% else %}

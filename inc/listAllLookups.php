@@ -1,6 +1,6 @@
 <?php
 require_once '../inc/sqlFunctions.php';
-require_once '../inc/sqlStrings.php';
+require_once '../inc/lookupQryFcns.php';
 
 $sql = $sqlStrings['listAll'];
 

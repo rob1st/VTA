@@ -1,4 +1,4 @@
-{% macro row(cols) %}
+{% macro tablelikeRow(cols) %}
     {% if cols is iterable and cols|length %}
         {% set colWd = cols.href
             ? 12 // (cols|length - 1)

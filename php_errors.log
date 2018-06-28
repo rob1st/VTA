@@ -631,3 +631,15 @@ Stack trace:
   thrown in /home/ubuntu/workspace/commit/updateLookupData.php on line 28
 [27-Jun-2018 16:15:34 America/Los_Angeles] PHP Warning:  Missing argument 2 for MysqliDb::update(), called in /home/ubuntu/workspace/commit/updateLookupData.php on line 19 and defined in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 846
 [27-Jun-2018 16:15:56 America/Los_Angeles] PHP Warning:  Missing argument 2 for MysqliDb::update(), called in /home/ubuntu/workspace/commit/updateLookupData.php on line 19 and defined in /home/ubuntu/workspace/vendor/joshcam/mysqli-database-class/MysqliDb.php on line 846
+[28-Jun-2018 08:33:50 America/Los_Angeles] PHP Fatal error:  Uncaught Twig_Error_Syntax: Unknown "tablelikeRow" function. in /home/ubuntu/workspace/templates/list.html:21
+Stack trace:
+#0 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(367): Twig_ExpressionParser->getFunctionNodeClass('tablelikeRow', 21)
+#1 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(152): Twig_ExpressionParser->getFunctionNode('tablelikeRow', 21)
+#2 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(92): Twig_ExpressionParser->parsePrimaryExpression()
+#3 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/ExpressionParser.php(45): Twig_ExpressionParser->getPrimary()
+#4 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(125): Twig_ExpressionParser->parseExpression()
+#5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/TokenParser/For.php(40): Twig_Parser->subparse(Array)
+#6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Parser.php(168): Twig_TokenParser_For->parse(Object(Twig_Token))
+#7 /home/ubuntu/workspace/vendor/twig/twig/lib/ in /home/ubuntu/workspace/templates/list.html on line 21
+[28-Jun-2018 09:13:09 America/Los_Angeles] PHP Warning:  array_map(): Argument #2 should be an array in /home/ubuntu/workspace/inc/lookupQryFcns.php on line 64
+[28-Jun-2018 09:13:14 America/Los_Angeles] PHP Warning:  array_map(): Argument #2 should be an array in /home/ubuntu/workspace/inc/lookupQryFcns.php on line 64

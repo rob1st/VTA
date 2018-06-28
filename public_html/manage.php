@@ -1,8 +1,7 @@
 <?php
 require_once '../vendor/autoload.php';
 require_once '../inc/sqlFunctions.php';
-require_once '../inc/sqlStrings.php';
-require_once '../inc/utils.php';
+require_once '../inc/lookupQryFcns.php';
 
 session_start();
 
@@ -79,7 +78,7 @@ if ($tableName) {
     } finally {
         $link->disconnect();
     }
-} else include '../inc/list.php';
+} else include '../inc/listAllLookups.php';
 
 // then render the template with appropriate variables
 /* !! navbar only has two possible states
