@@ -1,9 +1,9 @@
 {% extends 'manage.html' %}
 
 {% block breadcrumb %}
-    {{ if backto }}
+    {% if backto %}
         <a href='/public_html/{{ backto }}'>&#10094; Back to list of items</a>
-    {{ endif }}
+    {% endif %}
 {% endblock %}
 {% block cardBody %}
     <form action='/commit/updateLookupData.php' method='POST' enctype='multipart/form-data' onsubmit=''>

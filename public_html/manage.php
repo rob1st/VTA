@@ -69,9 +69,8 @@ if ($tableName) {
         ? 'manage.php'
         : "manage.php/list/$tableName";
 
-    $link = connect();
-
     try {
+        $link = connect();
         $context = array_merge(
             $context,
             getLookupData($action, $tableName, $link)
