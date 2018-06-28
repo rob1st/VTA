@@ -4,11 +4,15 @@ require_once 'assetSql.php';
 require_once 'assetViewEls.php';
 
 function getAssetData($action) {
+    global $defaultFormCtrls;
+    
     $link = connect();
     
     $context = array();
     
     if ($action === 'add') {
+        $context['title'] = 'Add Asset';
+        $context['pageHeading'] = 'Add New Asset';
         $context['formCtrls'] = $defaultFormCtrls;
         
         foreach ($context['formCtrls'] as $name => &$ctrl) {

@@ -663,3 +663,8 @@ Stack trace:
 #5 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(565): Twig_Environment->parse(Object(Twig_TokenStream))
 #6 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig/Environment.php(368): Twig_Environment->compileSource(Object(Twig_Source))
 #7 /home/ubuntu/workspace/vendor/twig/twig/lib/Twig in /home/ubuntu/workspace/templates/update.html on line 4
+[28-Jun-2018 12:00:31 America/Los_Angeles] PHP Warning:  Invalid argument supplied for foreach() in /home/ubuntu/workspace/inc/assetQryFcns.php on line 14
+[28-Jun-2018 12:02:13 America/Los_Angeles] PHP Warning:  Invalid argument supplied for foreach() in /home/ubuntu/workspace/inc/assetQryFcns.php on line 14
+[28-Jun-2018 12:04:30 America/Los_Angeles] PHP Warning:  Invalid argument supplied for foreach() in /home/ubuntu/workspace/inc/assetQryFcns.php on line 14
+[28-Jun-2018 12:04:51 America/Los_Angeles] PHP Warning:  Invalid argument supplied for foreach() in /home/ubuntu/workspace/inc/assetQryFcns.php on line 16
+[28-Jun-2018 12:06:06 America/Los_Angeles] PHP Warning:  array_search() expects parameter 2 to be array, null given in /home/ubuntu/workspace/public_html/assets.php on line 34

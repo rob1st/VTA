@@ -1,3 +1,8 @@
+{# row function col subarrays in the form of
+## [
+##   
+## ]
+#}
 {% macro tablelikeRow(cols) %}
     {% if cols is iterable and cols|length %}
         {% set colWd = cols.href
@@ -17,5 +22,8 @@
             </div>
         {% endfor %}
     {% else %}
+        <div class='col-12'>
+            <p style='color: red'>$col is not iterable || !($col length)</p>
+        </div>
     {% endif %}
 {% endmacro %}

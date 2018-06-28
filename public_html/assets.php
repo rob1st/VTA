@@ -42,7 +42,10 @@ $context['backto'] = $action !== 'list' ? 'assets.php' : '';
 $context['meta'] = $action;
 
 // retrieve data from db
-$context['data'] = getAssetData($action);
+$context = array_merge(
+    $context,
+    getAssetData($action)
+);
 
 // then render the template with appropriate variables
 $template->display($context);
