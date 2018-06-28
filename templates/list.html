@@ -4,8 +4,8 @@
 
 {% block breadcrumb %}
     <h3 class='text-yellow'>{{ meta }}</h3>
-    {% if tableName %}
-        <a href='/public_html/manage.php'>&#10094; Back to table list</a>
+    {% if backto %}
+        <a href='/public_html/{{ backto }}'>&#10094; Back to list of tables</a>
     {% endif %}
 {% endblock %}
 
@@ -25,9 +25,9 @@
             <h5 class='text-secondary text-center'>No data found</h5>
         {% endif %}
     </ul>
-    {% if tableName %}
+    {% if addPath %}
         <div class='center-content'>
-            <a href='/public_html/manage.php/add/{{ tableName }}' class='btn btn-outline'>Add new {{ tableName }}</a>
+            <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
         </div>
     {% endif %}
 {% endblock %}

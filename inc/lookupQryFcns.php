@@ -67,10 +67,11 @@ function getLookupData($action, $tableName, &$link) {
             'formCtrls' => $formCtrls,
             'id' => $id
         );
-    } else {
+    } else { // fallback is 'list' view
         return array(
             'data' => queryLookupTable($tableName, 'list', $link),
-            'count' => $link->count
+            'count' => $link->count,
+            'addPath' => "manage.php/add/$tableName"
         );
     }
 }

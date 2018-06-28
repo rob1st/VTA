@@ -2,8 +2,8 @@
 
 {% block breadcrumb %}
     <h3 class='text-yellow'>{{ meta }}</h3>
-    {% if tableName %}
-        <a href='/public_html/manage.php/list/{{ tableName }}'>&#10094; Back to list of items</a>
+    {% if backto %}
+        <a href='/public_html/{{ backto }}'>&#10094; Back to list of items</a>
     {% endif %}
 {% endblock %}
 

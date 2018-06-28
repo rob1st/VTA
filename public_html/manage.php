@@ -16,7 +16,7 @@ $twig = new Twig_Environment($loader,
 session_start();
 
 //* DEFAULTS */
-$contextVars = array(
+$context = array(
     'navbarHeading' => $_SESSION['Username'],
     'title' => 'Manage Data',
     'pageHeading' => 'List of lookup tables',
@@ -41,7 +41,7 @@ list($action, $tableName) = count($pathParams) >= 2
     : [ 'list', '' ];
 
 $template = $twig->load("$action.html");
-$contextVars['meta'] = $action;
+$context['meta'] = $action;
 
 // included sql file should perform the query and return table data
 /* included file will also include relevant vars for display
@@ -57,20 +57,23 @@ $contextVars['meta'] = $action;
 if ($tableName) {
     $displayName = $displayNames[$tableName] ?: $tableName;
     
-    $contextVars['meta'] = $tableName;
-    $contextVars['tableName'] = $tableName;
-    $contextVars['pageHeading'] = $contextVars['title'] = ucfirst(
+    $context['meta'] = $tableName;
+    $context['tableName'] = $tableName;
+    $context['pageHeading'] = $context['title'] = ucfirst(
         $action === 'list'
             ? $action . ' of '. pluralize($displayName)
             : $action . ' ' . $displayName
     );
-    $contextVars['cardHeading'] = ucfirst(pluralize($displayName));
+    $context['cardHeading'] = ucfirst(pluralize($displayName));
+    $context['backto'] = $action === 'list'
+        ? 'manage.php'
+        : "manage.php/list/$tableName";
 
     $link = connect();
 
     try {
-        $contextVars = array_merge(
-            $contextVars,
+        $context = array_merge(
+            $context,
             getLookupData($action, $tableName, $link)
         );
     } catch (Exception $e) {
@@ -85,4 +88,4 @@ if ($tableName) {
 **    should rely on the nav template for which state is shown
 **    and pass it only a loggedIn/notLoggiedIn param
 */
-$template->display($contextVars);
+$template->display($context);
