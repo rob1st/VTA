@@ -51,6 +51,7 @@ function getLookupData($action, $tableName, &$link) {
     
         return array(
             'cardHeading' => 'Enter ' . $displayName . ' information',
+            'formTarget' => '/commit/commitNewLookupData.php',
             'formCtrls' => $formCtrls
         );
     } elseif ($action ==='update') {

@@ -1,8 +1,8 @@
 <?php
 $sqlMap = [
     'asset' => [
-        'list' => ['assetID', 'assetTag', 'component', 'location', installStat, testStat],
-        'add' => ['assetTag', 'component', 'location', 'room', 'installStat', 'testStat'],
+        'list' => ['assetID', 'assetTag', 'component', 'location', 'installStatus', 'testStatus'],
+        'add' => ['assetTag', 'component', 'location', 'room', 'installStatus', 'testStatus'],
         'update' => []
     ],
     'component' => [
@@ -14,8 +14,8 @@ $sqlMap = [
         'fields' => ['locationID', 'locationName']
     ],
     'installStat' => [
-        'table' => 'YesNo',
-        'fields' => ['yesNoID', 'yesNo']
+        'table' => 'yesNo',
+        'fields' => ['yesNoID', 'yesNoName']
     ],
     'testStat' => [
         'table' => 'testStatus',
