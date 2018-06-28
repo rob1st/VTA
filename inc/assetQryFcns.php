@@ -4,7 +4,7 @@ require_once 'assetSql.php';
 require_once 'assetViewEls.php';
 
 function getAssetData($action) {
-    global $defaultFormCtrls;
+    global $defaultFormCtrls, $sqlMap;
     
     $link = connect();
     
@@ -18,23 +18,22 @@ function getAssetData($action) {
         foreach ($context['formCtrls'] as $name => &$ctrl) {
             // if it's a select element, qry for options
             // in the future rendering should be handled by template eng
-            if (isset($sqlMap[$name]) && strpos($ctrl, 'select') === false) {
+            if ($sqlMap[$name]) {
                 $fields = $sqlMap[$name]['fields'];
                 $tableName = $sqlMap[$name]['table'];
-                $data = $link->get($tableName, $fields);
+                $data = $link->get($tableName, null, $fields);
                 
                 $options = [];
                 $optFormat = "<option value='%s'>%s</option>";
                 foreach ($data as $datum) {
-                    $option = sprintf($optFormat, $datum[0], $datum[1]);
-                    array_push($options, $option);
+                    $options[] = sprintf($optFormat, $datum[$fields[0]], $datum[$fields[1]]);
                 }
                 
                 $ctrl = sprintf($ctrl,
-                    vsprintf($options)
+                    implode('', $options)
                 );
             } else {
-                $ctrl = sprintf($ctrl, '');
+                $ctrl = sprintf($ctrl, $name);
             }
         }
         
