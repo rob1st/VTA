@@ -1,7 +1,7 @@
 <?PHP
     include('config.php');
     $rejectredirecturl = 'Fail.html';
-    $successredirecturl = 'stats.php';
+    $successredirecturl = 'dashboard.php';
     $duplicate = 'duplicate.php'; // this file doesn't exist
     
     function f_sqlConnect() {

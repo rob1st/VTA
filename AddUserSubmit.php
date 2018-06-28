@@ -70,7 +70,7 @@ else {
             $sql = "INSERT INTO users_enc (Username, Password, Email, firstname, lastname, Role, Created_by, Company, DateAdded) VALUES ('".$username."', '".$pwd."', '".$email."', '".$firstname."', '".$lastname."', '".$role."', '".$AUsername."', '".$Company."', NOW())";
                 if(mysqli_query($link,$sql)) {
                     //echo $sql;
-                    header("location: stats.php");
+                    header("location: dashboard.php");
                 } else {
                     echo "<br>Error :".$sql."<br>".mysql_error($link); 
                 }

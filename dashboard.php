@@ -33,36 +33,34 @@ session_start();
     // each item MUST include TableName, PluralString, ItemString, SqlString
     // if any extra content is needed, add it to index after required items
     $cards = [
-      ['Status', 'Statuses', 'Items', 
+      ['status', 'Statuses', 'Items', 
         "<div class='data-display'><div id='open-closed-graph' class='chart-container'></div><p id='open-closed-legend' class='flex-column'></p></div>"],
-      ['Severity', 'Severities', 'Open Items', '<div class="data-display"><div id="severity-graph" class="chart-container"></div><p id="open-closed-legend" class="legend"></p></div>'],
-      ['System', 'Systems', 'Actions'],
-      ['Location', 'Locations', 'Open Items']
+      ['severity', 'Severities', 'Open Items', '<div class="data-display"><div id="severity-graph" class="chart-container"></div><p id="open-closed-legend" class="legend"></p></div>'],
+      ['system', 'Systems', 'Actions'],
+      ['location', 'Locations', 'Open Items']
     ];
     $queries = [
-      'Status' => 'SELECT S.Status, COUNT(C.Status) FROM CDL C LEFT JOIN Status S ON C.Status=S.StatusID GROUP BY Status ORDER BY StatusID',
-      'Severity' => 'SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN Severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY Severity ORDER BY S.SeverityName',
-      'System' => 'SELECT S.System, COUNT(C.Status) FROM CDL C LEFT JOIN System S ON C.GroupToResolve=S.SystemID WHERE Status = 1 GROUP BY System ORDER BY S.System',
-      'Location' => 'SELECT L.LocationName, COUNT(C.Status) FROM CDL C LEFT JOIN Location L ON L.LocationID=C.Location WHERE Status = 1 GROUP BY Location  ORDER BY L.LocationName'
+      'status' => 'SELECT S.StatusName, COUNT(C.Status) FROM CDL C LEFT JOIN status S ON C.Status=S.StatusID GROUP BY StatusName ORDER BY StatusID',
+      'severity' => 'SELECT S.SeverityName, COUNT(C.Severity) FROM CDL C LEFT JOIN severity S ON C.Severity=S.SeverityID WHERE C.Status=1 GROUP BY SeverityName ORDER BY S.SeverityName',
+      'system' => 'SELECT S.SystemName, COUNT(C.Status) FROM CDL C LEFT JOIN system S ON C.GroupToResolve=S.SystemID WHERE C.Status=1 GROUP BY SystemName ORDER BY S.SystemName',
+      'location' => 'SELECT L.LocationName, COUNT(C.Status) FROM CDL C LEFT JOIN location L ON L.LocationID=C.Location WHERE Status = 1 GROUP BY LocationName ORDER BY L.LocationName'
     ];
     
-    function writeDashCard($tot, $qry, $cardSpecs) {
+    function writeDashCard($count, &$res, $card) {
       global $statusOpen, $statusClosed, $blockSev, $critSev, $majSev, $minSev;
-      if ($db) $dbConnect = 'connection successful';
       echo "
         <div class='card dash-card'>
           <header class='card-header'>
-            <p style='margin: 0; font-size: .75rem; color: crimson'>{$dbConnect}</p>
-            <h4>{$cardSpecs[1]}</h4>
+            <h4>{$card[1]}</h4>
           </header>
           <div class='card-body grey-bg'>
             <ul class='dash-list'>
               <li class='bg-secondary text-white dash-list-heading'>
-                <span class='dash-list-left dash-list-name'>{$cardSpecs[0]}</span>
-                <span class='dash-list-right dash-list-count'>{$cardSpecs[2]}</span>
+                <span class='dash-list-left dash-list-name'>{$card[0]}</span>
+                <span class='dash-list-right dash-list-count'>{$card[2]}</span>
               </li>";
-      if ($tot && $qry) {
-        while ($row = mysqli_fetch_array($qry)) {
+      if ($count && $res) {
+        while ($row = $res->fetch_row()) {
           if ($row[0] == 'Open') $statusOpen = $row[1];
           elseif ($row[0] == 'Closed') $statusClosed = $row[1];
           elseif ($row[0] == 'Blocker') $blockSev = $row[1];
@@ -77,12 +75,12 @@ session_start();
           ";
         }
         echo "</ul>";
-        if (count($cardSpecs) > 3) {
-          echo "{$cardSpecs[3]}</div>";
+        if (count($card) > 3) {
+          echo "{$card[3]}</div>";
         } else echo "</div>";
         echo "
             <footer class='card-footer'>
-              <a href='Display{$cardSpecs[1]}.php' class='btn btn-lg btn-outline btn-a'>Number of {$cardSpecs[1]} {$tot}</a>
+              <a href='Display{$card[1]}.php' class='btn btn-lg btn-outline btn-a'>Number of {$card[1]} {$count}</a>
             </footer>
         ";
       } else echo "</ul><p class='empty-qry-msg'>0 items returned from database</p>";
@@ -97,10 +95,13 @@ session_start();
 <main role="main" class="container main-content dashboard">
   <?php
   foreach($cards as $card) {
-    $tableStr = 'SELECT COUNT(*) FROM '.$card[0];
-    $count = mysqli_fetch_array(mysqli_query($link, $tableStr))[0];
-    $cardData = mysqli_query($link, $queries[$card[0]]);
-    writeDashCard($count, $cardData, $card);
+    $tableStr = 'SELECT COUNT(*) FROM ' . $card[0];
+    $res = $link->query($tableStr);
+    $count = $res->fetch_row()[0];
+    $res->close();
+    $res = $link->query($queries[$card[0]]);
+    writeDashCard($count, $res, $card);
+    $res->close();
   }
 ?> 
 </main>

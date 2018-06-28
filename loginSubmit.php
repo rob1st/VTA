@@ -73,7 +73,7 @@
             if($set_SecQ == 0) {
                 header('location: SetSQ.php');
                 } else {
-                header('location: stats.php');
+                header('location: dashboard.php');
             //$message = "Success";
                 }
             } else {

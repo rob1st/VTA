@@ -42,7 +42,7 @@
             die("Insert failed. " . mysqli_error($link));
               
             //$message = "<p class='message'>Your security question has been saved</p>";
-            header('location: stats.php');
+            header('location: dashboard.php');
             } 
     }
 mysqli_close($link);

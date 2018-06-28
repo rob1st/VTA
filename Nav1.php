@@ -4,7 +4,7 @@ require_once('SQLFunctions.php');
 if(!isset($_SESSION['UserID'])) {
     $navHeading = 'Login now';
     $navItems = [
-      'Home' => 'stats.php',
+      'Home' => 'dashboard.php',
       'Help' => 'help.php'
     ];
 } else {
@@ -13,7 +13,7 @@ if(!isset($_SESSION['UserID'])) {
     $Username = $_SESSION['Username'];
     $Role = $_SESSION['Role'];
     $navItems = [
-      'Home' => 'stats.php',
+      'Home' => 'dashboard.php',
       'Help' => 'help.php',
       'Deficiencies' => 'DisplayDefs.php',
       'Safety Certs' => 'ViewSC.php'
