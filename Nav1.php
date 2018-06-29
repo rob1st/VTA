@@ -62,7 +62,7 @@ if(!isset($_SESSION['userID'])) {
   }
 }
 ?>
-<nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue">
   <span class="navbar-brand navbar-heading">
     <?php
       $navbarHref = 'login.php';
