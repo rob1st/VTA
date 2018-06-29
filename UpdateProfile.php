@@ -3,7 +3,7 @@
     include('SQLFunctions.php');
     $link = f_sqlConnect();
     $table = users_enc;
-    $q = $_SESSION['UserID'];
+    $q = $_SESSION['userID'];
     $title = "SVBX - Update Profile";
     $Loc = "SELECT Username, Role, firstname, lastname, Email, Company, SecQ, SecA FROM $table WHERE UserID = ".$q;
     include('filestart.php');
@@ -21,7 +21,7 @@
                 echo "
                     <div class='container main-content'>
                         <FORM action='UpdateProfileCommit.php' method='POST' onsubmit='' />
-                            <input type='hidden' name='UserID' value='".$q."'>
+                            <input type='hidden' name='userID' value='".$q."'>
                             <table class='table'>
                                 <tr class='usertr'>
                                     <th class='userth'>First name:</td>
@@ -44,7 +44,7 @@
                                 <tr class='usertr'>
                                     <th class='userth'>Username:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='Username' maxlength='25' required value='".$Username."'/>
+                                        <input type='text' name='username' maxlength='25' required value='".$Username."'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
@@ -93,7 +93,7 @@
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='4'>Role:</td>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='S'"; 
+                                        <input type='radio' name=['role'] value='S'"; 
                                         if($ARole== 'S') { 
                                         echo ' checked'; 
                                         } else { 
@@ -103,7 +103,7 @@
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='A'"; 
+                                        <input type='radio' name=['role'] value='A'"; 
                                         if($Role== 'A') { 
                                             echo ' checked'; 
                                         } else { 
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='U'"; 
+                                        <input type='radio' name=['role'] value='U'"; 
                                         if($Role== 'U') { 
                                             echo ' checked'; 
                                         } else { 
@@ -123,7 +123,7 @@
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='V'"; 
+                                        <input type='radio' name=['role'] value='V'"; 
                                         if($Role== 'V') { 
                                             echo ' checked'; 
                                         } else { 
@@ -136,7 +136,7 @@
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='3'>Role:</td>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='A'"; 
+                                        <input type='radio' name=['role'] value='A'"; 
                                         if($Role== 'A') { 
                                         echo ' checked'; 
                                         } else { 
@@ -146,7 +146,7 @@
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='U'"; 
+                                        <input type='radio' name=['role'] value='U'"; 
                                         if($Role== 'U') { 
                                             echo ' checked'; 
                                         } else { 
@@ -156,7 +156,7 @@
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name='Role' value='V'"; 
+                                        <input type='radio' name=['role'] value='V'"; 
                                         if($Role== 'V') { 
                                             echo ' checked'; 
                                         } else { 

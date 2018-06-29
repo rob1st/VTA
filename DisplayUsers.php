@@ -5,8 +5,8 @@ $link = f_sqlConnect();
 $table = users_enc;
 $title = "SVBX - Display Users";
 include('filestart.php');
-$adminID = $_SESSION['UserID'];
-$Role = $_SESSION['Role'];
+$adminID = $_SESSION['userID'];
+$Role = $_SESSION['role'];
         
     if(!f_tableExists($link, $table, DB_Name)) {
         die('<br>Destination table does not exist: '.$table);
@@ -35,7 +35,7 @@ $Role = $_SESSION['Role'];
                         <th class='userth'>First name</th>
                         <th class='userth'>Last name</th>
                         <th class='userth'>Email</th>";
-                        if(!isset($_SESSION['UserID'])) 
+                        if(!isset($_SESSION['userID'])) 
                         {
                         echo "</tr>";
                         } else {
@@ -67,7 +67,7 @@ $Role = $_SESSION['Role'];
                         <td class='usertd'>{$row[2]}</td>
                         <td class='usertd'>{$row[3]}</td>
                         <td class='usertd'><a href='mailto:{$row[9]}' style='color:black'>{$row[9]}</a></td>";
-                        if(!isset($_SESSION['UserID'])) 
+                        if(!isset($_SESSION['userID'])) 
                         {
                             echo "</tr>";
                         } else {

@@ -6,7 +6,7 @@ include('utils/utils.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
 $link = f_sqlConnect();
-$role = $_SESSION['Role'];
+$role = $_SESSION['role'];
 $view = $_GET['view'];
 include('filestart.php');
 
@@ -18,7 +18,7 @@ $roleLvlMap = [
 ];
 $roleLvl = $roleLvlMap[$role];
 
-if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
+if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
     if ($row = $result->fetch_row()) {
         $bdPermit = $row[0];
     }

@@ -6,7 +6,7 @@ include('html_components/defComponents.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
-$Role = $_SESSION['Role'];
+$Role = $_SESSION['role'];
 $title = "SVBX - Deficiency No. " . $defID;
 include('filestart.php'); 
 $link = f_sqlConnect();
@@ -286,7 +286,7 @@ if ($defID) {
 } elseif ($bartDefID) {
     include('html_components/defComponents.php');
     // check for bartdl permission
-    if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
+    if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
         if ($row = $result->fetch_row()) {
             $bdPermit = $row[0];
         }

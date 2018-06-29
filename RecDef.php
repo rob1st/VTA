@@ -4,8 +4,8 @@ include('SQLFunctions.php');
 include('uploadImg.php');
 
 $date = date('Y-m-d');
-$userID = intval($_SESSION['UserID']);
-$username = $_SESSION['Username'];
+$userID = intval($_SESSION['userID']);
+$username = $_SESSION['username'];
 $nullVal = null;
 
 $link = f_sqlConnect();

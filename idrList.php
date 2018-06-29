@@ -2,8 +2,8 @@
 include 'session.php';
 include 'SQLFunctions.php';
 
-$userID = $_SESSION['UserID'];
-$role = $_SESSION['Role'];
+$userID = $_SESSION['userID'];
+$role = $_SESSION['role'];
 
 $link = f_sqlConnect();
 $qry = "SELECT userid, username, firstname, lastname, viewidr FROM users_enc where userid='$userID'";
@@ -91,7 +91,7 @@ if ($idrAuth) {
                                                     </li>",
                                                     "/idr.php?idrID={$row['idrID']}",
                                                     $row['idrForDate'],
-                                                    $row['Username']
+                                                    $row['username']
                                                 );
                                             }
                                             echo "

@@ -1,8 +1,13 @@
-<?PHP
+<?php
+    require_once 'vendor/autoload.php';
     include('config.php');
     $rejectredirecturl = 'Fail.html';
     $successredirecturl = 'dashboard.php';
     $duplicate = 'duplicate.php'; // this file doesn't exist
+    
+    function connect() {
+        return new MysqliDB(DB_Host, DB_USER, DB_PWD, DB_Name);
+    }
     
     function f_sqlConnect() {
         $link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
@@ -92,7 +97,7 @@ function f_tableExists(mysqli $link,$tablename,$database = false) {
 function checkUNEmail($uname,$email)
 {
     global $link;
-    $error = array('status'=>false,'UserID'=>0);
+    $error = array('status'=>false,'userID'=>0);
     if (isset($email) && trim($email) != '') {
         //email was entered
         if ($SQL = $link->prepare("SELECT `UserID` FROM `users_enc` WHERE `Email` = ? LIMIT 1"))
@@ -117,7 +122,7 @@ function checkUNEmail($uname,$email)
             $SQL->bind_result($UserID);
             $SQL->fetch();
             $SQL->close();
-            if ($numRows >= 1) return array('status'=>true,'UserID'=>$UserID);
+            if ($numRows >= 1) return array('status'=>true,'userID'=>$UserID);
         } else { return $error; }
     } else {
         //nothing was entered;

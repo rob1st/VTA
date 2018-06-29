@@ -4,7 +4,7 @@
 //error_reporting(E_ALL);
 include('SQLFunctions.php');
 include('session.php');
-$AUserID = $_SESSION['UserID'];
+$AUserID = $_SESSION['userID'];
 $link = f_sqlConnect();
 $title = "Update User Commit";
     
@@ -12,7 +12,7 @@ $user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
 if($result=mysqli_query($link,$user)) {
     /*from the sql results, assign the username that returned to the $username variable*/    
     while($row = mysqli_fetch_assoc($result)) {
-        $AUsername = $row['Username'];
+        $AUsername = $row['username'];
     }
 }
 
@@ -28,15 +28,15 @@ if($_POST['Password'] <> '') {
     $pwd = '0';
 }
 
-if(!isset($_POST['Username']))
+if(!isset($_POST['username']))
 {
     $message = 'Please enter a valid username';
 }
-elseif (strlen( $_POST['Username']) > 20 || strlen($_POST['Username']) < 4)
+elseif (strlen( $_POST['username']) > 20 || strlen($_POST['username']) < 4)
 {
     $message = 'incorrect length for Username';
 }
-elseif (ctype_alnum($_POST['Username']) != true)
+elseif (ctype_alnum($_POST['username']) != true)
 {
     $message = "Username must be alpha numeric";
 }
@@ -49,16 +49,16 @@ elseif (filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL) !=true)
     $message = "Email is not a valid email address";
 }
 elseif(!empty($_POST)) {
-    $UserID = $_POST['UserID'];
+    $UserID = $_POST['userID'];
     $SecQ = $_POST['SecQ'];
-    $Username = filter_var($_POST['Username'], FILTER_SANITIZE_STRING);
+    $Username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
     $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
     $lastname = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
     $company = filter_var($_POST['Company'], FILTER_SANITIZE_STRING);
     $password = filter_var($_POST['Password'], FILTER_SANITIZE_STRING);
     $SecA = filter_var($_POST['SecA'], FILTER_SANITIZE_STRING);
     $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
-    $Role = $_POST['Role'];
+    $Role = $_POST['role'];
     $Password = password_hash($password, PASSWORD_BCRYPT);
     
     if($pwd == '0') {

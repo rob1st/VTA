@@ -4,7 +4,7 @@
 $title = "View Safety Certificate";
 //$link = f_sqlConnect();
 //$CDL = file_get_contents("CDList.sql");
-$Role = $_SESSION['Role'];
+$Role = $_SESSION['role'];
 include('filestart.php');
 ?>
     

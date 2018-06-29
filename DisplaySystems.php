@@ -2,7 +2,7 @@
 include('session.php');
 include('SQLFunctions.php');
 $link = f_sqlConnect();
-$Role = $_SESSION['Role'];
+$Role = $_SESSION['role'];
 $table = System;
 $title = "SVBX - Display Status Types";
 include('filestart.php');
@@ -36,7 +36,7 @@ include('filestart.php');
                     <tr class='def-tr'>
                         <th class='userth'>ID</th>
                         <th class='userth'>System</th>";
-                        if(!isset($_SESSION['UserID'])) 
+                        if(!isset($_SESSION['userID'])) 
                         {
                         echo "</tr>";
                         } else {
@@ -55,7 +55,7 @@ include('filestart.php');
         echo"       <tr class='def-tr'>
                         <td class='usertd'>{$row[0]}</td>
                         <td class='usertd'>{$row[1]}</td>";
-                        if(!isset($_SESSION['UserID'])) 
+                        if(!isset($_SESSION['userID'])) 
                         {
                             echo "</tr>";
                         } else {

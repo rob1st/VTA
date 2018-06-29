@@ -14,7 +14,7 @@ $fieldList = implode(',', array_keys($fieldsArr));
 
 $link = f_sqlConnect();
 
-if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['UserID'])) {
+if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
     if ($row = $result->fetch_row()) {
         $bdPermit = $row[0];
     }

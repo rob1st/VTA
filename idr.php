@@ -8,9 +8,9 @@ $curDateNum = $d->format('Y-m-d');
 
 
 $link = f_sqlConnect();
-$userID = $_SESSION['UserID'];
-$username = $_SESSION['Username'];
-$role = $_SESSION['Role'];
+$userID = $_SESSION['userID'];
+$username = $_SESSION['username'];
+$role = $_SESSION['role'];
 // why do this check if $_SESSION already has $Username(?)
 $userQry = 'SELECT firstname, lastname, viewIDR FROM users_enc WHERE UserID = '.$userID;
 $contractQry = 'SELECT ContractID, Contract FROM Contract';
@@ -91,7 +91,7 @@ if ($userAuth < 1) {
                     $expiry = new DateTime($row['editableUntil']);
                     $approved = $row['approvedBy'];
                     
-                    if ($row['UserID'] === $userID || $userAuth > 1) {
+                    if ($row['userID'] === $userID || $userAuth > 1) {
                         // review view + comments
                         // + Approve btn if $userAuth > 1
                         echo ("
@@ -103,7 +103,7 @@ if ($userAuth < 1) {
                                         <h6 class='flex-row space-between'>
                                             <span>Inspector Name</span>
                                             <span>{$row['firstname']} {$row['lastname']}</span>
-                                            <input type='hidden' name='UserID' value='{$userID}' />
+                                            <input type='hidden' name='userID' value='{$userID}' />
                                         </h6>
                                     </div>
                                     <div class='card-body'>
@@ -364,7 +364,7 @@ if ($userAuth < 1) {
                                 })
                             }
                         </script>");
-                    // } elseif (!$row['approvedBy'] && $userID === $row['UserID']) {
+                    // } elseif (!$row['approvedBy'] && $userID === $row['userID']) {
                     //     echo "<h2 class='text-secondary'>Editable Until view</h2>";
                     //     // IDR editable until midnight after $timestamp
                     //     echo "
@@ -377,7 +377,7 @@ if ($userAuth < 1) {
                     //                         <span class='item-margin-right'>Inspector Name</span>
                     //                         <span>{$row['firstname']} {$row['lastname']}</span>
                     //                     </h6>
-                    //                     <input type='hidden' name='UserID' value='{$userID}' />
+                    //                     <input type='hidden' name='userID' value='{$userID}' />
                     //                 </div>
                     //                 <div class='card-body'>
                     //                     <div class='flex-row no-wrap space-between align-center item-margin-bottom'>
@@ -607,7 +607,7 @@ if ($userAuth < 1) {
                             <li>$code</li>
                             <li>$role</li>
                             <li>$userAuth</li>
-                            <li>{$row['UserID']} === $userID</li>
+                            <li>{$row['userID']} === $userID</li>
                             <li>{$row['approvedBy']}</li>
                         </ul>";
                         return;
@@ -649,7 +649,7 @@ if ($userAuth < 1) {
                                         <span class='item-margin-right'>Inspector Name</span>
                                         <span>{$userFullName}</span>
                                     </h6>
-                                    <input type='hidden' name='UserID' value='{$userID}' />
+                                    <input type='hidden' name='userID' value='{$userID}' />
                                 </div>
                                 <div class='card-body'>
                                     <div class='row item-margin-bottom'>

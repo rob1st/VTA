@@ -1,0 +1,17 @@
+{% macro getMacro(tagName) %}
+    {# is my only recourse here an ungodly chain of if/elseif? #}
+{% endmacro %}
+
+{% macro input(type = 'text', name, max, value = '') %}
+    <input type='{{ type }}' name='{{ name }}' maxlength='{{ max }}' value='{{ value }}' class='form-control'>
+{% endmacro %}
+
+{% macro select(name, options, value) %}
+{% endmacro %}
+
+{% macro checkbox(name, checked = 'false') %}
+{% endmacro %}
+
+{% macro textarea(name, max, value) %}
+    <textarea name='{{ name }}' maxlength='{{ max }}' class='form-control'>{{ value }}</textarea>
+{% endmacro %}

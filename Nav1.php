@@ -1,7 +1,7 @@
 <?php
 require_once('SQLFunctions.php');
 
-if(!isset($_SESSION['UserID'])) {
+if(!isset($_SESSION['userID'])) {
     $navHeading = 'Login now';
     $navItems = [
       'Home' => 'dashboard.php',
@@ -9,9 +9,9 @@ if(!isset($_SESSION['UserID'])) {
     ];
 } else {
     /*copy the session UserID to a local variable*/
-    $UserID = $_SESSION['UserID'];
-    $Username = $_SESSION['Username'];
-    $Role = $_SESSION['Role'];
+    $UserID = $_SESSION['userID'];
+    $Username = $_SESSION['username'];
+    $Role = $_SESSION['role'];
     $navItems = [
       'Home' => 'dashboard.php',
       'Help' => 'help.php',
@@ -20,19 +20,18 @@ if(!isset($_SESSION['UserID'])) {
     ];
 
   try {
-    /*Connect to CRUD Database*/
     $link = f_sqlConnect();
 
     /* Prep SQL statement to find the user name based on the UserID */
-    $sql = "SELECT Username, firstname, lastname, Role, viewIDR FROM users_enc WHERE UserID = ".$UserID;
+    $sql = "SELECT Username, firstname, lastname, Role, inspector FROM users_enc WHERE UserID = ".$UserID;
 
     /*execute the sql statement*/
-    if($result=mysqli_query($link,$sql)) {
+    if($result = $link->query($sql)) {
       /*from the sql results, assign the username that returned to the $username variable*/
-      while($row = mysqli_fetch_assoc($result)) {
+      while($row = $result->fetch_assoc()) {
         $firstname = $row['firstname'];
         $lastname = $row['lastname'];
-        if ($row['viewIDR']) {
+        if ($row['inspector']) {
           $navItems['Daily Report'] = 'idr.php';
         }
       }
@@ -68,7 +67,7 @@ if(!isset($_SESSION['UserID'])) {
     <?php
       $navbarHref = 'login.php';
       // if UserID is already set, link to userAccount page
-      if (isset($_SESSION['UserID'])) {
+      if (isset($_SESSION['userID'])) {
         $navbarHref = 'userAccount.php';
       }
       echo "<a href='{$navbarHref}' class='navbar-link navbar-brand-link'>{$navHeading}</a>";

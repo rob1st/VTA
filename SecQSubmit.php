@@ -21,7 +21,7 @@
         $SecQ = $_POST['SecQ'];
         $seca = $_POST['SecA'];
         $SecA = filter_var($seca, FILTER_SANITIZE_STRING);
-        $Username = $_SESSION['Username'];
+        $Username = $_SESSION['username'];
         
         if(!isset($Username)) {
             $message = "No user logged in";

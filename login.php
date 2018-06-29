@@ -13,9 +13,9 @@
             <div class="row">
               <div class="col-md-4 offset-md-4">
                 <h2>Username</h2>
-                <input type="text" name="Username" value="" maxlength="20" class="login-field" />
+                <input type="text" name="username" value="" maxlength="20" class="login-field" />
                 <h2>Password</h2>
-                <input type="password"  name="Password" value="" maxlength="20" class="login-field" />
+                <input type="password"  name="password" value="" maxlength="20" class="login-field" />
               <input type="submit" name="submit" value="Login" class="btn btn-primary btn-lg login-btn"/>
               <a href="ForgotPassword.php" class="forgot-password-btn">Forgot Password</a>
               </div>

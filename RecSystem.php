@@ -9,8 +9,8 @@
     
     $link = f_sqlConnect();
     $check = "SELECT * FROM $table WHERE System = '".$_POST['Status']."'";
-    $UserID = $_SESSION['UserID'];
-    $Username = $_SESSION['Username'];
+    $UserID = $_SESSION['userID'];
+    $Username = $_SESSION['username'];
     
     $keys = implode(", ", (array_keys($_POST)));
     echo '<br>Parsed Key: ' .$keys;

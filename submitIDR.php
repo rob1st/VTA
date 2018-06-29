@@ -24,12 +24,12 @@
             setDate($editableUntil->format('Y'), $editableUntil-> format('m'), $editableUntil->format('j') + 1)->
             setTime('00', '59', '59');
         
-        $userID = $_SESSION['UserID'] || $_POST['UserID'];
-        $username = $_SESSION['Username'] || $_POST['Username'];
+        $userID = $_SESSION['userID'] || $_POST['userID'];
+        $username = $_SESSION['username'] || $_POST['username'];
     
     
         // check for existing submission
-        $check = "SELECT idrID, idrDate, LocationID FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (UserID={$_POST['UserID']}) AND (LocationID={$_POST['LocationID']}";
+        $check = "SELECT idrID, idrDate, LocationID FROM $idrTable WHERE (idrDate='{$_POST['idrDate']}') AND (UserID={$_POST['userID']}) AND (LocationID={$_POST['LocationID']}";
         $result = $link->query($check);
         
         if ($result) {
@@ -56,7 +56,7 @@
             
             // append editableUntil to $idrData;
             $idrData['editableUntil'] = $editableUntil->format($editableUntil::W3C);
-            if (!isset($idrData['UserID'])) $idrData['UserID'] = $userID;
+            if (!isset($idrData['userID'])) $idrData['userID'] = $userID;
         
             $keys = implode(", ", array_keys($idrData));
             $vals = implode("', '", array_values($idrData));
@@ -83,7 +83,7 @@
                 // test for comment and insert if present
                 if ($comment = $link->escape_string($post['comment'])) {
                     $commentQry = "INSERT idrComments (userID, comment, idrID)
-                        VALUES ('{$_POST['UserID']}', '{$comment}', '{$newIdrID}')";
+                        VALUES ('{$_POST['userID']}', '{$comment}', '{$newIdrID}')";
                     if ($result = $link->query($commentQry)) {
                         http_response_code(201);
                         $code = http_response_code();

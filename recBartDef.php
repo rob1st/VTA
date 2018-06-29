@@ -9,7 +9,7 @@ include('uploadAttachment.php');
 $link = f_sqlConnect();
 
 $date = date('Y-m-d');
-$userID = $_SESSION['UserID'];
+$userID = $_SESSION['userID'];
 
 function printException(\Exception $exc, $color = 'orangeRed') {
     print "

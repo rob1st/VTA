@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-$Role = $_SESSION['Role'];
+$Role = $_SESSION['role'];
 $title = "SVBX - Safety Certifications".$DefID;
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);

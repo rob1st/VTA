@@ -3,7 +3,7 @@ require_once('SQLFunctions.php');
 //include('session.php');
 session_start();
 
-$AUserID = $_SESSION['UserID'];
+$AUserID = $_SESSION['userID'];
 $AUser = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
 $link = f_sqlConnect();
 
@@ -11,7 +11,7 @@ if($result=mysqli_query($link,$AUser))
     {
       /*from the sql results, assign the username that returned to the $username variable*/    
       while($row = mysqli_fetch_assoc($result)) {
-        $AUsername = $row['Username'];
+        $AUsername = $row['username'];
       }
     }
 

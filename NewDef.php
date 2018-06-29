@@ -4,7 +4,7 @@ include('SQLFunctions.php');
 include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
 $link = f_sqlConnect();
-$Role = $_SESSION['Role'];
+$Role = $_SESSION['role'];
 $title = "SVBX - New Deficiency";
 if($Role == 'V') {
     header('Location: unauthorised.php');
@@ -87,7 +87,7 @@ echo "
     </header>
     <main role='main' class='container main-content'>
         <form action='RecDef.php' method='POST' enctype='multipart/form-data'>
-            <input type='hidden' name='username' value='{$_SESSION['Username']}' />";
+            <input type='hidden' name='username' value='{$_SESSION['username']}' />";
 
         foreach ([$requiredRows, $optionalRows, $closureRows] as $rowGroup) {
             $rowName = array_shift($rowGroup);

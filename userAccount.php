@@ -2,13 +2,13 @@
     include 'session.php';
     include 'SQLFunctions.php';
     
-    $role = $_SESSION['Role'];
-    $userID = $_SESSION['UserID'];
-    $username = $_SESSION['Username'];
+    $role = $_SESSION['role'];
+    $userID = $_SESSION['userID'];
+    $username = $_SESSION['username'];
     $link = f_sqlConnect();
     
     // user data
-    $userQry = "SELECT firstname, lastname, viewIDR FROM users_enc WHERE UserID='$userID'";
+    $userQry = "SELECT firstname, lastname, inspector FROM users_enc WHERE UserID='$userID'";
     $idrQry = "SELECT COUNT(idrID) FROM IDR WHERE UserID='$userID'";
     
     if ($result = $link->query($userQry)) {
@@ -20,10 +20,11 @@
             'A' => 2,
             'S' => 3
         ];
-        $idrAuth = $row['viewIDR'] ? $authLvl[$role] : $row['viewIDR'];
+        $idrAuth = $row['inspector'] ? $authLvl[$role] : $row['inspector'];
         $result->close();
     } elseif ($link->error) {
-        $userFullName = 'Unable to retrieve user account information';
+        $msg = 'Unable to retrieve user account information';
+        $userFullName = $link->error;
         $idrAuth = 0;
     }
     

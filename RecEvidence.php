@@ -9,13 +9,13 @@
     
     $link = f_sqlConnect();
     $check = "SELECT * FROM $table WHERE EviType = '".$_POST['EviType']."'";
-    $UserID = $_SESSION['UserID'];
+    $UserID = $_SESSION['userID'];
     $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
     if($result=mysqli_query($link,$user)) 
         {
           /*from the sql results, assign the username that returned to the $username variable*/    
           while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['Username'];
+            $Username = $row['username'];
           }
         }
     $keys = implode(", ", (array_keys($_POST)));

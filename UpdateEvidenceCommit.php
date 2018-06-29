@@ -6,7 +6,7 @@ session_start();
 if(!empty($_POST)) {
     $EviTypeID = $_POST['EviTypeID'];
     $EviType = $_POST['EviType'];
-    $UserID = $_SESSION['UserID'];
+    $UserID = $_SESSION['userID'];
     $link = f_sqlConnect();
     
     $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
@@ -14,7 +14,7 @@ if(!empty($_POST)) {
         {
           /*from the sql results, assign the username that returned to the $username variable*/    
           while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['Username'];
+            $Username = $row['username'];
           }
         }
     

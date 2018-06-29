@@ -8,8 +8,8 @@ $link = f_sqlConnect();
 // prepare POST and sql string for commit
 $post = $_POST;
 $defID = $post['defID'];
-$userID = $_SESSION['UserID'];
-$username = $_SESSION['Username'];
+$userID = $_SESSION['userID'];
+$username = $_SESSION['username'];
 
 // validate POST data
 // if it's empty then file upload exceeds post_max_size

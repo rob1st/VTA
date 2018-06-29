@@ -17,7 +17,7 @@ include('html_functions/bootstrapGrid.php');
 include('sql_functions/stmtBindResultArray.php');
 
 $title = "SVBX - Update Deficiency";
-$role = $_SESSION['Role'];
+$role = $_SESSION['role'];
 $defID = $_GET['defID'];
 
 // prepare sql statement

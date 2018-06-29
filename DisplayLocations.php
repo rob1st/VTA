@@ -33,7 +33,7 @@ include('filestart.php');
                     <tr class='usertr'>
                         <th class='userth'>Location ID</th>
                         <th class='userth'>Location</th>";
-                        if(!isset($_SESSION['UserID'])) 
+                        if(!isset($_SESSION['userID'])) 
                         {
                         echo "</tr>";
                         } else {
@@ -55,7 +55,7 @@ include('filestart.php');
             echo"       <tr class='usertr'>
                         <td style='text-align:center' class='usertd'>{$row[0]}</td>
                         <td class='usertd'>{$row[1]}</td>";
-                        if(!isset($_SESSION['UserID'])) 
+                        if(!isset($_SESSION['userID'])) 
                         {
                         echo "</tr>";
                         } else {

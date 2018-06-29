@@ -4,7 +4,7 @@ include('SQLFunctions.php');
 $title = "View Deleted Deficiencies";
 $link = f_sqlConnect();
 $CDL = file_get_contents("CDListClosed.sql");
-$Role = $_SESSION['Role'];
+$Role = $_SESSION['role'];
 include('filestart.php');
 ?>
     

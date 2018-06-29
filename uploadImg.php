@@ -29,7 +29,7 @@ function saveImgToServer($file, $assocID = null) {
         if ($filename = basename($file['name'])) {
             $tmpName = $file['tmp_name'];
             // name new file for username, any associated ID, and timestamp
-            $targetFilename = substr($_SESSION['Username'], 0, 6).$assocID.'_'.time();
+            $targetFilename = substr($_SESSION['username'], 0, 6).$assocID.'_'.time();
             $targetDir = '/img_uploads';
             $targetTmpDir = '/img_tmp';
             $targetTmpPath = $targetDir.$targetTmpDir.'/'.$targetFilename.'_tmp';
