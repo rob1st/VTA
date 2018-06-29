@@ -15,7 +15,7 @@ if(!isset($_SESSION['userID'])) {
     $navItems = [
       'Home' => 'dashboard.php',
       'Help' => 'help.php',
-      'Deficiencies' => 'DisplayDefs.php',
+      'Deficiencies' => 'defs.php',
       'Safety Certs' => 'ViewSC.php'
     ];
 

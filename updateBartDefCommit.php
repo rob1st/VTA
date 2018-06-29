@@ -126,7 +126,7 @@ if ($location) {
     header("Location: $location");
 } else {
     print "
-        <p><a href='DisplayDefs.php?view=BART'>back to DisplayDefs</a></p>
+        <p><a href='defs.php?view=BART'>back to DisplayDefs</a></p>
         <p><a href='newBartDef.php'>back to newBartDef</a></p>";
 }
 exit();

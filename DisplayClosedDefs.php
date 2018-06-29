@@ -28,7 +28,7 @@ include('filestart.php');
                 <ul class='def-nav'>";
                 $self = $_SERVER['PHP_SELF'];
                 $defNavLinks = array(
-                      'All' => 'DisplayDefs.php',
+                      'All' => 'defs.php',
                       'Open' => 'DisplayOpenDefs.php',
                       'Closed' => 'DisplayClosedDefs.php'
                     );

@@ -5,7 +5,7 @@ include('SQLFunctions.php');
 include('utils/utils.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
-$link = f_sqlConnect();
+$link = connect();
 $role = $_SESSION['role'];
 $view = $_GET['view'];
 include('filestart.php');
@@ -159,11 +159,11 @@ function printSearchBar($cnxn, $post, $formAction) {
                 </div>
                 <div class='col-sm-2 pl-1 pr-1'>
                     <label class='input-label'>Location</label>
-                    <select name='Location' class='form-control'>
+                    <select name='location' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT l.LocationID, l.LocationName FROM CDL c JOIN Location l ON l.LocationID=c.Location GROUP BY LocationName ORDER BY LocationID')) {
+    if ($result = $cnxn->query('SELECT l.locationID, l.locationName FROM CDL c JOIN location l ON l.locationID=c.location GROUP BY locationName ORDER BY locationID')) {
         while ($row = $result->fetch_array()) {
-            $select = ($post['Location'] === $row[0]) ? 'selected' : '';
+            $select = ($post['location'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
         }
         $result->close();
@@ -361,8 +361,8 @@ if($_POST['Search'] == NULL) {
             print "
                 <div class='row'>
                     <div class='col-12 d-flex'>
-                        <a href='DisplayDefs.php' class='btn $projBtn flex-grow item-margin-right text-wrap'>Project deficiencies</a>
-                        <a href='DisplayDefs.php?view=BART' class='btn $bartBtn flex-grow item-margin-right text-wrap'>BART deficiencies</a>
+                        <a href='defs.php' class='btn $projBtn flex-grow item-margin-right text-wrap'>Project deficiencies</a>
+                        <a href='defs.php?view=BART' class='btn $bartBtn flex-grow item-margin-right text-wrap'>BART deficiencies</a>
                     </div>
                 </div>
             ";
@@ -373,7 +373,7 @@ if($_POST['Search'] == NULL) {
     echo "<main class='container main-content'>";
     if ($view !== 'BART' || !$bdPermit) {
         $sql = file_get_contents("CDList.sql").$whereCls;
-        printSearchBar($link, $postData, [ method => 'POST', action => 'DisplayDefs.php' ]);
+        printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
         printInfoBox($roleLvl, 'NewDef.php');
         printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bdPermit) {
