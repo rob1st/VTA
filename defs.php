@@ -18,9 +18,10 @@ $roleLvlMap = [
 ];
 $roleLvl = $roleLvlMap[$role];
 
-if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
+$link->where('userid', $_SESSION['userID']);
+if (!$result = $link->getOne('users_enc', ['bdPermit']))
     if ($row = $result->fetch_row()) {
-        $bdPermit = $row[0];
+        $bartPermit = $row[0];
     }
 }
 
@@ -357,7 +358,7 @@ if($_POST['Search'] == NULL) {
         $btnSelected = 'btn-light border-dark-blue box-shadow-blue'; 
         $btnNotSelected = 'btn-secondary text-white';
         list($bartBtn, $projBtn) = $view === 'BART' ? [$btnSelected, $btnNotSelected] : [$btnNotSelected, $btnSelected];
-        if ($bdPermit) {
+        if ($bartPermit) {
             print "
                 <div class='row'>
                     <div class='col-12 d-flex'>
@@ -371,12 +372,12 @@ if($_POST['Search'] == NULL) {
 </header>
 <?php
     echo "<main class='container main-content'>";
-    if ($view !== 'BART' || !$bdPermit) {
+    if ($view !== 'BART' || !$bartPermit) {
         $sql = file_get_contents("CDList.sql").$whereCls;
         printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
         printInfoBox($roleLvl, 'NewDef.php');
         printProjectDefsTable($link, $sql, $roleLvl);
-    } elseif ($bdPermit) {
+    } elseif ($bartPermit) {
         $statusSql = 'SELECT s.status, count(id) from BARTDL b JOIN Status s ON b.status=s.statusID GROUP BY s.status';
         $altStatusSql = "SELECT COUNT(CASE WHEN s.status='open' THEN 1
             ELSE NULL END) AS statusOpen,
@@ -391,7 +392,7 @@ if($_POST['Search'] == NULL) {
         elseif (!$statusData = $res->fetch_assoc()) printf($errFormat, $res->error);
 
         printInfoBox($roleLvl, 'newBartDef.php', 1);
-        printBartDefsTable($link, $bdPermit);
+        printBartDefsTable($link, $bartPermit);
     }
     echo "</main>";
     echo "
@@ -402,7 +403,7 @@ if($_POST['Search'] == NULL) {
                 ev.target.form.reset();
                 ev.target.form.submit();
             }";
-        if ($view === 'BART' && $bdPermit) {
+        if ($view === 'BART' && $bartPermit) {
             echo "
                 const openCloseChart = new PieChart(
                     window.d3,
