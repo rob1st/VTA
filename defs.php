@@ -1,4 +1,4 @@
-<?php 
+<?php
 include('session.php');
 // session_start();
 include('SQLFunctions.php');
@@ -8,38 +8,44 @@ $title = "View Deficiencies";
 $link = connect();
 $role = $_SESSION['role'];
 $view = $_GET['view'];
-include('filestart.php');
 
-$roleLvlMap = [
-    'V' => 1,
-    'U' => 2,
-    'A' => 3,
-    'S' => 4
-];
-$roleLvl = $roleLvlMap[$role];
+// $roleLvlMap = [
+//     'V' => 1,
+//     'U' => 2,
+//     'A' => 3,
+//     'S' => 4
+// ];
+// $roleLvl = $roleLvlMap[$role];
 
 $link->where('userid', $_SESSION['userID']);
-if (!$result = $link->getOne('users_enc', ['bdPermit']))
-    if ($row = $result->fetch_row()) {
-        $bartPermit = $row[0];
-    }
+
+try {
+  $result = $link->getOne('users_enc', ['bdPermit']);
+  $bartPermit = $result['bdPermit'];
+} catch (Exception $e) {
+  echo "<h1 style='font-size: 4rem; font-family: monospace; color: red;'>$e</h1>";
+  exit;
 }
 
-function concatSqlStr($arr, $tableName, $initStr = '') {
-    $joiner = 'WHERE';
-    $equality = '=';
-    $qStr = $initStr;
-    foreach ($arr as $key => $val) {
-        if (strpos(strtolower($key), 'description') !== false) {
-            $equality = ' LIKE ';
-            $val = "%{$val}%";
-        }
-        $qStr .= " $joiner $tableName.{$key}{$equality}'{$val}'";
-        $joiner = 'AND';
-        $equality = '=';
-    }
-    return $qStr;
-}
+include('filestart.php');
+if (isset($bartPermit)) echo "<h1 style='font-size: 4rem; color: #1ca;'>$bartPermit</h1>";
+else echo "<h1 style='font-size: 4rem; color: #9d1;'>Houston, we have a problem<h1>";
+
+// function concatSqlStr($arr, $tableName, $initStr = '') {
+//     $joiner = 'WHERE';
+//     $equality = '=';
+//     $qStr = $initStr;
+//     foreach ($arr as $key => $val) {
+//         if (strpos(strtolower($key), 'description') !== false) {
+//             $equality = ' LIKE ';
+//             $val = "%{$val}%";
+//         }
+//         $qStr .= " $joiner $tableName.{$key}{$equality}'{$val}'";
+//         $joiner = 'AND';
+//         $equality = '=';
+//     }
+//     return $qStr;
+// }
 
 function printInfoBox($lvl, $href, $dataGraphic = false) {
     $dataContainer = $dataGraphic
@@ -58,9 +64,9 @@ function printInfoBox($lvl, $href, $dataGraphic = false) {
             </div>
         </div>";
     $btn = $lvl > 1 ? "<a href='%s' class='btn btn-primary'>Add New Deficiency</a>" : '';
-    
+
     $box = sprintf($box, $btn);
-            
+
     return printf($box, $href);
 }
 
@@ -288,7 +294,7 @@ function printBartDefsTable($cnxn, $lvl) {
     $fieldList = str_replace('agree_vta', 'ag.agreeDisagreeName AS agree_vta', $fieldList);
     $fieldList = str_replace('creator', 'c.partyName AS creator', $fieldList);
     $fieldList = str_replace('next_step', 'n.nextStepName AS next_step', $fieldList);
-        
+
     $qry = 'SELECT '
             ." BARTDL.id, s.status s, date_created, descriptive_title_vta, resolution_vta, n.nextStepName"
             ." FROM BARTDL"
@@ -335,27 +341,28 @@ function printBartDefsTable($cnxn, $lvl) {
             ]
         ]
     ];
-    
+
     printDefsTable($cnxn, $qry, $tableFields, $lvl);
 }
 
-if($_POST['Search'] == NULL) {
-    $whereCls = ' WHERE D.Status <> 3 ORDER BY DefID';
-    $count = "SELECT COUNT(*) FROM CDL";
-} else {
-    $postData = array_filter($_POST);
-    unset($postData['Search']);
-    
-    $count = "SELECT COUNT(*) FROM CDL D";
-    
-    $whereCls = concatSqlStr($postData, 'D');
-    $count .= concatSqlStr($postData, 'D');
-}
+// if($_POST['Search'] == NULL) {
+//     $whereCls = ' WHERE D.Status <> 3 ORDER BY DefID';
+//     $count = "SELECT COUNT(*) FROM CDL";
+// } else {
+//     $postData = array_filter($_POST);
+//     unset($postData['Search']);
+//
+//     $count = "SELECT COUNT(*) FROM CDL D";
+//
+//     $whereCls = concatSqlStr($postData, 'D');
+//     $count .= concatSqlStr($postData, 'D');
+// }
+
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
     <?php
-        $btnSelected = 'btn-light border-dark-blue box-shadow-blue'; 
+        $btnSelected = 'btn-light border-dark-blue box-shadow-blue';
         $btnNotSelected = 'btn-secondary text-white';
         list($bartBtn, $projBtn) = $view === 'BART' ? [$btnSelected, $btnNotSelected] : [$btnNotSelected, $btnSelected];
         if ($bartPermit) {
@@ -385,9 +392,9 @@ if($_POST['Search'] == NULL) {
             ELSE NULL END) AS statusClosed
             FROM BARTDL b JOIN Status s
             ON b.status=s.statusID";
-            
+
         $errFormat = "<p class='text-red'>%s</p>";
-        
+
         if (!$res = $link->query($altStatusSql)) printf($errFormat, $link->error);
         elseif (!$statusData = $res->fetch_assoc()) printf($errFormat, $res->error);
 
@@ -413,8 +420,8 @@ if($_POST['Search'] == NULL) {
                 openCloseChart.draw();";
         }
     echo "</script>";
-                    
+
 $link->close();
-    
+
 include 'fileend.php';
 ?>
