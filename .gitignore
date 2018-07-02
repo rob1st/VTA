@@ -1,5 +1,5 @@
 # git stuff
-DS_Store
+.DS_Store
 
 # for devs eyes only
 config.*
@@ -11,10 +11,15 @@ old_*
 bootstrap.*
 webColors.json
 
-# don't push this to remote
+# dependencies and package mngrs
 node_modules
 composer.phar
 /vendor/
+
+# binaries
 img_uploads
 uploads
+/assets/img
+
+# db backups
 CDLdump.sql
