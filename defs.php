@@ -382,9 +382,9 @@ function printBartDefsTable($cnxn, $lvl) {
         $sql = file_get_contents('CDList.sql');
         try {
             $link->where('c.status', 3, '<>');
-            $link->query($sql);
+            $result = $link->query($sql);
         } catch (Exception $e) {
-            echo "<h1 style='font-size: 4rem; color: coral;'>$e</h1>";
+            echo "<h1 style='color: #da0;'>$e</h1>";
         }
             // printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
             // printInfoBox($roleLvl, 'NewDef.php');
