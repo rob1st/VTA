@@ -6,7 +6,7 @@ include('html_components/defComponents.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
-$Role = $_SESSION['role'];
+$role = $_SESSION['role'];
 $title = "SVBX - Deficiency No. " . $defID;
 include('filestart.php');
 
@@ -232,7 +232,7 @@ if ($defID) {
         }
 
         // if Role has permission level show Update and Clone buttons
-        if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
+        if($role > 10) {
             echo "
                 <div class='row item-margin-botom'>
                     <div class='col-12 center-content'>
@@ -247,6 +247,7 @@ if ($defID) {
         exit;
     } finally {
         $link->close();
+        include('fileend.php');
         exit;
     }
 } elseif ($bartDefID) {
@@ -428,6 +429,7 @@ if ($defID) {
         } else printSqlErrorAndExit($link, $sql);
     }
     $link->close();
+    include('fileend.php');
+    exit;
 }
-include('fileend.php');
 ?>
