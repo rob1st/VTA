@@ -106,13 +106,14 @@ $link = f_sqlConnect();
 ?>
 </main>
 <?php
-  echo "
-  <script src='https://d3js.org/d3.v5.js'></script>
-  <script src='js/pie_chart.js'></script>
-  <script>
-    window.drawOpenCloseChart(window.d3, '$statusOpen', '$statusClosed')
-    window.drawSeverityChart(window.d3, '$blockSev', '$critSev', '$majSev', '$minSev')
-  </script>
-  <!--DO NOT TYPE BELOW THIS LINE-->";
-  include('fileend.php');
+$link->close();
+echo "
+<script src='https://d3js.org/d3.v5.js'></script>
+<script src='js/pie_chart.js'></script>
+<script>
+window.drawOpenCloseChart(window.d3, '$statusOpen', '$statusClosed')
+window.drawSeverityChart(window.d3, '$blockSev', '$critSev', '$majSev', '$minSev')
+</script>
+<!--DO NOT TYPE BELOW THIS LINE-->";
+include('fileend.php');
 ?>

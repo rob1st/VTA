@@ -69,7 +69,7 @@ function printInfoBox($lvl, $href, $dataGraphic = false) {
     return printf($box, $href);
 }
 
-function printSearchBar($cnxn, $post, $formAction) {
+function printSearchBar($link, $post, $formAction) {
     list($collapsed, $show) = $_POST['Search'] ? ['', ' show'] : ['collapsed', ''];
     $formStrF = "
         <div class='row item-margin-bottom'>
@@ -88,7 +88,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                         <label class='input-label'>Def #</label>
                         <select name='defID' class='form-control'>
                             <option value=''></option>";
-    if ($result = $cnxn->query('SELECT defID from CDL')) {
+    if ($result = $link->query('SELECT defID from CDL')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['defID'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
@@ -101,7 +101,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>Status</label>
                     <select name='Status' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT StatusID, Status from Status')) {
+    if ($result = $link->query('SELECT StatusID, Status from Status')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['Status'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
@@ -122,7 +122,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>Severity</label>
                     <select name='Severity' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT SeverityID, SeverityName from Severity')) {
+    if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
         while($row = $result->fetch_array()) {
             $select = ($post['Severity'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
@@ -135,7 +135,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>System</label>
                     <select name='SystemAffected' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
+    if ($result = $link->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['SystemAffected'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
@@ -148,7 +148,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>Group to resolve</label>
                     <select name='GroupToResolve' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
+    if ($result = $link->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['GroupToResolve'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
@@ -167,7 +167,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>Location</label>
                     <select name='location' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT l.locationID, l.locationName FROM CDL c JOIN location l ON l.locationID=c.location GROUP BY locationName ORDER BY locationID')) {
+    if ($result = $link->query('SELECT l.locationID, l.locationName FROM CDL c JOIN location l ON l.locationID=c.location GROUP BY locationName ORDER BY locationID')) {
         while ($row = $result->fetch_array()) {
             $select = ($post['location'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
@@ -179,7 +179,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                 <div class='col-sm-2 pl-1 pr-1'>
                     <label class='input-label'>Specific location</label>
                     <select name='SpecLoc' class='form-control'>";
-    if ($result = $cnxn->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
+    if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
         while ($row = $result->fetch_row()) {
             $select = ($post['SpecLoc'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='$row[0]' $select>$row[0]</option>";
@@ -192,7 +192,7 @@ function printSearchBar($cnxn, $post, $formAction) {
                     <label class='input-label'>Identified By</label>
                     <select name='IdentifiedBy' class='form-control'>
                         <option value=''></option>";
-    if ($result = $cnxn->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
+    if ($result = $link->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
         while ($row = $result->fetch_row()) {
             $select = ($post['IdentifiedBy'] === $row[0]) ? 'selected' : '';
             $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
@@ -212,23 +212,17 @@ function printSearchBar($cnxn, $post, $formAction) {
     print $form;
 }
 
-function printDefsTable($cnxn, $qry, $elements, $lvl) {
-    if ($result = $cnxn->query($qry)) {
-        if ($result->num_rows) {
-            print "<table class='table table-striped table-responsive svbx-table'>";
-            printTableHeadings(array_column($elements, 'header'), $lvl);
-            populateTable($result, array_column($elements, 'cell'), $lvl);
-            print "</table>";
-        } else {
-            print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
-        }
-        $result->close();
-    } elseif ($cnxn->error) {
-        print "<h4 class='text-danger center-content'>Error: $cnxn->error</h4><p>$qry</p>";
-    }
+function printDefsTable($result, $elements, $lvl) {
+    if (count($result)) {
+        echo "<table class='table table-striped table-responsive svbx-table'>";
+        printTableHeadings(array_column($elements, 'header'), $lvl);
+        populateTable($result, array_column($elements, 'cell'), $lvl);
+        echo "</table>";
+    } else
+        print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
 }
 
-function printProjectDefsTable($cnxn, $qry, $lvl) {
+function printProjectDefsTable($link, $qry, $lvl) {
     $tdClassList = 'svbx-td';
     $thClassList = 'svbx-th';
     $collapseXs = 'collapse-xs';
@@ -280,10 +274,10 @@ function printProjectDefsTable($cnxn, $qry, $lvl) {
             ]
         ]
     ];
-    printDefsTable($cnxn, $qry, $tableFields, $lvl);
+    printDefsTable($link, $qry, $tableFields, $lvl);
 }
 
-function printBartDefsTable($cnxn, $lvl) {
+function printBartDefsTable($link, $lvl) {
     // build SELECT query string from sql file
     $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'))
         .',form_modified';
@@ -341,7 +335,7 @@ function printBartDefsTable($cnxn, $lvl) {
         ]
     ];
 
-    printDefsTable($cnxn, $qry, $tableFields, $lvl);
+    printDefsTable($link, $qry, $tableFields, $lvl);
 }
 
 // if($_POST['Search'] == NULL) {
@@ -360,6 +354,9 @@ function printBartDefsTable($cnxn, $lvl) {
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
+    <pre style='color: #62c;'>
+        <?php var_dump($_SESSION); ?>
+    </pre>
     <?php
         $btnSelected = 'btn-light border-dark-blue box-shadow-blue';
         $btnNotSelected = 'btn-secondary text-white';
@@ -386,9 +383,9 @@ function printBartDefsTable($cnxn, $lvl) {
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>$e</h1>";
         }
-            // printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
-            // printInfoBox($roleLvl, 'NewDef.php');
-            // printProjectDefsTable($link, $sql, $roleLvl);
+        // printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
+        // printInfoBox($roleLvl, 'NewDef.php');
+        printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bartPermit) {
         $statusSql = 'SELECT s.status, count(id) from BARTDL b JOIN Status s ON b.status=s.statusID GROUP BY s.status';
         $altStatusSql = "SELECT COUNT(CASE WHEN s.status='open' THEN 1
