@@ -2,7 +2,7 @@
 include('session.php');
 $title = "SVBX - Add New Status Type";
 include('filestart.php');
-    if($Role == 'U' OR $Role == 'V' OR $Role == 'A') {
+    if($Role >= 20) {
         header('location: unauthorised.php');
     }
     ?>

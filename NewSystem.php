@@ -2,14 +2,14 @@
 include('session.php');
 $title = "SVBX - Add New System";
 include('filestart.php');
-    if($Role == 'U' OR $Role == 'V') {
+    if($Role <= 20) {
         header('location: unauthorised.php');
     }
     ?>
         <header class="container page-header">
           <h1 class="page-title">Add New System</h1>
         </header>
-        <div class="container main-content"> 
+        <div class="container main-content">
         <FORM action="RecSystem.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>

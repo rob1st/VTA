@@ -2,7 +2,7 @@
 include('session.php');
 $title = "SVBX - Add New Evidence Type";
 include('filestart.php');
-    if($Role == 'U' OR $Role == 'V' OR $Role == 'A') {
+    if($Role >= 20) {
         header('location: unauthorised.php');
     }
     ?>
@@ -10,7 +10,7 @@ include('filestart.php');
           <h1 class="page-title">Add New Evidence type</h1>
         </header>
     </div>
-        <div class="container main-content"> 
+        <div class="container main-content">
         <FORM action="RecEvidence.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>

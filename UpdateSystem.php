@@ -8,7 +8,7 @@
     $Loc = "SELECT System FROM $table WHERE SystemID = ".$q;
     include('filestart.php');
     
-    if($Role == 'U' OR $Role == 'V') {
+    if($Role <= 20) {
         header('location: unauthorised.php');
     }
 ?>

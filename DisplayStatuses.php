@@ -41,7 +41,7 @@ include('filestart.php');
                             <th class='userth'>Last Updated</th>
                             <th class='userth'>Last Updated By</th>
                             <th class='userth'>Edit</th>";
-                            if($Role == 'S') {
+                            if($Role >= 40) {
                                 echo "
                             <th class='userth'>Delete</th>";
                             }
@@ -61,7 +61,7 @@ include('filestart.php');
                         <td class='usertd'>{$row[3]}</td>
                         <td class='usertd'><form action='UpdateStatus.php' method='POST' onsubmit=''/>
                         <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
-                        if($Role == 'S') {
+                        if($Role >= 40) {
                                 echo "
                         <td class='usertd'><form action='DeleteStatus.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
                         <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";

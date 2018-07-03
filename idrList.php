@@ -23,7 +23,7 @@ if ($result = $link->query($qry)) {
     $userFullName = 'Unable to retrieve user account information';
     $idrAuth = 0;
 }
-    
+
 $qry = "SELECT idrID, i.UserID, idrForDate, Username FROM IDR i JOIN users_enc u on i.UserID=u.UserID";
 $orderBy = " ORDER BY idrID";
 
@@ -78,7 +78,7 @@ if ($idrAuth) {
                             <div class='tab-content mt-3 thick-grey-line'>";
                                 // if user is admin or super, query for all IDRs
                                 $active = ' active';
-                                if ($role === 'S' || $role === 'A') {
+                                if ($role >= 30) {
                                     if ($result = $link->query($qry.$orderBy)) {
                                         if ($result->num_rows) {
                                             echo "

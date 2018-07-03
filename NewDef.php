@@ -6,7 +6,7 @@ include('html_functions/bootstrapGrid.php');
 $link = f_sqlConnect();
 $Role = $_SESSION['role'];
 $title = "SVBX - New Deficiency";
-if($Role == 'V') {
+if ($Role <= 10) {
     header('Location: unauthorised.php');
 }
 
@@ -50,7 +50,7 @@ $requiredRows = [
         $elements['description']
     ]
 ];
-        
+
 $optionalRows = [
     'Optional Information',
     [
@@ -67,7 +67,7 @@ $optionalRows = [
         $elements['cdlCommText']
     ]
 ];
-        
+
 $closureRows = [
     'Closure Information',
     [
@@ -121,7 +121,7 @@ echo "
 //                 print returnRow($gridRow, $options);
 //             }
 //             echo "</div>";
-            
+
 echo "
         <div class='center-content'>
             <button type='submit' value='submit' class='btn btn-primary btn-lg'>Submit</button>
