@@ -32,10 +32,10 @@ try {
     $link = connect();
     if (!$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS))
         throw new UnexpectedValueException('Please enter a valid username');
-    
+
     if (!$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS))
         throw new UnexpectedValueException('Please enter a valid password');
-    
+
     $fields = [
         'userID',
         'username',
@@ -43,34 +43,32 @@ try {
         'lastname',
         'password',
         'role',
-        'level',
         'inspector',
         'secQ'
     ];
-    
+
     $link->where('username', $username);
-    
+
     if (!$result = $link->getOne('users_enc', $fields))
         throw new mysqli_sql_exception("User does not exist");
 
     $auth = password_verify($password, $result['password']);
-        
+
     if ($auth) {
         // Set session variables
         session_start();
-        
+
         $_SESSION['userID'] = $result['userID'];
         $_SESSION['username'] = $result['username'];
         $_SESSION['firstname'] = $result['firstname'];
         $_SESSION['lastname'] = $result['lastname'];
         $_SESSION['role'] = $result['role'];
-        $_SESSION['level'] = $result['level'];
         $_SESSION['inspector'] = $result['inspector'];
         $_SESSION['timeout'] = time();
-        
+
         $link->where('username', $result['username']);
         $link->update('users_enc', ['lastLogin' => 'NOW()']);
-            
+
         if (!$result['secQ']) header('location: setSQ.php');
         else header('location: dashboard.php');
     } else throw new UnexpectedValueException("Failed to log in");

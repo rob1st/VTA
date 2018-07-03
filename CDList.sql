@@ -1,11 +1,11 @@
 SELECT
-    c.DefID as defID,
+    c.DefID as ID,
     l.LocationName as location,
     s.SeverityName as severity,
     DATE_FORMAT(c.DateCreated, "%d %b %Y") as dateCreated,
     t.StatusName as status,
     y.SystemName as systemAffected,
-    c.Description as description,
+    SUBSTR(c.Description, 1, 50) as description,
     c.SpecLoc as specLoc,
     c.LastUpdated as lastUpdated
 FROM

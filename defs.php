@@ -46,7 +46,7 @@ else echo "<h1 style='font-size: 4rem; color: #9d1;'>Houston, we have a problem<
 //     return $qStr;
 // }
 
-function printInfoBox($lvl, $href, $dataGraphic = false) {
+function printInfoBox($userLvl, $href, $dataGraphic = false) {
     $dataContainer = $dataGraphic
         ? "<div class='row mb-3'><div id='dataContainer' class='col-md-4 offset-md-4 d-flex flex-row flex-wrap justify-content-start'></div></div>"
         : '';
@@ -62,7 +62,7 @@ function printInfoBox($lvl, $href, $dataGraphic = false) {
                 </div>
             </div>
         </div>";
-    $btn = $lvl > 1 ? "<a href='%s' class='btn btn-primary'>Add New Deficiency</a>" : '';
+    $btn = $userLvl > 1 ? "<a href='%s' class='btn btn-primary'>Add New Deficiency</a>" : '';
 
     $box = sprintf($box, $btn);
 
@@ -212,72 +212,79 @@ function printSearchBar($link, $post, $formAction) {
     print $form;
 }
 
-function printDefsTable($result, $elements, $lvl) {
+function printDefsTable($result, $tableElements, $userLvl) {
     if (count($result)) {
+        $keys = array_keys($tableElements);
+        $headers = array_combine(
+            $keys, array_column($tableElements, 'header')
+        );
+        $cells = array_combine(
+            $keys, array_column($tableElements, 'cell')
+        );
         echo "<table class='table table-striped table-responsive svbx-table'>";
-        printTableHeadings(array_column($elements, 'header'), $lvl);
-        populateTable($result, array_column($elements, 'cell'), $lvl);
+        printTableHeadings($headers, $userLvl);
+        populateTable($result, $cells, $userLvl);
         echo "</table>";
     } else
         print "<h4 class='text-secondary text-center'>No results found for your search</h4>";
 }
 
-function printProjectDefsTable($link, $qry, $lvl) {
+function printProjectDefsTable($result, $userLvl) {
     $tdClassList = 'svbx-td';
     $thClassList = 'svbx-th';
     $collapseXs = 'collapse-xs';
     $collapseSm = 'collapse-sm collapse-xs';
     $collapseMd = 'collapse-md  collapse-sm collapse-xs';
-    $tableFields = [
-        [
+    $tableElements = [
+        'ID' => [
             'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
             'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?defID=%s'>%s</a>" ]
         ],
-        [
+        'location' => [
             'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],
             'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
         ],
-        [
+        'severity' => [
             'header' => [ 'text' => 'Severity', 'classList' => "$thClassList $collapseXs" ],
             'cell' => [ 'classList' => "$tdClassList $collapseXs" ]
         ],
-        [
+        'dateCreated' => [
             'header' => [ 'text' => 'Date Created', 'classList' => "$thClassList $collapseMd" ],
             'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
         ],
-        [
+        'status' => [
             'header' => [ 'text' => 'Status', 'classList' => $thClassList ],
             'cell' => [ 'classList' => $tdClassList ]
         ],
-        [
+        'systemAffected' => [
             'header' => [ 'text' => 'System Affected', 'classList' => "$thClassList $collapseSm" ],
             'cell' => [ 'classList' => "$tdClassList $collapseSm" ]
         ],
-        [
+        'description' => [
             'header' => [ 'text' => 'Brief Description', 'classList' => $thClassList ],
             'cell' => [ 'classList' => $tdClassList ]
         ],
-        [
+        'specLoc' => [
             'header' =>  [ 'text' => 'Specific Location', 'classList' => "$thClassList $collapseMd" ],
             'cell' => [ 'classList' => "$tdClassList $collapseMd" ]
         ],
-        [
-            'header' => [ 'auth' => 2, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
-            'cell' => [ 'auth' => 2, 'classList' => "$tdClassList $collapseMd" ]
+        'lastUpdated' => [
+            'header' => [ 'auth' => 20, 'text' => 'Last Updated', 'classList' => "$thClassList $collapseMd" ],
+            'cell' => [ 'auth' => 20, 'classList' => "$tdClassList $collapseMd" ]
         ],
-        [
-            'header' => ['auth' => 2, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
+        'edit' => [
+            'header' => ['auth' => 20, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
             'cell' => [
-                'auth' => 2,
+                'auth' => 20,
                 'classList' => "$tdClassList $collapseSm",
                 'innerHtml' => "<a id='updateDef%s' href='UpdateDef.php?defID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button>"
             ]
         ]
     ];
-    printDefsTable($link, $qry, $tableFields, $lvl);
+    printDefsTable($result, $tableElements, $userLvl);
 }
 
-function printBartDefsTable($link, $lvl) {
+function printBartDefsTable($link, $userLvl) {
     // build SELECT query string from sql file
     $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'))
         .',form_modified';
@@ -335,7 +342,7 @@ function printBartDefsTable($link, $lvl) {
         ]
     ];
 
-    printDefsTable($link, $qry, $tableFields, $lvl);
+    printDefsTable($link, $qry, $tableFields, $userLvl);
 }
 
 // if($_POST['Search'] == NULL) {
@@ -354,9 +361,6 @@ function printBartDefsTable($link, $lvl) {
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
-    <pre style='color: #62c;'>
-        <?php var_dump($_SESSION); ?>
-    </pre>
     <?php
         $btnSelected = 'btn-light border-dark-blue box-shadow-blue';
         $btnNotSelected = 'btn-secondary text-white';
@@ -378,6 +382,7 @@ function printBartDefsTable($link, $lvl) {
     if ($view !== 'BART' || !$bartPermit) {
         $sql = file_get_contents('CDList.sql');
         try {
+            $link->orderBy('ID', 'ASC');
             $link->where('c.status', 3, '<>');
             $result = $link->query($sql);
         } catch (Exception $e) {
@@ -385,7 +390,10 @@ function printBartDefsTable($link, $lvl) {
         }
         // printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
         // printInfoBox($roleLvl, 'NewDef.php');
-        printProjectDefsTable($link, $sql, $roleLvl);
+        printProjectDefsTable($result, $_SESSION['role']);
+        // echo "<pre style='color: #129;'>";
+        // var_dump($result);
+        // echo "</pre>";
     } elseif ($bartPermit) {
         $statusSql = 'SELECT s.status, count(id) from BARTDL b JOIN Status s ON b.status=s.statusID GROUP BY s.status';
         $altStatusSql = "SELECT COUNT(CASE WHEN s.status='open' THEN 1
@@ -400,7 +408,7 @@ function printBartDefsTable($link, $lvl) {
         if (!$res = $link->query($altStatusSql)) printf($errFormat, $link->error);
         elseif (!$statusData = $res->fetch_assoc()) printf($errFormat, $res->error);
 
-        printInfoBox($roleLvl, 'newBartDef.php', 1);
+        printInfoBox($_SESSION['role'], 'newBartDef.php', 1);
         printBartDefsTable($link, $bartPermit);
     }
     echo "</main>";

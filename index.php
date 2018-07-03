@@ -1,5 +1,6 @@
 <?php
   session_start();
+  $title = 'SVBX - Home';
   include('filestart.php');
 ?>
   <header class="page-header landing-page grey-bg">
