@@ -59,6 +59,8 @@ if(!isset($_SESSION['userID'])) {
   /*if something goes wrong, return the following error*/
   catch (Exception $e) {
       $login = 'Unable to process request.';
+  } finally {
+      $link->close();
   }
 }
 ?>

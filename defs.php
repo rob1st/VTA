@@ -5,7 +5,6 @@ include('SQLFunctions.php');
 include('utils/utils.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
-$link = connect();
 $role = $_SESSION['role'];
 $view = $_GET['view'];
 
@@ -17,17 +16,17 @@ $view = $_GET['view'];
 // ];
 // $roleLvl = $roleLvlMap[$role];
 
-$link->where('userid', $_SESSION['userID']);
-
+include('filestart.php');
 try {
-  $result = $link->getOne('users_enc', ['bdPermit']);
-  $bartPermit = $result['bdPermit'];
+    $link = connect();
+    $link->where('userid', $_SESSION['userID']);
+    $result = $link->getOne('users_enc', [ 'bdPermit' ]);
+    $bartPermit = $result['bdPermit'];
 } catch (Exception $e) {
-  echo "<h1 style='font-size: 4rem; font-family: monospace; color: red;'>$e</h1>";
-  exit;
+    echo "<h1 style='font-size: 4rem; font-family: monospace; color: red;'>$e</h1>";
+    exit;
 }
 
-include('filestart.php');
 if (isset($bartPermit)) echo "<h1 style='font-size: 4rem; color: #1ca;'>$bartPermit</h1>";
 else echo "<h1 style='font-size: 4rem; color: #9d1;'>Houston, we have a problem<h1>";
 
@@ -380,10 +379,16 @@ function printBartDefsTable($cnxn, $lvl) {
 <?php
     echo "<main class='container main-content'>";
     if ($view !== 'BART' || !$bartPermit) {
-        $sql = file_get_contents("CDList.sql").$whereCls;
-        printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
-        printInfoBox($roleLvl, 'NewDef.php');
-        printProjectDefsTable($link, $sql, $roleLvl);
+        $sql = file_get_contents('CDList.sql');
+        try {
+            $link->where('c.status', 3, '<>');
+            $link->query($sql);
+        } catch (Exception $e) {
+            echo "<h1 style='font-size: 4rem; color: coral;'>$e</h1>";
+        }
+            // printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
+            // printInfoBox($roleLvl, 'NewDef.php');
+            // printProjectDefsTable($link, $sql, $roleLvl);
     } elseif ($bartPermit) {
         $statusSql = 'SELECT s.status, count(id) from BARTDL b JOIN Status s ON b.status=s.statusID GROUP BY s.status';
         $altStatusSql = "SELECT COUNT(CASE WHEN s.status='open' THEN 1
@@ -421,7 +426,7 @@ function printBartDefsTable($cnxn, $lvl) {
         }
     echo "</script>";
 
-$link->close();
+$link->disconnect();
 
 include 'fileend.php';
 ?>
