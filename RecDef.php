@@ -62,7 +62,7 @@ if ($_FILES['CDL_pics']['size']
 $cdlCommText = trim($_POST['cdlCommText']);
     
 // prepare parameterized string from external .sql file
-$fieldList = preg_replace('/\s+/', '', file_get_contents('UpdateDef.sql'));
+$fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 
 // unset keys that will not be updated before imploding back to string

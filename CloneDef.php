@@ -7,7 +7,7 @@
 // $title = "SVBX - Update Deficiency";
 // $link = f_sqlConnect();
 // $defID = intval($_POST['defID']);
-// $defSql = 'SELECT ' . file_get_contents("UpdateDef.sql") . ' FROM CDL WHERE defID=' . $defID;
+// $defSql = 'SELECT ' . file_get_contents("updateDef.sql") . ' FROM CDL WHERE defID=' . $defID;
 error_reporting(E_ALL);  
 ini_set("display_errors", 1);
 
@@ -21,7 +21,7 @@ $role = $_SESSION['role'];
 $defID = $_GET['defID'];
 
 // prepare sql statement
-$fieldList = preg_replace('/\s+/', '', file_get_contents('UpdateDef.sql'));
+$fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 
 // replace fields that reference other tables with JOINs

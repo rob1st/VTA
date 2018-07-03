@@ -9,32 +9,31 @@ $role = $_SESSION['role'];
 $defID = $_GET['defID'];
 
 // prepare sql statement
-$fieldList = preg_replace('/\s+/', '', file_get_contents('UpdateDef.sql'));
+$fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 
 // replace fields that reference other tables with JOINs
 $fieldsArr['safetyCert'];
 
-$link = f_sqlConnect();
-
 include('filestart.php');
 
 try {
-    $sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
+    $link = f_sqlConnect();
+    $sql = "SELECT $fieldList FROM CDL WHERE defID=?";
 
     $elements = $requiredElements + $optionalElements + $closureElements;
-    
+
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-    
+
     if (!$stmt->bind_param('i', intval($defID))) throw new mysqli_sql_exception($stmt->error);
 
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    
+
     if (!stmtBindResultArrayRef($stmt, $elements))
         throw new mysqli_sql_exception($stmt->error);
-        
+
     $stmt->close();
-    
+
     // query for comments associated with this Def
     $sql = "SELECT firstname, lastname, date_created, cdlCommText
         FROM cdlComments c
@@ -42,36 +41,36 @@ try {
         ON c.userID=u.userID
         WHERE c.defID=?
         ORDER BY c.date_created DESC";
-        
+
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-    
+
     if (!$stmt->bind_param('i', $defID)) throw new mysqli_sql_exception($stmt->error);
-    
+
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    
+
     $comments = stmtBindResultArray($stmt) ?: [];
-    
+
     $stmt->close();
-    
+
     // query for photos linked to this Def
     if (!$stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?"))
         throw new mysqli_sql_exception($link->error);
-        
+
     if (!$stmt->bind_param('i', $defID))
         throw new mysqli_sql_exception($stmt->error);
-        
+
     if (!$stmt->execute())
         throw new mysqli_sql_exception($stmt->error);
-        
+
     if (!$stmt->store_result())
         throw new mysqli_sql_exception($stmt->error);
-        
+
     $photos = stmtBindResultArray($stmt);
-    
+
     $stmt->close();
-        
+
     $toggleBtn = '<a data-toggle=\'collapse\' href=\'#%1$s\' role=\'button\' aria-expanded=\'false\' aria-controls=\'%1$s\' class=\'collapsed\'>%2$s<i class=\'typcn typcn-arrow-sorted-down\'></i></a>';
-            
+
     $requiredRows = [
         [
             $elements['safetyCert'],
@@ -101,7 +100,7 @@ try {
             $elements['description']
         ]
     ];
-            
+
     $optionalRows = [
         [
             $elements['spec'],
@@ -112,7 +111,7 @@ try {
             $elements['CDL_pics']
         ]
     ];
-            
+
     $closureRows = [
         [
             $elements['evidenceType'],
@@ -123,7 +122,7 @@ try {
             $elements['closureComments']
         ]
     ];
-    
+
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>Update Deficiency ".$defID."</h1>
@@ -136,14 +135,14 @@ try {
                     <h4 class='pad grey-bg'>Deficiency No. $defID</h4>
                 </div>
             </div>";
-                        
+
             foreach ($requiredRows as $gridRow) {
                 $options = [ 'required' => true ];
                 if (count($gridRow) > 1) $options['inline'] = true;
                 else $options['colWd'] = 6;
                 print returnRow($gridRow, $options);
             }
-                
+
         echo "
             <h5 class='grey-bg pad'>
                 <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
@@ -182,7 +181,7 @@ try {
                 printf($commentFormat, $userFullName, $comment['date_created'], $text);
             }
         echo "</div>";
-            
+
         if (count($photos)) {
             print returnCollapseSection(
                 'Photos',
@@ -193,40 +192,8 @@ try {
                 ),
                 'item-margin-bottom'
             );
-            // $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-            // $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
-            // $curRow = "<div class='row item-margin-bottom'>%s</div>";
-        
-            // $i = 0;
-            // $j = 1;
-            // foreach ($photos as $photo) {
-            //     $img = sprintf("<img src='%s' alt='photo related to deficiency number %s'>", $photo['pathToFile'], $defID);
-            //     $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
-            //     $marker = $j < $count ? '%s' : '';
-                
-            //     if ($i < 2) {
-            //         // if this is not 3rd col in row, append an extra format marker '%s' after col
-            //         $curRow = sprintf($curRow, $col.$marker);
-            //         // if this is the last photo in resultset, append row to section
-            //         if ($j >= $count) {
-            //             $photoSection = sprintf($photoSection, $curRow);
-            //         }
-            //         $i++;
-            //     }
-            //     // if this is 3rd col in row append row to section
-            //     else {
-            //         // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
-            //         $curRow = sprintf($curRow, $col).$marker;
-            //         $photoSection = sprintf($photoSection, $curRow);
-            //         // reset row string
-            //         $curRow = "<div class='row item-margin-bottom'>%s</div>";
-            //         $i = 0;
-            //     }
-            //     $j++;
-            // }
-            // echo $photoSection;
         }
-        
+
         echo "
             <div class='row item-margin-bottom'>
                 <div class='col-12 center-content'>
@@ -235,7 +202,7 @@ try {
                 </div>
             </div>
         </form>";
-    if ($role === 'S') {
+    if ($role >= 40) {
         echo "
             <form action='DeleteDef.php' method='POST' onsubmit=''>
                 <div class='row'>
@@ -249,8 +216,8 @@ try {
     echo "</main>";
 } catch (Exception $e) {
     print "Unable to retrieve record";
-    $link->close();
     exit;
+} finally {
+    $link->close();
+    include('fileend.php');
 }
-$link->close();
-include('fileend.php');
