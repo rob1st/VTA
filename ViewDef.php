@@ -8,8 +8,7 @@ include('error_handling/sqlErrors.php');
 $defID = $_GET['defID'];
 $Role = $_SESSION['role'];
 $title = "SVBX - Deficiency No. " . $defID;
-include('filestart.php'); 
-$link = f_sqlConnect();
+include('filestart.php');
 
 $labelStr = "<p>%s</p>";
 $checkbox = [
@@ -26,32 +25,33 @@ function returnFakeInputStr($val) {
 }
 
 if ($defID) {
+    $link = f_sqlConnect();
     $sql = file_get_contents("ViewDef.sql").$defID;
-    
+
     try {
         if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-        
+
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-        
+
         if (!$stmt->bind_result(
-                $OldID, 
-                $Location, 
-                $SpecLoc, 
-                $Severity, 
-                $Description, 
-                $Spec, 
-                $DateCreated, 
-                $Status, 
-                $IdentifiedBy, 
-                $SystemAffected, 
-                $GroupToResolve, 
-                $ActionOwner, 
-                $EvidenceType, 
-                $EvidenceLink, 
-                $DateClosed, 
-                $LastUpdated, 
-                $Updated_by, 
-                $Created_by, 
+                $OldID,
+                $Location,
+                $SpecLoc,
+                $Severity,
+                $Description,
+                $Spec,
+                $DateCreated,
+                $Status,
+                $IdentifiedBy,
+                $SystemAffected,
+                $GroupToResolve,
+                $ActionOwner,
+                $EvidenceType,
+                $EvidenceLink,
+                $DateClosed,
+                $LastUpdated,
+                $Updated_by,
+                $Created_by,
                 $Comments,
                 $RequiredBy,
                 $contract,
@@ -60,7 +60,7 @@ if ($defID) {
                 $DueDate,
                 $SafetyCert,
                 $defType)) throw new mysqli_sql_exception($stmt->error);
-                
+
         while ($stmt->fetch()) {
             $requiredRows = [
                 'Required Information',
@@ -104,7 +104,7 @@ if ($defID) {
                     sprintf($labelStr, 'Deficiency description').sprintf($fakeInputStr, stripcslashes($Description))
                 ]
             ];
-            
+
             $optionalRows = [
                 'Optional Information',
                 [
@@ -119,7 +119,7 @@ if ($defID) {
                     sprintf($labelStr, 'More information').returnFakeInputStr(stripcslashes($Comments))
                 ]
             ];
-            
+
             $closureRows = [
                 'Closure Information',
                 [
@@ -134,7 +134,7 @@ if ($defID) {
                     sprintf($labelStr, 'Closure comments').returnFakeInputStr(stripcslashes($ClosureComments))
                 ]
             ];
-            
+
             $modHistory = [
                 [
                     sprintf($labelStr, 'Date Created'),
@@ -149,11 +149,11 @@ if ($defID) {
                     sprintf($labelStr, $Updated_by)
                 ]
             ];
-    
+
             if ($Status == "Open") {
                 $color = "bg-red text-white";
             } else {
-                $color = "bg-success text-white"; 
+                $color = "bg-success text-white";
             }
             echo "
                 <header class='container page-header'>
@@ -166,9 +166,9 @@ if ($defID) {
                 printSection($rowName, $content);
             }
         }
-        
+
         $stmt->close();
-        
+
         // query for comments associated with this Def
         $sql = "SELECT firstname, lastname, date_created, cdlCommText
             FROM cdlComments c
@@ -176,35 +176,35 @@ if ($defID) {
             ON c.userID=u.userID
             WHERE c.defID=?
             ORDER BY c.date_created DESC";
-            
+
         if (!$stmt = $link->prepare($sql))
             throw new mysqli_sql_exception($link->error);
-        
+
         if (!$stmt->bind_param('i', intval($defID)))
             throw new mysqli_sql_exception($stmt->error);
-        
+
         if (!$stmt->execute())
             throw new mysqli_sql_exception($stmt->error);
-        
+
         $comments = stmtBindResultArray($stmt) ?: [];
-        
+
         // query for photos linked to this Def
         if (!$stmt = $link->prepare("SELECT pathToFile FROM CDL_pics WHERE defID=?"))
             throw new mysqli_sql_exception($link->error);
-            
+
         if (!$stmt->bind_param('i', $defID))
             throw new mysqli_sql_exception($stmt->error);
-            
+
         if (!$stmt->execute())
             throw new mysqli_sql_exception($stmt->error);
-            
+
         if (!$stmt->store_result())
             throw new mysqli_sql_exception($stmt->error);
-            
+
         $photos = stmtBindResultArray($stmt);
-        
+
         $stmt->close();
-        
+
         if (count($comments)) {
             print returnCollapseSection(
                 'Comments',
@@ -212,13 +212,13 @@ if ($defID) {
                 returnCommentsHTML($comments)
             );
         }
-        
+
         print returnCollapseSection(
             'Modification History',
             'modHistory',
             iterateRows($modHistory)
         );
-        
+
         if (count($photos)) {
             print returnCollapseSection(
                 'Photos',
@@ -229,44 +229,8 @@ if ($defID) {
                 ),
                 'item-margin-bottom'
             );
-            
-            // $collapseCtrl = "<h5 class='grey-bg pad'><a data-toggle='collapse' href='#defPics' role='button' aria-expanded='false' aria-controls='defPics' class='collapsed'>Photos<i class='typcn typcn-arrow-sorted-down'></i></a></h5>";
-            // $photoSection = sprintf("%s<section id='defPics' class='collapse item-margin-bottom'>", $collapseCtrl) . "%s</section>";
-            
-            // $imgFormat = "<img src='%s' alt='photo related to deficiency number %s'>";
-
-            // $curRow = "<div class='row item-margin-bottom'>%s</div>";
-        
-            // $i = 0;
-            // $j = 1;
-            // foreach ($photos as $photo) {
-            //     $img = sprintf($imgFormat, $photo['pathToFile'], $defID);
-            //     $col = sprintf("<div class='col-md-4 text-center item-margin-bottom'>%s</div>", $img);
-            //     $marker = $j < $numPhotos ? '%s' : '';
-                
-            //     if ($i < 2) {
-            //         // if this is not 3rd col in row, append an extra format marker '%s' after col
-            //         $curRow = sprintf($curRow, $col.$marker);
-            //         // if this is the last photo in resultset, append row to section
-            //         if ($j >= $numPhotos) {
-            //             $photoSection = sprintf($photoSection, $curRow);
-            //         }
-            //         $i++;
-            //     }
-            //     // if this is 3rd col in row append row to section
-            //     else {
-            //         // if this is not the last photo is resultset append a str format marker, '%s', to row before appending row to section
-            //         $curRow = sprintf($curRow, $col).$marker;
-            //         $photoSection = sprintf($photoSection, $curRow);
-            //         // reset row string
-            //         $curRow = "<div class='row item-margin-bottom'>%s</div>";
-            //         $i = 0;
-            //     }
-            //     $j++;
-            // }
-            // echo $photoSection;
         }
-        
+
         // if Role has permission level show Update and Clone buttons
         if($Role == 'S' OR $Role == 'A' OR $Role == 'U') {
             echo "
@@ -279,12 +243,15 @@ if ($defID) {
         }
         echo "</main>";
     } catch (Exception $e) {
-        print "Unable to retrieve record";
+        print "Unable to retrieve record: $e";
+        exit;
+    } finally {
         $link->close();
         exit;
     }
 } elseif ($bartDefID) {
     include('html_components/defComponents.php');
+    $link = f_sqlConnect();
     // check for bartdl permission
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
         if ($row = $result->fetch_row()) {
@@ -319,14 +286,14 @@ if ($defID) {
             ." JOIN bdParties c ON BARTDL.creator=c.partyID"
             ." JOIN bdNextStep n ON BARTDL.next_step=n.bdNextStepID"
             ." WHERE BARTDL.id=?";
-        
+
         if ($stmt = $link->prepare($sql)) {
             if (!$stmt->bind_param('i', $bartDefID)) printSqlErrorAndExit($stmt, $sql);
-            
+
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
-            
+
             $result = stmtBindResultArray($stmt)[0];
-            
+
             function validateFormatDate($dateStr, $inputFormat, $outputFormat, $nullChar = '—') {
                 return (
                     strtotime($dateStr) <= 0
@@ -334,16 +301,16 @@ if ($defID) {
                         : DateTime::createFromFormat($inputFormat, $dateStr)->format($outputFormat)
                 );
             }
-            
+
             function formatOpenCloseDate($dateStr) {
                 $inputFormat = 'Y-m-d';
                 $outputFormat = 'd/m/Y';
                 return validateFormatDate($dateStr, $inputFormat, $outputFormat);
             }
-            
+
             $dateOpen = formatOpenCloseDate($result['dateOpen_bart']);
             $dateClosed = formatOpenCloseDate($result['dateClose_bart']);
-            
+
             $generalFields = [
                 [
                     [
@@ -358,7 +325,7 @@ if ($defID) {
                     ]
                 ]
             ];
-        
+
             $vtaFields = [
                 'Root_Prob_VTA' => [ sprintf($labelStr, 'Root problem').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['root_prob_vta']))) ],
                 'Resolution_VTA' => [ sprintf($labelStr, 'Resolution').sprintf($labelStr, sprintf($fakeInputStr, stripcslashes($result['resolution_vta']))) ],
@@ -377,7 +344,7 @@ if ($defID) {
                     ]
                 ]
             ];
-        
+
             $bartFields = [
                 'BART ID' => [
                     returnRow([ sprintf($labelStr, 'BART ID').sprintf($fakeInputStr, stripcslashes($result['id_bart'])) ]),
@@ -394,9 +361,9 @@ if ($defID) {
                     returnRow([ sprintf($labelStr, 'Date closed'), sprintf($fakeInputStr, $dateClosed) ])
                 ]
             ];
-        
+
             $stmt->close();
-            
+
             // query for comments associated with this Def
             $sql = "SELECT firstname, lastname, date_created, bdCommText
                 FROM bartdlComments bdc
@@ -404,15 +371,15 @@ if ($defID) {
                 ON bdc.userID=u.userID
                 WHERE bartdlID=?
                 ORDER BY date_created DESC";
-            
+
             if (!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
-            
+
             if (!$stmt->bind_param('i', $bartDefID)) printSqlErrorAndExit($stmt, $sql);
-            
+
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
-            
+
             $comments = stmtBindResultArray($stmt) ?: [];
-            
+
             $stmt->close();
 
             if($result['status'] === "Closed") {
@@ -420,7 +387,7 @@ if ($defID) {
             } else {
                 $color = "bg-red text-white";
             }
-            
+
             print "
                 <header class='container page-header'>
                     <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
@@ -437,12 +404,12 @@ if ($defID) {
             foreach ($bartFields as $gridRow) {
                 print returnRow($gridRow);
             }
-            
+
             if (count($comments)) {
                 print "<h5 class='grey-bg pad'>Comments</h5>";
                 foreach ($comments as $comment) {
                     $timestamp = strtotime($comment['date_created']) - (60 * 60 * 7);
-                    
+
                     printf(
                         $commentFormat,
                         $comment['firstname'].' '.$comment['lastname'],
@@ -451,7 +418,7 @@ if ($defID) {
                     );
                 }
             }
-            
+
             print "
                 <div class='center-content'>
                     <a href='updateBartDef.php?bartDefID=$bartDefID' class='btn btn-primary btn-lg'>Update</a>
@@ -460,7 +427,7 @@ if ($defID) {
             // print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
         } else printSqlErrorAndExit($link, $sql);
     }
+    $link->close();
 }
 include('fileend.php');
-$link->close(); 
 ?>

@@ -1,50 +1,50 @@
-SELECT 
-    D.OldID,
-    L.LocationName,
-    D.SpecLoc,
-    S.SeverityName,
-    D.Description,
-    D.Spec,
-    DATE_FORMAT(D.DateCreated, "%d %b %Y"),
-    T.Status,
-    D.IdentifiedBy,
-    Y.System,
-    Y1.System,
-    D.ActionOwner,
-    E.EviType,
-    D.EvidenceLink,
-    D.DateClosed,
-    D.LastUpdated,
-    D.Updated_by,
-    D.Created_by,
-    D.Comments,
-    R.RequiredBy,
-    c.contract,
-    p.Repo,
-    D.ClosureComments,
-    D.DueDate,
-    yn.YesNo,
-    dt.defTypeName
+SELECT
+    D.OldID as oldID,
+    L.locationName as location,
+    D.specLoc as specLoc,
+    S.severityName as severity,
+    D.description as description,
+    D.spec as spec,
+    DATE_FORMAT(D.DateCreated, "%d %b %Y") as dateCreated,
+    T.statusName as status,
+    D.identifiedBy as identifiedBy,
+    Y.systemName as systemAffected,
+    Y1.systemName as GroupToResolve,
+    D.actionOwner as actionOwner,
+    E.eviTypeName as evidenceType,
+    D.evidenceLink as evidenceLink,
+    D.dateClosed as dateClosed,
+    D.lastUpdated as lastUpdated,
+    D.updated_by as updated_by,
+    D.created_by as created_by,
+    D.comments as comments,
+    R.requiredBy as requiredBy,
+    c.contractName as contract,
+    p.repoName as repo,
+    D.closureComments as closureComments,
+    D.dueDate as dueDate,
+    yn.yesNoName as safetyCert,
+    dt.defTypeName as defType
 FROM CDL D
-LEFT JOIN RequiredBy R
+LEFT JOIN requiredBy R
 ON R.ReqByID = D.RequiredBy
-LEFT JOIN Location L
+LEFT JOIN location L
 ON L.LocationID = D.Location
-LEFT JOIN Severity S
+LEFT JOIN severity S
 ON D.Severity = S.SeverityID
-LEFT JOIN Status T
+LEFT JOIN status T
 ON D.Status = T.StatusID
-LEFT JOIN System Y
+LEFT JOIN system Y
 ON D.SystemAffected = Y.SystemID
-LEFT JOIN System Y1
+LEFT JOIN system Y1
 ON D.GroupToResolve = Y1.SystemID
-LEFT JOIN EvidenceType E
+LEFT JOIN evidenceType E
 ON D.EvidenceType = E.EviTypeID
-LEFT JOIN Contract c
+LEFT JOIN contract c
 ON D.contractID=c.contractID
-LEFT JOIN YesNo yn
+LEFT JOIN yesNo yn
 ON D.SafetyCert=yn.YesNoID
-LEFT JOIN Repo p
+LEFT JOIN repo p
 ON D.Repo=p.repoID
 LEFT JOIN defType dt
 ON D.defType=dt.defTypeID
