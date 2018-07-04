@@ -10,6 +10,7 @@ $post = $_POST;
 $defID = $post['defID'];
 $userID = $_SESSION['userID'];
 $username = $_SESSION['username'];
+$role = $_SESSION['role'];
 
 // validate POST data
 // if it's empty then file upload exceeds post_max_size
@@ -26,7 +27,7 @@ if ($_FILES['CDL_pics']['size']
     && $_FILES['CDL_pics']['type']) {
     $CDL_pics = $_FILES['CDL_pics'];
 } else $CDL_pics = null;
-    
+
 // hold onto comments separately
 $cdlCommText = trim($post['cdlCommText']);
 
@@ -43,6 +44,15 @@ unset(
     $fieldsArr['dateClosed']
 );
 
+// handle value of status specially
+if ($post['status'] === 4) {
+    $post['status'] = 1;
+    $post['closureRequested'] = 1;
+    $post['closureRequestedBy'] = $userID;
+    $fieldsArr['closureRequested'] = '?';
+    $fieldsArr['closureRequestedBy'] = '?';
+}
+
 $assignmentList = implode(' = ?, ', array_keys($fieldsArr)).' = ?';
 $sql = "UPDATE CDL SET $assignmentList WHERE defID=$defID";
 
@@ -54,11 +64,11 @@ try {
     $success = "<div style='background-color: pink; background-clip: padding-box; border: 5px dashed limeGreen;'>%s</div>";
     $successFormat = "<p style='color: %s'>%s</p>";
     $linkBtn = "<a href='updateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
-    
+
     if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
-    
+
     $success = sprintf($success, sprintf($successFormat, 'blue', '&#x2714; CDL stmt prepared') . '%s');
-    
+
     $types = 'iiisiisiiisissssiisss';
     if (!$stmt->bind_param($types,
         intval($post['safetyCert']),
@@ -83,41 +93,41 @@ try {
         filter_var($link->escape_string($post['closureComments']), FILTER_SANITIZE_STRING),
         filter_var($link->escape_string($post['updated_by']), FILTER_SANITIZE_STRING)
     )) throw new mysqli_sql_exception($stmt->error);
-    
+
     $success= sprintf($success, sprintf($successFormat, 'forestGreen', '&#x2714; CDL params bound') . '%s');
-    
+
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    
+
     $success = sprintf($success, sprintf($successFormat, 'dodgerBlue', '&#x2714; CDL insert executed') . '%s');
-    
+
     $stmt->close();
-    
+
     $success = sprintf($success, sprintf($successFormat, 'indigo', '&#x2714; CDL stmt closed') . '%s');
-    
+
     // if INSERT succesful, prepare, upload, and INSERT photo
     if ($CDL_pics) {
         $sql = "INSERT CDL_pics (defID, pathToFile) values (?, ?)";
-        
+
         // execute save image and hold onto its new file path
         $pathToFile = $link->escape_string(saveImgToServer($_FILES['CDL_pics'], $defID));
         if ($pathToFile) {
             if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
             $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '&#x2714; cdlPics stmt prepared') . '%s');
-            
+
             if (!$stmt->bind_param('is', $defID, $pathToFile)) throw new mysqli_sql_exception($stmt->error);
             $success = sprintf($success, sprintf($successFormat, 'cornFlower', '&#x2714; cdlPics params bound') . '%s');
-            
+
             if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
             $success = sprintf($success, sprintf($successFormat, 'aqua', '&#x2714; cdlPics insert executed') . '%s');
-            
+
             $stmt->close();
-            
+
             $success = sprintf($success, sprintf($successFormat, 'aquamarine', '&#x2714; cdlPics stmt closed') . '%s');
         }
     } else {
         $success = sprintf($success, sprintf($successFormat, 'cyan', '&#x2718; no cdlPics found') . '%s');
     }
-    
+
     // if comment submitted commit it to a separate table
     if (strlen($cdlCommText)) {
         $sql = "INSERT cdlComments (defID, cdlCommText, userID) VALUES (?, ?, ?)";
@@ -143,11 +153,11 @@ try {
     }
 
     $link->close();
-    
+
     $success = sprintf($success, sprintf($successFormat, 'lightSteelBlue', '&#x2714; link closed') . '%s');
     $success = sprintf($success, sprintf($linkBtn, $defID));
     print $success;
-    
+
     header("Location: ViewDef.php?defID=$defID");
 } catch (Exception $e) {
     print "There was an error in committing your submission";
