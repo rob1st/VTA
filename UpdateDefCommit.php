@@ -43,6 +43,7 @@ $cdlCommText = trim($post['cdlCommText']);
 // );
 unset(
     $post['defID'],
+    $post['cdlCommText']
 );
 
 // if Closed, set dateClosed
@@ -125,11 +126,11 @@ try {
             // $stmt->close();
             // $success = sprintf($success, sprintf($successFormat, 'aquamarine', '&#x2714; cdlPics stmt closed') . '%s');
         } catch (uploadException $e) {
-            // redirect back to Update View
-            // "there was an error uploading your file"
+            header("Location: updateDef.php?defID=$defID");
+            $_SESSION['errorMsg'] = "There was an error uploading your file: $e";
         } catch (Exception $e) {
-            // redirect back to Update View
-            // "There was a problem recording your file"
+            header("Location: updateDef.php?defID=$defID");
+            $_SESSION['errorMsg'] = "There was a problem recording your file: $e";
         }
     }
 
@@ -145,8 +146,8 @@ try {
 
             $link->insert('cdlComments', $commentData);
         } catch (Exception $e) {
-            // redirect back to Update View
-            // "There was a problem recording your comment"
+            header("Location: updateDef.php?defID=$defID");
+            $_SESSION['errorMsg'] = "There was a problem recording your comment: $e";
         }
         // if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
         // $success = sprintf($success, sprintf($successFormat, 'darkCyan', '&#x2714; cdlComments stmt prepared') . '%s');
@@ -167,9 +168,8 @@ try {
 
     header("Location: ViewDef.php?defID=$defID");
 } catch (Exception $e) {
-    // print "There was an error in committing your submission";
-    // $link->close();
-    // exit;
+    header("Location: updateDef.php?defID=$defID");
+    $_SESSION['errorMsg'] = "There was an error in committing your submission: $e";
 } finally {
     $link->disconnect();
     exit;

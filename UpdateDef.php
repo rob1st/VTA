@@ -14,6 +14,12 @@ $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 
 include('filestart.php');
 
+if (isset($_SESSION['errorMsg'])) {
+    echo "
+        <h1 style='font-size: 4rem; font-family: monospace; color: red;'>{$_SESSION['errorMsg']}</h1>";
+    unset($_SESSION['errorMsg']);
+}
+
 try {
     $link = f_sqlConnect();
     $sql = "SELECT $fieldList FROM CDL WHERE defID=?";
