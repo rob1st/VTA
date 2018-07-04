@@ -90,7 +90,7 @@ $link = f_sqlConnect();
                         <td class='usertd'>{$row[5]}</td>
                         <td class='usertd'>{$row[6]}</td>
                         <td class='usertd'>
-                        <form action='UpdateUser.php' method='POST' onsubmit=''/>
+                        <form action='updateUser.php' method='POST' onsubmit=''/>
                         <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
                             if($Role >= 40) {
                                 echo "

@@ -32,7 +32,7 @@ try {
     $stmt->close();
 
     // special options for Contractor level when Def is Open
-    if ($role === 15 && $elements['status'] === 1) {
+    if ($role === 15 && $elements['status']['value'] === 1) {
         $elements['status']['query'] = [ 1 => 'Open', 4 => 'Request closure' ];
     }
 
