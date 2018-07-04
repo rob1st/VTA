@@ -128,7 +128,7 @@ try {
             <h1 class='page-title'>Update Deficiency ".$defID."</h1>
         </header>
         <main class='container main-content'>
-        <form action='UpdateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
+        <form action='updateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
             <input type='hidden' name='defID' value='$defID'>
             <div class='row'>
                 <div class='col-12'>

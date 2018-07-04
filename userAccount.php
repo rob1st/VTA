@@ -50,7 +50,7 @@
     ];
     $superLinks = [
         'views' => [
-            'DisplayUsers' => 'View user list',
+            'displayUsers' => 'View user list',
             'DisplayEviType' => 'View evidence type list'
         ],
         'forms' => [

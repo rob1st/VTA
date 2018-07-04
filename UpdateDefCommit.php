@@ -53,7 +53,7 @@ $post += ['updated_by' => $username];
 try {
     $success = "<div style='background-color: pink; background-clip: padding-box; border: 5px dashed limeGreen;'>%s</div>";
     $successFormat = "<p style='color: %s'>%s</p>";
-    $linkBtn = "<a href='UpdateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
+    $linkBtn = "<a href='updateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
     
     if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
     

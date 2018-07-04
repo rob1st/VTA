@@ -277,7 +277,7 @@ function printProjectDefsTable($result, $userLvl) {
             'cell' => [
                 'auth' => 20,
                 'classList' => "$tdClassList $collapseSm",
-                'innerHtml' => "<a id='updateDef%s' href='UpdateDef.php?defID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button>"
+                'innerHtml' => "<a id='updateDef%s' href='updateDef.php?defID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button>"
             ]
         ]
     ];

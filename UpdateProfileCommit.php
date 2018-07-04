@@ -7,10 +7,10 @@ include('session.php');
 $AUserID = $_SESSION['userID'];
 $link = f_sqlConnect();
 $title = "Update User Commit";
-    
+
 $user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
 if($result=mysqli_query($link,$user)) {
-    /*from the sql results, assign the username that returned to the $username variable*/    
+    /*from the sql results, assign the username that returned to the $username variable*/
     while($row = mysqli_fetch_assoc($result)) {
         $AUsername = $row['username'];
     }
@@ -20,11 +20,11 @@ if($_POST['Password'] <> '') {
     $pwd = '1';
     if($_POST['Password'] <> $_POST['ConPwd']) {
         $message = 'Confirmation password does not match new password';
-    } 
+    }
     if (ctype_alnum($_POST['Password']) != true) {
         $message = "Password must be alpha numeric";
-    } 
-} else { 
+    }
+} else {
     $pwd = '0';
 }
 
@@ -60,11 +60,11 @@ elseif(!empty($_POST)) {
     $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
     $Role = $_POST['role'];
     $Password = password_hash($password, PASSWORD_BCRYPT);
-    
+
     if($pwd == '0') {
 
     try {
-    
+
     $sql = "UPDATE users_enc
             SET  Username = '".$Username."'
                 ,firstname = '".$firstname."'
@@ -79,8 +79,8 @@ elseif(!empty($_POST)) {
             WHERE UserID = ".$UserID.";";
 
             if(mysqli_query($link,$sql)) {
-                header('location: DisplayUsers.php');
-                
+                header('location: displayUsers.php');
+
         } else {
             echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
         }
@@ -89,9 +89,9 @@ elseif(!empty($_POST)) {
         //echo "<br>SQL: ".$sql;
     } catch(Exception $e) { $message = "Unable to process request1";}
     } elseif($pwd == '1') {
-        
+
         try {
-    
+
     $sql = "UPDATE users_enc
             SET  Username = '".$Username."'
                 ,Password = '".$Password."'
@@ -107,7 +107,7 @@ elseif(!empty($_POST)) {
             WHERE UserID = ".$UserID.";";
 
             if(mysqli_query($link,$sql)) {
-                header('location: DisplayUsers.php');
+                header('location: displayUsers.php');
         } else {
             echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
         }
@@ -128,5 +128,5 @@ include('filestart.php');
         <div class='container'>
         <p style='text-align:center'>$message</p>
         </div>";
-    
+
 include('fileend.php');

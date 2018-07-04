@@ -236,7 +236,7 @@ if ($defID) {
             echo "
                 <div class='row item-margin-botom'>
                     <div class='col-12 center-content'>
-                        <a href='UpdateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
+                        <a href='updateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
                         <a href='CloneDef.php?defID=$defID' class='btn btn-primary btn-lg'>Clone</a>
                     </div>
                 </div>";
