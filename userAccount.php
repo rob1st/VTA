@@ -43,7 +43,7 @@
     $adminLinks = [
         'views' => [ 'idrList' => "All Inspectors' Daily Reports" ],
         'forms' => [
-            'NewUser' => 'Add new user',
+            'newUser' => 'Add new user',
             'NewLocation' => 'Add new Location',
             'NewSystem' => 'Add new system'
         ]

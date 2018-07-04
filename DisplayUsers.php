@@ -1,13 +1,13 @@
 <?php
 include('session.php');
 include('SQLFunctions.php');
-$link = f_sqlConnect();
-$table = users_enc;
+$table = 'users_enc';
 $title = "SVBX - Display Users";
 include('filestart.php');
 $adminID = $_SESSION['userID'];
 $Role = $_SESSION['role'];
 
+$link = f_sqlConnect();
     if(!f_tableExists($link, $table, DB_Name)) {
         die('<br>Destination table does not exist: '.$table);
     }
@@ -35,8 +35,7 @@ $Role = $_SESSION['role'];
                         <th class='userth'>First name</th>
                         <th class='userth'>Last name</th>
                         <th class='userth'>Email</th>";
-                        if(!isset($_SESSION['userID']))
-                        {
+                        if(!isset($_SESSION['userID'])) {
                         echo "</tr>";
                         } else {
                         echo "
@@ -45,8 +44,7 @@ $Role = $_SESSION['role'];
                             <th class='userth'>Role</th>
                             <th class='userth'>Company</th>";
                             }
-                        if ($Role >= 30)
-                        {
+                        if ($Role >= 30) {
                         echo "
                             <th class='userth'>Last Login</th>
                             <th class='userth'>Date Created</th>
