@@ -6,7 +6,7 @@ include('utils/utils.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
 $role = $_SESSION['role'];
-$view = $_GET['view'];
+$view = isset($_GET['view']) ? $_GET['view'] : '';
 
 // $roleLvlMap = [
 //     'V' => 1,
@@ -28,7 +28,7 @@ try {
 }
 
 if (isset($bartPermit)) echo "<h1 style='font-size: 4rem; color: #1ca;'>$bartPermit</h1>";
-else echo "<h1 style='font-size: 4rem; color: #9d1;'>Houston, we have a problem<h1>";
+else echo "<h1 style='font-size: 4rem; color: #9d1;'>$role</h1>";
 
 // function concatSqlStr($arr, $tableName, $initStr = '') {
 //     $joiner = 'WHERE';
@@ -273,9 +273,9 @@ function printProjectDefsTable($result, $userLvl) {
             'cell' => [ 'auth' => 20, 'classList' => "$tdClassList $collapseMd" ]
         ],
         'edit' => [
-            'header' => ['auth' => 20, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
+            'header' => ['auth' => 15, 'text' => 'Edit', 'classList' => "$thClassList $collapseSm" ],
             'cell' => [
-                'auth' => 20,
+                'auth' => 15,
                 'classList' => "$tdClassList $collapseSm",
                 'innerHtml' => "<a id='updateDef%s' href='updateDef.php?defID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button>"
             ]

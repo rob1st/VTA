@@ -187,7 +187,7 @@ $requiredElements = [
         "tagName" => "select",
         "element" => "<select name='status' id='status' class='form-control' required>%s</select>",
         "type" => null,
-        "query" => "SELECT StatusID, StatusName FROM status WHERE StatusID <> 3 ORDER BY StatusID",
+        "query" => "SELECT StatusID, StatusName FROM status WHERE (StatusID <> 3 AND StatusID <> 4) ORDER BY StatusID",
         'value' => ''
     ],
     'severity' => [
@@ -227,7 +227,7 @@ $requiredElements = [
         'tagName' => 'select',
         'element' => "<select name='contractID' id='contractID' class='form-control' required>%s</select>",
         'type' => null,
-        'query' => "SELECT contractID, contract FROM Contract ORDER BY contractID",
+        'query' => "SELECT contractID, contractName FROM Contract ORDER BY contractID",
         'value' => ''
     ],
     'identifiedBy' => [
@@ -304,7 +304,7 @@ $closureElements = [
         "tagName" => 'select',
         'element' => "<select name='evidenceType' id='evidenceType' class='form-control'>%s</select>",
         "type" => '',
-        "query" => "SELECT EviTypeID, EviType FROM EvidenceType ORDER BY EviType",
+        "query" => "SELECT EviTypeID, EviTypeName FROM EvidenceType ORDER BY EviTypeName",
         'value' => ''
     ],
     'repo' => [
@@ -312,7 +312,7 @@ $closureElements = [
         'tagName' => 'select',
         'element' => "<select name='repo' id='repo' class='form-control'>%s</select>",
         'type' => '',
-        'query' => "SELECT RepoID, Repo FROM Repo ORDER BY Repo",
+        'query' => "SELECT RepoID, RepoName FROM Repo ORDER BY RepoName",
         'value' => ''
     ],
     'evidenceLink' => [

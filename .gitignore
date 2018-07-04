@@ -23,3 +23,6 @@ uploads
 
 # db backups
 CDLdump.sql
+
+# other backups
+*.bak

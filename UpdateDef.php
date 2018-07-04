@@ -12,9 +12,6 @@ $defID = $_GET['defID'];
 $fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 
-// replace fields that reference other tables with JOINs
-$fieldsArr['safetyCert'];
-
 include('filestart.php');
 
 try {
@@ -33,6 +30,11 @@ try {
         throw new mysqli_sql_exception($stmt->error);
 
     $stmt->close();
+
+    // special options for Contractor level when Def is Open
+    if ($role === 15 && $elements['status'] === 1) {
+        $elements['status']['query'] = [ 1 => 'Open', 4 => 'Request closure' ];
+    }
 
     // query for comments associated with this Def
     $sql = "SELECT firstname, lastname, date_created, cdlCommText
