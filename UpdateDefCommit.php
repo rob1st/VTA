@@ -48,9 +48,9 @@ unset(
 
 // if Closed, set dateClosed
 // if Closure Requested, record by whom
-if ($post['status'] === 2) {
+if ($post['status'] === '2') {
     $post['dateClosed'] = 'NOW()';
-} elseif ($post['status'] === 4) {
+} elseif ($post['status'] === '4') {
     $post['status'] = 1;
     $post['closureRequested'] = 1;
     $post['closureRequestedBy'] = $userID;
