@@ -9,8 +9,8 @@ include('filestart.php');
         <header class="container page-header">
           <h1 class="page-title">Add New User</h1>
         </div>
-        <div class="container main-content"> 
-        <form action="AddUserSubmit.php" method="post">
+        <div class="container main-content">
+        <form action="addUserSubmit.php" method="post">
             <table class='table svbx-table'>
               <tr class='usertr'>
                 <th class='userth'>

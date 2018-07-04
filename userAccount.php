@@ -14,13 +14,7 @@
     if ($result = $link->query($userQry)) {
         $row = $result->fetch_assoc();
         $userFullName = $row['firstname'].' '.$row['lastname'];
-        $authLvl = [
-            'V' => 0,
-            'U' => 1,
-            'A' => 2,
-            'S' => 3
-        ];
-        $idrAuth = $row['inspector'] ? $authLvl[$role] : $row['inspector'];
+        $idrAuth = $row['inspector'] ? $role : 0;
         $result->close();
     } elseif ($link->error) {
         $msg = 'Unable to retrieve user account information';
@@ -31,17 +25,15 @@
     // check for IDRs submitted by current user
     if ($result = $link->query($idrQry)) {
         $row = $result->fetch_row();
-        $myIDRs = $idrAuth && $row[0];
+        $myIDRs = $idrAuth ? $row[0] : null;
         $result->close();
     }
 
-
-
     $roleT = [
-        'S' => 'Super Admin',
-        'A' => 'Admin',
-        'U' => 'User',
-        'V' => 'Viewer'
+        40 => 'Super Admin',
+        30 => 'Admin',
+        20 => 'User',
+        10 => 'Viewer'
     ];
 
     // auth-level-specific views
@@ -69,6 +61,7 @@
     ];
 ?>
 <?php
+    $title = 'SVBX - User Account';
     include('filestart.php');
     // user account management links
     echo "

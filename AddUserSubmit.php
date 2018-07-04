@@ -1,16 +1,16 @@
 <?php
 require_once('SQLFunctions.php');
-//include('session.php');
-session_start();
+include('session.php');
+// session_start();
 
 $AUserID = $_SESSION['userID'];
-$AUser = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
+$AUser = "SELECT username FROM users_enc WHERE UserID = $AUserID";
 $link = f_sqlConnect();
 
-if($result=mysqli_query($link,$AUser)) 
+if($result = $link->query($AUser))
     {
-      /*from the sql results, assign the username that returned to the $username variable*/    
-      while($row = mysqli_fetch_assoc($result)) {
+      /*from the sql results, assign the username that returned to the $username variable*/
+      while($row = $result->fetch_assoc()) {
         $AUsername = $row['username'];
       }
     }
@@ -35,9 +35,9 @@ elseif (ctype_alnum($_POST['pwd']) != true)
 {
     $message = "Password must be alpha numeric";
 }
-elseif (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) 
+elseif (!filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL))
 {
-    $message = "Invalid email format"; 
+    $message = "Invalid email format";
 }
 elseif (ctype_alnum($_POST['Company']) != true)
 {
@@ -54,36 +54,46 @@ else {
     $company = filter_var($_POST['Company'], FILTER_SANITIZE_STRING);
     $Company = $link->real_escape_string($company);
     $pwd = password_hash($pass, PASSWORD_BCRYPT);
-    $role = 'V';
+    $dateAdded = 'NOW()';
 
     try {
-        
-        $sql = "SELECT 1 FROM users_enc WHERE Username = '".$username."'";
-        $sql1 = "SELECT 1 FROM users_enc WHERE Email = '".$email."'";
-        if ($result=mysqli_query($link, $sql)) {
-            if(mysqli_num_rows($result)>=1) {
-                $message = "Username already exists";
-            } elseif($result=mysqli_query($link, $sql1)) {
-            if(mysqli_num_rows($result)>=1) {
-                $message = "Email already is already in use";
-            } else {
-            $sql = "INSERT INTO users_enc (Username, Password, Email, firstname, lastname, Role, Created_by, Company, DateAdded) VALUES ('".$username."', '".$pwd."', '".$email."', '".$firstname."', '".$lastname."', '".$role."', '".$AUsername."', '".$Company."', NOW())";
-                if(mysqli_query($link,$sql)) {
-                    //echo $sql;
-                    header("location: dashboard.php");
-                } else {
-                    echo "<br>Error :".$sql."<br>".mysql_error($link); 
-                }
-            }
+        $sql = "SELECT 1 FROM users_enc WHERE Username = '$username'";
+        if ($result = $link->query($sql)) {
+            if ($result->num_rows >= 1) {
+                $link->close();
+                throw new Exception("Username already exists");
+            } else $result->close();
+        }
+        $sql = "SELECT 1 FROM users_enc WHERE Email = '$email'";
+        if ($result = $link->query($sql)) {
+            if ($result->num_rows >= 1) {
+                $link->close();
+                throw new Exception("Email already is already in use");
             }
         }
-    } catch(Exception $e) { 
-        $message = "Unable to process request";
-        }
+        $sql = "INSERT INTO users_enc (Username, Password, Email, firstname, lastname, Created_by, Company, DateAdded) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
+        if (!$stmt->bind_param('ssssssss',
+            $username,
+            $pwd,
+            $email,
+            $firstname,
+            $lastname,
+            $_SESSION['username'],
+            $Company,
+            $dateAdded
+        )) throw new mysqli_sql_exception($stmt->error);
+        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+        header("location: dashboard.php");
+    } catch(Exception $e) {
+        echo "Unable to process request: $e";
+    } finally {
+        if (isset($result) && is_a($result, 'mysqli_result')) $result->close();
+        if (isset($stmt) && is_a($stmt, 'mysqli_stmt')) $stmt->close();
+        $link->close();
+    }
 }
-
 ?>
-
 <html>
     <head>
         <title>Adding user failed</title>
