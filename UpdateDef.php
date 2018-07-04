@@ -31,8 +31,9 @@ try {
 
     $stmt->close();
 
+    $defStatus = $elements['status']['value'];
     // special options for Contractor level when Def is Open
-    if ($role === 15 && $elements['status']['value'] === 1) {
+    if ($role === 15 && $defStatus === 1) {
         $elements['status']['query'] = [ 1 => 'Open', 4 => 'Request closure' ];
     }
 
@@ -196,14 +197,23 @@ try {
             );
         }
 
-        echo "
-            <div class='row item-margin-bottom'>
-                <div class='col-12 center-content'>
-                    <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
-                    <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
+            echo "
+                <div class='row item-margin-bottom'>
+                    <div class='col-12 center-content'>";
+                    // if Def is not Closed, show submit btn
+                    // if Def is Closed, show "Re-open" btn
+                    if ($defStatus !== 2) {
+                        echo "
+                            <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
+                            <button type='reset' class='btn btn-primary btn-lg'>Reset</button>";
+                    } else {
+                        echo "
+                            <button type='button' onclick='return reopenDef(event)'>Re-open Deficiency</button>";
+                    }
+            echo "
+                    </div>
                 </div>
-            </div>
-        </form>";
+            </form>";
     if ($role >= 40) {
         echo "
             <form action='DeleteDef.php' method='POST' onsubmit=''>
@@ -216,6 +226,14 @@ try {
             </form>";
     }
     echo "</main>";
+    echo "
+        <script>
+            function reopenDef(ev) {
+                const form = document.forms[0];
+                document.forms[0].status.value = 1;
+                forms.submit();
+            }
+        </script>";
 } catch (Exception $e) {
     print "Unable to retrieve record";
     exit;
