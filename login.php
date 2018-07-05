@@ -1,14 +1,24 @@
 <?php
+session_start();
 $title = 'SVBX - Login';
 include('filestart.php');
 ?>
     <header class="container page-header masthead">
       <h1 class="page-title"><img class="masthead-logo" src="assets/img/vta.jpg">Silicon Valley Berryessa Extension</h1>
-      <p>This site if for use by personel working upon the SVBX project, if you are not working upon the SVBX project, but would like some information, please click on the 'Learn More' button below.
+      <p>This site is for use by personnel working upon the SVBX project, if you are not working on the SVBX project, but would like some information, please click on the 'Learn More' button below.
         <a href="http://www.vta.org/News-and-Media/Connect-with-VTA/Phase-I-of-BART-Silicon-Valley-Update#.WqbH0WrwZaQ" target="_blank" class="btn btn-primary btn-xs">Learn more &raquo;</a></p>
     </header>
     <main role="main" class="container main-content">
       <div class="container login-container">
+        <?php
+            if (isset($_SESSION['errorMsg'])) {
+                echo "
+                    <div class='thin-grey-border bg-yellow pad'>
+                        <p class='mt-0 mb-0'>{$_SESSION['errorMsg']}</p>
+                    </div>";
+                unset($_SESSION['errorMsg']);
+            }
+        ?>
         <form action="loginSubmit.php" method="post">
           <fieldset>
             <div class="row">
@@ -24,7 +34,5 @@ include('filestart.php');
           </fieldset>
         </form> <!-- /container -->
       </div>
-
     </main>
-
-    <?php include('fileend.php'); ?>
+<?php include('fileend.php'); ?>

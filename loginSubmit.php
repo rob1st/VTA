@@ -2,6 +2,8 @@
 require_once 'vendor/autoload.php';
 require_once('SQLFunctions.php');
 
+session_start();
+
 /* Check if the user is already logged in */
 if (isset( $_SESSION['userID'] ))
     $message = 'User is already logged in';
@@ -24,12 +26,14 @@ else $message = '';
 
 if ($message) {
     header('Location: login.php');
-    $_SESSION['alert'] = $message;
+    $_SESSION['errorMsg'] = $message;
     exit;
 }
 
 try {
-    $link = connect();
+    // set location to login page by default
+    $redirectUrl = 'login.php';
+
     if (!$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS))
         throw new UnexpectedValueException('Please enter a valid username');
 
@@ -47,6 +51,7 @@ try {
         'secQ'
     ];
 
+    $link = connect();
     $link->where('username', $username);
 
     if (!$result = $link->getOne('users_enc', $fields))
@@ -56,8 +61,6 @@ try {
 
     if ($auth) {
         // Set session variables
-        session_start();
-
         $_SESSION['userID'] = $result['userID'];
         $_SESSION['username'] = $result['username'];
         $_SESSION['firstname'] = $result['firstname'];
@@ -69,13 +72,17 @@ try {
         $link->where('username', $result['username']);
         $link->update('users_enc', ['lastLogin' => 'NOW()']);
 
-        if (!$result['secQ']) header('location: setSQ.php');
-        else header('location: dashboard.php');
-    } else throw new UnexpectedValueException("Failed to log in");
+        if (!$result['secQ']) $redirectUrl = 'setSQ.php';
+        else $redirectUrl = 'dashboard.php';
+    } else throw new UnexpectedValueException("Incorrect password");
+} catch (UnexpectedValueException $e) {
+    $_SESSION['errorMsg'] = "There was a problem with the credentials you provided: {$e->getMessage()}";
+} catch (mysqli_sql_exception $e) {
+    $_SESSION['errorMsg'] = "There was a problem retrieving from the database: {$e->getMessage()}";
 } catch (Exception $e) {
-    echo "<pre style='color: darkBlue'>$e</pre>";
-    exit;
+    $_SESSION['errorMsg'] = "There was a problem with login: {$e->getMessage()}";
 } finally {
+    header("Location: $redirectUrl");
     $link->disconnect();
     exit;
 }
