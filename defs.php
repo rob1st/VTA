@@ -8,15 +8,9 @@ $title = "View Deficiencies";
 $role = $_SESSION['role'];
 $view = isset($_GET['view']) ? $_GET['view'] : '';
 
-// $roleLvlMap = [
-//     'V' => 1,
-//     'U' => 2,
-//     'A' => 3,
-//     'S' => 4
-// ];
-// $roleLvl = $roleLvlMap[$role];
-
 include('filestart.php');
+
+// query to see if user has permission to view BART defs
 try {
     $link = connect();
     $link->where('userid', $_SESSION['userID']);
@@ -345,18 +339,20 @@ function printBartDefsTable($link, $userLvl) {
     printDefsTable($link, $qry, $tableFields, $userLvl);
 }
 
-// if($_POST['Search'] == NULL) {
-//     $whereCls = ' WHERE D.Status <> 3 ORDER BY DefID';
-//     $count = "SELECT COUNT(*) FROM CDL";
-// } else {
-//     $postData = array_filter($_POST);
-//     unset($postData['Search']);
-//
-//     $count = "SELECT COUNT(*) FROM CDL D";
-//
-//     $whereCls = concatSqlStr($postData, 'D');
-//     $count .= concatSqlStr($postData, 'D');
-// }
+// check for search params
+// if no search params show all defs that are not 'deleted'
+if(!isset($_GET['search'])) {
+    $link->where('c.status', 3, '<>');
+} else {
+    $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
+    $get = array_filter($get); // filter to remove falsey values -- is this necessary?
+    unset($get['search']);
+
+    foreach ($get as $param => $val) {
+        if ($param === 'description') $link->where($param, "%{$val}%", 'LIKE');
+        else $link->where($param, $val);
+    }
+}
 
 ?>
 <header class="container page-header">
@@ -364,9 +360,11 @@ function printBartDefsTable($link, $userLvl) {
     <?php
         $btnSelected = 'btn-light border-dark-blue box-shadow-blue';
         $btnNotSelected = 'btn-secondary text-white';
-        list($bartBtn, $projBtn) = $view === 'BART' ? [$btnSelected, $btnNotSelected] : [$btnNotSelected, $btnSelected];
+        list($bartBtn, $projBtn) = $view === 'BART'
+            ? [$btnSelected, $btnNotSelected]
+            : [$btnNotSelected, $btnSelected];
         if ($bartPermit) {
-            print "
+            echo "
                 <div class='row'>
                     <div class='col-12 d-flex'>
                         <a href='defs.php' class='btn $projBtn flex-grow item-margin-right text-wrap'>Project deficiencies</a>
@@ -377,18 +375,38 @@ function printBartDefsTable($link, $userLvl) {
         }
     ?>
 </header>
+<main class='container main-content'>
 <?php
-    echo "<main class='container main-content'>";
     if ($view !== 'BART' || !$bartPermit) {
+        $fields = [
+            "c.defID as ID",
+            "l.locationName as location",
+            "s.severityName as severity",
+            "DATE_FORMAT(c.dateCreated, '%d %b %Y') as dateCreated",
+            "t.statusName as status",
+            "y.systemName as systemAffected",
+            "SUBSTR(c.description, 1, 50) as description",
+            "c.specLoc as specLoc",
+            "c.lastUpdated as lastUpdated"
+        ];
+        $joins = [
+            "location l" => "c.location = l.locationID",
+            "severity s" => "c.severity = s.severityID",
+            "status t" => "c.status = t.statusID",
+            "system y" => "c.systemAffected = y.systemID"
+        ];
         $sql = file_get_contents('CDList.sql');
         try {
+            foreach ($joins as $tableName => $on) {
+                $link->join($tableName, $on, 'LEFT');
+            }
             $link->orderBy('ID', 'ASC');
-            $link->where('c.status', 3, '<>');
-            $result = $link->query($sql);
+            $result = $link->get('CDL c', 20, $fields);
+            // $result = $link->query($sql);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>$e</h1>";
         }
-        // printSearchBar($link, $postData, [ method => 'POST', action => 'defs.php' ]);
+        // printSearchBar($link, $postData, [ method => 'GET', action => 'defs.php' ]);
         // printInfoBox($roleLvl, 'NewDef.php');
         printProjectDefsTable($result, $_SESSION['role']);
         // echo "<pre style='color: #129;'>";
