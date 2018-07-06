@@ -24,23 +24,7 @@ try {
 if (isset($bartPermit)) echo "<h1 style='font-size: 4rem; color: #1ca;'>$bartPermit</h1>";
 else echo "<h1 style='font-size: 4rem; color: #9d1;'>$role</h1>";
 
-// function concatSqlStr($arr, $tableName, $initStr = '') {
-//     $joiner = 'WHERE';
-//     $equality = '=';
-//     $qStr = $initStr;
-//     foreach ($arr as $key => $val) {
-//         if (strpos(strtolower($key), 'description') !== false) {
-//             $equality = ' LIKE ';
-//             $val = "%{$val}%";
-//         }
-//         $qStr .= " $joiner $tableName.{$key}{$equality}'{$val}'";
-//         $joiner = 'AND';
-//         $equality = '=';
-//     }
-//     return $qStr;
-// }
-
-function printInfoBox($userLvl, $href, $dataGraphic = false) {
+function printInfoBox($role, $href, $dataGraphic = false) {
     $dataContainer = $dataGraphic
         ? "<div class='row mb-3'><div id='dataContainer' class='col-md-4 offset-md-4 d-flex flex-row flex-wrap justify-content-start'></div></div>"
         : '';
@@ -56,7 +40,7 @@ function printInfoBox($userLvl, $href, $dataGraphic = false) {
                 </div>
             </div>
         </div>";
-    $btn = $userLvl > 1 ? "<a href='%s' class='btn btn-primary'>Add New Deficiency</a>" : '';
+    $btn = $role > 10 ? "<a href='%s' class='btn btn-primary'>Add New Deficiency</a>" : '';
 
     $box = sprintf($box, $btn);
 
@@ -77,15 +61,15 @@ function printSearchBar($link, $get, $formAction) {
                             role='button'
                             aria-expanded='false'
                             aria-controls='filterDefs'
-                            class=''
+                            class='$collapsed'
                         >Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i>
                         </a>
                     </h5>
                 </div>
-                <div class='collapse show' id='filterDefs'>%s</div>
+                <div class='collapse$show' id='filterDefs'>%s</div>
             </form>
         </div>";
-    $rowF = "<div class='row'>%s</div>";
+    $rowF = "<div class='row item-margin-bottom'>%s</div>";
     $colF = "<div class='col-%s col-sm-%s pl-1 pr-1'>%s</div>";
     $labelF = "<label>%s</label>";
     $selectF = "
@@ -99,6 +83,7 @@ function printSearchBar($link, $get, $formAction) {
     {
         list($inputVal, $inputText) = isset($fields[1])
             ? [ $fields[0], $fields[1] ] : [ $fields[0], $fields[0]];
+        // collect <option> els in a str before sprintf <select>
         $opts = '';
         foreach ($data as $row) {
             $selected = isset($get[$param]) && $get[$param] === $row[$fields[0]]
@@ -113,16 +98,6 @@ function printSearchBar($link, $get, $formAction) {
     };
     // collect elements w/i cols in 2 two rows
     if ($result = $link->get('CDL', null, 'defID')) {
-        // collect <option> els in a str before sprintf <select>
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['defID']) &&$get['defID'] === $row['defID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['defID'], $selected, $row['defID']);
-        // }
-        // $curEl = sprintf($selectF, 'ID', $opts);
-        // $cols = sprintf($colF, 6, 1, $curEl);
-
         // this is the first column so we start a new $cols collector
         $cols = $makeSelectEl('Def #', 'defID', ['defID'], [6, 1], $result);
     } else throw new mysqli_sql_exception("select defID no good");
@@ -141,26 +116,10 @@ function printSearchBar($link, $get, $formAction) {
     } else throw new mysqli_sql_exception("select status no good");
 
     if ($result = $link->get('yesNo', null, 'yesNoID, yesNoName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['safetyCert']) && $get['safetyCert'] === 'yesNoID'
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['yesNoID'], $selected, $row['yesNoName']);
-        // }
-        // $curEl = sprintf($selectF, 'safetyCert', $opts);
-        // $cols .= sprintf($colF, 6, 1, $curEl);
         $cols .= $makeSelectEl('Safety cert', 'safetyCert', ['yesNoID', 'yesNoName'], [6, 1], $result);
     } else throw new mysqli_sql_exception("select safetyCert no good");
 
     if ($result = $link->get('severity', null, 'severityID, severityName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['severity']) && $get['severity'] === $row['severityID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['severityID'], $selected, $row['severityName']);
-        // }
-        // $curEl = sprintf($selectF, 'severity', $opts);
-        // $cols .= sprintf($colF, 6, 2, $curEl);
         $cols .= $makeSelectEl('Severity', 'severity', ['severityID', 'severityName'], [6, 2], $result);
     } else throw new mysqli_sql_exception("select severity no good");
 
@@ -168,14 +127,6 @@ function printSearchBar($link, $get, $formAction) {
     $link->groupBy('systemName');
     $link->orderBy('systemID');
     if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['systemAffected']) && $get['systemAffected'] === $row['systemID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['systemID'], $selected, $row['systemName']);
-        // }
-        // $curEl = sprintf($selectF, 'systemAffected', $opts);
-        // $cols .= sprintf($colF, 6, 2, $curEl);
         $cols .= $makeSelectEl('System affected', 'systemAffected', ['systemID', 'systemName'], [6, 3], $result);
     } else throw new mysqli_sql_exception("select system no good");
 
@@ -183,14 +134,6 @@ function printSearchBar($link, $get, $formAction) {
     $link->groupBy('systemName');
     $link->orderBy('systemID');
     if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['groupToResolve']) && $get['groupToResolve'] === $row['systemID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['systemID'], $selected, $row['systemName']);
-        // }
-        // $curEl = sprintf($selectF, 'groupToResolve', $opts);
-        // $cols .= sprintf($colF, 6, 2, $curEl);
         $cols .= $makeSelectEl('Group to resolve', 'groupToResolve', ['systemID', 'systemName'], [6, 3], $result);
     } else throw new mysqli_sql_exception("select groupToResolve no good");
 
@@ -202,48 +145,21 @@ function printSearchBar($link, $get, $formAction) {
     $curVal = isset($get['description']) ? $get['description'] : '';
     $curEl = "<input type='text' name='description' class='form-control' value='$curVal'>";
     $cols = sprintf($colF, 4, 4, $curLab . $curEl);
-                // <div class='col-sm-2 pl-1 pr-1'>
-                //     <label class='input-label'>Location</label>
-                //     <select name='location' class='form-control'>
-                //         <option value=''></option>";
+
     $link->join('location l', 'c.location = l.locationID', 'INNER');
     $link->groupBy('locationName');
     $link->orderBy('locationID');
     if ($result = $link->get('CDL c', null, 'l.locationID, l.locationName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['location']) && $get['location'] === $row['locationID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['locationID'], $selected, $row['locationName']);
-        // }
-        // $curEl = sprintf($selectF, 'location', $opts);
-        // $cols .= sprintf($colF, 6, 2, $curEl);
         $cols .= $makeSelectEl('Location', 'location', ['locationID', 'locationName'], [6, 2], $result);
     } else throw new mysqli_sql_exception("select groupToResolve no good");
 
     $link->groupBy('specLoc');
     if ($result = $link->get('CDL', null, 'specLoc')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['specLoc']) && $get['location'] === $row['specLoc']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['specLoc'], $selected, $row['specLoc']);
-        // }
-        // $curEl = sprintf($selectF, 'specLoc', $opts);
-        // $cols .= sprintf($colF, 6, 2, $curEl);
         $cols .= $makeSelectEl('Specific location', 'specLoc', ['specLoc'], [6, 2], $result);
     } else throw new mysqli_sql_exception("select groupToResolve no good");
 
     $link->groupBy('identifiedBy');
     if ($result = $link->get('CDL', null, 'identifiedBy')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['identifiedBy']) && $get['identifiedBy'] === $row['identifiedBy']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['identifiedBy'], $selected, $row['identifiedBy']);
-        // }
-        // $curEl = sprintf($selectF, 'identifiedBy', $opts);
-        // $cols .= sprintf($colF, 6, 2, $curEl);
         $cols .= $makeSelectEl('Identified by', 'identifiedBy', ['identifiedBy'], [6, 2], $result);
     } else throw new mysqli_sql_exception("select groupToResolve no good");
 
@@ -263,6 +179,9 @@ function printSearchBar($link, $get, $formAction) {
 }
 
 function printDefsTable($result, $tableElements, $userLvl) {
+    // echo "<pre style='color: #39d;'>";
+    // var_dump($result);
+    // echo "</pre>";
     if (count($result)) {
         $keys = array_keys($tableElements);
         $headers = array_combine(
@@ -334,57 +253,40 @@ function printProjectDefsTable($result, $userLvl) {
     printDefsTable($result, $tableElements, $userLvl);
 }
 
-function printBartDefsTable($link, $userLvl) {
-    // build SELECT query string from sql file
-    $fieldList = preg_replace('/\s+/', '', file_get_contents('bartdl.sql'))
-        .',form_modified';
-    // replace ambiguous or JOINED keys
-    $fieldList = str_replace('updated_by', 'BARTDL.updated_by AS updated_by', $fieldList);
-    $fieldList = str_replace('status', 's.status AS status', $fieldList);
-    $fieldList = str_replace('agree_vta', 'ag.agreeDisagreeName AS agree_vta', $fieldList);
-    $fieldList = str_replace('creator', 'c.partyName AS creator', $fieldList);
-    $fieldList = str_replace('next_step', 'n.nextStepName AS next_step', $fieldList);
-
-    $qry = 'SELECT '
-            ." BARTDL.id, s.status s, date_created, descriptive_title_vta, resolution_vta, n.nextStepName"
-            ." FROM BARTDL"
-            ." JOIN bdNextStep n ON BARTDL.next_step=n.bdNextStepID"
-            ." JOIN Status s ON BARTDL.status=s.statusID"
-            ." ORDER BY BARTDL.id";
+function printBartDefsTable($result, $role) {
+    $thF = "<th class='%s'>%s</th>";
     $tdClassList = 'svbx-td';
     $thClassList = 'svbx-th';
     $collapseXs = 'collapse-xs';
     $collapseSm = 'collapse-sm collapse-xs';
     $collapseMd = 'collapse-md  collapse-sm collapse-xs';
-    $thStrF = "<th class='%s'>%s</th>";
-    $tdStrF = "<td class='%s'>%s</td>";
-    $tableFields = [
-        [
+    $tableElements = [
+        'ID' => [
             'header' => [ 'text' => 'ID' ],
             'cell' => [ 'innerHtml' => "<a href='ViewDef.php?bartDefID=%s'>%s</a>" ]
         ],
-        [
+        'status' => [
             'header' => [ 'text' => 'Status' ],
             'cell' => []
         ],
-        [
+        'date_created' => [
             'header' => [ 'text' => 'Date created' ],
             'cell' => []
         ],
-        [
+        'descriptive_title_vta' => [
             'header' => [ 'text' => 'Description' ],
             'cell' => []
         ],
-        [
+        'resolution_vta' => [
             'header' => [ 'text' => 'Resolution' ],
             'cell' => []
         ],
-        [
+        'next_step' => [
             'header' => [ 'text' => 'Next step' ],
             'cell' => []
         ],
-        [
-            'header' => [ 'text' => 'Edit', 'element' => sprintf($th, "$thClassList $collapseSm", 'Edit')],
+        'edit' => [
+            'header' => [ 'text' => 'Edit', 'element' => sprintf($thF, "$thClassList $collapseSm", 'Edit')],
             'cell' => [
                 'element' => sprintf("<td class='%s'><a id='updateDef%s'  href='updateBartDef.php?bartDefID=%s'><i class='typcn typcn-edit'></i></a></td>", "$thClassList $collapseSm", '%s', '%s'),
                 'innerHtml' => "<a id='updateDef%s' href='updateBartDef.php?bartDefID=%s' class='btn btn-outline'><i class='typcn typcn-edit'></i></button></form>"
@@ -392,7 +294,7 @@ function printBartDefsTable($link, $userLvl) {
         ]
     ];
 
-    printDefsTable($link, $qry, $tableFields, $userLvl);
+    printDefsTable($result, $tableElements, $role);
 }
 
 // check for search params
@@ -433,8 +335,11 @@ if(isset($_GET['search'])) {
         try {
             printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
-            echo "print search bar got issues: $e";
+            echo "<h1 style='color: #da0;'>print search bar got issues: $e</h1>";
         }
+
+        printInfoBox($role, 'NewDef.php');
+
         try {
             $fields = [
                 "c.defID AS ID",
@@ -466,34 +371,60 @@ if(isset($_GET['search'])) {
 
             $link->orderBy('ID', 'ASC');
             $link->where('c.status', 3, '<>');
-            $result = $link->get('CDL c', 20, $fields);
+            $result = $link->get('CDL c', 10, $fields);
             printProjectDefsTable($result, $_SESSION['role']);
-            // $result = $link->query($sql);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>$e</h1>";
         }
-        // printInfoBox($roleLvl, 'NewDef.php');
-        // echo "<pre style='color: #129;'>";
-        // var_dump($result);
-        // echo "</pre>";
     } elseif ($bartPermit) {
-        $statusSql = 'SELECT s.status, count(id) from BARTDL b JOIN Status s ON b.status=s.statusID GROUP BY s.status';
-        $altStatusSql = "SELECT COUNT(CASE WHEN s.status='open' THEN 1
+        $statusSql = "SELECT COUNT(CASE WHEN s.statusName='open' THEN 1
             ELSE NULL END) AS statusOpen,
-            COUNT(CASE WHEN s.status='closed' THEN 1
+            COUNT(CASE WHEN s.statusName='closed' THEN 1
             ELSE NULL END) AS statusClosed
-            FROM BARTDL b JOIN Status s
+            FROM BARTDL b JOIN status s
             ON b.status=s.statusID";
 
-        $errFormat = "<p class='text-red'>%s</p>";
+        // get status data for data graphic (in script tag below)
+        try {
+            if (!$statusData = $link->query($statusSql)[0])
+                throw new mysqli_sql_exception("There was a problem retrieving status data");
+            echo "<h5 style='color: #38e;'>{$link->getLastQuery()}</h5>";
+            echo "<pre style='color: #cc1;'>";
+            var_dump($statusData);
+            echo "</pre>";
+        } catch (Exception $e) {
+            echo "<h1 style='color: #b82;'>$e</h1>";
+        }
 
-        if (!$res = $link->query($altStatusSql)) printf($errFormat, $link->error);
-        elseif (!$statusData = $res->fetch_assoc()) printf($errFormat, $res->error);
+        printInfoBox($role, 'newBartDef.php', 1);
 
-        printInfoBox($_SESSION['role'], 'newBartDef.php', 1);
-        printBartDefsTable($link, $bartPermit);
+        try {
+            $fields = [
+                'ID',
+                's.statusName as status',
+                'date_created',
+                'SUBSTR(descriptive_title_vta, 1, 132) AS descriptive_title_vta',
+                'SUBSTR(resolution_vta, 1, 132) AS resolution_vta',
+                'n.nextStepName AS next_step'
+            ];
+            $joins = [
+                'status s' => 'b.status = s.statusID',
+                'bdNextStep n' => 'b.next_step = n.bdNextStepID'
+            ];
+
+            foreach ($joins as $tableName => $on) {
+                $link->join($tableName, $on, 'LEFT');
+            }
+            $link->orderBy('id', 'DESC');
+            $res = $link->get('BARTDL b', 10, $fields);
+            // echo "<h4 style='color: #2b6;'>{$link->getLastQuery()}</h4>";
+            printBartDefsTable($res, $bartPermit);
+        } catch (Exception $e) {
+            echo "<h1 style='color: #b82;'>$e</h1>";
+        }
     }
     echo "</main>";
+    // script tags will eventually go elsewhere once Twig is fully implemented
     echo "
         <script src='https://d3js.org/d3.v5.js'></script>
         <script src='js/pie_chart.js'></script>
@@ -516,4 +447,3 @@ if(isset($_GET['search'])) {
 $link->disconnect();
 
 include 'fileend.php';
-?>

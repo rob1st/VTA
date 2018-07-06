@@ -22,7 +22,7 @@ function printTableHeadings($headers, $userLvl) {
             if ($userLvl < $header['auth']) continue;
             else {
                 $text = $header['text'];
-                $classList = $header['classList']
+                $classList = isset($header['classList'])
                     ? returnClassList($header['classList']) : '';
                 $tHeadings .= sprintf($th, $classList, $text);
             }
