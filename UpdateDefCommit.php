@@ -56,52 +56,14 @@ if ($post['status'] === '2') {
     $post['closureRequestedBy'] = $userID;
 }
 
-// $assignmentList = implode(' = ?, ', array_keys($fieldsArr)).' = ?';
-// $sql = "UPDATE CDL SET $assignmentList WHERE defID=$defID";
-
 // append keys that do not or may not come from html form
 // or whose values may be ambiguous in $_POST (e.g., checkboxes)
 $post['updated_by'] = $username;
 
 try {
-    // $success = "<div style='background-color: pink; background-clip: padding-box; border: 5px dashed limeGreen;'>%s</div>";
-    // $successFormat = "<p style='color: %s'>%s</p>";
-    // $linkBtn = "<a href='updateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
     $link = connect();
     $link->where('defID', $defID);
     $link->update('CDL', $post);
-
-    // if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
-    // $success = sprintf($success, sprintf($successFormat, 'blue', '&#x2714; CDL stmt prepared') . '%s');
-    // $types = 'iiisiisiiisissssiisss';
-    // if (!$stmt->bind_param($types,
-    //     intval($post['safetyCert']),
-    //     intval($post['systemAffected']),
-    //     intval($post['location']),
-    //     filter_var($link->escape_string($post['specLoc']), FILTER_SANITIZE_STRING),
-    //     intval($post['status']),
-    //     intval($post['severity']),
-    //     filter_var($link->escape_string($post['dueDate']), FILTER_SANITIZE_STRING),
-    //     intval($post['groupToResolve']),
-    //     intval($post['requiredBy']),
-    //     intval($post['contractID']),
-    //     filter_var($link->escape_string($post['identifiedBy']), FILTER_SANITIZE_STRING),
-    //     intval($post['defType']),
-    //     filter_var($link->escape_string($post['description']), FILTER_SANITIZE_STRING),
-    //     filter_var($link->escape_string($post['spec']), FILTER_SANITIZE_STRING),
-    //     filter_var($link->escape_string($post['actionOwner']), FILTER_SANITIZE_STRING),
-    //     filter_var($link->escape_string($post['oldID']), FILTER_SANITIZE_STRING),
-    //     intval($post['evidenceType']),
-    //     intval($post['repo']),
-    //     filter_var($link->escape_string($post['evidenceLink']), FILTER_SANITIZE_STRING),
-    //     filter_var($link->escape_string($post['closureComments']), FILTER_SANITIZE_STRING),
-    //     filter_var($link->escape_string($post['updated_by']), FILTER_SANITIZE_STRING)
-    // )) throw new mysqli_sql_exception($stmt->error);
-    // $success= sprintf($success, sprintf($successFormat, 'forestGreen', '&#x2714; CDL params bound') . '%s');
-    // if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    // $success = sprintf($success, sprintf($successFormat, 'dodgerBlue', '&#x2714; CDL insert executed') . '%s');
-    // $stmt->close();
-    // $success = sprintf($success, sprintf($successFormat, 'indigo', '&#x2714; CDL stmt closed') . '%s');
 
     // if INSERT succesful, prepare, upload, and INSERT photo
     if ($CDL_pics) {
@@ -117,14 +79,6 @@ try {
             ];
 
             $link->insert('CDL_pics', $fileData);
-            // if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
-            // $success = sprintf($success, sprintf($successFormat, 'cadetBlue', '&#x2714; cdlPics stmt prepared') . '%s');
-            // if (!$stmt->bind_param('is', $defID, $pathToFile)) throw new mysqli_sql_exception($stmt->error);
-            // $success = sprintf($success, sprintf($successFormat, 'cornFlower', '&#x2714; cdlPics params bound') . '%s');
-            // if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-            // $success = sprintf($success, sprintf($successFormat, 'aqua', '&#x2714; cdlPics insert executed') . '%s');
-            // $stmt->close();
-            // $success = sprintf($success, sprintf($successFormat, 'aquamarine', '&#x2714; cdlPics stmt closed') . '%s');
         } catch (uploadException $e) {
             header("Location: updateDef.php?defID=$defID");
             $_SESSION['errorMsg'] = "There was an error uploading your file: $e";
