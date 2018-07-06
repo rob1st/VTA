@@ -17,12 +17,9 @@ try {
     $result = $link->getOne('users_enc', [ 'bdPermit' ]);
     $bartPermit = $result['bdPermit'];
 } catch (Exception $e) {
-    echo "<h1 style='font-size: 4rem; font-family: monospace; color: red;'>$e</h1>";
+    echo "<h1 style='font-size: 4rem; font-family: monospace; color: red;'>{$e->getMessage()}</h1>";
     exit;
 }
-
-if (isset($bartPermit)) echo "<h1 style='font-size: 4rem; color: #1ca;'>$bartPermit</h1>";
-else echo "<h1 style='font-size: 4rem; color: #9d1;'>$role</h1>";
 
 function printInfoBox($role, $href, $dataGraphic = false) {
     $dataContainer = $dataGraphic
@@ -100,7 +97,7 @@ function printSearchBar($link, $get, $formAction) {
     if ($result = $link->get('CDL', null, 'defID')) {
         // this is the first column so we start a new $cols collector
         $cols = $makeSelectEl('Def #', 'defID', ['defID'], [6, 1], $result);
-    } else throw new mysqli_sql_exception("select defID no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve defID list");
 
     if ($result = $link->get('status', null, 'statusID, statusName')) {
         // $opts = '';
@@ -113,29 +110,29 @@ function printSearchBar($link, $get, $formAction) {
         // $curEl = sprintf($selectF, 'status', $opts);
         // sprintf($colF, 6, 2, $curLab . $curEl);
         $cols .= $makeSelectEl('Status', 'status', ['statusID', 'statusName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("select status no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve status list");
 
     if ($result = $link->get('yesNo', null, 'yesNoID, yesNoName')) {
         $cols .= $makeSelectEl('Safety cert', 'safetyCert', ['yesNoID', 'yesNoName'], [6, 1], $result);
-    } else throw new mysqli_sql_exception("select safetyCert no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve safetyCert list");
 
     if ($result = $link->get('severity', null, 'severityID, severityName')) {
         $cols .= $makeSelectEl('Severity', 'severity', ['severityID', 'severityName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("select severity no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve severity list");
 
     $link->join('system s', 'c.systemAffected = s.systemID', 'INNER');
     $link->groupBy('systemName');
     $link->orderBy('systemID');
     if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
         $cols .= $makeSelectEl('System affected', 'systemAffected', ['systemID', 'systemName'], [6, 3], $result);
-    } else throw new mysqli_sql_exception("select system no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve system list");
 
     $link->join('system s', 'c.groupToResolve = s.systemID', 'INNER');
     $link->groupBy('systemName');
     $link->orderBy('systemID');
     if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
         $cols .= $makeSelectEl('Group to resolve', 'groupToResolve', ['systemID', 'systemName'], [6, 3], $result);
-    } else throw new mysqli_sql_exception("select groupToResolve no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve groupToResolve list");
 
     // finish first row
     $row1 = sprintf($rowF, $cols);
@@ -151,17 +148,17 @@ function printSearchBar($link, $get, $formAction) {
     $link->orderBy('locationID');
     if ($result = $link->get('CDL c', null, 'l.locationID, l.locationName')) {
         $cols .= $makeSelectEl('Location', 'location', ['locationID', 'locationName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("select groupToResolve no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve location list");
 
     $link->groupBy('specLoc');
     if ($result = $link->get('CDL', null, 'specLoc')) {
         $cols .= $makeSelectEl('Specific location', 'specLoc', ['specLoc'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("select groupToResolve no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve specLoc list");
 
     $link->groupBy('identifiedBy');
     if ($result = $link->get('CDL', null, 'identifiedBy')) {
         $cols .= $makeSelectEl('Identified by', 'identifiedBy', ['identifiedBy'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("select groupToResolve no good");
+    } else throw new mysqli_sql_exception("Unable to retrieve identifiedBy list");
 
     // submit and reset buttons
     $buttons = "
@@ -335,7 +332,7 @@ if(isset($_GET['search'])) {
         try {
             printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
-            echo "<h1 style='color: #da0;'>print search bar got issues: $e</h1>";
+            echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getMessage()}</h1>";
         }
 
         printInfoBox($role, 'NewDef.php');
@@ -371,10 +368,10 @@ if(isset($_GET['search'])) {
 
             $link->orderBy('ID', 'ASC');
             $link->where('c.status', 3, '<>');
-            $result = $link->get('CDL c', 10, $fields);
+            $result = $link->get('CDL c', null, $fields);
             printProjectDefsTable($result, $_SESSION['role']);
         } catch (Exception $e) {
-            echo "<h1 style='color: #da0;'>$e</h1>";
+            echo "<h1 style='color: #da0;'>{$e->getMessage()}</h1>";
         }
     } elseif ($bartPermit) {
         $statusSql = "SELECT COUNT(CASE WHEN s.statusName='open' THEN 1
@@ -388,12 +385,8 @@ if(isset($_GET['search'])) {
         try {
             if (!$statusData = $link->query($statusSql)[0])
                 throw new mysqli_sql_exception("There was a problem retrieving status data");
-            echo "<h5 style='color: #38e;'>{$link->getLastQuery()}</h5>";
-            echo "<pre style='color: #cc1;'>";
-            var_dump($statusData);
-            echo "</pre>";
         } catch (Exception $e) {
-            echo "<h1 style='color: #b82;'>$e</h1>";
+            echo "<h1 style='color: #b82;'>{$e->getMessage()}</h1>";
         }
 
         printInfoBox($role, 'newBartDef.php', 1);
@@ -415,12 +408,11 @@ if(isset($_GET['search'])) {
             foreach ($joins as $tableName => $on) {
                 $link->join($tableName, $on, 'LEFT');
             }
-            $link->orderBy('id', 'DESC');
-            $res = $link->get('BARTDL b', 10, $fields);
-            // echo "<h4 style='color: #2b6;'>{$link->getLastQuery()}</h4>";
+            $link->orderBy('ID', 'ASC');
+            $res = $link->get('BARTDL b', null, $fields);
             printBartDefsTable($res, $bartPermit);
         } catch (Exception $e) {
-            echo "<h1 style='color: #b82;'>$e</h1>";
+            echo "<h1 style='color: #b82;'>{$e->getMessage()}</h1>";
         }
     }
     echo "</main>";
