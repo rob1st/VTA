@@ -404,7 +404,7 @@ $vtaElements = [
         'tagName' => 'select',
         'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control' required>%s</select>",
         'value' => '',
-        'query' => 'SELECT yesNoID, yesNo from yesNo'
+        'query' => 'SELECT yesNoID, yesNoName from yesNo'
     ],
     'bartdlAttachments' => [
         'label' => returnLabel('bartdlAttachments', 'Attachments'),

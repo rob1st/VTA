@@ -22,7 +22,7 @@ function printException(\Exception $exc, $color = 'orangeRed') {
 }
 
 // prepare POST and sql string for commit
-$post = $_POST;
+$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 $bdCommText = $post['bdCommText'];
 
 // validate POST data, if it's empty bump user back to form
@@ -109,10 +109,10 @@ try {
         }
         $stmt->close();
     }
-        
-    // upload and insert attachment if found    
+
+    // upload and insert attachment if found
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
-} catch (\mysqli_sql_exception $e) {
+} catch (mysqli_sql_exception $e) {
     $location = '';
     if (strpos($e->getMessage(), 'Duplicate entry') == false) {
         $msg = $link->escape_string($e->getMessage());
