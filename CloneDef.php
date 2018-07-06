@@ -1,16 +1,4 @@
 <?php
-// include('session.php');
-// include('html_functions/bootstrapGrid.php');
-// include('html_components/defComponents.php');
-// include('filestart.php'); 
-
-// $title = "SVBX - Update Deficiency";
-// $link = f_sqlConnect();
-// $defID = intval($_POST['defID']);
-// $defSql = 'SELECT ' . file_get_contents("updateDef.sql") . ' FROM CDL WHERE defID=' . $defID;
-error_reporting(E_ALL);  
-ini_set("display_errors", 1);
-
 include('session.php');
 include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
@@ -27,26 +15,25 @@ $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 // replace fields that reference other tables with JOINs
 $fieldsArr['safetyCert'];
 
-$link = f_sqlConnect();
-
 include('filestart.php');
 
+$link = f_sqlConnect();
 try {
     $sql = 'SELECT ' . $fieldList . ' FROM CDL WHERE defID = ?';
 
     $elements = $requiredElements + $optionalElements + $closureElements;
-    
+
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-    
+
     if (!$stmt->bind_param('i', $defID)) throw new mysqli_sql_exception($stmt->error);
 
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    
+
     if (!stmtBindResultArrayRef($stmt, $elements))
         throw new mysqli_sql_exception($stmt->error);
-        
+
     $stmt->close();
-    
+
     // query for comments associated with this Def
     $sql = "SELECT firstname, lastname, date_created, cdlCommText
         FROM cdlComments c
@@ -54,19 +41,19 @@ try {
         ON c.userID=u.userID
         WHERE c.defID=?
         ORDER BY c.date_created DESC";
-        
+
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
-    
+
     if (!$stmt->bind_param('i', $defID)) throw new mysqli_sql_exception($stmt->error);
-    
+
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-    
+
     $comments = stmtBindResultArray($stmt) ?: [];
-    
+
     $stmt->close();
-    
+
     $toggleBtn = '<a data-toggle=\'collapse\' href=\'#%1$s\' role=\'button\' aria-expanded=\'false\' aria-controls=\'%1$s\' class=\'collapsed\'>%2$s<i class=\'typcn typcn-arrow-sorted-down\'></i></a>';
-            
+
     $requiredRows = [
         [
             $elements['safetyCert'],
@@ -96,7 +83,7 @@ try {
             $elements['description']
         ]
     ];
-            
+
     $optionalRows = [
         [
             $elements['spec'],
@@ -110,7 +97,7 @@ try {
             $elements['cdlCommText']
         ]
     ];
-            
+
     $closureRows = [
         [
             $elements['evidenceType'],
@@ -121,7 +108,7 @@ try {
             $elements['closureComments']
         ]
     ];
-    
+
     echo "
         <header class='container page-header'>
             <h1 class='page-title'>Clone Deficiency ".$defID."</h1>
@@ -134,14 +121,14 @@ try {
                     <h4 class='pad grey-bg'>Deficiency No. $defID</h4>
                 </div>
             </div>";
-                        
+
             foreach ($requiredRows as $gridRow) {
                 $options = [ 'required' => true ];
                 if (count($gridRow) > 1) $options['inline'] = true;
                 else $options['colWd'] = 6;
                 print returnRow($gridRow, $options);
             }
-                
+
         echo "
             <h5 class='grey-bg pad'>
                 <a data-toggle='collapse' href='#optionalInfo' role='button' aria-expanded='false' aria-controls='optionalInfo' class='collapsed'>Optional Information<i class='typcn typcn-arrow-sorted-down'></i></a>
@@ -184,30 +171,30 @@ try {
 $link->close();
 include('fileend.php');
 
-// if($stmt = $link->prepare($defSql)) { 
-//     $stmt->execute();  
+// if($stmt = $link->prepare($defSql)) {
+//     $stmt->execute();
 //     $stmt->bind_result(
-//         $oldID, 
-//         $location, 
-//         $specLoc, 
-//         $severity, 
+//         $oldID,
+//         $location,
+//         $specLoc,
+//         $severity,
 //         $Description,
 //         $spec,
-//         $DateCreated, 
+//         $DateCreated,
 //         $status,
 //         $identifiedBy,
-//         $systemAffected, 
+//         $systemAffected,
 //         $groupToResolve,
 //         $actionOwner,
-//         $eviType, 
-//         $evidenceLink, 
-//         $DateClosed, 
-//         $LastUpdated, 
-//         $Updated_by, 
-//         $comments, 
+//         $eviType,
+//         $evidenceLink,
+//         $DateClosed,
+//         $LastUpdated,
+//         $Updated_by,
+//         $comments,
 //         $requiredBy,
 //         $contract,
-//         $repo, 
+//         $repo,
 //         $ClosureComments,
 //         $dueDate,
 //         $safetyCert,
@@ -365,7 +352,7 @@ include('fileend.php');
 //                 ]
 //             ]
 //         ];
-        
+
 //         $optionalRows = [
 //             [
 //                 'Spec' => [
@@ -423,7 +410,7 @@ include('fileend.php');
 //                 ]
 //             ]
 //         ];
-        
+
 //         $closureRows = [
 //             [
 //                 'EviType' => [
@@ -498,7 +485,7 @@ include('fileend.php');
 //         }
 //             echo "<p class='text-center pad-less bg-yellow'>Photos uploaded from your phone may not preserve rotation information. We are working on a fix for this.</p>";
 //         echo "</div>";
-        
+
 //         echo "
 //             <h5 class='grey-bg pad'>
 //                 <a data-toggle='collapse' href='#closureInfo' role='button' aria-expanded='false' aria-controls='closureInfo' class='collapsed'>Closure Information<i class='typcn typcn-arrow-sorted-down'></i></a>
@@ -521,7 +508,7 @@ include('fileend.php');
 //         </form>";
 //     }
 //     echo "</main>";
-// } else {  
+// } else {
 //     echo "<div class='container page-header'>";
 //     echo "<pre>";
 //     echo $link->error;
@@ -529,6 +516,6 @@ include('fileend.php');
 //     echo "<p>$defSql</p>";
 //     echo "</div>";
 //     exit;
-// } 
-// $link->close();             
+// }
+// $link->close();
 // include('fileend.php');

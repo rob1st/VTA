@@ -5,7 +5,11 @@ include('html_functions/htmlFuncs.php');
 include('html_components/defComponents.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
-$defID = $_GET['defID'];
+
+if (isset($_GET['defID'])) $defID = $_GET['defID'];
+elseif (isset($_GET['bartDefID'])) $defID = $_GET['bartDefID'];
+else $defID = null;
+
 $role = $_SESSION['role'];
 $title = "SVBX - Deficiency No. " . $defID;
 include('filestart.php');
@@ -24,9 +28,9 @@ function returnFakeInputStr($val) {
     return returnHtmlForVal($val, $str, $altStr);
 }
 
-if ($defID) {
+if (isset($_GET['defID']) && $_GET['defID']) {
     $link = f_sqlConnect();
-    $sql = file_get_contents("ViewDef.sql").$defID;
+    $sql = file_get_contents("viewDef.sql").$defID;
 
     try {
         if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
@@ -237,7 +241,7 @@ if ($defID) {
                 <div class='row item-margin-botom'>
                     <div class='col-12 center-content'>
                         <a href='updateDef.php?defID=$defID' class='btn btn-primary btn-lg'>Update</a>
-                        <a href='CloneDef.php?defID=$defID' class='btn btn-primary btn-lg'>Clone</a>
+                        <a href='cloneDef.php?defID=$defID' class='btn btn-primary btn-lg'>Clone</a>
                     </div>
                 </div>";
         }
@@ -250,8 +254,7 @@ if ($defID) {
         include('fileend.php');
         exit;
     }
-} elseif ($bartDefID) {
-    include('html_components/defComponents.php');
+} elseif (isset($_GET['bartDefID']) && $_GET['bartDefID']) {
     $link = f_sqlConnect();
     // check for bartdl permission
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
@@ -263,8 +266,8 @@ if ($defID) {
     if ($bdPermit) {
         // render View for bartDef
         $result = [];
-        // query for attachments and render then as a list of links
-        $attachments = getAttachments($link, $bartDefID);
+        // query for attachments and render them as a list of links
+        $attachments = getAttachments($link, $defID);
         $attachmentList = renderAttachmentsAsAnchors($attachments);
         $attachmentDisplay =
             $vtaElements['bartdlAttachments']['label']
@@ -275,7 +278,7 @@ if ($defID) {
             .',form_modified';
         // replace ambiguous or JOINED keys
         $fieldList = str_replace('updated_by', 'BARTDL.updated_by AS updated_by', $fieldList);
-        $fieldList = str_replace('status', 's.status AS status', $fieldList);
+        $fieldList = str_replace('status', 's.statusName AS status', $fieldList);
         $fieldList = str_replace('agree_vta', 'ag.agreeDisagreeName AS agree_vta', $fieldList);
         $fieldList = str_replace('creator', 'c.partyName AS creator', $fieldList);
         $fieldList = str_replace('next_step', 'n.nextStepName AS next_step', $fieldList);
@@ -289,7 +292,7 @@ if ($defID) {
             ." WHERE BARTDL.id=?";
 
         if ($stmt = $link->prepare($sql)) {
-            if (!$stmt->bind_param('i', $bartDefID)) printSqlErrorAndExit($stmt, $sql);
+            if (!$stmt->bind_param('i', $defID)) printSqlErrorAndExit($stmt, $sql);
 
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
 
@@ -375,7 +378,7 @@ if ($defID) {
 
             if (!$stmt = $link->prepare($sql)) printSqlErrorAndExit($link, $sql);
 
-            if (!$stmt->bind_param('i', $bartDefID)) printSqlErrorAndExit($stmt, $sql);
+            if (!$stmt->bind_param('i', $defID)) printSqlErrorAndExit($stmt, $sql);
 
             if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
 
@@ -391,7 +394,7 @@ if ($defID) {
 
             print "
                 <header class='container page-header'>
-                    <h1 class='page-title $color pad'>Deficiency No. $bartDefID</h1>
+                    <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
                 </header>
                 <main class='container main-content'>";
             foreach ($generalFields as $gridRow) {
@@ -422,7 +425,7 @@ if ($defID) {
 
             print "
                 <div class='center-content'>
-                    <a href='updateBartDef.php?bartDefID=$bartDefID' class='btn btn-primary btn-lg'>Update</a>
+                    <a href='updateBartDef.php?bartDefID=$defID' class='btn btn-primary btn-lg'>Update</a>
                 </div>
             </main>";
             // print "<header class='page-header'><h4 class='text-success'>&darr; BART def view will go here &darr;</h4></header>";
@@ -431,5 +434,6 @@ if ($defID) {
     $link->close();
     include('fileend.php');
     exit;
+} else {
+    echo "<h1 class='text-secondary'>No deficiency number found</h1>";
 }
-?>

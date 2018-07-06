@@ -205,7 +205,7 @@ try {
     $success = sprintf($success, sprintf($linkBtn, $defID));
     print $success;
     
-    header("Location: ViewDef.php?defID=$defID");
+    header("Location: viewDef.php?defID=$defID");
 } catch (Exception $e) {
     print "There was an error in committing your submission";
     $link->close();

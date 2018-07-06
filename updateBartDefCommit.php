@@ -89,7 +89,7 @@ try {
             
     $stmt->close();
     
-    $location = "ViewDef.php?bartDefID=$defID";
+    $location = "viewDef.php?bartDefID=$defID";
     
     // insert new comment if one was submitted
     if ($bdCommText) {

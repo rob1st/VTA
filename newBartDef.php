@@ -3,12 +3,12 @@ include('session.php');
 include('html_components/defComponents.php');
 include('SQLFunctions.php');
 include('html_functions/bootstrapGrid.php');
-$link = f_sqlConnect();
 $title = 'SVBX - New BART Deficiency';
 $acceptFormats = preg_replace('/\s+/', ' ', file_get_contents('allowedFormats.csv'));
 
 include('filestart.php');
 
+$link = f_sqlConnect();
 if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
     if ($row = $result->fetch_row()) {
         $bdPermit = $row[0];
@@ -18,7 +18,7 @@ if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESS
 if ($bdPermit) {
     $labelStr = "<label for='%s'%s>%s</label>";
     $required = " class='required'";
-    
+
     $topRows = [
         'row1' => [
             'col1' => [

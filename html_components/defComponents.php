@@ -361,7 +361,7 @@ $generalElements = [
         'label' => returnLabel('status', 'Status', 1),
         'tagName' => 'select',
         'element' => "<select name='status' id='status' class='form-control' required>%s</select>",
-        'query' => "SELECT statusID, status from Status WHERE status <> 'Deleted'",
+        'query' => "SELECT statusID, statusName from status WHERE statusName <> 'Deleted'",
         'value' => ''
     ],
     'descriptive_title_vta' => [
@@ -404,7 +404,7 @@ $vtaElements = [
         'tagName' => 'select',
         'element' => "<select name='safety_cert_vta' id='safety_cert_vta' class='form-control' required>%s</select>",
         'value' => '',
-        'query' => 'SELECT yesNoID, yesNo from YesNo'
+        'query' => 'SELECT yesNoID, yesNo from yesNo'
     ],
     'bartdlAttachments' => [
         'label' => returnLabel('bartdlAttachments', 'Attachments'),

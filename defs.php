@@ -204,7 +204,7 @@ function printProjectDefsTable($result, $userLvl) {
     $tableElements = [
         'ID' => [
             'header' => [ 'text' => 'ID', 'classList' => $thClassList ],
-            'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='ViewDef.php?defID=%s'>%s</a>" ]
+            'cell' => [ 'classList' => $tdClassList, 'innerHtml' => "<a href='viewDef.php?defID=%s'>%s</a>" ]
         ],
         'location' => [
             'header' => [ 'text' => 'Location', 'classList' => "$thClassList $collapseSm" ],
@@ -260,7 +260,7 @@ function printBartDefsTable($result, $role) {
     $tableElements = [
         'ID' => [
             'header' => [ 'text' => 'ID' ],
-            'cell' => [ 'innerHtml' => "<a href='ViewDef.php?bartDefID=%s'>%s</a>" ]
+            'cell' => [ 'innerHtml' => "<a href='viewDef.php?bartDefID=%s'>%s</a>" ]
         ],
         'status' => [
             'header' => [ 'text' => 'Status' ],

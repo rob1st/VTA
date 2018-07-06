@@ -166,7 +166,7 @@ try {
     // $success = sprintf($success, sprintf($linkBtn, $defID));
     // print $success;
 
-    header("Location: ViewDef.php?defID=$defID");
+    header("Location: viewDef.php?defID=$defID");
 } catch (Exception $e) {
     header("Location: updateDef.php?defID=$defID");
     $_SESSION['errorMsg'] = "There was an error in committing your submission: $e";

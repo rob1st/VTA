@@ -86,7 +86,7 @@ try {
     $defID = $stmt->insert_id;
     $stmt->close();
 
-    $location = "ViewDef.php?bartDefID=$defID";
+    $location = "viewDef.php?bartDefID=$defID";
 
     // insert comment if one was submitted
     if ($bdCommText) {
