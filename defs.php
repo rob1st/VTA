@@ -63,146 +63,202 @@ function printInfoBox($userLvl, $href, $dataGraphic = false) {
     return printf($box, $href);
 }
 
-function printSearchBar($link, $post, $formAction) {
-    list($collapsed, $show) = $_POST['Search'] ? ['', ' show'] : ['collapsed', ''];
-    $formStrF = "
+function printSearchBar($link, $get, $formAction) {
+    list($collapsed, $show) = isset($get['search']) ? ['', ' show'] : ['collapsed', ''];
+    $marker = '%s';
+    $formF = "
         <div class='row item-margin-bottom'>
-            <form action='%s' method='%s' class='col-12'>
+            <form method='{$formAction['method']}' action='{$formAction['action']}' class='col-12'>
                 <div class='row'>
                     <h5 class='col-12'>
-                        <a data-toggle='collapse' href='#filterDefs' role='button' aria-expanded='false' aria-controls='filterDefs' class=$collapsed>Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i></a>
+                        <a
+                            data-toggle='collapse'
+                            href='#filterDefs'
+                            role='button'
+                            aria-expanded='false'
+                            aria-controls='filterDefs'
+                            class=''
+                        >Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i>
+                        </a>
                     </h5>
                 </div>
-                <div class='collapse$show' id='filterDefs'>";
-    // concat content to $form string until it's all written
-    // then return the completed string
-    $form = sprintf($formStrF, $formAction['action'], $formAction['method']);
-    $form .= "<div class='row item-margin-bottom'>
-                    <div class='col-6 col-sm-1 pl-1 pr-1'>
-                        <label class='input-label'>Def #</label>
-                        <select name='defID' class='form-control'>
-                            <option value=''></option>";
-    if ($result = $link->query('SELECT defID from CDL')) {
-        while ($row = $result->fetch_array()) {
-            $select = ($post['defID'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
+                <div class='collapse show' id='filterDefs'>%s</div>
+            </form>
+        </div>";
+    $rowF = "<div class='row'>%s</div>";
+    $colF = "<div class='col-%s col-sm-%s pl-1 pr-1'>%s</div>";
+    $labelF = "<label>%s</label>";
+    $selectF = "
+        <select name='%s' class='form-control'>
+            <option value=''></option>
+            %s
+        </select>";
+    $optionF = "<option value='%s'%s>%s</option>";
+
+    $makeSelectEl = function ($labelText, $param, array $fields, array $colWds, $data) use ($get, $labelF, $selectF, $optionF, $colF)
+    {
+        list($inputVal, $inputText) = isset($fields[1])
+            ? [ $fields[0], $fields[1] ] : [ $fields[0], $fields[0]];
+        $opts = '';
+        foreach ($data as $row) {
+            $selected = isset($get[$param]) && $get[$param] === $row[$fields[0]]
+                ? ' selected' : '';
+            $opts .= sprintf($optionF, $row[$inputVal], $selected, $row[$inputText]);
         }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-6 col-sm-2 pl-1 pr-1'>
-                    <label class='input-label'>Status</label>
-                    <select name='Status' class='form-control'>
-                        <option value=''></option>";
-    if ($result = $link->query('SELECT StatusID, Status from Status')) {
-        while ($row = $result->fetch_array()) {
-            $select = ($post['Status'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-6 col-sm-1 pl-1 pr-1'>
-                    <label class='input-label'>Safety cert</label>
-                    <select name='SafetyCert' class='form-control'>
-                        <option value=''></option>
-                        <option value='1'>Yes</option>
-                        <option value='2'>No</option>
-                    </select>
-                </div>
-                <div class='col-6 col-sm-2 pl-1 pr-1'>
-                    <label class='input-label'>Severity</label>
-                    <select name='Severity' class='form-control'>
-                        <option value=''></option>";
-    if ($result = $link->query('SELECT SeverityID, SeverityName from Severity')) {
-        while($row = $result->fetch_array()) {
-            $select = ($post['Severity'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-6 col-sm-3 pl-1 pr-1'>
-                    <label class='input-label'>System</label>
-                    <select name='SystemAffected' class='form-control'>
-                        <option value=''></option>";
-    if ($result = $link->query('SELECT s.SystemID, s.System from CDL c JOIN System s ON s.SystemID=c.SystemAffected GROUP BY System ORDER BY SystemID')) {
-        while ($row = $result->fetch_array()) {
-            $select = ($post['SystemAffected'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-6 col-sm-3 pl-1 pr-1'>
-                    <label class='input-label'>Group to resolve</label>
-                    <select name='GroupToResolve' class='form-control'>
-                        <option value=''></option>";
-    if ($result = $link->query('SELECT s.SystemID, s.System FROM CDL c JOIN System s ON s.SystemID=c.GroupToResolve GROUP BY System ORDER BY SystemID')) {
-        while ($row = $result->fetch_array()) {
-            $select = ($post['GroupToResolve'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-            </div>
-            <div class='row item-margin-bottom'>
-                <div class='col-sm-4 pl-1 pr-1'>
-                    <label class='input-label'>Description</label>
-                    <input type='text' name='Description' class='form-control' value='{$post['Description']}'>
-                </div>
-                <div class='col-sm-2 pl-1 pr-1'>
-                    <label class='input-label'>Location</label>
-                    <select name='location' class='form-control'>
-                        <option value=''></option>";
-    if ($result = $link->query('SELECT l.locationID, l.locationName FROM CDL c JOIN location l ON l.locationID=c.location GROUP BY locationName ORDER BY locationID')) {
-        while ($row = $result->fetch_array()) {
-            $select = ($post['location'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[1]}</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-sm-2 pl-1 pr-1'>
-                    <label class='input-label'>Specific location</label>
-                    <select name='SpecLoc' class='form-control'>";
-    if ($result = $link->query('SELECT SpecLoc FROM CDL GROUP BY SpecLoc')) {
-        while ($row = $result->fetch_row()) {
-            $select = ($post['SpecLoc'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='$row[0]' $select>$row[0]</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-sm-2 pl-1 pr-1'>
-                    <label class='input-label'>Identified By</label>
-                    <select name='IdentifiedBy' class='form-control'>
-                        <option value=''></option>";
-    if ($result = $link->query('SELECT IdentifiedBy FROM CDL GROUP BY IdentifiedBy')) {
-        while ($row = $result->fetch_row()) {
-            $select = ($post['IdentifiedBy'] === $row[0]) ? 'selected' : '';
-            $form .= "<option value='{$row[0]}' $select>{$row[0]}</option>";
-        }
-        $result->close();
-    }
-    $form .= "</select>
-                </div>
-                <div class='col-sm-2 pl-1 pr-1 pt-2 flex-row justify-center align-end'>
-                    <button name='Search' value='search' type='submit' class='btn btn-primary item-margin-right'>Search</button>
-                    <button type='button' class='btn btn-primary item-margin-right' onclick='return resetSearch(event)'>Reset</button>
-                </div>
-            </div>
-            </div>
-        </form>
-    </div>";
+        $curLab = sprintf($labelF, $labelText);
+        $curEl = sprintf($selectF, $param, $opts);
+        // return sprintf('%s', 'CONTENT!' . '6');
+        return sprintf($colF, 6, 2, $curLab . $curEl);
+
+    };
+    // collect elements w/i cols in 2 two rows
+    if ($result = $link->get('CDL', null, 'defID')) {
+        // collect <option> els in a str before sprintf <select>
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['defID']) &&$get['defID'] === $row['defID']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['defID'], $selected, $row['defID']);
+        // }
+        // $curEl = sprintf($selectF, 'ID', $opts);
+        // $cols = sprintf($colF, 6, 1, $curEl);
+
+        // this is the first column so we start a new $cols collector
+        $cols = $makeSelectEl('Def #', 'defID', ['defID'], [6, 1], $result);
+    } else throw new mysqli_sql_exception("select defID no good");
+
+    if ($result = $link->get('status', null, 'statusID, statusName')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['status']) && $get['status'] === $row['statusID']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['statusID'], $selected, $row['statusName']);
+        // }
+        // $curLab = sprintf($labelF, 'Status');
+        // $curEl = sprintf($selectF, 'status', $opts);
+        // sprintf($colF, 6, 2, $curLab . $curEl);
+        $cols .= $makeSelectEl('Status', 'status', ['statusID', 'statusName'], [6, 2], $result);
+    } else throw new mysqli_sql_exception("select status no good");
+
+    if ($result = $link->get('yesNo', null, 'yesNoID, yesNoName')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['safetyCert']) && $get['safetyCert'] === 'yesNoID'
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['yesNoID'], $selected, $row['yesNoName']);
+        // }
+        // $curEl = sprintf($selectF, 'safetyCert', $opts);
+        // $cols .= sprintf($colF, 6, 1, $curEl);
+        $cols .= $makeSelectEl('Safety cert', 'safetyCert', ['yesNoID', 'yesNoName'], [6, 1], $result);
+    } else throw new mysqli_sql_exception("select safetyCert no good");
+
+    if ($result = $link->get('severity', null, 'severityID, severityName')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['severity']) && $get['severity'] === $row['severityID']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['severityID'], $selected, $row['severityName']);
+        // }
+        // $curEl = sprintf($selectF, 'severity', $opts);
+        // $cols .= sprintf($colF, 6, 2, $curEl);
+        $cols .= $makeSelectEl('Severity', 'severity', ['severityID', 'severityName'], [6, 2], $result);
+    } else throw new mysqli_sql_exception("select severity no good");
+
+    $link->join('system s', 'c.systemAffected = s.systemID', 'INNER');
+    $link->groupBy('systemName');
+    $link->orderBy('systemID');
+    if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['systemAffected']) && $get['systemAffected'] === $row['systemID']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['systemID'], $selected, $row['systemName']);
+        // }
+        // $curEl = sprintf($selectF, 'systemAffected', $opts);
+        // $cols .= sprintf($colF, 6, 2, $curEl);
+        $cols .= $makeSelectEl('System affected', 'systemAffected', ['systemID', 'systemName'], [6, 3], $result);
+    } else throw new mysqli_sql_exception("select system no good");
+
+    $link->join('system s', 'c.groupToResolve = s.systemID', 'INNER');
+    $link->groupBy('systemName');
+    $link->orderBy('systemID');
+    if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['groupToResolve']) && $get['groupToResolve'] === $row['systemID']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['systemID'], $selected, $row['systemName']);
+        // }
+        // $curEl = sprintf($selectF, 'groupToResolve', $opts);
+        // $cols .= sprintf($colF, 6, 2, $curEl);
+        $cols .= $makeSelectEl('Group to resolve', 'groupToResolve', ['systemID', 'systemName'], [6, 3], $result);
+    } else throw new mysqli_sql_exception("select groupToResolve no good");
+
+    // finish first row
+    $row1 = sprintf($rowF, $cols);
+
+    // begin new row with a fresh $cols collector
+    $curLab = sprintf($labelF, 'Description');
+    $curVal = isset($get['description']) ? $get['description'] : '';
+    $curEl = "<input type='text' name='description' class='form-control' value='$curVal'>";
+    $cols = sprintf($colF, 4, 4, $curLab . $curEl);
+                // <div class='col-sm-2 pl-1 pr-1'>
+                //     <label class='input-label'>Location</label>
+                //     <select name='location' class='form-control'>
+                //         <option value=''></option>";
+    $link->join('location l', 'c.location = l.locationID', 'INNER');
+    $link->groupBy('locationName');
+    $link->orderBy('locationID');
+    if ($result = $link->get('CDL c', null, 'l.locationID, l.locationName')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['location']) && $get['location'] === $row['locationID']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['locationID'], $selected, $row['locationName']);
+        // }
+        // $curEl = sprintf($selectF, 'location', $opts);
+        // $cols .= sprintf($colF, 6, 2, $curEl);
+        $cols .= $makeSelectEl('Location', 'location', ['locationID', 'locationName'], [6, 2], $result);
+    } else throw new mysqli_sql_exception("select groupToResolve no good");
+
+    $link->groupBy('specLoc');
+    if ($result = $link->get('CDL', null, 'specLoc')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['specLoc']) && $get['location'] === $row['specLoc']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['specLoc'], $selected, $row['specLoc']);
+        // }
+        // $curEl = sprintf($selectF, 'specLoc', $opts);
+        // $cols .= sprintf($colF, 6, 2, $curEl);
+        $cols .= $makeSelectEl('Specific location', 'specLoc', ['specLoc'], [6, 2], $result);
+    } else throw new mysqli_sql_exception("select groupToResolve no good");
+
+    $link->groupBy('identifiedBy');
+    if ($result = $link->get('CDL', null, 'identifiedBy')) {
+        // $opts = '';
+        // foreach ($result as $row) {
+        //     $selected = isset($get['identifiedBy']) && $get['identifiedBy'] === $row['identifiedBy']
+        //         ? ' selected' : '';
+        //     $opts .= sprintf($optionF, $row['identifiedBy'], $selected, $row['identifiedBy']);
+        // }
+        // $curEl = sprintf($selectF, 'identifiedBy', $opts);
+        // $cols .= sprintf($colF, 6, 2, $curEl);
+        $cols .= $makeSelectEl('Identified by', 'identifiedBy', ['identifiedBy'], [6, 2], $result);
+    } else throw new mysqli_sql_exception("select groupToResolve no good");
+
+    // submit and reset buttons
+    $buttons = "
+            <button name='search' value='search' type='submit' class='btn btn-primary item-margin-right'>Search</button>
+            <button type='button' class='btn btn-primary item-margin-right' onclick='return resetSearch(event)'>Reset</button>";
+    // buttons column needs flex classes so I tack them on after bootstrap col width class
+    $cols .= sprintf($colF, 12, '2 flex-row justify-center align-end', $buttons);
+
+    // finish second row;
+    $row2 = sprintf($rowF, $cols);
+
+    $form = sprintf($formF, $row1 . $row2);
+
     print $form;
 }
 
@@ -341,9 +397,7 @@ function printBartDefsTable($link, $userLvl) {
 
 // check for search params
 // if no search params show all defs that are not 'deleted'
-if(!isset($_GET['search'])) {
-    $link->where('c.status', 3, '<>');
-} else {
+if(isset($_GET['search'])) {
     $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
     $get = array_filter($get); // filter to remove falsey values -- is this necessary?
     unset($get['search']);
@@ -352,6 +406,8 @@ if(!isset($_GET['search'])) {
         if ($param === 'description') $link->where($param, "%{$val}%", 'LIKE');
         else $link->where($param, $val);
     }
+} else {
+    $get = null;
 }
 
 ?>
@@ -377,38 +433,43 @@ if(!isset($_GET['search'])) {
 </header>
 <main class='container main-content'>
 <?php
+    // render Project Defs table and Search Fields
     if ($view !== 'BART' || !$bartPermit) {
-        $fields = [
-            "c.defID as ID",
-            "l.locationName as location",
-            "s.severityName as severity",
-            "DATE_FORMAT(c.dateCreated, '%d %b %Y') as dateCreated",
-            "t.statusName as status",
-            "y.systemName as systemAffected",
-            "SUBSTR(c.description, 1, 50) as description",
-            "c.specLoc as specLoc",
-            "c.lastUpdated as lastUpdated"
-        ];
-        $joins = [
-            "location l" => "c.location = l.locationID",
-            "severity s" => "c.severity = s.severityID",
-            "status t" => "c.status = t.statusID",
-            "system y" => "c.systemAffected = y.systemID"
-        ];
-        $sql = file_get_contents('CDList.sql');
         try {
+            printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
+        } catch (Exception $e) {
+            echo "print search bar got issues: $e";
+        }
+        try {
+            $fields = [
+                "c.defID AS ID",
+                "l.locationName AS location",
+                "s.severityName AS severity",
+                "DATE_FORMAT(c.dateCreated, '%d %b %Y') AS dateCreated",
+                "t.statusName AS status",
+                "y.systemName AS systemAffected",
+                "SUBSTR(c.description, 1, 50) AS description",
+                "c.specLoc AS specLoc",
+                "c.lastUpdated AS lastUpdated"
+            ];
+            $joins = [
+                "location l" => "c.location = l.locationID",
+                "severity s" => "c.severity = s.severityID",
+                "status t" => "c.status = t.statusID",
+                "system y" => "c.systemAffected = y.systemID"
+            ];
             foreach ($joins as $tableName => $on) {
                 $link->join($tableName, $on, 'LEFT');
             }
             $link->orderBy('ID', 'ASC');
+            $link->where('c.status', 3, '<>');
             $result = $link->get('CDL c', 20, $fields);
+            printProjectDefsTable($result, $_SESSION['role']);
             // $result = $link->query($sql);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>$e</h1>";
         }
-        // printSearchBar($link, $postData, [ method => 'GET', action => 'defs.php' ]);
         // printInfoBox($roleLvl, 'NewDef.php');
-        printProjectDefsTable($result, $_SESSION['role']);
         // echo "<pre style='color: #129;'>";
         // var_dump($result);
         // echo "</pre>";
