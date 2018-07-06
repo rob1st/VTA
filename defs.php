@@ -108,7 +108,7 @@ function printSearchBar($link, $get, $formAction) {
         $curLab = sprintf($labelF, $labelText);
         $curEl = sprintf($selectF, $param, $opts);
         // return sprintf('%s', 'CONTENT!' . '6');
-        return sprintf($colF, 6, 2, $curLab . $curEl);
+        return sprintf($colF, $colWds[0], $colWds[1], $curLab . $curEl);
 
     };
     // collect elements w/i cols in 2 two rows
@@ -401,11 +401,6 @@ if(isset($_GET['search'])) {
     $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
     $get = array_filter($get); // filter to remove falsey values -- is this necessary?
     unset($get['search']);
-
-    foreach ($get as $param => $val) {
-        if ($param === 'description') $link->where($param, "%{$val}%", 'LIKE');
-        else $link->where($param, $val);
-    }
 } else {
     $get = null;
 }
@@ -461,6 +456,14 @@ if(isset($_GET['search'])) {
             foreach ($joins as $tableName => $on) {
                 $link->join($tableName, $on, 'LEFT');
             }
+
+            if ($get) {
+                foreach ($get as $param => $val) {
+                    if ($param === 'description') $link->where($param, "%{$val}%", 'LIKE');
+                    else $link->where($param, $val);
+                }
+            }
+
             $link->orderBy('ID', 'ASC');
             $link->where('c.status', 3, '<>');
             $result = $link->get('CDL c', 20, $fields);
