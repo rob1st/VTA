@@ -6,31 +6,25 @@ $title = "SVBX - Inspector's Daily Report";
 $d = new DateTime();
 $curDateNum = $d->format('Y-m-d');
 
-$link = f_sqlConnect();
 $userID = $_SESSION['userID'];
 $username = $_SESSION['username'];
 $role = $_SESSION['role'];
 
-$contractQry = 'SELECT ContractID, Contract FROM Contract';
+$contractQry = 'SELECT contractID, contractName FROM contract';
 
 $userFullName = "{$_SESSION['firstname']} {$_SESSION['lastname']}";
 if (intval($_SESSION['inspector'] >= 1)) {
-    $authLvl = [
-        'V' => 0,
-        'U' => 1,
-        'A' => 2,
-        'S' => 3
-    ];
-    $userAuth = $authLvl[$role];
+    $userAuth = $role;
 }
 
 $locQry = "SELECT LocationID, LocationName FROM Location ORDER BY LocationID";
 
-if ($userAuth < 1) {
+if ($userAuth < 10) {
     // view is unauthorized to view
     include 'unauthorised.php';
 } else {
     include('filestart.php');
+    $link = f_sqlConnect();
 
     // view is authorized at some level
     echo "
@@ -40,32 +34,32 @@ if ($userAuth < 1) {
         <main class='container main-content'>";
     if (isset($_GET['idrID'])) {
         $idrID = $_GET['idrID'];
-        $idrQry = "SELECT idrID, i.UserID, firstname, lastname, idrForDate, Contract, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, approvedBy, editableUntil
+        $idrQry = "SELECT idrID, i.userID, firstname, lastname, idrForDate, contractName, weather, shift, EIC, watchman, rapNum, sswpNum, tcpNum, approvedBy, editableUntil
             FROM ((IDR i
-            JOIN users_enc u ON
-            i.UserID=u.UserID)
-            JOIN Contract c ON
-            i.ContractID=c.ContractID)
+            LEFT JOIN users_enc u ON
+            i.userID=u.userID)
+            LEFT JOIN contract c ON
+            i.contractID=c.contractID)
             WHERE i.idrID=$idrID";
         $laborQry = "SELECT laborID, laborTotal, laborDesc, idrID, laborNotes, LocationName FROM
             labor la JOIN
-            Location L ON
+            location L ON
             la.LocationID=L.LocationID
             WHERE la.idrID=$idrID";
         $equipQry = "SELECT equipID, equipTotal, equipDesc, idrID, equipNotes, LocationName FROM
             equipment e JOIN
-            Location L ON
+            location L ON
             e.LocationID=L.LocationID
             WHERE e.idrID=$idrID";
-        
+
         if ($result = $link->query($idrQry)) {
             $numRows = intval($result->num_rows);
-            
+
             if ($numRows) {
                 while ($row = $result->fetch_assoc()) {
                     $expiry = new DateTime($row['editableUntil']);
                     $approved = $row['approvedBy'];
-                    
+
                     if ($row['userID'] === $userID || $userAuth > 1) {
                         // review view + comments
                         // + Approve btn if $userAuth > 1
@@ -89,7 +83,7 @@ if ($userAuth < 1) {
                                             </li>
                                             <li class='flex-row space-between'>
                                                 <span>Contract</span>
-                                                <span>{$row['Contract']}</span>
+                                                <span>{$row['contractName']}</span>
                                             </li>
                                             <li class='flex-row space-between'>
                                                 <span>weather</span>
@@ -109,8 +103,8 @@ if ($userAuth < 1) {
                                     <div class='card-body'>
                                         <ul>");
                                         $safety = [
-                                            EIC => $row['EIC'],
-                                            Watchman => $row['watchman'],
+                                            'EIC' => $row['EIC'],
+                                            'Watchman' => $row['watchman'],
                                             'Rap #' => $row['rapNum'],
                                             'SSWP #' => $row['sswpNum'],
                                             'TCP #' => $row['tcpNum']
@@ -148,7 +142,7 @@ if ($userAuth < 1) {
                                     AND rsrc.{$resourceID}={$row[$resourceID]})
                                     join activity a on
                                     link.activityID=a.activityID)";
-                
+
                                 echo "
                                 <div class='row'>
                                     <p class='col-md-4'>
@@ -206,7 +200,7 @@ if ($userAuth < 1) {
                                     AND rsrc.{$resourceID}={$row[$resourceID]})
                                     join activity a on
                                     link.activityID=a.activityID)";
-                
+
                                 echo "
                                 <div class='row'>
                                     <p class='col-md-4'>
@@ -311,11 +305,11 @@ if ($userAuth < 1) {
                             function submitAndApprove(ev) {
                                 submitReview(ev, 'true');
                             }
-                            
+
                             function submitNoApprove(ev) {
                                 submitReview(ev, 'false');
                             }
-                            
+
                             function submitReview(ev, approval) {
                                 ev.preventDefault();
                                 const formData = new FormData(document.forms[0]);
@@ -408,14 +402,14 @@ if ($userAuth < 1) {
                                             <label class='input-label item-margin-right required'>Contract</label>
                                         </div>
                                         <div class='col-6'>
-                                            <select name='ContractID' class='form-control' required>";
+                                            <select name='contractID' class='form-control' required>";
                                                 if ($result = $link->query($contractQry)) {
                                                     while ($row = $result->fetch_array()) {
                                                         if ($row[1] === 'C700') $default='selected';
                                                         else $default = '';
                                                         echo "<option value ='{$row[0]}' $default>{$row[1]}</option>";
                                                     }
-                                                }
+                                                } else echo "<option value=''>{$result->error}</option>";
                 echo "
                                             </select>
                                         </div>
@@ -489,7 +483,7 @@ if ($userAuth < 1) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div id='workInputList' class='row item-margin-bottom'>
                         <div id='workInputGroup_0' class='col-12 item-border-bottom item-margin-bottom'>
                             <div class='row item-margin-bottom'>
@@ -503,7 +497,7 @@ if ($userAuth < 1) {
                                             echo "<option value='{$row['LocationID']}'>{$row['LocationName']}</option>";
                                         }
                                         $locJSON = json_encode($locJSON);
-                                    }
+                                    } else echo "<option value=''>{$result->error}</option>";
             echo "
                                     </select>
                                 </div>
@@ -533,7 +527,7 @@ if ($userAuth < 1) {
                                             right: 50px;
                                             bottom: -2px;
                                             border: 1px solid #3333;
-                                            width: 260px; 
+                                            width: 260px;
                                             padding: .25rem;
                                             background-color: white;
                                         '
