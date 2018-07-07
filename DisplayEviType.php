@@ -2,16 +2,15 @@
 include('session.php');
 include('SQLFunctions.php');
 $title = 'SVBX - Evidence Types';
-$link = f_sqlConnect();
 $table = EvidenceType;
 include('filestart.php');
-        //echo '<br>Source table: ' .$table;
+$link = f_sqlConnect();
 
     if(!f_tableExists($link, $table, DB_Name)) {
         die('<br>Destination table does not exist: '.$table);
     }
 
-    $sql = "SELECT EviTypeID, EviType, Update_TS, Updated_by FROM $table ORDER BY EviType";
+    $sql = "SELECT EviTypeID, eviTypeName, lastUpdated, updatedBy FROM $table ORDER BY eviTypeName";
     $sql1 = "SELECT COUNT(*) FROM $table";
 
     if($result = mysqli_query($link,$sql1)) {
