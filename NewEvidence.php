@@ -2,8 +2,9 @@
 include('session.php');
 $title = "SVBX - Add New Evidence Type";
 include('filestart.php');
-    if($Role >= 20) {
+    if($_SESSION['role'] < 20) {
         header('location: unauthorised.php');
+        exit;
     }
     ?>
         <header class="container page-header">

@@ -2,14 +2,14 @@
 include('session.php');
 $title = "SVBX - Add New Status Type";
 include('filestart.php');
-    if($Role >= 20) {
+    if($_SESSION['role'] < 30) {
         header('location: unauthorised.php');
     }
     ?>
         <header class="page-header container">
           <h1 class="page-title">Add New Status type</h1>
         </header>
-        <div class="container main-content"> 
+        <div class="container main-content">
         <FORM action="RecStatus.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>
