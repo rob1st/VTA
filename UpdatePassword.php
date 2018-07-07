@@ -12,17 +12,19 @@ $Role = $_SESSION['role'];
         <TITLE>SVBX - Update Password</TITLE>
         <link rel="stylesheet" href="styles.css" type="text/css"/>
     </HEAD>
-    <?php 
+    <?php
             include('SQLFunctions.php');
-            
-            $link = f_sqlConnect();
-            $table = users_enc;
+
+            $table = 'users_enc';
             $Loc = "SELECT Username, Role, firstname, lastname, Email FROM $table WHERE UserID = ".$UserID;
                 //echo '<br>Source table: ' .$table;
 ?>
-        
+
     <BODY>
-<?php include('filestart.php') ?>
+<?php
+include('filestart.php');
+$link = f_sqlConnect();
+?>
         <H1>Update Password</H1>
     <?php
         if($stmt = $link->prepare($Loc)) {
@@ -36,7 +38,7 @@ $Role = $_SESSION['role'];
                 <input type='hidden' name='userID' value='".$UserID."'>
                 <input type='hidden' name='username' value='".$Username."'>
                 <form action='change-password.php' method='post' id='register-form'>
-                <input class='password-field' type='password' name='oldpw' placeholder='Current Password'><br />  
+                <input class='password-field' type='password' name='oldpw' placeholder='Current Password'><br />
                 <br>
                 <input  class='password-field' type='password' name='newpw' placeholder='New Password'><br />
                 <br>
@@ -45,14 +47,14 @@ $Role = $_SESSION['role'];
                 <input class='button' type='submit' name='change' value='Change' />
              </form>
         </FORM>";
-            }        
-            
+            }
+
         //echo "Description: ".$Description;
                 } else {
                     echo '<br>Unable to connect';
                     exit();
                 }
-        
+
         include('fileend.php') ?>
     </BODY>
 </HTML>

@@ -1,13 +1,14 @@
-<?php 
+<?php
     include('session.php');
     include('SQLFunctions.php');
-    $link = f_sqlConnect();
     $table = users_enc;
     $q = $_SESSION['userID'];
+    $ARole = $_SESSION['role'];
     $title = "SVBX - Update Profile";
     $Loc = "SELECT Username, Role, firstname, lastname, Email, Company, SecQ, SecA FROM $table WHERE UserID = ".$q;
     include('filestart.php');
-    
+
+    $link = f_sqlConnect();
     $sql1 = "SELECT SecQID, SecQ FROM secQ ORDER BY SecQID";
     $list1 = mysqli_query($link,$sql1);
 ?>
@@ -93,40 +94,40 @@
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='4'>Role:</td>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='S'"; 
-                                        if($ARole== 'S') { 
-                                        echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='S'";
+                                        if($ARole== 'S') {
+                                        echo ' checked';
+                                        } else {
                                         }
                                         echo "/>Super Admin
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='A'"; 
-                                        if($Role== 'A') { 
-                                            echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='A'";
+                                        if($Role== 'A') {
+                                            echo ' checked';
+                                        } else {
                                         }
                                         echo "/>Administrator
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='U'"; 
-                                        if($Role== 'U') { 
-                                            echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='U'";
+                                        if($Role== 'U') {
+                                            echo ' checked';
+                                        } else {
                                         }
                                         echo "/>User
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='V'"; 
-                                        if($Role== 'V') { 
-                                            echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='V'";
+                                        if($Role== 'V') {
+                                            echo ' checked';
+                                        } else {
                                         }
                                         echo "/>Read Only
                                     </td>
@@ -136,30 +137,30 @@
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='3'>Role:</td>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='A'"; 
-                                        if($Role== 'A') { 
-                                        echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='A'";
+                                        if($Role== 'A') {
+                                        echo ' checked';
+                                        } else {
                                         }
                                         echo "/>Administrator
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='U'"; 
-                                        if($Role== 'U') { 
-                                            echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='U'";
+                                        if($Role== 'U') {
+                                            echo ' checked';
+                                        } else {
                                         }
                                         echo "/>User
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='V'"; 
-                                        if($Role== 'V') { 
-                                            echo ' checked'; 
-                                        } else { 
+                                        <input type='radio' name=['role'] value='V'";
+                                        if($Role== 'V') {
+                                            echo ' checked';
+                                        } else {
                                         }
                                         echo "/>Read Only
                                     </td>
