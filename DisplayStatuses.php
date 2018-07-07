@@ -1,20 +1,18 @@
-<?php 
+<?php
 include('session.php');
 include('SQLFunctions.php');
-$link = f_sqlConnect();
-$table = Status;
+$table = 'Status';
 $title = "SVBX - Display Status Types";
 include('filestart.php');
+$link = f_sqlConnect();
 
-        //echo '<br>Source table: ' .$table;
-        
     if(!f_tableExists($link, $table, DB_Name)) {
         die('<br>Destination table does not exist: '.$table);
     }
-    
-    $sql = "SELECT StatusID, Status, Update_TS, Updated_by FROM $table ORDER BY StatusID";
+
+    $sql = "SELECT statusID, statusName, lastUpdated, updatedBy FROM $table ORDER BY StatusID";
     $sql1 = "SELECT COUNT(*) FROM $table";
-    
+
     if($result = mysqli_query($link,$sql1)) {
         echo"   <header class='container page-header'>
                 <h1 class='page-title'>Status Types</h1><br />
@@ -23,17 +21,17 @@ include('filestart.php');
                         <td class='sumtd'>Status Types: </td>";
             while ($row = mysqli_fetch_array($result)) {
                     echo "<td class='sumtd'>{$row[0]}</td>";
-            }    
+            }
             echo "</table><br></header>";
 }
     if($result = mysqli_query($link,$sql)) {
-        echo"   
+        echo"
                 <div class='container main-content'>
                 <table class='table'>
                     <tr class='usertr'>
                         <th class='userth'>Status ID</th>
                         <th class='userth'>Status</th>";
-                        if(!isset($_SESSION['userID'])) 
+                        if(!isset($_SESSION['userID']))
                         {
                         echo "</tr>";
                         } else {
@@ -46,13 +44,13 @@ include('filestart.php');
                             <th class='userth'>Delete</th>";
                             }
                             echo "
-                            </tr>"; 
+                            </tr>";
                         }
             while ($row = mysqli_fetch_array($result)) {
         echo"       <tr class='usertr'>
                         <td style='text-align:center' class='usertd'>{$row[0]}</td>
                         <td class='usertd'>{$row[1]}</td>";
-                        if(!isset($_SESSION['userID'])) 
+                        if(!isset($_SESSION['userID']))
                         {
                             echo "</tr>";
                         } else {
@@ -68,15 +66,15 @@ include('filestart.php');
                         }
                         echo "</tr>";
                     }
-            }    
+            }
             echo "</table></div>";
     }
     mysqli_free_result($result);
-    
+
     if(mysqli_error($link)) {
         echo '<br>Error: ' .mysqli_error($link);
     } else //echo '<br>Success';
-    
+
     mysqli_close($link);
     include 'fileend.php';
 ?>
