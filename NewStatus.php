@@ -15,7 +15,7 @@ include('filestart.php');
                 <tr class='usertr'>
                     <th class='userth'>Status Type Name:</th>
                     <td class='usertd'>
-                        <input type="text" name="Status" maxlength="50" required/>
+                        <input type="text" name="statusName" maxlength="50" required/>
                     </td>
                 </tr>
             </table>
