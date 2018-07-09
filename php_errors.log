@@ -810,3 +810,13 @@
 [09-Jul-2018 14:59:14 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
 [09-Jul-2018 14:59:40 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
 [09-Jul-2018 15:03:46 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 15:21:08 America/Los_Angeles] PHP Notice:  Use of undefined constant Status - assumed 'Status' in /home/ubuntu/workspace/UpdateStatus.php on line 5
+[09-Jul-2018 15:21:15 America/Los_Angeles] PHP Notice:  session_start(): ps_files_cleanup_dir: opendir(/var/lib/php/sessions) failed: Permission denied (13) in /home/ubuntu/workspace/session.php on line 2
+[09-Jul-2018 15:21:15 America/Los_Angeles] PHP Notice:  Use of undefined constant Status - assumed 'Status' in /home/ubuntu/workspace/UpdateStatus.php on line 5
+[09-Jul-2018 15:21:17 America/Los_Angeles] PHP Notice:  Use of undefined constant Status - assumed 'Status' in /home/ubuntu/workspace/UpdateStatus.php on line 5
+[09-Jul-2018 15:25:32 America/Los_Angeles] PHP Notice:  Use of undefined constant Status - assumed 'Status' in /home/ubuntu/workspace/UpdateStatus.php on line 4
+[09-Jul-2018 15:25:41 America/Los_Angeles] PHP Notice:  Use of undefined constant Status - assumed 'Status' in /home/ubuntu/workspace/UpdateStatus.php on line 4
+[09-Jul-2018 15:44:45 America/Los_Angeles] PHP Notice:  Undefined index: Status in /home/ubuntu/workspace/UpdateStatusCommit.php on line 8
+[09-Jul-2018 15:45:24 America/Los_Angeles] PHP Notice:  Undefined index: Status in /home/ubuntu/workspace/UpdateStatusCommit.php on line 8
+[09-Jul-2018 15:47:12 America/Los_Angeles] PHP Notice:  Undefined index: username in /home/ubuntu/workspace/RecStatus.php on line 18
+[09-Jul-2018 15:53:01 America/Los_Angeles] PHP Notice:  Undefined index: username in /home/ubuntu/workspace/RecStatus.php on line 18

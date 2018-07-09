@@ -11,7 +11,7 @@ if(!empty($_POST)) {
     $link = f_sqlConnect();
  
     $sql = "DELETE 
-            FROM Status
+            FROM status
             WHERE StatusID = ".$StatusID.";";
     //echo "sql: " .$sql. "Comment out Later";
     
@@ -21,7 +21,7 @@ if(!empty($_POST)) {
         echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
     }
     mysqli_close($link);
-    header("Location: displayStatuses.php");
+    header("Location: DisplayStatuses.php");
     
 }
 ?>

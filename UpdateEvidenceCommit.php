@@ -19,8 +19,8 @@ if(!empty($_POST)) {
         }
     
     $sql = "UPDATE EvidenceType
-            SET EviType = '".$EviType."'
-                ,updatedBy = '".$Username."'
+            SET EviTypeName = '".$EviType."'
+                ,updatedBy = '"$UserID"'
                 ,lastUpdated = NOW()
             WHERE EviTypeID = ".$EviTypeID.";";
 

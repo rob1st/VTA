@@ -71,13 +71,13 @@
 
             // currently this fcn, found in SQLFunctions, is broken
             // don't repair it unless you're ready to deal with the bugs that may produce
-            if (!f_tableExists($link, $idrTable, DB_Name)) {
+            // if (!f_tableExists($link, $idrTable, DB_Name)) {
             // shouldn't this be an error handler like the duplicate check above(?)
-                echo 'table "'.$idrTable.'" could not be found';
-            } else {
+                // echo 'table "'.$idrTable.'" could not be found';
+            // } else {
             // create INSERT query
                 $query = "INSERT INTO $idrTable ($keys) VALUES ('$vals')";
-            }
+            // }
 
             // this is the block that actually executes the INSERT query
             if ($result = $link->query($query)) {

@@ -1,12 +1,12 @@
 <?php 
     include('session.php');
     include('SQLFunctions.php');
-    $link = f_sqlConnect();
     $table = System;
     $q = $_POST["q"];
     $title = "SVBX - Update System";
-    $Loc = "SELECT System FROM $table WHERE SystemID = ".$q;
+    $Loc = "SELECT SystemName FROM $table WHERE SystemID = ".$q;
     include('filestart.php');
+    $link = f_sqlConnect();
     
     if($Role <= 20) {
         header('location: unauthorised.php');

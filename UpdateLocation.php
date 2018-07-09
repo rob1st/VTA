@@ -1,12 +1,12 @@
 <?php 
     include('session.php');
     include('SQLFunctions.php');
-    $link = f_sqlConnect();
     $table = Location;
     $q = $_POST["q"];
     $title = "SVBX - Update Location";
     $Loc = "SELECT LocationName FROM $table WHERE LocationID = ".$q;
     include('filestart.php');
+    $link = f_sqlConnect();
     
     if($Role <= 20) {
         header('location: unauthorised.php');

@@ -47,7 +47,7 @@
     }
 
     }else if(!empty ($rejectredirecturl)) {
-            header("location: displayStatuses.php");
+            header("location: DisplayStatuses.php");
             //echo "Success";
     }
 }
