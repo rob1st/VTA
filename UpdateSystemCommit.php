@@ -1,11 +1,11 @@
 <?php
 include('SQLFunctions.php');
-include('Session.php');
+// include('Session.php');
 session_start();
 
 if(!empty($_POST)) {
     $SystemID = $_POST['SystemID'];
-    $System = $_POST['System'];
+    $System = $_POST['SystemName'];
     $UserID = $_SESSION['userID'];
     $link = f_sqlConnect();
     
@@ -19,8 +19,8 @@ if(!empty($_POST)) {
         }
     
     $sql = "UPDATE System
-            SET System = '".$System."'
-                ,updatedBy = '".$Username."'
+            SET SystemName = '".$System."'
+                ,updatedBy = '".$UserID."'
                 ,lastUpdated = NOW()
             WHERE SystemID = ".$SystemID.";";
 

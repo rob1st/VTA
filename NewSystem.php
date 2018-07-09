@@ -15,7 +15,7 @@ include('filestart.php');
                 <tr class='usertr'>
                     <th class='userth'>System Name:</th>
                     <td class='usertd'>
-                        <input type="text" name="System" maxlength="50" required/>
+                        <input type="text" name="SystemName" maxlength="50" required/>
                     </td>
                 </tr>
             </table>

@@ -1,7 +1,7 @@
 <?php 
     include('session.php');
     include('SQLFunctions.php');
-    $table = System;
+    $table = 'system';
     $q = $_POST["q"];
     $title = "SVBX - Update System";
     $Loc = "SELECT SystemName FROM $table WHERE SystemID = ".$q;
@@ -28,7 +28,7 @@
                                     <tr class='usertr'>
                                         <th class='userth'>System Name:</th>
                                         <td class='usertd'>
-                                            <input type='text' name='System' maxlength='50' required value='".$System."'/>
+                                            <input type='text' name='SystemName' maxlength='50' required value='".$System."'/>
                                         </td>
                                     </tr>
                                 </table>
