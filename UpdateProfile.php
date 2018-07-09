@@ -22,36 +22,36 @@
                 echo "
                     <div class='container main-content'>
                         <FORM action='UpdateProfileCommit.php' method='POST' onsubmit='' />
-                            <input type='hidden' name='userID' value='".$q."'>
+                            <input type='hidden' name='userID' value='$q'>
                             <table class='table'>
                                 <tr class='usertr'>
                                     <th class='userth'>First name:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='firstname' maxlength='25' required value='".$firstname."'/>
+                                        <input type='text' name='firstname' maxlength='25' required value='$firstname'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Last name:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='lastname' maxlength='25' required value='".$lastname."'/>
+                                        <input type='text' name='lastname' maxlength='25' required value='$lastname'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Email Address:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='Email' maxlength='55' required value='".$Email."'/>
+                                        <input type='text' name='Email' maxlength='55' required value='$Email'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Username:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='username' maxlength='25' required value='".$Username."'/>
+                                        <input type='text' name='username' maxlength='25' required value='$Username'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Company:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='Company' maxlength='25' required value='".$Company."'/>
+                                        <input type='text' name='Company' maxlength='25' required value='$Company'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
@@ -89,7 +89,7 @@
                                         <i>confirm new password</i>
                                     </td>
                                 </tr>";
-                                if($ARole == 'S') {
+                                if($ARole >= 100) {
                                 echo "
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='4'>Role:</td>

@@ -8,7 +8,7 @@ $AUserID = $_SESSION['userID'];
 $link = f_sqlConnect();
 $title = "Update User Commit";
 
-$user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
+$user = "SELECT username FROM users_enc WHERE userID = ".$AUserID;
 if($result=mysqli_query($link,$user)) {
     /*from the sql results, assign the username that returned to the $username variable*/
     while($row = mysqli_fetch_assoc($result)) {
@@ -58,7 +58,7 @@ elseif(!empty($_POST)) {
     $password = filter_var($_POST['Password'], FILTER_SANITIZE_STRING);
     $SecA = filter_var($_POST['SecA'], FILTER_SANITIZE_STRING);
     $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
-    $Role = $_POST['role'];
+    // $Role = $_POST['role'];
     $Password = password_hash($password, PASSWORD_BCRYPT);
 
     if($pwd == '0') {
@@ -69,7 +69,6 @@ elseif(!empty($_POST)) {
             SET  Username = '".$Username."'
                 ,firstname = '".$firstname."'
                 ,lastname = '".$lastname."'
-                ,Role = '".$Role."'
                 ,Email = '".$Email."'
                 ,Company = '".$company."'
                 ,SecQ = '".$SecQ."'

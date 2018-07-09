@@ -710,3 +710,55 @@
 [09-Jul-2018 09:07:30 America/Los_Angeles] PHP Notice:  Undefined index: ElementGroup in /home/ubuntu/workspace/ViewSC.php on line 27
 [09-Jul-2018 09:07:30 America/Los_Angeles] PHP Notice:  Undefined index: CertElement in /home/ubuntu/workspace/ViewSC.php on line 28
 [09-Jul-2018 09:07:38 America/Los_Angeles] PHP Notice:  Undefined index: CertElement in /home/ubuntu/workspace/ViewSC.php on line 28
+[09-Jul-2018 09:08:43 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 13:31:05 America/Los_Angeles] PHP Notice:  Undefined index: S in /home/ubuntu/workspace/userAccount.php on line 70
+[09-Jul-2018 13:31:05 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/UpdateProfile.php on line 4
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:31:23 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:31:42 America/Los_Angeles] PHP Notice:  Undefined index: username in /home/ubuntu/workspace/UpdateProfileCommit.php on line 15
+[09-Jul-2018 13:31:42 America/Los_Angeles] PHP Notice:  Undefined index: role in /home/ubuntu/workspace/UpdateProfileCommit.php on line 61
+[09-Jul-2018 13:31:42 America/Los_Angeles] PHP Notice:  Undefined variable: message in /home/ubuntu/workspace/UpdateProfileCommit.php on line 129
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/UpdateProfile.php on line 4
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:33:46 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/UpdateProfile.php on line 4
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:43:40 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:46:04 America/Los_Angeles] PHP Notice:  Undefined index: role in /home/ubuntu/workspace/UpdateProfileCommit.php on line 61
+[09-Jul-2018 13:46:04 America/Los_Angeles] PHP Notice:  Undefined variable: message in /home/ubuntu/workspace/UpdateProfileCommit.php on line 129
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/UpdateProfile.php on line 4
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:49:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:56:22 America/Los_Angeles] PHP Notice:  Undefined variable: message in /home/ubuntu/workspace/UpdateProfileCommit.php on line 128
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/UpdateProfile.php on line 4
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:57:00 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 13:57:04 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 13:57:12 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 14:06:51 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 14:07:13 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in /home/ubuntu/workspace/PasswordChange.php on line 4
+[09-Jul-2018 14:07:13 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 14:07:22 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 14:07:44 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in /home/ubuntu/workspace/PasswordChange.php on line 4
+[09-Jul-2018 14:07:44 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9

@@ -1,5 +1,8 @@
 <?php
+use Mailgun\Mailgun;
+
 session_start();
+include 'vendor/autoload.php';
 include('SQLFunctions.php');
 include('uploadImg.php');
 
@@ -29,18 +32,7 @@ if ($_FILES['CDL_pics']['size']
 // hold onto comments separately
 $cdlCommText = trim($post['cdlCommText']);
 
-// prepare parameterized string from external .sql file
-// $fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
-// $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
-
 // unset keys that will not be updated before imploding back to string
-// unset(
-//     $fieldsArr['defID'],
-//     $fieldsArr['created_by'],
-//     $fieldsArr['dateCreated'],
-//     $fieldsArr['lastUpdated'],
-//     $fieldsArr['dateClosed']
-// );
 unset(
     $post['defID'],
     $post['cdlCommText']
@@ -52,8 +44,8 @@ if ($post['status'] === '2') {
     $post['dateClosed'] = 'NOW()';
 } elseif ($post['status'] === '4') {
     $post['status'] = 1;
-    $post['closureRequested'] = 1;
-    $post['closureRequestedBy'] = $userID;
+    $closureReq = $post['closureRequested'] = 1;
+    $closeReqBy = $post['closureRequestedBy'] = $userID;
 }
 
 // append keys that do not or may not come from html form
@@ -62,6 +54,7 @@ $post['updated_by'] = $username;
 
 try {
     $link = connect();
+    // update CDL table
     $link->where('defID', $defID);
     $link->update('CDL', $post);
 
@@ -103,22 +96,39 @@ try {
             header("Location: updateDef.php?defID=$defID");
             $_SESSION['errorMsg'] = "There was a problem recording your comment: $e";
         }
-        // if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
-        // $success = sprintf($success, sprintf($successFormat, 'darkCyan', '&#x2714; cdlComments stmt prepared') . '%s');
-        // if (!$stmt->bind_param('isi',
-        //     intval($defID),
-        //     $commentText,
-        //     intval($userID))) throw new mysqli_sql_exception($stmt->error);
-        // $success = sprintf($success, sprintf($successFormat, 'darkBlue', '&#x2714; cdlComments params bound') . '%s');
-        // if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
-        // $success = sprintf($success, sprintf($successFormat, 'darkTurquoise', '&#x2714; cdlComments stmt executed') . '%s');
-        // $stmt->close();
-        // $success = sprintf($success, sprintf($successFormat, 'deepSkyBlue', '&#x2714; cdlComments stmt closed') . '%s');
     }
-    // $link->close();
-    // $success = sprintf($success, sprintf($successFormat, 'lightSteelBlue', '&#x2714; link closed') . '%s');
-    // $success = sprintf($success, sprintf($linkBtn, $defID));
-    // print $success;
+
+    // if closure requested, try to email system lead    
+    if ($closureReq) {
+        // instantiate new mailgun client
+        $mgClient = new Mailgun($mailgunKey);
+        $domain = $mailgunDomain;
+        try {
+            // if (isset($post['groupToResolve'])) {
+                $systemID = $post['groupToResolve'];
+            // } else {
+            //     $link->where('defID', $defID);
+            //     $systemID = $link->getOne('CDL', 'groupToResolve');
+            // }
+            // $link->where('systemID', $systemID)
+            // $result = $link->getOne('system', ['lead', 'systemName']);
+            // $systemName = $result['systemName'];
+            // if ($link->count) {
+            //     use mailgun to email sys lead
+                $msg = "$closeReqBy has requested deficiency number $defID be closed
+                    \nView this deficiency at https://$_SERVER['DOCUMENT_ROOT']/defs.php?search=1&groupToResolve=$systemID&closureRequested=1";
+                
+                $mgClient->sendMessage($domain, [
+                    'from' => 'no_reply@mail.svbx.org',
+                    'to' => 'ckingbailey@gmail.com',
+                    'subject' => "New closure request for your system: $systemID",
+                    'text' => $msg
+                ]);
+            // }
+        } catch (Exception $e) {
+            
+        }
+    }
 
     header("Location: viewDef.php?defID=$defID");
 } catch (Exception $e) {
