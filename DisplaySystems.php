@@ -1,18 +1,18 @@
 <?php 
 include('session.php');
 include('SQLFunctions.php');
-$link = f_sqlConnect();
 $Role = $_SESSION['role'];
-$table = System;
+$table = 'system';
 $title = "SVBX - Display Status Types";
 include('filestart.php');
+$link = f_sqlConnect();
         //echo '<br>Source table: ' .$table;
         
-    if(!f_tableExists($link, $table, DB_Name)) {
-        die('<br>Destination table does not exist: '.$table);
-    }
+    // if(!f_tableExists($link, $table, DB_Name)) {
+    //     die('<br>Destination table does not exist: '.$table);
+    // }
     
-    $sql = "SELECT SystemID, System, Update_TS, Updated_by FROM $table ORDER BY System";
+    $sql = "SELECT SystemID, SystemName, lastUpdated, updatedBy FROM $table ORDER BY SystemName";
     $sql1 = "SELECT COUNT(*) FROM $table";
     
     // display Page Heading

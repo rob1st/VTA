@@ -1,7 +1,7 @@
 <?php
 include('session.php');
 include('SQLFunctions.php');
-$table = 'Status';
+$table = 'status';
 $title = "SVBX - Display Status Types";
 include('filestart.php');
 $link = f_sqlConnect();

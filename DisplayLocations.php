@@ -1,17 +1,17 @@
 <?php
 include('session.php');
 include('SQLFunctions.php');
-$link = f_sqlConnect();
-$table = Location;
+$table = 'location';
 $title = "SVBX - Display Locations";
 include('filestart.php');
+$link = f_sqlConnect();
         //echo '<br>Source table: ' .$table;
 
-    if(!f_tableExists($link, $table, DB_Name)) {
-        die('<br>Destination table does not exist: '.$table);
-    }
+    // if(!f_tableExists($link, $table, DB_Name)) {
+    //     die('<br>Destination table does not exist: '.$table);
+    // }
 
-    $sql = "SELECT LocationID, LocationName, Update_TS, Updated_by FROM $table ORDER BY LocationName";
+    $sql = "SELECT LocationID, LocationName, lastUpdated, updatedBy FROM $table ORDER BY LocationName";
     $sql1 = "SELECT COUNT(*) FROM $table";
 
     if($result = mysqli_query($link,$sql1)) {

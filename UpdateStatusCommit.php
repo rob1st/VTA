@@ -20,8 +20,8 @@ if(!empty($_POST)) {
     
     $sql = "UPDATE Status
             SET Status = '".$Status."'
-                ,Updated_by = '".$Username."'
-                ,Update_TS = NOW()
+                ,updatedBy = '".$Username."'
+                ,lastUpdated = NOW()
             WHERE StatusID = ".$StatusID.";";
 
             if(mysqli_query($link,$sql)) {

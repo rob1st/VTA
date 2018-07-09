@@ -12,7 +12,7 @@ $link = f_sqlConnect();
         die('<br>Destination table does not exist: '.$table);
     }
 
-    $sql = "SELECT UserID, Username, firstname, lastname, Role, LastUpdated, Updated_by, DateAdded, Created_by, Email, Company, LastLogin FROM $table ORDER BY lastname";
+    $sql = "SELECT UserID, Username, firstname, lastname, Role, LastUpdated, updated_By, DateAdded, Created_by, Email, Company, LastLogin FROM $table ORDER BY lastname";
     $sql1 = "SELECT COUNT(*) FROM $table";
 
     if($result = mysqli_query($link,$sql1)) {

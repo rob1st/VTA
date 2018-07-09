@@ -54,7 +54,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
                 $EvidenceLink,
                 $DateClosed,
                 $LastUpdated,
-                $Updated_by,
+                $updatedBy,
                 $Created_by,
                 $Comments,
                 $RequiredBy,
@@ -150,7 +150,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
                     sprintf($labelStr, 'Last Updated'),
                     sprintf($labelStr, $LastUpdated),
                     sprintf($labelStr, 'Updated by'),
-                    sprintf($labelStr, $Updated_by)
+                    sprintf($labelStr, $updatedBy)
                 ]
             ];
 

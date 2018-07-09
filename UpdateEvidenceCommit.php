@@ -20,8 +20,8 @@ if(!empty($_POST)) {
     
     $sql = "UPDATE EvidenceType
             SET EviType = '".$EviType."'
-                ,Updated_by = '".$Username."'
-                ,Update_TS = NOW()
+                ,updatedBy = '".$Username."'
+                ,lastUpdated = NOW()
             WHERE EviTypeID = ".$EviTypeID.";";
 
             if(mysqli_query($link,$sql)) {

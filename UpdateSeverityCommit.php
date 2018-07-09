@@ -22,8 +22,8 @@ if(!empty($_POST)) {
     $sql = "UPDATE Severity
             SET SeverityName = '".$SeverityName."'
                 ,Description = '".$Description."'
-                ,Updated_by = '".$Username."'
-                ,Update_TS = NOW()
+                ,updatedBy = '".$Username."'
+                ,lastUpdated = NOW()
             WHERE SeverityID = ".$SeverityID.";";
 
             if(mysqli_query($link,$sql)) {

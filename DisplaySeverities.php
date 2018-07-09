@@ -1,7 +1,7 @@
 <?php
 include('session.php');
 include('SQLFunctions.php');
-$table = 'Severity';
+$table = 'severity';
 $title = "SVBX - Display Severities";
 include('filestart.php');
 $link = f_sqlConnect();

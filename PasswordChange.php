@@ -54,7 +54,7 @@ elseif(!empty($_POST)) {
                             users_enc 
                         SET 
                             Password = '$new_pwd'
-                            ,Updated_by = '$Username'
+                            ,updatedBy = '$Username'
                             ,LastUpdated = NOW()
                         WHERE 
                             Username = '$Username'";

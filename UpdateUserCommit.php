@@ -70,7 +70,7 @@ elseif(!empty($_POST)) {
                 ,Role = '".$Role."'
                 ,Email = '".$Email."'
                 ,Company = '".$company."'
-                ,Updated_by = '".$AUsername."'
+                ,updatedBy = '".$AUsername."'
                 ,LastUpdated = NOW()
             WHERE UserID = ".$UserID.";";
 
@@ -96,7 +96,7 @@ elseif(!empty($_POST)) {
                 ,Role = '".$Role."'
                 ,Email = '".$Email."'
                 ,Company = '".$company."'
-                ,Updated_by = '".$AUsername."'
+                ,updatedBy = '".$AUsername."'
                 ,LastUpdated = NOW()
             WHERE UserID = ".$UserID.";";
 

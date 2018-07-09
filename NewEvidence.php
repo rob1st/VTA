@@ -17,7 +17,7 @@ include('filestart.php');
                 <tr class='usertr'>
                     <th class='userth'>Evidence Type Name:</th>
                     <td class='usertd'>
-                        <input type="text" name="EviType" maxlength="50" required/>
+                        <input type="text" name="EviTypeName" maxlength="50" required/>
                     </td>
                 </tr>
             </table>

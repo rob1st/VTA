@@ -20,8 +20,8 @@ if(!empty($_POST)) {
     
     $sql = "UPDATE System
             SET System = '".$System."'
-                ,Updated_by = '".$Username."'
-                ,Update_TS = NOW()
+                ,updatedBy = '".$Username."'
+                ,lastUpdated = NOW()
             WHERE SystemID = ".$SystemID.";";
 
             if(mysqli_query($link,$sql)) {

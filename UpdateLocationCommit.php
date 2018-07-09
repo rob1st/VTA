@@ -20,8 +20,8 @@ if(!empty($_POST)) {
     
     $sql = "UPDATE Location
             SET LocationName = '".$LocationName."'
-                ,Updated_by = '".$Username."'
-                ,Update_TS = NOW()
+                ,updatedBy = '".$Username."'
+                ,lastUpdated = NOW()
             WHERE LocationID = ".$LocationID.";";
 
             if(mysqli_query($link,$sql)) {

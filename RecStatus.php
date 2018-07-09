@@ -35,7 +35,7 @@
       header("location: $duplicate?msg=1");
     }
     else {
-    $sql = "INSERT INTO $table($keys, Update_TS, Updated_by) VALUES ('$values', NOW(), '$Username')";
+    $sql = "INSERT INTO $table($keys, lastUpdated, updatedBy) VALUES ('$values', NOW(), '$Username')";
     //echo '<br>sql: ' .$sql;
     //echo '<br>Num_rows: ' .$num_rows;
 

@@ -73,7 +73,7 @@ elseif(!empty($_POST)) {
                 ,Company = '".$company."'
                 ,SecQ = '".$SecQ."'
                 ,SecA = '".$SecA."'
-                ,Updated_by = '".$AUsername."'
+                ,updatedBy = '".$AUsername."'
                 ,LastUpdated = NOW()
             WHERE UserID = ".$UserID.";";
 
@@ -100,7 +100,7 @@ elseif(!empty($_POST)) {
                 ,Company = '".$company."'
                 ,SecQ = '".$SecQ."'
                 ,SecA = '".$SecA."'
-                ,Updated_by = '".$AUsername."'
+                ,updatedBy = '".$AUsername."'
                 ,LastUpdated = NOW()
             WHERE UserID = ".$UserID.";";
 

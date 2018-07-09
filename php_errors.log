@@ -796,3 +796,17 @@
 [09-Jul-2018 14:25:04 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
 [09-Jul-2018 14:25:35 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
 [09-Jul-2018 14:26:40 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
+[09-Jul-2018 14:46:01 America/Los_Angeles] PHP Notice:  Use of undefined constant EvidenceType - assumed 'EvidenceType' in /home/ubuntu/workspace/RecEvidence.php on line 4
+[09-Jul-2018 14:46:01 America/Los_Angeles] PHP Notice:  Undefined index: username in /home/ubuntu/workspace/RecEvidence.php on line 18
+[09-Jul-2018 14:50:05 America/Los_Angeles] PHP Notice:  Undefined index: EviType in /home/ubuntu/workspace/RecEvidence.php on line 11
+[09-Jul-2018 14:55:23 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 14:55:23 America/Los_Angeles] PHP Notice:  Undefined variable: message in /home/ubuntu/workspace/addUserSubmit.php on line 105
+[09-Jul-2018 14:57:28 America/Los_Angeles] PHP Notice:  Use of undefined constant System - assumed 'System' in /home/ubuntu/workspace/DisplaySystems.php on line 6
+[09-Jul-2018 14:57:28 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 14:57:35 America/Los_Angeles] PHP Notice:  Use of undefined constant Location - assumed 'Location' in /home/ubuntu/workspace/DisplayLocations.php on line 5
+[09-Jul-2018 14:57:35 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 14:58:57 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 14:59:00 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 14:59:14 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 14:59:40 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[09-Jul-2018 15:03:46 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
