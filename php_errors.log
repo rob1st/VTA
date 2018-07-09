@@ -782,3 +782,17 @@
 [09-Jul-2018 14:15:17 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
 [09-Jul-2018 14:15:41 America/Los_Angeles] PHP Notice:  A session had already been started - ignoring session_start() in /home/ubuntu/workspace/PasswordChange.php on line 4
 [09-Jul-2018 14:15:41 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/UpdateProfile.php on line 4
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 14:16:17 America/Los_Angeles] PHP Notice:  Use of undefined constant SecQID - assumed 'SecQID' in /home/ubuntu/workspace/UpdateProfile.php on line 64
+[09-Jul-2018 14:20:12 America/Los_Angeles] PHP Notice:  Use of undefined constant EvidenceType - assumed 'EvidenceType' in /home/ubuntu/workspace/DisplayEviType.php on line 5
+[09-Jul-2018 14:21:08 America/Los_Angeles] PHP Notice:  Use of undefined constant EvidenceType - assumed 'EvidenceType' in /home/ubuntu/workspace/UpdateEvidence.php on line 4
+[09-Jul-2018 14:21:08 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
+[09-Jul-2018 14:23:17 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
+[09-Jul-2018 14:25:04 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
+[09-Jul-2018 14:25:35 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10
+[09-Jul-2018 14:26:40 America/Los_Angeles] PHP Notice:  Undefined variable: Role in /home/ubuntu/workspace/UpdateEvidence.php on line 10

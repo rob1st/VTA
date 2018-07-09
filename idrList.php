@@ -15,7 +15,7 @@ if ($_SESSION['inspector']) {
 }
 
 $qry = "SELECT idrID, i.userID, idrForDate, username FROM IDR i JOIN users_enc u on i.UserID=u.UserID";
-$orderBy = " ORDER BY idrID ASC";
+$orderBy = " ORDER BY idrID DESC";
 
 $errorMsg = [
     'myIDRs' => 'Unable to retrieve reports for user',

@@ -1,11 +1,12 @@
 <?php
+    include('session.php');
     include('SQLFunctions.php');
-    $link = f_sqlConnect();
-    $table = EvidenceType;
+    $table = 'evidenceType';
     $q = $_POST["q"];
     $title = "SVBX - Update Evidence Type";
-    $Loc = "SELECT EviType FROM $table WHERE EviTypeID = ".$q;
+    $Loc = "SELECT EviTypeName FROM $table WHERE EviTypeID = ".$q;
     include('filestart.php');
+    $link = f_sqlConnect();
 
     if($Role <= 20) {
         header('location: unauthorised.php');
