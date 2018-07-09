@@ -96,7 +96,6 @@ elseif(!empty($_POST)) {
                 ,Password = '".$Password."'
                 ,firstname = '".$firstname."'
                 ,lastname = '".$lastname."'
-                ,Role = '".$Role."'
                 ,Email = '".$Email."'
                 ,Company = '".$company."'
                 ,SecQ = '".$SecQ."'
