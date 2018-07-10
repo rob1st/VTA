@@ -820,3 +820,8 @@
 [09-Jul-2018 15:45:24 America/Los_Angeles] PHP Notice:  Undefined index: Status in /home/ubuntu/workspace/UpdateStatusCommit.php on line 8
 [09-Jul-2018 15:47:12 America/Los_Angeles] PHP Notice:  Undefined index: username in /home/ubuntu/workspace/RecStatus.php on line 18
 [09-Jul-2018 15:53:01 America/Los_Angeles] PHP Notice:  Undefined index: username in /home/ubuntu/workspace/RecStatus.php on line 18
+[10-Jul-2018 08:30:09 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[10-Jul-2018 08:31:58 America/Los_Angeles] PHP Notice:  Use of undefined constant users_enc - assumed 'users_enc' in /home/ubuntu/workspace/help.php on line 19
+[10-Jul-2018 08:31:58 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[10-Jul-2018 08:32:38 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[10-Jul-2018 08:32:40 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94

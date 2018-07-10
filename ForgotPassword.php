@@ -94,7 +94,7 @@ if ($_SESSION['badCount'] >= 3)
   <BODY>
     <div="background">
       <div class="index">
-        <img src="vta_logo.png" alt="VTA - Solutions that move you" class="logo" />
+        <img src="/assets/img/vta_logo.png" alt="VTA - Solutions that move you" class="logo" />
         <h1 class="index-text">Silicon Valley Berryessa Extension Project</h1>
 <?php
   switch($show) {

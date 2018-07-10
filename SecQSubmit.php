@@ -33,7 +33,7 @@
             SET 
                 SecQ = '$SecQ'
                 ,SecA = '$SecA'
-                ,updatedBy = '$Username'
+                ,updated_By = '$Username'
                 ,LastUpdated = NOW()
             WHERE 
                 Username = '$Username'";
