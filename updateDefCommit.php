@@ -1,5 +1,4 @@
 <?php
-echo "<h1 style='color: blue'>You've reached updateDefCommit</h1>";
 use Mailgun\Mailgun;
 
 session_start();
@@ -49,18 +48,14 @@ if ($post['status'] === '2') {
 } elseif ($post['status'] === '4') {
     $post['status'] = 1;
     $closureReq = $post['closureRequested'] = 1;
-    $closeReqBy = $post['closureRequestedBy'] = $userID;
+    $closeReqBy = $post['closureRequestedBy'] = $_SESSION['firstname'].' '.$_SESSION['lastname'];
 }
 
 // append keys that do not or may not come from html form
 // or whose values may be ambiguous in $_POST (e.g., checkboxes)
 $post['updated_by'] = $username;
 
-echo "<h1 style='color: green;'>begin updateDefCommit</h1>";
-var_dump($post);
-
 try {
-    echo "<h1 style='color: red'>try link connect</h1>";
     $link = connect();
     // update CDL table
     $link->where('defID', $defID);
@@ -106,50 +101,42 @@ try {
         }
     }
     
-    echo "<h3>commit ok</h3>";
-
     // if closure requested, try to email system lead    
     if (!empty($closureReq)) {
-        echo "<h4>Closure requested</h4>";
         // instantiate new mailgun client
         $mgClient = new Mailgun($mailgunKey);
         $domain = $mailgunDomain;
-    //     try {
-    //         // if (isset($post['groupToResolve'])) {
-    //             $systemID = $post['groupToResolve'];
-    //         // } else {
-    //         //     $link->where('defID', $defID);
-    //         //     $systemID = $link->getOne('CDL', 'groupToResolve');
-    //         // }
-    //         // $link->where('systemID', $systemID)
-    //         // $result = $link->getOne('system', ['lead', 'systemName']);
-    //         // $systemName = $result['systemName'];
-    //         // if ($link->count) {
-    //         //     use mailgun to email sys lead
-    //             $msg = "$closeReqBy has requested deficiency number $defID be closed
-    //                 \nView this deficiency at https://$_SERVER['DOCUMENT_ROOT']/defs.php?search=1&groupToResolve=$systemID&closureRequested=1";
-                
-    //             $mgClient->sendMessage($domain, [
-    //                 'from' => 'no_reply@mail.svbx.org',
-    //                 'to' => 'ckingbailey@gmail.com',
-    //                 'subject' => "New closure request for your system: $systemID",
-    //                 'text' => $msg
-    //             ]);
-    //         // }
-    //     } catch (Exception $e) {
-    //         echo "catch mail error";
-    //         // header("Location: updateDef.php?defID=$defID")
-    //         // $_SESSION['errorMsg'] = "There was a problem sending the email";
-    //     }
-        echo "<h4>Mailgun client instantiated</h4>";
+
+        if (!empty($post['groupToResolve'])) {
+            $systemID = $post['groupToResolve'];
+        } else {
+            $link->where('defID', $defID);
+            $systemID = $link->getValue('CDL', 'groupToResolve');
+        }
+        $link->join('users_enc u', 's.lead = u.userid', 'LEFT');
+        $link->where('systemID', $systemID);
+        $result = $link->getOne('system s', ['email', 'systemName']);
+        $systemName = $result['systemName'];
+        if ($result['email']) {
+            // use mailgun to email sys lead
+            $msg = "$closeReqBy has requested deficiency number $defID be closed."
+                ."\nView this deficiency at "
+                ."https://{$_SERVER['HTTP_HOST']}/defs.php?search=1&groupToResolve=$systemID&closureRequested=1";
+            
+            $mgClient->sendMessage($domain, [
+                'from' => 'no_reply@mail.svbx.org',
+                'to' => $result['email'],
+                'subject' => "New closure request for your system: $systemName",
+                'text' => $msg
+            ]);
+        }
     }
 
-    // header("Location: viewDef.php?defID=$defID");
+    header("Location: viewDef.php?defID=$defID");
 } catch (Exception $e) {
-    echo "<h1>catch commit error</h1>";
-    // header("Location: updateDef.php?defID=$defID");
-    // $_SESSION['errorMsg'] = "There was an error in committing your submission: $e";
+    header("Location: updateDef.php?defID=$defID");
+    $_SESSION['errorMsg'] = "There was an error in committing your submission: $e";
 } finally {
     $link->disconnect();
-    // exit;
+    exit;
 }

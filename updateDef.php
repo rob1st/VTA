@@ -87,7 +87,7 @@ try {
     if (!$stmt->execute())
         throw new mysqli_sql_exception($stmt->error);
 
-    $closureRequested = stmtBindResultArray($stmt)[0];
+    $closureRequested = stmtBindResultArray($stmt)[0]['closureRequested'];
         
     $stmt->close();
 
