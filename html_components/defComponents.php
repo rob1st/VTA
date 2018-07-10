@@ -100,7 +100,7 @@ function returnPhotoSection($pics, $imgFormat) {
 function getAttachments($cnxn, $id) {
     $sql = "SELECT bdaFilepath, filename from bartdlAttachments WHERE bartdlID = ?";
     if (!$stmt = $cnxn->prepare($sql)) printSqlErrorAndExit($cnxn, $sql);
-    if (!$stmt->bind_param('i', intval($id))) printSqlErrorAndExit($stmt, $sql);
+    if (!$stmt->bind_param('i', $id)) printSqlErrorAndExit($stmt, $sql);
     if (!$stmt->execute()) printSqlErrorAndExit($stmt, $sql);
     $attachments = stmtBindResultArray($stmt) ?: [];
     $stmt->close();
@@ -219,7 +219,7 @@ $requiredElements = [
         "tagName" => "select",
         "element" => "<select name='requiredBy' id='requiredBy' class='form-control' required>%s</select>",
         "type" => null,
-        "query" => "SELECT ReqByID, RequiredBy FROM RequiredBy ORDER BY RequiredBy",
+        "query" => "SELECT ReqByID, RequiredBy FROM requiredBy ORDER BY RequiredBy",
         'value' => ''
     ],
     'contractID' => [
@@ -227,7 +227,7 @@ $requiredElements = [
         'tagName' => 'select',
         'element' => "<select name='contractID' id='contractID' class='form-control' required>%s</select>",
         'type' => null,
-        'query' => "SELECT contractID, contractName FROM Contract ORDER BY contractID",
+        'query' => "SELECT contractID, contractName FROM contract ORDER BY contractID",
         'value' => ''
     ],
     'identifiedBy' => [
@@ -304,7 +304,7 @@ $closureElements = [
         "tagName" => 'select',
         'element' => "<select name='evidenceType' id='evidenceType' class='form-control'>%s</select>",
         "type" => '',
-        "query" => "SELECT EviTypeID, EviTypeName FROM EvidenceType ORDER BY EviTypeName",
+        "query" => "SELECT EviTypeID, EviTypeName FROM evidenceType ORDER BY EviTypeName",
         'value' => ''
     ],
     'repo' => [
@@ -312,7 +312,7 @@ $closureElements = [
         'tagName' => 'select',
         'element' => "<select name='repo' id='repo' class='form-control'>%s</select>",
         'type' => '',
-        'query' => "SELECT RepoID, RepoName FROM Repo ORDER BY RepoName",
+        'query' => "SELECT RepoID, RepoName FROM repo ORDER BY RepoName",
         'value' => ''
     ],
     'evidenceLink' => [

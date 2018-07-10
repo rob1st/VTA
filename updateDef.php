@@ -6,7 +6,7 @@ include('sql_functions/stmtBindResultArray.php');
 
 $title = "SVBX - Update Deficiency";
 $role = $_SESSION['role'];
-$defID = $_GET['defID'];
+$defID = filter_input(INPUT_GET, 'defID');
 
 // prepare sql statement
 $fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
@@ -28,7 +28,7 @@ try {
 
     if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
 
-    if (!$stmt->bind_param('i', intval($defID))) throw new mysqli_sql_exception($stmt->error);
+    if (!$stmt->bind_param('i', $defID)) throw new mysqli_sql_exception($stmt->error);
 
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
 

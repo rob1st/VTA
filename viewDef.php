@@ -6,8 +6,8 @@ include('html_components/defComponents.php');
 include('sql_functions/stmtBindResultArray.php');
 include('error_handling/sqlErrors.php');
 
-if (isset($_GET['defID'])) $defID = $_GET['defID'];
-elseif (isset($_GET['bartDefID'])) $defID = $_GET['bartDefID'];
+if (isset($_GET['defID'])) $defID = filter_input(INPUT_GET, 'defID');
+elseif (isset($_GET['bartDefID'])) $defID = filter_input(INPUT_GET, 'bartDefID');
 else $defID = null;
 
 $role = $_SESSION['role'];
@@ -285,7 +285,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
         $sql = 'SELECT '
             .$fieldList
             ." FROM BARTDL"
-            ." JOIN Status s ON BARTDL.status=s.statusID"
+            ." JOIN status s ON BARTDL.status=s.statusID"
             ." JOIN agreeDisagree ag ON BARTDL.agree_vta=ag.agreeDisagreeID"
             ." JOIN bdParties c ON BARTDL.creator=c.partyID"
             ." JOIN bdNextStep n ON BARTDL.next_step=n.bdNextStepID"

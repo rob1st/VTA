@@ -825,3 +825,13 @@
 [10-Jul-2018 08:31:58 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
 [10-Jul-2018 08:32:38 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
 [10-Jul-2018 08:32:40 America/Los_Angeles] PHP Notice:  Trying to get property of non-object in /home/ubuntu/workspace/SQLFunctions.php on line 94
+[10-Jul-2018 09:23:33 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[10-Jul-2018 10:00:58 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 10:01:31 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 10:02:04 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/updateDef.php on line 31
+[10-Jul-2018 10:29:02 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
+[10-Jul-2018 10:30:10 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
+[10-Jul-2018 10:30:53 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
+[10-Jul-2018 10:32:34 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
+[10-Jul-2018 10:32:42 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
+[10-Jul-2018 10:33:04 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
