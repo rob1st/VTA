@@ -4,8 +4,8 @@ include('SQLFunctions.php');
 include('uploadImg.php');
 
 $date = date('Y-m-d');
-$userID = intval($_SESSION['UserID']);
-$username = $_SESSION['Username'];
+$userID = intval($_SESSION['userID']);
+$username = $_SESSION['username'];
 $nullVal = null;
 
 $link = f_sqlConnect();
@@ -62,7 +62,7 @@ if ($_FILES['CDL_pics']['size']
 $cdlCommText = trim($_POST['cdlCommText']);
     
 // prepare parameterized string from external .sql file
-$fieldList = preg_replace('/\s+/', '', file_get_contents('UpdateDef.sql'));
+$fieldList = preg_replace('/\s+/', '', file_get_contents('updateDef.sql'));
 $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 
 // unset keys that will not be updated before imploding back to string
@@ -99,7 +99,7 @@ if ($_FILES['CDL_pics']['size']
 try {
     $success = "<div style='background-color: gold; background-clip: padding-box; border: 5px dashed limeGreen;'>%s</div>";
     $successFormat = "<p style='color: %s'>%s</p>";
-    $linkBtn = "<a href='UpdateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
+    $linkBtn = "<a href='updateDef.php?defID=%s' style='text-decoration: none; border: 2px solid plum; padding: .35rem;'>Back to Update Def</a>";
     
     if (!$stmt = $link->prepare($sql)) throw new Exception($link->error);
     
@@ -205,7 +205,7 @@ try {
     $success = sprintf($success, sprintf($linkBtn, $defID));
     print $success;
     
-    header("Location: ViewDef.php?defID=$defID");
+    header("Location: viewDef.php?defID=$defID");
 } catch (Exception $e) {
     print "There was an error in committing your submission";
     $link->close();
