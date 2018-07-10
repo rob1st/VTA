@@ -835,3 +835,15 @@
 [10-Jul-2018 10:32:34 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
 [10-Jul-2018 10:32:42 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
 [10-Jul-2018 10:33:04 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/html_components/defComponents.php on line 103
+[10-Jul-2018 11:22:14 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[10-Jul-2018 11:22:42 America/Los_Angeles] PHP Notice:  Undefined variable: title in /home/ubuntu/workspace/filestart.php on line 9
+[10-Jul-2018 11:23:49 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 11:37:32 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 11:51:45 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 11:53:41 America/Los_Angeles] PHP Notice:  Undefined offset: 15 in /home/ubuntu/workspace/userAccount.php on line 70
+[10-Jul-2018 11:54:39 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 13:04:33 America/Los_Angeles] PHP Notice:  Undefined variable: closureReq in /home/ubuntu/workspace/updateDefCommit.php on line 109
+[10-Jul-2018 13:14:25 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 13:14:59 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 13:15:17 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187
+[10-Jul-2018 13:16:58 America/Los_Angeles] PHP Notice:  Only variables should be passed by reference in /home/ubuntu/workspace/viewDef.php on line 187

@@ -77,6 +77,19 @@ try {
     $photos = stmtBindResultArray($stmt);
 
     $stmt->close();
+    
+    if (!$stmt = $link->prepare("SELECT closureRequested, closureRequestedBy from CDL where defID = ?"))
+        throw new mysqli_sql_exception($link->error);
+        
+    if (!$stmt->bind_param('i', $defID))
+        throw new mysqli_sql_exception($stmt->error);
+
+    if (!$stmt->execute())
+        throw new mysqli_sql_exception($stmt->error);
+
+    $closureRequested = stmtBindResultArray($stmt)[0];
+        
+    $stmt->close();
 
     $toggleBtn = '<a data-toggle=\'collapse\' href=\'#%1$s\' role=\'button\' aria-expanded=\'false\' aria-controls=\'%1$s\' class=\'collapsed\'>%2$s<i class=\'typcn typcn-arrow-sorted-down\'></i></a>';
 
@@ -134,7 +147,11 @@ try {
 
     echo "
         <header class='container page-header'>
-            <h1 class='page-title'>Update Deficiency ".$defID."</h1>
+            <h1 class='page-title'>Update Deficiency ".$defID."</h1>";
+            if (!empty($closureRequested)) {
+                echo "<h4 class='bg-yellow text-light pad-less'>Closure requested</h4>";
+            }
+    echo "
         </header>
         <main class='container main-content'>
         <form action='updateDefCommit.php' method='POST' enctype='multipart/form-data' onsubmit='' class='item-margin-bottom'>
@@ -241,7 +258,7 @@ try {
             }
         </script>";
 } catch (Exception $e) {
-    print "Unable to retrieve record";
+    print "Unable to retrieve record: {$e->getMessage()}";
     exit;
 } finally {
     $link->close();
