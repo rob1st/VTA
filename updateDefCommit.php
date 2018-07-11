@@ -48,7 +48,8 @@ if ($post['status'] === '2') {
 } elseif ($post['status'] === '4') {
     $post['status'] = 1;
     $closureReq = $post['closureRequested'] = 1;
-    $closeReqBy = $post['closureRequestedBy'] = $_SESSION['firstname'].' '.$_SESSION['lastname'];
+    $post['closureRequestedBy'] = $_SESSION['userid'];
+    $closeReqBy = $_SESSION['firstname'].' '.$_SESSION['lastname'];
 }
 
 // append keys that do not or may not come from html form

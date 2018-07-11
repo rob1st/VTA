@@ -89,7 +89,6 @@ if ($_FILES['CDL_pics']['size']
     && $_FILES['CDL_pics']['tmp_name']
     && $_FILES['CDL_pics']['type']) {
     $CDL_pics = $_FILES['CDL_pics'];
-    echo "yea, CDL pics";
 } else $CDL_pics = null;
 
 try {
@@ -145,7 +144,6 @@ try {
             
             $stmt->close();
         }
-        echo "pic uploaded $pathToFile";
     }
     
     // if comment submitted commit it to a separate table
@@ -166,7 +164,7 @@ try {
         $stmt->close();
     }
 
-    // header("Location: viewDef.php?defID=$defID");
+    header("Location: viewDef.php?defID=$defID");
 } catch (Exception $e) {
     print "There was an error in committing your submission";
 } finally {
