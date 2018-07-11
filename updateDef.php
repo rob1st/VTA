@@ -144,10 +144,12 @@ try {
             $elements['closureComments']
         ]
     ];
+    
+    $color = ($defStatus === 1 ? "bg-red " : "bg-success ") . "text-white";
 
     echo "
         <header class='container page-header'>
-            <h1 class='page-title'>Update Deficiency ".$defID."</h1>";
+            <h1 class='page-title $color pad'>Update Deficiency ".$defID."</h1>";
             if (!empty($closureRequested)) {
                 echo "<h4 class='bg-yellow text-light pad-less'>Closure requested</h4>";
             }

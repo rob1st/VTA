@@ -33,6 +33,19 @@ if (isset($_GET['defID']) && $_GET['defID']) {
     $sql = file_get_contents("viewDef.sql").$defID;
 
     try {
+        if (!$stmt = $link->prepare("SELECT closureRequested, closureRequestedBy from CDL where defID = ?"))
+            throw new mysqli_sql_exception($link->error);
+            
+        if (!$stmt->bind_param('i', $defID))
+            throw new mysqli_sql_exception($stmt->error);
+    
+        if (!$stmt->execute())
+            throw new mysqli_sql_exception($stmt->error);
+    
+        $closureRequested = stmtBindResultArray($stmt)[0]['closureRequested'];
+            
+        $stmt->close();
+            
         if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
 
         if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
@@ -161,7 +174,11 @@ if (isset($_GET['defID']) && $_GET['defID']) {
             }
             echo "
                 <header class='container page-header'>
-                    <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
+                    <h1 class='page-title $color pad'>Deficiency No. $defID</h1>";
+                    if ($closureRequested) {
+                        echo "<h4 class='bg-yellow text-light pad-less'>Closure requested</h4>";
+                    }
+            echo "
                 </header>
                 <main class='container main-content'>";
             foreach ([$requiredRows, $optionalRows, $closureRows] as $rowGroup) {
@@ -184,7 +201,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
         if (!$stmt = $link->prepare($sql))
             throw new mysqli_sql_exception($link->error);
 
-        if (!$stmt->bind_param('i', intval($defID)))
+        if (!$stmt->bind_param('i', $defID))
             throw new mysqli_sql_exception($stmt->error);
 
         if (!$stmt->execute())
@@ -392,7 +409,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
                 $color = "bg-red text-white";
             }
 
-            print "
+            echo "
                 <header class='container page-header'>
                     <h1 class='page-title $color pad'>Deficiency No. $defID</h1>
                 </header>
