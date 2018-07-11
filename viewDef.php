@@ -184,7 +184,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
         if (!$stmt = $link->prepare($sql))
             throw new mysqli_sql_exception($link->error);
 
-        if (!$stmt->bind_param('i', intval($defID)))
+        if (!$stmt->bind_param('i', $defID))
             throw new mysqli_sql_exception($stmt->error);
 
         if (!$stmt->execute())
