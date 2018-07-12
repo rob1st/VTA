@@ -1,5 +1,5 @@
 # git stuff
-DS_Store
+.DS_Store
 
 # packages
 node_modules
@@ -15,16 +15,21 @@ check.php
 # error logging
 error_log
 php_errors.log
+old_*
+bootstrap.*
 webColors.json
+
+# dependencies and package mngrs
+node_modules
+composer.phar
+/vendor/
 
 # binaries
 img_uploads
 uploads
 
-# individual file backups
-*.bak
-old_*
-bootstrap.*
-
-# sql dumps
+# db backups
 CDLdump.sql
+
+# other backups
+*.bak

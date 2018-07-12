@@ -288,16 +288,16 @@
         },
         {
             "name": "joshcam/mysqli-database-class",
-            "version": "dev-master",
+            "version": "v2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class.git",
-                "reference": "94fc1e302f46315a2f0e030c13cbe508e166a6cc"
+                "reference": "e122f8e0c22165092b81578ecd618842e9e01d64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThingEngineer/PHP-MySQLi-Database-Class/zipball/94fc1e302f46315a2f0e030c13cbe508e166a6cc",
-                "reference": "94fc1e302f46315a2f0e030c13cbe508e166a6cc",
+                "url": "https://api.github.com/repos/ThingEngineer/PHP-MySQLi-Database-Class/zipball/e122f8e0c22165092b81578ecd618842e9e01d64",
+                "reference": "e122f8e0c22165092b81578ecd618842e9e01d64",
                 "shasum": ""
             },
             "require": {
@@ -329,7 +329,7 @@
                 }
             ],
             "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements",
-            "time": "2018-06-20T09:14:03+00:00"
+            "time": "2018-02-08T05:07:59+00:00"
         },
         {
             "name": "mailgun/mailgun-php",
