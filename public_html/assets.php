@@ -13,19 +13,21 @@ $twig = new Twig_Environment($loader,
     )
 );
 
-// DEFAULT context
-$context = array(
-    'navbarHeading' => $_SESSION['Username'],
+// base context
+$context = [
+    'navbarHeading' => $_SESSION['username'],
     'title' => 'Asset List',
     'pageHeading' => 'Assets',
     'tableName' => 'asset',
-);
+];
 
 /* parse url to establish which view to display
 ** [0] => action of view, e.g., 'list', 'add'
 ** [1] => name of table to manage
 */
-$pathinfo = substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1);
+$pathinfo = !empty($_SERVER['PATH_INFO'])
+    ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
+    : '';
     
 $pathParams = explode("/", $pathinfo);
 
@@ -38,8 +40,7 @@ $action = intval(array_search($pathParams[0], $actions, true))
 $template = $twig->load("$action.html");
 
 $context['backto'] = $action !== 'list' ? 'assets.php' : '';
-
-$context['meta'] = $action;
+$context['meta'] = $action; // THIS IS FOR DEV'S INFO ONLY
 
 // retrieve data from db
 $context = array_merge(
