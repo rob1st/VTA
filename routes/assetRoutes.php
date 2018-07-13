@@ -83,11 +83,9 @@ function getAssetData($route) {
         $context['cardHeading'] = 'Click on an asset number to see details';
         $context['tableHeadings'] = $fields;
         $context['data'] = $data;
+        // $context['tableHeadings'] = array_column($tableStructure, 'heading');
         $context['addPath'] = "assets.php/add";
-        
-        echo "<pre>";
-        var_dump($data);
-        echo "</pre>";
+        $context['info'] = "Click on an asset ID to see details";
     }
     
     return $context;

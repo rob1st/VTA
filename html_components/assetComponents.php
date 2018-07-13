@@ -17,6 +17,7 @@ $defaultFormCtrls = [
 $tableStructure = [
     // in each case 'value' prop will get append from db query
     'assetID' => [
+        'value' => '',
         'href' => 'view/assetID=', // concat this with value of assetID
         'heading' => [
             'value' => 'ID',
@@ -24,6 +25,7 @@ $tableStructure = [
         ]
     ],
     'assetTag' => [
+        'value' => '',
         'heading' => [
             'value' => 'Tag #',
             'collapse' => 'collapse-xs',
@@ -31,30 +33,35 @@ $tableStructure = [
         ]
     ],
     'compName' => [
+        'value' => '',
         'heading' => [
             'value' => 'Component',
             'cellWd' => 4
         ]
     ],
     'locationName' => [
+        'value' => '',
         'heading' => [
             'value' => 'Location',
             'cellWd' => 4
         ]
     ],
     'installed' => [
+        'value' => '',
         'heading' => [
             'value' => 'Installed?',
             'cellWd' => 3
         ]
     ],
     'testStatName' => [
+        'value' => '',
         'heading' => [
             'value' => 'Status',
             'cellWd' => 3
         ]
     ],
     'edit' => [
+        'value' => '',
         'icon' => 'typcn-edit',
         'href' => 'update/assetID=', // concat this with value of assetID
         'heading' => [

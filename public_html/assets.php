@@ -5,19 +5,18 @@ require_once '../routes/assetRoutes.php';
 
 session_start();
 
-echo "<h1 style='font-size: 5rem; font-family: monospace; color: red'>Hey</h1>";
-
 // instantiate objects
 $loader = new Twig_Loader_Filesystem('../templates');
 $twig = new Twig_Environment($loader,
-    array(
+    [
         'debug' => true
-    )
+    ]
 );
+$twig->addExtension(new Twig_Extension_Debug());
 
 // base context
 $context = [
-    'navbarHeading' => $_SESSION['username'],
+    'navbarHeading' => $_SESSION['firstname'] . ' ' . $_SESSION['lastname'],
     'title' => 'Asset List',
     'pageHeading' => 'Assets',
     'tableName' => 'asset',
@@ -39,7 +38,7 @@ $route = intval(array_search($pathParams[0], $routes, true))
     ? $pathParams[0]
     : 'table';
 
-$template = $twig->load("$route.html");
+// $template = $twig->load("$route.html");
 
 // if it's not the list view, show a back button | list view gets no back button
 $context['backto'] = $route !== 'table' ? 'assets.php' : '';
@@ -52,4 +51,5 @@ $context = array_merge(
 );
 
 // then render the template with appropriate variables
-// $template->display($context);
+$template = $twig->load("table.html");
+$template->display($context);

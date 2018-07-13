@@ -1,9 +1,9 @@
 {% extends "page.html" %}
-{% import "tables.xml" as tables %}
+{% import "template_fcns/tables.xml" as tables %}
 
 {% block content %}
     {% block infobox %}
-        {{ info }}
+        <span>{{ info }}</span>
         <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
     {% endblock %}
     {% block table %}
