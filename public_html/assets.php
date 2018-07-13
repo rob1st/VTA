@@ -38,7 +38,7 @@ $route = intval(array_search($pathParams[0], $routes, true))
     ? $pathParams[0]
     : 'table';
 
-// $template = $twig->load("$route.html");
+$template = $twig->load("$route.html");
 
 // if it's not the list view, show a back button | list view gets no back button
 $context['backto'] = $route !== 'table' ? 'assets.php' : '';
@@ -51,5 +51,5 @@ $context = array_merge(
 );
 
 // then render the template with appropriate variables
-$template = $twig->load("table.html");
+// $template = $twig->load("table.html");
 $template->display($context);

@@ -1,5 +1,5 @@
-{% macro concatStyles %}
+{% macro concatStyles(styleList) %}
 {% endmacro %}
 
-{% macro concatClasses %}
+{% macro concatClasses(classList) %}
 {% endmacro %}

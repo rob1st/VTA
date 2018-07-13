@@ -37,8 +37,14 @@
 {% endmacro%}
 
 {% macro createHeadingFromArray(array) %}
+    {% set cellWd = array.cellWd is empty ? '' : array.cellWd %}
+    {% set collapse = array.collapse is empty ? '' : array.collapse %}
     <th
         scope='col'
+        classList='{{ collapse }}'
+        styleList='{{ cellWd }}'
+        {#{{ htmlAttrs.concatClasses(collapse) }}#}
+        {#{{ htmlAttrs.concatStyles(cellWd) }}#}
     >{{ array.value }}</th>
 {% endmacro %}
 
