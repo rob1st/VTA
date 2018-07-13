@@ -13,11 +13,9 @@ $twig = new Twig_Environment($loader,
     )
 );
 
-session_start();
-
 //* DEFAULTS */
 $context = array(
-    'navbarHeading' => $_SESSION['Username'],
+    'navbarHeading' => $_SESSION['username'],
     'title' => 'Manage Data',
     'pageHeading' => 'List of lookup tables',
     'cardHeading' => '',
@@ -30,7 +28,9 @@ $context = array(
 ** [0] => action of view, e.g., 'list', 'add'
 ** [1] => name of table to manage
 */
-$pathinfo = substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1);
+$pathinfo = !empty($_SERVER['PATH_INFO'])
+    ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
+    : '';
     
 $pathParams = explode("/", $pathinfo);
 
@@ -54,7 +54,7 @@ $context['meta'] = $action;
 */
 // include "../inc/$include";
 
-if ($tableName) {
+if (!empty($tableName)) {
     $displayName = $displayNames[$tableName] ?: $tableName;
     
     $context['meta'] = $tableName;
