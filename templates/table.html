@@ -1,0 +1,12 @@
+{% extends "page.html" %}
+{% import "tables.xml" as tables %}
+
+{% block content %}
+    {% block infobox %}
+        {{ info }}
+        <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
+    {% endblock %}
+    {% block table %}
+        {{ tables.createTable(data, tableHeadings) }}
+    {% endblock %}
+{% endblock %}

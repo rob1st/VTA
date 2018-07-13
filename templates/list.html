@@ -1,4 +1,4 @@
-{% extends "manage.html" %}
+{% extends "card.html" %}
 
 {% from 'template_fcns/tablelikeRow.html' import tablelikeRow %}
 
@@ -14,13 +14,12 @@
     ## 'name' => (string)
     ## 'href' => (string)
     #}
+    {% if tableHeadings is iterable and tableHeadings|length %}
+        <li class='row item-margin-bottom bg-secondary text-light pad'>
+            {{ tablelikeRow(tableHeadings) }}
+        </li>
+    {% endif %}
     <ul class="pl-0 item-margin-bottom">
-        {% if fieldNames is iterable and fieldNames|length %}
-            <li class='row item-margin-bottom text-secondary'>
-                {{ tablelikeRow(fieldNames) }}
-            </li>
-        {% endif %}
-            <hr class='thick-grey-line'>
         {% if data is iterable and data|length %}
             {% for item in data %}
                 <li class="row item-margin-bottom">

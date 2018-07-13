@@ -1,17 +1,19 @@
 <?php
-require_once 'sqlFunctions.php';
-require_once 'assetSql.php';
-require_once 'assetViewEls.php';
+require_once '../inc/sqlFunctions.php';
+require_once '../sql/assetSql.php';
+require_once '../html_components/assetComponents.php';
 
-function getAssetData($action) {
-    global $defaultFormCtrls, $sqlMap;
+$routes = ['list', 'add', 'update'];
+
+function getAssetData($route) {
+    global $defaultFormCtrls, $sqlMap, $tableStructure;
     
     $link = connect();
     
     $context = array();
     
     // routes = add, update, list
-    if ($action === 'add') {
+    if ($route === 'add') {
         $context = [
             'title' => 'Add Asset',
             'pageHeading' => 'Add New Asset',
@@ -43,21 +45,54 @@ function getAssetData($action) {
             }
         }
         
-    } elseif ($action === 'update') {
+    } elseif ($route === 'update') {
         
-    } else { // fallback is 'list' view
-        $fields = $sqlMap['asset'][$action];
+    } else { // fallback is list view
+        $fields = $sqlMap['asset'][$route];
         // join with lookup tables before query
         $link->join('component c', 'a.component = c.compID', 'LEFT');
         $link->join('location L', 'a.location = L.locationID', 'LEFT');
         $link->join('yesNo y', 'a.installStatus = y.yesNoID', 'LEFT');
         $link->join('testStatus t', 'a.testStatus = t.testStatID', 'LEFT');
-        $data = $link->get('asset a', null, $fields);
+        $result = $link->get('asset a', null, $fields);
+        
+        // loop over data, overwriting assetID with name => id, href => link/to/id
+        $data = [];
+        $i = 0;
+        
+        $data = array_map(function($asset) use ($tableStructure) {
+            $row = $tableStructure;
+            
+            foreach ($asset as $fieldName => $field) {
+                $row[$fieldName]['value'] = $field;
+                if (!empty($row[$fieldName]['href'])) {
+                    $row[$fieldName]['href'] .= $field;
+                }
+            }
+            
+            return $row;
+        }, $result);
+        
+        // foreach ($data as &$row) {
+        //     $id = $row['assetID'];
+        //     unset($row['assetID']);
+        //     $row['name'] = $id;
+        //     $row['href'] = "view/$id";
+        // }
 
-        $context['fieldNames'] = $fields;
+        $context['cardHeading'] = 'Click on an asset number to see details';
+        $context['tableHeadings'] = $fields;
         $context['data'] = $data;
         $context['addPath'] = "assets.php/add";
+        
+        echo "<pre>";
+        var_dump($data);
+        echo "</pre>";
     }
     
     return $context;
+}
+
+function createContext($data) {
+    
 }

@@ -1,9 +1,11 @@
 <?php
 require_once '../vendor/autoload.php';
 require_once '../inc/sqlFunctions.php';
-require_once '../inc/assetQryFcns.php';
+require_once '../routes/assetRoutes.php';
 
 session_start();
+
+echo "<h1 style='font-size: 5rem; font-family: monospace; color: red'>Hey</h1>";
 
 // instantiate objects
 $loader = new Twig_Loader_Filesystem('../templates');
@@ -22,31 +24,32 @@ $context = [
 ];
 
 /* parse url to establish which view to display
-** [0] => action of view, e.g., 'list', 'add'
-** [1] => name of table to manage
+** [0] => route for view, e.g., 'list', 'add', 'update', 'view'
+** [1] => name of table to query
 */
 $pathinfo = !empty($_SERVER['PATH_INFO'])
-    ? substr($_SERVER['PATH_INFO'], strpos($_SERVER['PATH_INFO'], '/') + 1)
+    ? $_SERVER['PATH_INFO']
     : '';
     
 $pathParams = explode("/", $pathinfo);
 
 // assign template name and sql string based on path params
-// if path params invalid, use default 'list' template
-$action = intval(array_search($pathParams[0], $actions, true))
+// if path params invalid, use default 'table' template
+$route = intval(array_search($pathParams[0], $routes, true))
     ? $pathParams[0]
-    : 'list';
+    : 'table';
 
-$template = $twig->load("$action.html");
+$template = $twig->load("$route.html");
 
-$context['backto'] = $action !== 'list' ? 'assets.php' : '';
-$context['meta'] = $action; // THIS IS FOR DEV'S INFO ONLY
+// if it's not the list view, show a back button | list view gets no back button
+$context['backto'] = $route !== 'table' ? 'assets.php' : '';
+$context['meta'] = $route; // THIS IS FOR DEV'S INFO ONLY
 
 // retrieve data from db
 $context = array_merge(
     $context,
-    getAssetData($action)
+    getAssetData($route)
 );
 
 // then render the template with appropriate variables
-$template->display($context);
+// $template->display($context);

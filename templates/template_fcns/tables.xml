@@ -1,0 +1,63 @@
+{% import _self as tables %}
+{% import "htmlAttrs.xml" as htmlAttrs %}
+
+{# each data item expects the format
+##  '<--fieldName-->' => [
+##      'value' =>
+##      ('collapse') =>
+##      ('cellWd') =>
+##      ('href') =>
+#}  ]
+
+{% macro createTable(data, headings) %}
+    <table class='table table-responsive table-layout-fixed'>
+        <tr>
+            {{ tables.createHeadings(headings) }}
+        </tr>
+        {% for row in data %}
+            <tr>
+                {{ tables.createRow(row) }}
+            </tr>
+        {% endfor %}
+    </table>
+{% endmacro %}
+
+{% macro createHeadings(headings) %}
+    <thead>
+        {% for heading in headings %}
+            {% if not heading is iterable %}
+                <th scope='col'>{{ heading }}</th>
+            {% else %}
+                {{ tables.createHeadingFromArray(heading) }}
+            {% endif %}
+        {% endfor %}
+    </thead>
+{% endmacro%}
+
+{% macro createHeadingFromArray(array) %}
+    {% set cellWd = not array.cellWd is empty
+        ? "width: " ~ array.cellWd
+        : ""
+    %}
+    {% set collapse = not array.collapse is empty
+        ? array.collapse
+        : ""
+    %}
+    <th
+        scope='col'
+        {{ htmlAttrs.concatStyles(cellWd) }}
+        {{ htmlAttrs.concatClasses(collapse) }}
+    >{{ heading.value }}</th>
+{% endmacro %}
+
+{% macro createRow(row) %}
+    <tbody>
+        {% for field in row %}
+            {% if not field is iterable %}
+                <td>{{ field }}</td>
+            {% else %}
+                <td>{{ field.value }}</td>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+{% endmacro %}
