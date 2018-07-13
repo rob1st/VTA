@@ -1,3 +1,5 @@
+{% import "template_fcns/htmlAttrs.xml" as htmlAttrs %}
+
 {# each data item expects the format
 ##  '<--fieldName-->' => [
 ##      'value' =>
@@ -11,12 +13,12 @@
     <table class='table table-responsive table-layout-fixed'>
         <thead>
             <tr>
+                <!--<pre>{{ dump(headings) }}</pre>-->
                 {{ tables.createHeadings(headings) }}
             </tr>
         </thead>
         <tbody>
             {% for row in data %}
-                <!--<tr><td><pre>{{ dump(row) }}</pre></td></tr>-->
                 {{ tables.createRow(row) }}
             {% endfor %}
         </tbody>
@@ -24,32 +26,20 @@
 {% endmacro %}
 
 {% macro createHeadings(headings) %}
-    <thead>
-        {% for heading in headings %}
-            {% if not heading is iterable %}
-                <th scope='col'>{{ heading }}</th>
-            {% else %}
-                {{ tables.createHeadingFromArray(heading) }}
-            {% endif %}
-        {% endfor %}
-    </thead>
+    {% import _self as tables %}
+    {% for heading in headings %}
+        {% if not heading is iterable %}
+            <th>{{ heading }}</th>
+        {% else %}
+            {{ tables.createHeadingFromArray(heading) }}
+        {% endif %}
+    {% endfor %}
 {% endmacro%}
 
 {% macro createHeadingFromArray(array) %}
-    {% import "htmlAttrs.xml" as htmlAttrs %}
-    {% set cellWd = not array.cellWd is empty
-        ? "width: " ~ array.cellWd
-        : ""
-    %}
-    {% set collapse = not array.collapse is empty
-        ? array.collapse
-        : ""
-    %}
     <th
         scope='col'
-        {{ htmlAttrs.concatStyles(cellWd) }}
-        {{ htmlAttrs.concatClasses(collapse) }}
-    >{{ heading.value }}</th>
+    >{{ array.value }}</th>
 {% endmacro %}
 
 {% macro createRow(row) %}
