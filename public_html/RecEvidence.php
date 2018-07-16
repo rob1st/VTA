@@ -1,5 +1,5 @@
 <?PHP
-    include('sqlFunctions.php');
+    include('sql_functions/sqlFunctions.php');
     session_start();
     $table = 'evidenceType';
     

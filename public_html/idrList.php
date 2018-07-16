@@ -1,6 +1,6 @@
 <?php
 include 'session.php';
-include 'sqlFunctions.php';
+include 'sql_functions/sqlFunctions.php';
 
 $title = 'SVBX - Inspectors\' Daily Reports';
 $userID = $_SESSION['userID'];

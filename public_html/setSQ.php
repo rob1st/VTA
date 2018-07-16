@@ -1,5 +1,5 @@
     <?php 
-            include('sqlFunctions.php');
+            include('sql_functions/sqlFunctions.php');
             include('session.php');
             $link = f_sqlConnect();
     ?>

@@ -1,5 +1,5 @@
 <?php
-require_once 'sqlFunctions.php';
+require_once 'sql_functions/sqlFunctions.php';
 
 if(!isset($_SESSION['userID'])) {
     $navHeading = 'Login now';

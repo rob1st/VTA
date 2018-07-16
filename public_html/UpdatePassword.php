@@ -13,7 +13,7 @@ $Role = $_SESSION['role'];
         <link rel="stylesheet" href="styles.css" type="text/css"/>
     </HEAD>
     <?php
-            include('sqlFunctions.php');
+            include('sql_functions/sqlFunctions.php');
 
             $table = 'users_enc';
             $Loc = "SELECT Username, Role, firstname, lastname, Email FROM $table WHERE UserID = ".$UserID;

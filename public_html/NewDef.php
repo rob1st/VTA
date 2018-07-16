@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
 $link = f_sqlConnect();

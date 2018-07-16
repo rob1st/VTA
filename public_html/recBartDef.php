@@ -3,7 +3,7 @@ use codeguy\Upload\Exception;
 require 'vendor/autoload.php';
 
 session_start();
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 include('error_handling/sqlErrors.php');
 include('uploadAttachment.php');
 $link = f_sqlConnect();

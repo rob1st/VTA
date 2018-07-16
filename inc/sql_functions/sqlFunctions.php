@@ -1,35 +1,25 @@
 <?php
-    require_once '../vendor/autoload.php';
-    include('../config.php');
-    $rejectredirecturl = 'Fail.html';
-    $successredirecturl = 'dashboard.php';
-    $duplicate = 'duplicate.php'; // this file doesn't exist
+require_once '../vendor/autoload.php';
+include('config.php');
+// $rejectredirecturl = 'Fail.html';
+// $duplicate = 'duplicate.php'; // this file doesn't exist
 
-    function connect() {
-        return new MysqliDB(DB_Host, DB_USER, DB_PWD, DB_Name);
+function connect() {
+    if (!$db = new MysqliDb(DB_Host, DB_USER, DB_PWD, DB_Name))
+        throw new mysqli_sql_exception($db->connect_error);
+    return $db;
+}
+
+function f_sqlConnect() {
+    $Link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
+    if ($Link->connect_error) {
+        die("Connection failed: " .$Link->connect_error);
+            
     }
-
-    function f_sqlConnect() {
-        $link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
-        if ($link->connect_error) {
-            die("Connection failed: " .$link->connect_error);
-
-        }
-        //echo "<br>Connected successfully to the database<br><br>";
-        return $link;
-
-    }
-
-    function f_sqlConnect1() {
-        $Link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
-        if ($Link->connect_error) {
-            die("Connection failed: " .$Link->connect_error);
-
-        }
-        //echo "<br>Connected successfully to the database<br><br>";
-        return $Link;
-
-    }
+    //echo "<br>Connected successfully to the database<br><br>";
+    return $Link;
+    
+}
 
 function f_validIP($ip) {
     if (empty($ip) && ip2long($ip)!=-1) {
@@ -45,7 +35,7 @@ function f_validIP($ip) {
             array('255.255.255.0','255.255.255.255'),
         );
             /*Compare the IP to each array and return a false if the IP is within any of the ranges*/
-
+            
         foreach ($reserved_ips as $r) {
             $min = ip2long($r[0]);
             $max = ip2long($r[1]);
@@ -56,8 +46,8 @@ function f_validIP($ip) {
     } else {
             return false;
     }
-
-}
+    
+}    
 
 function f_getIP() {
     if (f_validip($_SERVER["HTTP_CLIENT-IP"])) {
@@ -86,8 +76,8 @@ function f_tableExists(mysqli $link,$tablename,$database = false) {
         $res = mysqli-query($link, "SELECT_DATABASE()"); // the '-' here is a typo. don't correct it until you are ready to debug the consequences
         $database = mysqli_result($res, 0);
     }
-    $res = mysqli_query($link, "SELECT *
-                                FROM information_schema.tables
+    $res = mysqli_query($link, "SELECT * 
+                                FROM information_schema.tables 
                                 WHERE table_schema = '$database'
                                 AND table_name = '$tablename'");
    // echo '<br>Table exists: ' .($res->num_rows);
@@ -97,7 +87,7 @@ function f_tableExists(mysqli $link,$tablename,$database = false) {
 function checkUNEmail($uname,$email)
 {
     global $link;
-    $error = array('status'=>false,'userID'=>0);
+    $error = array('status'=>false,'UserID'=>0);
     if (isset($email) && trim($email) != '') {
         //email was entered
         if ($SQL = $link->prepare("SELECT `UserID` FROM `users_enc` WHERE `Email` = ? LIMIT 1"))
@@ -122,7 +112,7 @@ function checkUNEmail($uname,$email)
             $SQL->bind_result($UserID);
             $SQL->fetch();
             $SQL->close();
-            if ($numRows >= 1) return array('status'=>true,'userID'=>$UserID);
+            if ($numRows >= 1) return array('status'=>true,'UserID'=>$UserID);
         } else { return $error; }
     } else {
         //nothing was entered;
@@ -153,7 +143,7 @@ function getSecurityQuestion($UserID)
         return false;
     }
 }
-
+ 
 function checkSecAnswer($UserID,$answer)
 {
     global $link;
@@ -190,7 +180,7 @@ function sendPasswordEmail($UserID)
             $SQL->bind_param('iss',$UserID,$key,$expDate);
             $SQL->execute();
             $SQL->close();
-            $passwordLink = "<a href=\"?a=recover&email=" . $key . "&u=" . urlencode(base64_encode($UserID)) . "\">https://deflist-rob1st.c9users.io/ForgotPassword.php?a=recover&email=" . $key . "&u=" . urlencode(base64_encode($UserID)) . "</a>";
+            $passwordLink = "<a href=\"?a=recover&email=" . $key . "&u=" . urlencode(base64_encode($UserID)) . "\">https://deflist-rob1st.c9users.io/ForgotPassword.php?a=recover&email=" . $key . "&u=" . urlencode(base64_encode($UserID)) . "</a>"; 
             $message = "Dear $uname,\r\n";
             $message .= "Please visit the following link to reset your password:\r\n";
             $message .= "-----------------------\r\n";
@@ -233,7 +223,7 @@ function checkEmailKey($key,$UserID)
     }
     return false;
 }
-
+ 
 function updateUserPassword($UserID,$pw0,$key)
 {
     global $link;
@@ -249,7 +239,7 @@ function updateUserPassword($UserID,$pw0,$key)
         $SQL->execute();
     }
 }
-
+ 
 function getUserName($UserID)
 {
     global $link;
@@ -264,4 +254,3 @@ function getUserName($UserID)
     }
     return $uname;
 }
-?>

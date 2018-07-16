@@ -1,6 +1,6 @@
 <?php 
     include('session.php');
-    include('sqlFunctions.php');
+    include('sql_functions/sqlFunctions.php');
     $table = 'system';
     $q = $_POST["q"];
     $title = "SVBX - Update System";

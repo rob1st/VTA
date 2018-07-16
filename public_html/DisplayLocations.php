@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 $table = 'location';
 $title = "SVBX - Display Locations";
 include('filestart.php');

@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 $table = 'users_enc';
 $title = "SVBX - Display Users";
 include('filestart.php');

@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 $title = 'SVBX - Evidence Types';
 $table = 'evidenceType';
 include('filestart.php');

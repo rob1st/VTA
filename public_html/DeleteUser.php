@@ -3,7 +3,7 @@ include('session.php');
 ?>
 
 <?php
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 
 if(!empty($_POST)) {
     $UserID = $_POST['q'];

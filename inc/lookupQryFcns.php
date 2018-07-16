@@ -1,5 +1,5 @@
 <?php
-require_once 'lookupSql.php';
+require_once 'sql/lookupSql.php';
 require_once 'lookupViewEls.php';
 require_once 'utils.php';
 

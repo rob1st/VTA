@@ -1,6 +1,6 @@
 <?php 
 include('session.php');
-include('sqlFunctions.php');
+include('sql_functions/sqlFunctions.php');
 $Role = $_SESSION['role'];
 $table = 'system';
 $title = "SVBX - Display Status Types";

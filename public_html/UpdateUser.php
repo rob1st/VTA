@@ -1,6 +1,6 @@
 <?php
     include('session.php');
-    include('sqlFunctions.php');
+    include('sql_functions/sqlFunctions.php');
     $table = 'users_enc';
     $q = $_POST["q"];
     $ARole = $_SESSION['role'];
