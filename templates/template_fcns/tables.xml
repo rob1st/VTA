@@ -36,7 +36,7 @@
 
 {% macro createHeadingFromArray(array) %}
     {% set cellWd = array.cellWd is empty ? '' : 'width: ' ~ array.cellWd / 24 * 100 ~ '%' %}
-    {% set collapse = array.collapse is empty ? '' : 'collapse-' ~ array.collapse %}
+    {% set collapse = array.collapse is empty ? '' : 'collase-' ~ array.collapse %}
     <th
         scope='col'
         class='{{ collapse }}'
