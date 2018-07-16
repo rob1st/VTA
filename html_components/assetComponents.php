@@ -28,7 +28,7 @@ $tableStructure = [
         'value' => '',
         'heading' => [
             'value' => 'Tag #',
-            'collapse' => 'collapse-xs',
+            'collapse' => 'xs',
             'cellWd' => 4
         ]
     ],
@@ -66,6 +66,7 @@ $tableStructure = [
         'href' => 'update/assetID=', // concat this with value of assetID
         'heading' => [
             'value' => 'Edit',
+            'collapse' => 'xs',
             'cellWd' => 2
         ]
     ]

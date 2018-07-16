@@ -4,8 +4,16 @@
 {% block content %}
     <h4 class='text-yellow'>{{ meta }}</h4>
     {% block infobox %}
-        <span>{{ info }}</span>
-        <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
+        <div class='card item-margin-bottom'>
+            <div class='card-body grey-bg'>
+                <div class='row'>
+                    <div class='col-12 d-flex flex-row flex-wrap justify-content-between align-items-center'>
+                        <span>{{ info }}</span>
+                        <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endblock %}
     {% block table %}
         {{ tables.createTable(data, tableHeadings) }}

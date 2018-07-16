@@ -3,7 +3,7 @@
 ##  '<--fieldName-->' => [
 ##      'value' =>
 ##      ('collapse') =>
-##      ('cellWd') =>
+##      ('cellWd') => // cell width calculation uses a 24-col system so whatever number is passed as cellWd will get x/24 * 100%
 ##      ('href') =>
 #}  ]
 
@@ -35,8 +35,8 @@
 {% endmacro%}
 
 {% macro createHeadingFromArray(array) %}
-    {% set cellWd = array.cellWd is empty ? '' : 'width: ' ~ array.cellWd * 10 ~ '%' %}
-    {% set collapse = array.collapse is empty ? '' : array.collapse %}
+    {% set cellWd = array.cellWd is empty ? '' : 'width: ' ~ array.cellWd / 24 * 100 ~ '%' %}
+    {% set collapse = array.collapse is empty ? '' : 'collapse-' ~ array.collapse %}
     <th
         scope='col'
         class='{{ collapse }}'
@@ -54,4 +54,9 @@
             {% endif %}
         {% endfor %}
     </tr>
+{% endmacro %}
+
+{% macro createCellFromArray(array) %}
+    
+    <td>{{ array.value }}</td>
 {% endmacro %}
