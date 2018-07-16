@@ -1,5 +1,4 @@
-{% import "template_fcns/htmlAttrs.xml" as htmlAttrs %}
-
+{% import "forms.html" as forms %}
 {# each data item expects the format
 ##  '<--fieldName-->' => [
 ##      'value' =>
@@ -13,7 +12,6 @@
     <table class='table table-responsive table-layout-fixed'>
         <thead>
             <tr>
-                <!--<pre>{{ dump(headings) }}</pre>-->
                 {{ tables.createHeadings(headings) }}
             </tr>
         </thead>
@@ -37,25 +35,23 @@
 {% endmacro%}
 
 {% macro createHeadingFromArray(array) %}
-    {% set cellWd = array.cellWd is empty ? '' : array.cellWd %}
+    {% set cellWd = array.cellWd is empty ? '' : 'width: ' ~ array.cellWd * 10 ~ '%' %}
     {% set collapse = array.collapse is empty ? '' : array.collapse %}
     <th
         scope='col'
-        classList='{{ collapse }}'
-        styleList='{{ cellWd }}'
-        {#{{ htmlAttrs.concatClasses(collapse) }}#}
-        {#{{ htmlAttrs.concatStyles(cellWd) }}#}
+        class='{{ collapse }}'
+        style='{{ cellWd }}'
     >{{ array.value }}</th>
 {% endmacro %}
 
 {% macro createRow(row) %}
     <tr>
         {% for field in row %}
-            <!--{% if not field is iterable %}-->
-            <!--    <td>{{ field }}</td>-->
-            <!--{% else %}-->
+            {% if not field is iterable %}
+                <td>{{ field }}</td>
+            {% else %}
                 <td>{{ field.value }}</td>
-            <!--{% endif %}-->
+            {% endif %}
         {% endfor %}
     </tr>
 {% endmacro %}
