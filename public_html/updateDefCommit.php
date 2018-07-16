@@ -3,7 +3,7 @@ use Mailgun\Mailgun;
 
 session_start();
 include 'vendor/autoload.php';
-include 'SQLFunctions.php';
+include 'sqlFunctions.php';
 include 'uploadImg.php';
 
 // // prepare POST and sql string for commit

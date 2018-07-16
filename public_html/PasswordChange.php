@@ -30,7 +30,7 @@ elseif(!empty($_POST)) {
     
     try {
         
-        include('SQLFunctions.php');
+        include('sqlFunctions.php');
         $link = f_sqlConnect();
         
         // check whether username exists

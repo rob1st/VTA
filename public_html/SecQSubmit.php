@@ -1,5 +1,5 @@
 <?php
-    require_once('SQLFunctions.php');
+    require_once('sqlFunctions.php');
     include('session.php');
     
     /* Check that question & answer are populated */

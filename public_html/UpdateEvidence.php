@@ -1,6 +1,6 @@
 <?php
     include('session.php');
-    include('SQLFunctions.php');
+    include('sqlFunctions.php');
     $table = 'evidenceType';
     $q = $_POST["q"];
     $title = "SVBX - Update Evidence Type";

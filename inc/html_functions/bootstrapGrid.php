@@ -1,6 +1,5 @@
 <?php
 require_once 'htmlForms.php';
-require_once 'utils/utils.php';
 
 function isElementArray(array $el) {
     return isset($el['element'])

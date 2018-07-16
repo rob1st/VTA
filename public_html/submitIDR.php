@@ -1,5 +1,5 @@
 <?php
-    include 'SQLFunctions.php';
+    include 'sqlFunctions.php';
     include 'mailer.php';
     session_start();
 

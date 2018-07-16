@@ -1,5 +1,5 @@
 <?PHP
-    include('SQLFunctions.php');
+    include('sqlFunctions.php');
     session_start();
     $table = 'status';
 

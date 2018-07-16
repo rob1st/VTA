@@ -1,6 +1,6 @@
 <?php
     include 'session.php';
-    include 'SQLFunctions.php';
+    include 'sqlFunctions.php';
 
     $role = $_SESSION['role'];
     $userID = $_SESSION['userID'];

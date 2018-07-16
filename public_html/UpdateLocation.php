@@ -1,6 +1,6 @@
 <?php 
     include('session.php');
-    include('SQLFunctions.php');
+    include('sqlFunctions.php');
     $table = Location;
     $q = $_POST["q"];
     $title = "SVBX - Update Location";

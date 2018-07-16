@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 $table = 'status';
 $title = "SVBX - Display Status Types";
 include('filestart.php');

@@ -1,7 +1,7 @@
 <?php
 require_once '../vendor/autoload.php';
-require_once '../inc/sqlFunctions.php';
-require_once '../inc/lookupQryFcns.php';
+require_once 'sqlFunctions.php';
+require_once 'lookupQryFcns.php';
 
 session_start();
 

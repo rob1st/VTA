@@ -1,5 +1,5 @@
 <?php
-include 'utils/utils.php';
+include 'utils.php';
 include 'nimrod.php';
 include 'error_handling/uploadException.php';
 

@@ -1,6 +1,6 @@
 <?php
 include 'session.php';
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 
 $title = "SVBX - Inspector's Daily Report";
 $d = new DateTime();

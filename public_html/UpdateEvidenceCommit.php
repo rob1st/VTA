@@ -1,5 +1,5 @@
 <?php
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 include('session.php');
 session_start();
 

@@ -1,5 +1,5 @@
 <?PHP
-    include('SQLFunctions.php');
+    include('sqlFunctions.php');
     Session_start();
     $table = Severity;
     

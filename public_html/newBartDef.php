@@ -1,7 +1,7 @@
 <?php
 include('session.php');
 include('html_components/defComponents.php');
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 include('html_functions/bootstrapGrid.php');
 $title = 'SVBX - New BART Deficiency';
 $acceptFormats = preg_replace('/\s+/', ' ', file_get_contents('allowedFormats.csv'));

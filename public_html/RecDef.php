@@ -1,6 +1,6 @@
 <?PHP
 session_start();
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 include('uploadImg.php');
 
 $date = date('Y-m-d');

@@ -1,6 +1,6 @@
 <?php
 //include('session.php');
-//include('SQLFunctions.php');
+//include('sqlFunctions.php');
 $title = "View Safety Certificate";
 //$link = f_sqlConnect();
 //$CDL = file_get_contents("CDList.sql");

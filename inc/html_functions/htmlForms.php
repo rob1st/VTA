@@ -1,5 +1,5 @@
 <?php
-require_once "SQLFunctions.php";
+require_once "sqlFunctions.php";
 
 function returnSelectInput($data) {
     $cnxn = f_sqlConnect();

@@ -1,6 +1,6 @@
 <?php
 include('session.php');
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 $table = 'severity';
 $title = "SVBX - Display Severities";
 include('filestart.php');

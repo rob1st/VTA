@@ -1,8 +1,7 @@
 <?php
 include('session.php');
 // session_start();
-include('SQLFunctions.php');
-include('utils/utils.php');
+include('sqlFunctions.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
 $role = $_SESSION['role'];

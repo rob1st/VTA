@@ -1,5 +1,5 @@
 <?php
-include('SQLFunctions.php');
+include('sqlFunctions.php');
 session_start();
 
 $timestamp = date('Y-m-d H:i:s');
