@@ -3,7 +3,6 @@ include('session.php');
 include('sql_functions/sqlFunctions.php');
 include('html_components/defComponents.php');
 include('html_functions/bootstrapGrid.php');
-$link = f_sqlConnect();
 $Role = $_SESSION['role'];
 $title = "SVBX - New Deficiency";
 if ($Role <= 10) {
@@ -130,6 +129,5 @@ echo "
     </form>
 </main>";
 
-$link->close();
 include('fileend.php');
 ?>

@@ -166,15 +166,15 @@ if(!isset($_POST['Search']) || $_POST['Search'] == NULL) {
                     <td><input type="text" name="DesignCode" max="55" style="width:100%" value="<?php echo $DesignCodeS ?>" /></td>
                     <td><input type="text" name="DesignSpec" max="55" style="width:100%" value="<?php echo $DesignSpecS ?>" /></td>
                     <td><?php
-                            $sqlC = "SELECT ContractID, Contract FROM Contract ORDER BY Contract";
+                            $sqlC = "SELECT ContractID, ContractName FROM contract ORDER BY ContractName";
                              //if($result = mysqli_query($link,$sqlL)) {
                                     echo "<select name='ContractNo' style='width:100%' value='".$ContractNoS."'></option>";
                                     echo "<option value=''></option>";
                                     foreach(mysqli_query($link,$sqlC) as $row) {
                                         echo "<option value='$row[ContractID]'";
                                             if($row['ContractID'] == $ContractNoS) {
-                                                echo " selected>$row[Contract]</option>";
-                                            } else { echo ">$row[Contract]</option>";
+                                                echo " selected>$row[ContractName]</option>";
+                                            } else { echo ">$row[ContractName]</option>";
                                             }
                                     }
                             echo "</select>";
