@@ -45,18 +45,27 @@
 {% endmacro %}
 
 {% macro createRow(row) %}
+    {% import _self as tables %}
     <tr>
         {% for field in row %}
             {% if not field is iterable %}
                 <td>{{ field }}</td>
             {% else %}
-                <td>{{ field.value }}</td>
+                <td>{{ tables.populateCellFromArray(field) }}</td>
             {% endif %}
         {% endfor %}
     </tr>
 {% endmacro %}
 
-{% macro createCellFromArray(array) %}
-    
-    <td>{{ array.value }}</td>
+{% macro populateCellFromArray(array) %}
+    {% import _self as tables %}
+    {% if not array.href is empty %}
+        {{ tables.anchorTag(array.href, array.value) }}
+    {% else %}
+        {{ array.value }}
+    {% endif %}
+{% endmacro %}
+
+{% macro anchorTag(href, text) %}
+    <a href='{{ href }}'>{{ text }}</a>
 {% endmacro %}

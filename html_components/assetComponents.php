@@ -61,7 +61,7 @@ $tableStructure = [
         ]
     ],
     'edit' => [
-        'value' => '',
+        'value' => 'edit',
         'icon' => 'typcn-edit',
         'href' => 'update/assetID=', // concat this with value of assetID
         'heading' => [
