@@ -31,18 +31,21 @@ $pathinfo = !empty($_SERVER['PATH_INFO'])
     : '';
     
 $pathParams = explode("/", $pathinfo);
+array_shift($pathParams);
 
 // assign template name and sql string based on path params
 // if path params invalid, use default 'table' template
-$route = intval(array_search($pathParams[0], $routes, true))
-    ? $pathParams[0]
-    : 'table';
+if (!empty($pathParams) && array_search($pathParams[0], $routes, true)) {
+    $route = $pathParams[0];
+} else $route = 'table';
+
+var_dump($pathParams);
 
 $template = $twig->load("$route.html");
 
 // if it's not the list view, show a back button | list view gets no back button
 $context['backto'] = $route !== 'table' ? 'assets.php' : '';
-$context['meta'] = $route; // THIS IS FOR DEV'S INFO ONLY
+$context['meta'] = $pathinfo; // THIS IS FOR DEV'S INFO ONLY
 
 // retrieve data from db
 $context = array_merge(

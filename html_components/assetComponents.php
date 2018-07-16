@@ -18,7 +18,7 @@ $tableStructure = [
     // in each case 'value' prop will get append from db query
     'assetID' => [
         'value' => '',
-        'href' => 'view/assetID=', // concat this with value of assetID
+        'href' => 'assets.php/view/assetID=', // concat this with value of assetID
         'heading' => [
             'value' => 'ID',
             'cellWd' => 2
@@ -63,7 +63,7 @@ $tableStructure = [
     'edit' => [
         'value' => 'edit',
         'icon' => 'typcn-edit',
-        'href' => 'update/assetID=', // concat this with value of assetID
+        'href' => 'assets.php/update/assetID=', // concat this with value of assetID
         'heading' => [
             'value' => 'Edit',
             'collapse' => 'xs',

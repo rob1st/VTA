@@ -10,7 +10,7 @@ function getAssetData($route) {
     
     $link = connect();
     
-    $context = array();
+    $context = [];
     
     // routes = add, update, list
     if ($route === 'add') {
@@ -22,28 +22,30 @@ function getAssetData($route) {
             'formCtrls' => $defaultFormCtrls
         ];
         
-        foreach ($context['formCtrls'] as $name => &$ctrl) {
-            // if it's a select element, qry for options
-            // in the future rendering should be handled by template eng
-            // SEE: https://gist.github.com/iamkirkbater/970c354aa73302448f647676b83e52f7 for form control macros
-            if (isset($sqlMap[$name])) {
-                $fields = $sqlMap[$name]['fields'];
-                $tableName = $sqlMap[$name]['table'];
-                $data = $link->get($tableName, null, $fields);
+        // foreach ($context['formCtrls'] as $name => &$ctrl) {
+        //     // if it's a select element, qry for options
+        //     // in the future rendering should be handled by template eng
+        //     // SEE: https://gist.github.com/iamkirkbater/970c354aa73302448f647676b83e52f7 for form control macros
+        //     if (isset($sqlMap[$name])) {
+        //         $fields = $sqlMap[$name]['fields'];
+        //         $tableName = $sqlMap[$name]['table'];
+        //         $data = $link->get($tableName, null, $fields);
                 
-                $options = [];
-                $optFormat = "<option value='%s'>%s</option>";
-                foreach ($data as $datum) {
-                    $options[] = sprintf($optFormat, $datum[$fields[0]], $datum[$fields[1]]);
-                }
+        //         $options = [];
+        //         $optFormat = "<option value='%s'>%s</option>";
+        //         foreach ($data as $datum) {
+        //             $options[] = sprintf($optFormat, $datum[$fields[0]], $datum[$fields[1]]);
+        //         }
                 
-                $ctrl = sprintf($ctrl,
-                    implode('', $options)
-                );
-            } else {
-                $ctrl = sprintf($ctrl, '');
-            }
-        }
+        //         $ctrl = sprintf($ctrl,
+        //             implode('', $options)
+        //         );
+        //     } else {
+        //         $ctrl = sprintf($ctrl, '');
+        //     }
+        // }
+        
+    } elseif ($route === 'view') {
         
     } elseif ($route === 'update') {
         
@@ -73,20 +75,14 @@ function getAssetData($route) {
             return $row;
         }, $result);
         
-        // foreach ($data as &$row) {
-        //     $id = $row['assetID'];
-        //     unset($row['assetID']);
-        //     $row['name'] = $id;
-        //     $row['href'] = "view/$id";
-        // }
-
         $context['cardHeading'] = 'Click on an asset number to see details';
-        $context['meta'] = $route;
         $context['data'] = $data;
         $context['tableHeadings'] = array_column($tableStructure, 'heading');
         $context['addPath'] = "assets.php/add";
         $context['info'] = "Click on an asset ID to see details";
     }
+    
+    $link->disconnect();
     
     return $context;
 }
