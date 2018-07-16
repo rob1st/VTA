@@ -1,6 +1,6 @@
 <?php
-require_once 'vendor/autoload.php';
-require_once('SQLFunctions.php');
+require_once '../vendor/autoload.php';
+require_once 'sqlFunctions.php';
 
 session_start();
 

@@ -1,11 +1,10 @@
 <?php
-include('SQLFunctions.php');
+require_once 'sqlFunctions.php';
 session_start();
 
 
-    $title = "SVBX - Help";
-    $link = f_sqlConnect();
-    include('filestart.php');
+$title = "SVBX - Help";
+include('filestart.php');
 ?>
 
 <main role="main">
@@ -16,23 +15,24 @@ session_start();
         </header>
         <div class="container main-content">        
 <?php
+    $link = f_sqlConnect();
     $table = 'users_enc';
     
     // if(!f_tableExists($link, $table, DB_Name)) {
     //     die('<br>Destination table does not exist: '.$table);
     // }
     
-    $sql = "SELECT firstname, lastname, Email FROM $table WHERE Role = 'A' OR Role = 'S' ORDER BY lastname";
+    $sql = "SELECT firstname, lastname, Email FROM $table WHERE role > 30 ORDER BY lastname";
    
     
-    if($result = mysqli_query($link,$sql)) {
+    if($result = $link->query($sql)) {
         echo"   <table class='table svbx-table'>
                     <tr class='svbx-tr'>
                         <th class='svbx-th'>First name</th>
                         <th class='svbx-th'>Last name</th>
                         <th class='svbx-th'>Email</th>
                     </tr>"; 
-                    while ($row = mysqli_fetch_array($result)) {
+                    while ($row = $result->fetch_array()) {
                     echo "       
                     <tr class='svbx-tr'>
                         <td class='svbx-td'>{$row[0]}</td>
@@ -42,12 +42,12 @@ session_start();
                     }
     }
             echo "</table><br></div>";
-    mysqli_free_result($result);
+    $result->close();
     
-    if(mysqli_error($link)) {
-        echo '<br>Error: ' .mysqli_error($link);
+    if($link->error) {
+        echo '<br>Error: ' . $link->error;
     } else //echo '<br>Success';
     
-    mysqli_close($link);
+    $link->close();
     include('fileend.php') 
 ?>

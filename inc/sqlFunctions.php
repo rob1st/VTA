@@ -1,25 +1,25 @@
 <?php
-    require_once '../vendor/autoload.php';
-    include('../config.php');
-    // $rejectredirecturl = 'Fail.html';
-    // $duplicate = 'duplicate.php'; // this file doesn't exist
-    
-    function connect() {
-        if (!$db = new MysqliDb(DB_Host, DB_USER, DB_PWD, DB_Name))
-            throw new mysqli_sql_exception($db->connect_error);
-        return $db;
-    }
+require_once '../vendor/autoload.php';
+include('../config.php');
+// $rejectredirecturl = 'Fail.html';
+// $duplicate = 'duplicate.php'; // this file doesn't exist
 
-    function f_sqlConnect1() {
-        $Link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
-        if ($Link->connect_error) {
-            die("Connection failed: " .$Link->connect_error);
-                
-        }
-        //echo "<br>Connected successfully to the database<br><br>";
-        return $Link;
-        
+function connect() {
+    if (!$db = new MysqliDb(DB_Host, DB_USER, DB_PWD, DB_Name))
+        throw new mysqli_sql_exception($db->connect_error);
+    return $db;
+}
+
+function f_sqlConnect() {
+    $Link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
+    if ($Link->connect_error) {
+        die("Connection failed: " .$Link->connect_error);
+            
     }
+    //echo "<br>Connected successfully to the database<br><br>";
+    return $Link;
+    
+}
 
 function f_validIP($ip) {
     if (empty($ip) && ip2long($ip)!=-1) {
