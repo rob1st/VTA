@@ -22,33 +22,35 @@ function getAssetData($route) {
             'formCtrls' => $defaultFormCtrls
         ];
         
-        // foreach ($context['formCtrls'] as $name => &$ctrl) {
-        //     // if it's a select element, qry for options
-        //     // in the future rendering should be handled by template eng
-        //     // SEE: https://gist.github.com/iamkirkbater/970c354aa73302448f647676b83e52f7 for form control macros
-        //     if (isset($sqlMap[$name])) {
-        //         $fields = $sqlMap[$name]['fields'];
-        //         $tableName = $sqlMap[$name]['table'];
-        //         $data = $link->get($tableName, null, $fields);
+        foreach ($context['formCtrls'] as $name => &$ctrl) {
+            // if it's a select element, qry for options
+            // in the future rendering should be handled by template eng
+            // SEE: https://gist.github.com/iamkirkbater/970c354aa73302448f647676b83e52f7 for form control macros
+            if (isset($sqlMap[$name])) {
+                $fields = $sqlMap[$name]['fields'];
+                $tableName = $sqlMap[$name]['table'];
+                $data = $link->get($tableName, null, $fields);
                 
-        //         $options = [];
-        //         $optFormat = "<option value='%s'>%s</option>";
-        //         foreach ($data as $datum) {
-        //             $options[] = sprintf($optFormat, $datum[$fields[0]], $datum[$fields[1]]);
-        //         }
+                $options = [];
+                $optFormat = "<option value='%s'>%s</option>";
+                foreach ($data as $datum) {
+                    $options[] = sprintf($optFormat, $datum[$fields[0]], $datum[$fields[1]]);
+                }
                 
-        //         $ctrl = sprintf($ctrl,
-        //             implode('', $options)
-        //         );
-        //     } else {
-        //         $ctrl = sprintf($ctrl, '');
-        //     }
-        // }
+                $ctrl = sprintf($ctrl,
+                    implode('', $options)
+                );
+            } else {
+                $ctrl = sprintf($ctrl, '');
+            }
+        }
         
     } elseif ($route === 'view') {
         
     } elseif ($route === 'update') {
-        
+        $context = [
+            
+        ];
     } else { // fallback is list view
         $fields = $sqlMap['asset'][$route];
         // join with lookup tables before query
@@ -58,17 +60,20 @@ function getAssetData($route) {
         $link->join('testStatus t', 'a.testStatus = t.testStatID', 'LEFT');
         $result = $link->get('asset a', null, $fields);
         
-        // loop over data, overwriting assetID with name => id, href => link/to/id
+        // loop over data, appending it to table fields
         $data = [];
         $i = 0;
         
         $data = array_map(function($asset) use ($tableStructure) {
             $row = $tableStructure;
+            $id = $asset['assetID']; // hold onto assetID
             
-            foreach ($asset as $fieldName => $field) {
-                $row[$fieldName]['value'] = $field;
-                if (!empty($row[$fieldName]['href'])) {
-                    $row[$fieldName]['href'] .= $field;
+            $row['edit']['href'] .= $id;
+            
+            foreach ($asset as $field => $value) {
+                $row[$field]['value'] = $value;
+                if (!empty($row[$field]['href'])) {
+                    $row[$field]['href'] .= $value;
                 }
             }
             

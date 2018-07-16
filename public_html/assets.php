@@ -39,8 +39,6 @@ if (!empty($pathParams) && array_search($pathParams[0], $routes, true)) {
     $route = $pathParams[0];
 } else $route = 'table';
 
-var_dump($pathParams);
-
 $template = $twig->load("$route.html");
 
 // if it's not the list view, show a back button | list view gets no back button
