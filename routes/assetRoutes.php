@@ -69,6 +69,8 @@ function getAssetData($route) {
             $id = $asset['assetID']; // hold onto assetID
             
             $row['edit']['href'] .= $id;
+            if(!empty($row['edit']['heading']['collapse']))
+                $row['edit']['collapse'] = $row['edit']['heading']['collapse'];
             
             foreach ($asset as $field => $value) {
                 $row[$field]['value'] = $value ?: '—';

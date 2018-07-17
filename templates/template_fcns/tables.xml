@@ -51,19 +51,17 @@
             {% if not field is iterable %}
                 <td>{{ field }}</td>
             {% else %}
-                <td>{{ tables.populateCellFromArray(field) }}</td>
+                {{ tables.createCellFromArray(field) }}
             {% endif %}
         {% endfor %}
     </tr>
 {% endmacro %}
 
-{% macro populateCellFromArray(array) %}
+{% macro createCellFromArray(array) %}
     {% import _self as tables %}
-    {% if not array.href is empty %}
-        {{ tables.anchorTag(array.href, array.value) }}
-    {% else %}
-        {{ array.value }}
-    {% endif %}
+    {% set cellContent = array.href is empty ? array.value : tables.anchorTag(array.href, array.value) %}
+    {% set cellAttrs = array.collapse is empty ? '' : 'class=collapse-' ~ array.collapse %}
+    <td {{ cellAttrs }}>{{ cellContent }}</td>
 {% endmacro %}
 
 {% macro anchorTag(href, text) %}
