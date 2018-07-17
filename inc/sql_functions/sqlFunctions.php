@@ -1,6 +1,7 @@
 <?php
-require_once '../vendor/autoload.php';
-include('config.php');
+$base = $_SERVER['DOCUMENT_ROOT'] . '/..';
+require_once "$base/vendor/autoload.php";
+require_once "$base/inc/config.php";
 // $rejectredirecturl = 'Fail.html';
 // $duplicate = 'duplicate.php'; // this file doesn't exist
 
