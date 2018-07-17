@@ -16,7 +16,7 @@ $twig->addExtension(new Twig_Extension_Debug());
 
 // base context
 $context = [
-    'navbarHeading' => $_SESSION['firstname'] . ' ' . $_SESSION['lastname'],
+    'navbarHeading' => !empty($_SESSION['firstname']) ? $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] : '',
     'title' => 'Asset List',
     'pageHeading' => 'Assets',
     'tableName' => 'asset',
