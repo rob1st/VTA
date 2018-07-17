@@ -23,7 +23,7 @@ function queryLookupTable($tableName, $action, &$link, $id = null) {
         foreach ($data as &$row) {
             // re-map row's keys to keys as named in template file
             mapDisplayKeys($row);
-            $row['href'] = "/public_html/manage.php/update/$tableName?id={$row['id']}";
+            $row['href'] = "/manage.php/update/$tableName?id={$row['id']}";
         }
     }
     

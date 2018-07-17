@@ -18,7 +18,7 @@ try {
     $assetID = $link->insert('asset', $post);
     
     if ($assetID) {
-        header('Location: /public_html/assets.php');
+        header('Location: /assets.php');
     } else {
         echo "
             <pre style='color: #953cbe'>

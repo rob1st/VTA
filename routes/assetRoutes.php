@@ -71,9 +71,13 @@ function getAssetData($route) {
             $row['edit']['href'] .= $id;
             
             foreach ($asset as $field => $value) {
-                $row[$field]['value'] = $value;
+                $row[$field]['value'] = $value ?: '—';
                 if (!empty($row[$field]['href'])) {
                     $row[$field]['href'] .= $value;
+                }
+                // assign any collapse class on the heading to the td, too
+                if (!empty($row[$field]['heading']['collapse'])) {
+                    $row[$field]['collapse'] = $row[$field]['heading']['collapse'];
                 }
             }
             

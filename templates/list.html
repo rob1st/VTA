@@ -5,7 +5,7 @@
 {% block breadcrumb %}
     <h3 class='text-yellow'>{{ meta }}</h3>
     {% if backto %}
-        <a href='/public_html/{{ backto }}'>&#10094; Back to list of tables</a>
+        <a href='/{{ backto }}'>&#10094; Back to list of tables</a>
     {% endif %}
 {% endblock %}
 
@@ -32,7 +32,7 @@
     </ul>
     {% if addPath %}
         <div class='center-content'>
-            <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
+            <a href='/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
         </div>
     {% endif %}
 {% endblock %}

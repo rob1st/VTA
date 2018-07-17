@@ -18,7 +18,7 @@ try {
     $link->where($sqlStrings[$tableName]['list'][0], $id);
     $count = $link->update($tableName, $post);
     
-    header("Location: /public_html/manage.php/update/$tableName?id=$id");
+    header("Location: /manage.php/update/$tableName?id=$id");
 } catch (UnexpectedValueException $e) {
     
 } catch (mysqli_sql_exception $e) {

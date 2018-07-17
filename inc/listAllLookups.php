@@ -10,7 +10,7 @@ try {
     if (!$data = $link->query($sql)) throw new mysqli_sql_exception($link->getLastError());
     
     foreach ($data as &$row) {
-        $row['href'] = "/public_html/manage.php/list/{$row['name']}";
+        $row['href'] = "/manage.php/list/{$row['name']}";
         $row['name'] = ucwords(
             isset($displayNames[$row['name']])
                 ? $displayNames[$row['name']]

@@ -21,7 +21,7 @@ try {
     
     if (!$id = $link->insert($table, $post)) throw new mysqli_sql_exception($link->getLastError());
     
-    header("Location: /public_html/manage.php/list/$table");
+    header("Location: /manage.php/list/$table");
     
 } catch (mysqli_sql_exception $e) {
     echo "<pre style='color: coral'>$e</pre>";
