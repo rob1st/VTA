@@ -2,6 +2,7 @@
 require_once 'sql_functions/sqlFunctions.php';
 require_once 'sql/assetSql.php';
 require_once 'html_components/assetComponents.php';
+// require 'symfony_forms_setup.php';
 
 $routes = ['list', 'add', 'update'];
 
@@ -9,8 +10,6 @@ function getAssetData($route) {
     global $defaultFormCtrls, $updateFormCtrls, $sqlMap, $tableStructure;
     
     $link = connect();
-    
-    $context = [];
     
     // routes = add, update, list
     if ($route === 'add') {
@@ -40,9 +39,7 @@ function getAssetData($route) {
                 $ctrl = sprintf($ctrl,
                     implode('', $options)
                 );
-            } else {
-                $ctrl = sprintf($ctrl, '');
-            }
+            } else $ctrl = sprintf($ctrl, '');
         }
         
     } elseif ($route === 'view') {
@@ -52,7 +49,7 @@ function getAssetData($route) {
             'title' => "Update Asset #",
             'pageHeading' => "Update Asset #",
             'formTarget' => '/commit/updateAsset.php',
-            // 'formCtrls' => $updateFormCtrls
+            'formCtrls' => $updateFormCtrls + $defaultFormCtrls
         ];
         
         try {
@@ -60,28 +57,34 @@ function getAssetData($route) {
             $link->where('assetID', $id);
             $context['data'] = $result = $link->getOne('asset');
             
-            $context['title'] .= $result['assetID'];
-            $context['pageHeading'] .= $result['assetID'];
+            $context['title'] .= $context['data']['assetID'];
+            $context['pageHeading'] .= $context['data']['assetID'];
             
             // iterate over form ctrls, filling with values
-            // foreach ($context['formCtrls'] as $fieldName => &$formCtrl) {
-            //     $formCtrl['value'] = $result[$fieldName];
-            //     if ($formCtrl['type'] === 'select') { // query for select values
-            //         $tableName = $formCtrl['name'];
-            //         $fields = $sqlMap[$tableName]['fields'];
-            //         $options = $link->get($tableName, $fields);
+            foreach ($context['formCtrls'] as $fieldName => &$formCtrl) {
+                // if it's a select element, qry for options
+                // in the future rendering should be handled by template eng
+                // SEE: https://symfony.com/doc/current/components/form.html#creating-a-simple-form for Twig extension: Form
+                if (!empty($sqlMap[$fieldName])) {
+                    $fields = $sqlMap[$fieldName]['fields'];
+                    $tableName = $sqlMap[$fieldName]['tableName'];
+                    $data = $link->get($tableName, null, $fields);
                     
-            //         // reduce 3-dimensional result array to 2-dimensional in the form of:
-            //         // [ '<option's-value-attribute>' => '<option's-visible-value>']
-            //         $formCtrl['values'] = array_reduce($options, function($arr, $option) use ($fields) {
-            //             $idField = $fields[0];
-            //             $nameField = $fields[1];
-            //             $key = $option[$idField];
-            //             $val = $option[$nameField];
-            //             return $arr[$key] = $val;
-            //         }, []);
-            //     }
-            // }
+                    $options = [];
+                    $optFormat = "<option value='%s'%s>%s</option>";
+                    foreach ($data as $datum) {
+                        $value = $datum[$fields[0]];
+                        $text = $datum[$fields[1]];
+                        $selected = $context['data'][$fieldName] === $datum[$fields[0]]
+                            ? ' selected' : '';
+                        $options[] = sprintf($optFormat, $value, $selected, $text);
+                    }
+                    
+                    $formCtrl = sprintf($formCtrl,
+                        implode('', $options)
+                    );
+                } else $formCtrl = sprintf($formCtrl, $context['data'][$fieldName]);
+            }
         } catch (Exception $e) {
             $context['pageHeading'] = "Error: {$e->getMessage()}";
             exit;
@@ -96,9 +99,6 @@ function getAssetData($route) {
         $result = $link->get('asset a', null, $fields);
         
         // loop over data, appending it to table fields
-        $data = [];
-        $i = 0;
-        
         $data = array_map(function($asset) use ($tableStructure) {
             $row = $tableStructure;
             $id = $asset['assetID']; // hold onto assetID
@@ -121,11 +121,13 @@ function getAssetData($route) {
             return $row;
         }, $result);
         
-        $context['cardHeading'] = 'Click on an asset number to see details';
-        $context['data'] = $data;
-        $context['tableHeadings'] = array_column($tableStructure, 'heading');
-        $context['addPath'] = "assets.php/add";
-        $context['info'] = "Click on an asset ID to see details";
+        $context = [
+            'cardHeading' => 'Click on an asset number to see details',
+            'data' => $data,
+            'tableHeadings' => array_column($tableStructure, 'heading'),
+            'addPath' => "assets.php/add",
+            'info' => "Click on an asset ID to see details"
+        ];
     }
     
     $link->disconnect();

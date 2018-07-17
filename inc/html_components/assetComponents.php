@@ -17,6 +17,10 @@ $defaultFormCtrls = [
 $formCtrlClasslist = 'form-control item-margin-bottom';
 
 $updateFormCtrls = [
+    'assetID' => "<input type='hidden' name='assetID' value='%s'>"
+];
+
+$formCtrlsAsArrays = [
     'assetID' => [
         'name' => 'assetID',
         'value' => '',

@@ -9,10 +9,9 @@
     <form action='{{ formTarget }}' method='POST' enctype='multipart/form-data' onsubmit=''>
         <input type='hidden' name='target' value='{{ tableName }}'>
         <input type='hidden' name='id' value='{{ id }}'>
-        {{ dump(data) }}
-        <!--{% for element in formCtrls %}-->
-        <!--    {{ element|raw }}-->
-        <!--{% endfor %}-->
+        {% for element in formCtrls %}
+            {{ element|raw }}
+        {% endfor %}
         <button type='submit' class='btn btn-primary btn-lg'>Submit</button>
         <button type='reset' class='btn btn-primary btn-lg'>Reset</button>
         <button type='button' class='btn btn-danger btn-lg' onclick='return archiveItem(event)'>Delete</button>
