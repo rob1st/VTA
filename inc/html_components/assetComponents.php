@@ -8,10 +8,83 @@ $defaultFormCtrls = [
         <select name='location' class='form-control item-margin-bottom' required>%s</select>",
     'room' => "<label for='room' class='required'>Room</label>
         <input type='text' name='room' maxlength='25' value='%s' class='form-control item-margin-bottom' required>",
-    'installStat' => "<label for='installStat' class='required'>Installed?</label>
+    'installStatus' => "<label for='installStat' class='required'>Installed?</label>
         <select name='installStatus' class='form-control item-margin-bottom' required>%s</select>",
-    'testStat' => "<label for='testStat'>Test status</label>
+    'testStatus' => "<label for='testStat'>Test status</label>
         <select name='testStatus' class='form-control item-margin-bottom'>%s</select>"
+];
+
+$formCtrlClasslist = 'form-control item-margin-bottom';
+
+$updateFormCtrls = [
+    'assetID' => [
+        'name' => 'assetID',
+        'value' => '',
+        'type' => 'hidden',
+        'attributes' => [
+            'class' => $formCtrlClasslist,
+            'required' => ''
+        ]
+    ],
+    'assetTag' => [
+        'name' => 'assetTag',
+        'value' => '',
+        'type' => 'text',
+        'attributes' => [
+            'maxlength' => '50',
+            'class' => $formCtrlClasslist,
+            'required' => ''
+        ]
+    ],
+    'component' => [
+        'name' => 'component',
+        'value' => '',
+        'values' => '',
+        'type' => 'select',
+        'attributes' => [
+            'class' => $formCtrlClasslist,
+            'required' => ''
+        ]
+    ],
+    'location' => [
+        'name' => 'location',
+        'value' => '',
+        'values' => '',
+        'type' => 'select',
+        'attributes' => [
+            'class' => $formCtrlClasslist,
+            'required' => ''
+        ]
+    ],
+    'room' => [
+        'name' => 'room',
+        'value' => '',
+        'type' => 'text',
+        'attributes' => [
+            'class' => $formCtrlClasslist,
+            'maxlength' => '25',
+            'required' => ''
+        ]
+    ],
+    'installStatus' => [
+        'name' => 'installStatus',
+        'value' => '',
+        'values' => '',
+        'type' => 'select',
+        'attributes' => [
+            'class' => $formCtrlClasslist,
+            'required' => ''
+        ]
+    ],
+    'testStatus' => [
+        'name' => 'testStatus',
+        'value' => '',
+        'values' => '',
+        'type' => 'select',
+        'attributes' => [
+            'class' => $formCtrlClasslist,
+        ]
+    ]
 ];
 
 $tableStructure = [
@@ -63,7 +136,7 @@ $tableStructure = [
     'edit' => [
         'value' => 'edit',
         'icon' => 'typcn-edit',
-        'href' => 'assets.php/update/assetID=', // concat this with value of assetID
+        'href' => 'assets.php/update?assetID=', // concat this with value of assetID
         'heading' => [
             'value' => 'Edit',
             'collapse' => 'xs',

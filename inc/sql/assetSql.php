@@ -3,22 +3,22 @@ $sqlMap = [
     'asset' => [
         'table' => ['assetID', 'assetTag', 'compName', 'locationName', 'installed', 'testStatName'],
         'add' => ['assetTag', 'component', 'location', 'room', 'installStatus', 'testStatus'],
-        'update' => []
+        'update' => ['lastUpdated', 'updatedBy']
     ],
     'component' => [
-        'table' => 'component',
+        'tableName' => 'component',
         'fields' => ['compID', 'compName']
     ],
     'location' => [
-        'table' => 'location',
+        'tableName' => 'location',
         'fields' => ['locationID', 'locationName']
     ],
-    'installStat' => [
-        'table' => 'yesNo',
+    'installStatus' => [
+        'tableName' => 'yesNo',
         'fields' => ['yesNoID', 'yesNoName']
     ],
-    'testStat' => [
-        'table' => 'testStatus',
+    'testStatus' => [
+        'tableName' => 'testStatus',
         'fields' => ['testStatId', 'testStatName']
     ]
 ];

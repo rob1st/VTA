@@ -6,7 +6,7 @@ require_once 'html_components/assetComponents.php';
 $routes = ['list', 'add', 'update'];
 
 function getAssetData($route) {
-    global $defaultFormCtrls, $sqlMap, $tableStructure;
+    global $defaultFormCtrls, $updateFormCtrls, $sqlMap, $tableStructure;
     
     $link = connect();
     
@@ -28,7 +28,7 @@ function getAssetData($route) {
             // SEE: https://gist.github.com/iamkirkbater/970c354aa73302448f647676b83e52f7 for form control macros
             if (isset($sqlMap[$name])) {
                 $fields = $sqlMap[$name]['fields'];
-                $tableName = $sqlMap[$name]['table'];
+                $tableName = $sqlMap[$name]['tableName'];
                 $data = $link->get($tableName, null, $fields);
                 
                 $options = [];
@@ -49,8 +49,43 @@ function getAssetData($route) {
         
     } elseif ($route === 'update') {
         $context = [
-            
+            'title' => "Update Asset #",
+            'pageHeading' => "Update Asset #",
+            'formTarget' => '/commit/updateAsset.php',
+            // 'formCtrls' => $updateFormCtrls
         ];
+        
+        try {
+            $id = filter_input(INPUT_GET, 'assetID');
+            $link->where('assetID', $id);
+            $context['data'] = $result = $link->getOne('asset');
+            
+            $context['title'] .= $result['assetID'];
+            $context['pageHeading'] .= $result['assetID'];
+            
+            // iterate over form ctrls, filling with values
+            // foreach ($context['formCtrls'] as $fieldName => &$formCtrl) {
+            //     $formCtrl['value'] = $result[$fieldName];
+            //     if ($formCtrl['type'] === 'select') { // query for select values
+            //         $tableName = $formCtrl['name'];
+            //         $fields = $sqlMap[$tableName]['fields'];
+            //         $options = $link->get($tableName, $fields);
+                    
+            //         // reduce 3-dimensional result array to 2-dimensional in the form of:
+            //         // [ '<option's-value-attribute>' => '<option's-visible-value>']
+            //         $formCtrl['values'] = array_reduce($options, function($arr, $option) use ($fields) {
+            //             $idField = $fields[0];
+            //             $nameField = $fields[1];
+            //             $key = $option[$idField];
+            //             $val = $option[$nameField];
+            //             return $arr[$key] = $val;
+            //         }, []);
+            //     }
+            // }
+        } catch (Exception $e) {
+            $context['pageHeading'] = "Error: {$e->getMessage()}";
+            exit;
+        }
     } else { // fallback is list view
         $fields = $sqlMap['asset'][$route];
         // join with lookup tables before query

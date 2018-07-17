@@ -17,7 +17,7 @@ try {
     
     $assetID = $link->insert('asset', $post);
     
-    if ($assetID) {
+    if ($assetID) { // on success, redirect to asset list
         header('Location: /assets.php');
     } else {
         echo "
