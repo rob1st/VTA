@@ -66,16 +66,16 @@ elseif(!empty($_POST)) {
     try {
 
     $sql = "UPDATE users_enc
-            SET  Username = '".$Username."'
-                ,firstname = '".$firstname."'
-                ,lastname = '".$lastname."'
-                ,Email = '".$Email."'
-                ,Company = '".$company."'
-                ,SecQ = '".$SecQ."'
-                ,SecA = '".$SecA."'
-                ,updatedBy = '".$AUsername."'
+            SET  Username = '$Username'
+                ,firstname = '$firstname'
+                ,lastname = '$lastname'
+                ,Email = '$Email'
+                ,Company = '$company'
+                ,SecQ = '$SecQ'
+                ,SecA = '$SecA'
+                ,updated_By = '$AUsername'
                 ,LastUpdated = NOW()
-            WHERE UserID = ".$UserID.";";
+            WHERE UserID = $UserID";
 
             if(mysqli_query($link,$sql)) {
                 header('location: displayUsers.php');
