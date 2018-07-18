@@ -64,6 +64,7 @@ function getLookupData($action, $tableName, &$link) {
             return $ctrl;
         }, $sqlStrings[$tableName]['formCtrls']);
         return array(
+            'formTarget' => '/commit/updateLookupData.php',
             'cardHeading' => 'Enter ' . $displayName . ' information',
             'formCtrls' => $formCtrls,
             'id' => $id

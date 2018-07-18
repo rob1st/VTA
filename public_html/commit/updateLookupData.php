@@ -1,7 +1,8 @@
 <?php
-require_once "../vendor/autoload.php";
-require_once "sql_functions/sqlFunctions.php";
-require_once "sql/lookupSql.php";
+$basedir = $_SERVER['DOCUMENT_ROOT'] . '/..';
+require_once "$basedir/vendor/autoload.php";
+require_once "$basedir/inc/sql_functions/sqlFunctions.php";
+require_once "$basedir/inc/sql/lookupSql.php";
 
 session_start();
 
