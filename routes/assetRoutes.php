@@ -44,9 +44,17 @@ function getAssetData($route) {
         
     } elseif ($route === 'view') {
         $id = filter_input(INPUT_GET, 'assetID');
+        $fields = ['assetID', 'assetTag', 'compName', 'locationName', 'room', 'yesNoName', 'testStatName'];
+
+        $link->join('component c', 'a.component = c.compID', 'LEFT');
+        $link->join('location L', 'a.location = L.locationID', 'LEFT');
+        $link->join('yesNo y', 'a.installStatus = y.yesNoID', 'LEFT');
+        $link->join('testStatus t', 'a.testStatus = t.testStatID', 'LEFT');
+
         $link->where('assetID', $id);
+
         $context = [
-            'data' => $link->getOne('asset')
+            'data' => $link->getOne('asset a', $fields)
         ];
     } elseif ($route === 'update') {
         $context = [

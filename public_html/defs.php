@@ -1,8 +1,28 @@
 <?php
-include('session.php');
-// session_start();
-include('sql_functions/sqlFunctions.php');
-include('html_functions/htmlTables.php');
+require_once 'session.php';
+require_once '../vendor/autoload.php';
+require_once 'sql_functions/sqlFunctions.php';
+require_once '../routes/assetRoutes.php';
+
+include 'html_functions/htmlTables.php';
+
+// instantiate Twig
+$loader = new Twig_Loader_Filesystem('../templates');
+$twig = new Twig_Environment($loader,
+    [
+        'debug' => true
+    ]
+);
+$twig->addExtension(new Twig_Extension_Debug());
+
+// base context
+$context = [
+    'navbarHeading' => !empty($_SESSION['firstname']) ? $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] : '',
+    'title' => 'Deficiencies List',
+    'pageHeading' => 'Deficiencies',
+    'tableName' => 'asset'
+];
+
 $title = "View Deficiencies";
 $role = $_SESSION['role'];
 $view = isset($_GET['view']) ? $_GET['view'] : '';
