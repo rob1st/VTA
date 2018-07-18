@@ -10,12 +10,12 @@
 {% macro createTable(data, headings) %}
     {% import _self as tables %}
     <table class='table table-responsive table-layout-fixed'>
-        <thead>
-            <tr>
+        <thead style='width: 100%'>
+            <tr style='width: 100%'>
                 {{ tables.createHeadings(headings) }}
             </tr>
         </thead>
-        <tbody>
+        <tbody style='width: 100%'>
             {% for row in data %}
                 {{ tables.createRow(row) }}
             {% endfor %}
@@ -35,7 +35,7 @@
 {% endmacro%}
 
 {% macro createHeadingFromArray(array) %}
-    {% set cellWd = array.cellWd is empty ? '' : 'width: ' ~ array.cellWd / 24 * 100 ~ '%' %}
+    {% set cellWd = array.cellWd is empty ? '' : 'width: ' ~ (array.cellWd / 24 * 100)|round(0, 'floor') ~ '%' %}
     {% set collapse = array.collapse is empty ? '' : 'collapse-' ~ array.collapse %}
     <th
         scope='col'

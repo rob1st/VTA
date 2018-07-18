@@ -93,7 +93,7 @@ function getAssetData($route) {
             $context['pageHeading'] = "Error: {$e->getMessage()}";
             exit;
         }
-    } else { // fallback is list view
+    } else { // fallback is table view
         $fields = $sqlMap['asset'][$route];
         // join with lookup tables before query
         $link->join('component c', 'a.component = c.compID', 'LEFT');
