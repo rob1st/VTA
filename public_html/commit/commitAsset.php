@@ -1,6 +1,7 @@
 <?php
-require_once '../vendor/autoload.php';
-require_once "sql_functions/sqlFunctions.php";
+$base = $_SERVER['DOCUMENT_ROOT'] . '/..';
+require_once "$base/vendor/autoload.php";
+require_once "$base/inc/sql_functions/sqlFunctions.php";
 
 session_start();
 

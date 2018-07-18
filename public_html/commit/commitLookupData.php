@@ -1,5 +1,5 @@
 <?php
-require_once "../vendor/autoload.php";
+require_once "vendor/autoload.php";
 require_once "sql_functions/sqlFunctions.php";
 require_once "sql/lookupSql.php";
 

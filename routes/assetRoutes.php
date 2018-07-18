@@ -4,7 +4,7 @@ require_once 'sql/assetSql.php';
 require_once 'html_components/assetComponents.php';
 // require 'symfony_forms_setup.php';
 
-$routes = ['list', 'add', 'update'];
+$routes = ['list', 'add', 'view', 'update'];
 
 function getAssetData($route) {
     global $defaultFormCtrls, $updateFormCtrls, $sqlMap, $tableStructure;
@@ -43,7 +43,11 @@ function getAssetData($route) {
         }
         
     } elseif ($route === 'view') {
-        
+        $id = filter_input(INPUT_GET, 'assetID');
+        $link->where('assetID', $id);
+        $context = [
+            'data' => $link->getOne('asset')
+        ];
     } elseif ($route === 'update') {
         $context = [
             'title' => "Update Asset #",

@@ -1,0 +1,9 @@
+{% extends "card.html" %}
+
+{% block breadcrumb %}
+    <a href='/{{ backto }}'>&#10094; Back to list of items</a>
+{% endblock %}
+
+{% block cardBody %}
+    <pre>{{ dump(data) }}</pre>
+{% endblock %}
