@@ -686,24 +686,22 @@ a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
 }
 
 /* Table CSS */
-/* #Tablet (Portrait) */
 /* These are your Bootstrap breakpoints:
     --breakpoint-xs: 0;
     --breakpoint-sm: 576px;
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px; */
-@media all and (min-width: 768px) and (max-width: 992px) {
-    .collapse-md{
+/*  #Mobile (Portrait) */
+    .collapse-xs{
         display:none;
         width:0;
         height:0;
         opacity:0;
-        visibility: collapse;       
+        visibility: collapse;
     }
-}
 /* #Mobile (Landscape) */
-@media all and (min-width: 576px) and (max-width: 767px) {
+@media all and (min-width: 576px) {
     .collapse-sm{
         display:none;
         width:0;
@@ -713,15 +711,15 @@ a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
     } 
 
 }
-/*  #Mobile (Portrait) */
-@media all and (max-width: 575px) {
-    .collapse-xs{
+/* #Tablet (Portrait) */
+@media all and (min-width: 768px) {
+    .collapse-md{
         display:none;
         width:0;
         height:0;
         opacity:0;
-        visibility: collapse;
-    } 
+        visibility: collapse;       
+    }
 }
 
 .table-layout-fixed, .table-layout-fixed>thead, .table-layout-fixed>tbody,
