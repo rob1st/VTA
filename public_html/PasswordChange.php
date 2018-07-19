@@ -1,7 +1,7 @@
 <?php
 
 include('session.php');
-session_start();
+// session_start();
 $Username = $_POST['username'];
 $oldpw = ($_POST['oldpw']);
 $newpw = ($_POST['newpw']);
@@ -54,7 +54,7 @@ elseif(!empty($_POST)) {
                             users_enc 
                         SET 
                             Password = '$new_pwd'
-                            ,updatedBy = '$Username'
+                            ,updated_By = '$Username'
                             ,LastUpdated = NOW()
                         WHERE 
                             Username = '$Username'";
