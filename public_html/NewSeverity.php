@@ -15,19 +15,19 @@ if($_SESSION['role'] < 30) {
         <FORM action="RecSeverity.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>
-                    <th class='userth'>Evidence Type Name:</th>
+                    <th class='userth'>Severity Name:</th>
                     <td class='usertd'>
-                        <input type="text" name="EviType" maxlength="50" required/>
+                        <input type="text" name="severityName" maxlength="12" required/>
                     </td>
                 </tr>
                 <tr class='usertr'>
                     <th class='userth'>Description:</th>
                     <td class='usertd'>
-                        <textarea type="message"  rows="5" cols='50' name="Description" max="255" required></textarea>
+                        <textarea rows="5" cols='50' name="severityDescrip" max="255" required></textarea>
                     </td>
                 </tr>
             </table>
-            <br />
+            <br/>
             <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
             <input type='reset' value='reset' class='btn btn-primary btn-lg' />
         </FORM>
