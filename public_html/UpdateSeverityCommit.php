@@ -1,7 +1,6 @@
 <?php
 include('sql_functions/sqlFunctions.php');
 include('session.php');
-session_start();
 
 if(!empty($_POST)) {
     $SeverityID = $_POST['SeverityID'];
@@ -10,29 +9,27 @@ if(!empty($_POST)) {
     $UserID = $_SESSION['userID'];
     $link = f_sqlConnect();
     
-    $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
-    if($result=mysqli_query($link,$user)) 
-        {
-          /*from the sql results, assign the username that returned to the $username variable*/    
-          while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['username'];
-          }
-        }
+    // $user = "SELECT Username FROM users_enc WHERE UserID = " . $UserID;
+    // if($result=mysqli_query($link,$user)) {
+    //   /*from the sql results, assign the username that returned to the $username variable*/    
+    //   while($row = mysqli_fetch_assoc($result)) {
+    //     $Username = $row['username'];
+    //   }
+    // }
     
-    $sql = "UPDATE Severity
-            SET SeverityName = '".$SeverityName."'
-                ,Description = '".$Description."'
-                ,updatedBy = '".$Username."'
+    $sql = "UPDATE severity
+            SET SeverityName = '$SeverityName'
+                ,severityDescrip = '$Description'
+                ,updatedBy = '$UserID'
                 ,lastUpdated = NOW()
-            WHERE SeverityID = ".$SeverityID.";";
+            WHERE SeverityID = $SeverityID";
 
-            if(mysqli_query($link,$sql)) {
-                echo "<br>Update Completed successfully";
-        } else {
-            echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
+        if (!mysqli_query($link,$sql)) {
+            echo "<br>Error: " . $sql . "<br>" . mysqli_error($link);
+            mysqli_close($link);
+            exit;
         }
         mysqli_close($link);
         header("Location: DisplaySeverities.php");
-        //echo "<br>Username: ".$sql;
+        exit;
 }
-?>
