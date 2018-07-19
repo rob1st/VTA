@@ -1,14 +1,14 @@
 <?php 
     include('session.php');
     include('sql_functions/sqlFunctions.php');
-    $table = Severity;
+    $table = 'severity';
     $q = $_POST["q"];
     $title = "SVBX - Update Severity";
-    $Loc = "SELECT SeverityName, Description FROM $table WHERE SeverityID = ".$q;
+    $Loc = "SELECT SeverityName, severityDescrip FROM $table WHERE SeverityID = ".$q;
     include('filestart.php');
     $link = f_sqlConnect();
     
-    if($Role >= 20) {
+    if($Role <= 20) {
         header('location: unauthorised.php');
     }
 ?>
@@ -22,12 +22,12 @@
                 echo "
                     <div class='container'> 
                         <form action='UpdateSeverityCommit.php' method='POST'>
-                            <input type='hidden' name='SeverityID' value='".$q."'>
+                            <input type='hidden' name='SeverityID' value='$q'>
                             <table class='table'>
                                 <tr class='usertr'>
                                     <th class='userth'>Severity Name:</th>
                                     <td class='usertd'>
-                                        <input type='text' name='SeverityName' maxlength='50' required value='".$SeverityName."'/>
+                                        <input type='text' name='SeverityName' maxlength='50' required value='$SeverityName'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
