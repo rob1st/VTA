@@ -22,6 +22,7 @@ $context = [
     'title' => 'Deficiencies List',
     'pageHeading' => 'Deficiencies',
     'tableName' => 'CDL',
+    'info' => 'Click Deficiency ID number to see full details',
     'tableHeadings' => [
         [ 'value' => 'ID', 'cellWd' => '' ],
         [ 'value' => 'Location', 'cellWd' => '', 'collapse' => 'sm' ],
@@ -40,14 +41,14 @@ $title = "View Deficiencies";
 $role = $_SESSION['role'];
 $view = isset($_GET['view']) ? $_GET['view'] : '';
 
-include('filestart.php');
+// include('filestart.php');
 
 // query to see if user has permission to view BART defs
 try {
     $link = connect();
-    $link->where('userid', $_SESSION['userID']);
-    $result = $link->getOne('users_enc', [ 'bdPermit' ]);
-    $bartPermit = $result['bdPermit'];
+    // $link->where('userid', $_SESSION['userID']);
+    // $result = $link->getOne('users_enc', [ 'bdPermit' ]);
+    // $bartPermit = $result['bdPermit'];
 } catch (Exception $e) {
     echo "<h1 style='font-size: 4rem; font-family: monospace; color: red;'>{$e->getMessage()}</h1>";
     exit;
@@ -328,14 +329,14 @@ function printBartDefsTable($result, $role) {
 
 // check for search params
 // if no search params show all defs that are not 'deleted'
-if(isset($_GET['search'])) {
+if(!empty($_GET['search'])) {
     $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
-    $get = array_filter($get); // filter to remove falsey values -- is this necessary?
+    $get = array_filter($get); // filter to remove falsey values -- is this necessary??
     unset($get['search']);
 } else {
     $get = null;
 }
-
+/*
 ?>
 <header class="container page-header">
     <h1 class="page-title">Deficiencies</h1>
@@ -358,16 +359,16 @@ if(isset($_GET['search'])) {
     ?>
 </header>
 <main class='container main-content'>
-<?php
+<?php*/
     // render Project Defs table and Search Fields
     if ($view !== 'BART' || !$bartPermit) {
         try {
-            printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
+            // printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getMessage()}</h1>";
         }
 
-        printInfoBox($role, 'NewDef.php');
+        // printInfoBox($role, 'NewDef.php');
 
         try {
             $fields = [
@@ -400,8 +401,10 @@ if(isset($_GET['search'])) {
 
             $link->orderBy('ID', 'ASC');
             $link->where('c.status', 3, '<>');
-            $result = $link->get('CDL c', null, $fields);
-            printProjectDefsTable($result, $_SESSION['role']);
+            
+            $context['data'] = $result = $link->get('CDL c', 20, $fields);
+            $template->display($context);
+            // printProjectDefsTable($result, $_SESSION['role']);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>{$e->getMessage()}</h1>";
         }
@@ -447,27 +450,27 @@ if(isset($_GET['search'])) {
             echo "<h1 style='color: #b82;'>{$e->getMessage()}</h1>";
         }
     }
-    echo "</main>";
-    // script tags will eventually go elsewhere once Twig is fully implemented
-    echo "
-        <script src='https://d3js.org/d3.v5.js'></script>
-        <script src='js/pie_chart.js'></script>
-        <script>
-            function resetSearch(ev) {
-                ev.target.form.reset();
-                ev.target.form.submit();
-            }";
-        if ($view === 'BART' && $bartPermit) {
-            echo "
-                const openCloseChart = new PieChart(
-                    window.d3,
-                    'dataContainer',
-                    { open: '{$statusData['statusOpen']}', closed: '{$statusData['statusClosed']}' },
-                    { red: 'var(--red)', green: 'var(--green)' });
-                openCloseChart.draw();";
-        }
-    echo "</script>";
+    // echo "</main>";
+    // // script tags will eventually go elsewhere once Twig is fully implemented
+    // echo "
+    //     <script src='https://d3js.org/d3.v5.js'></script>
+    //     <script src='js/pie_chart.js'></script>
+    //     <script>
+    //         function resetSearch(ev) {
+    //             ev.target.form.reset();
+    //             ev.target.form.submit();
+    //         }";
+    //     if ($view === 'BART' && $bartPermit) {
+    //         echo "
+    //             const openCloseChart = new PieChart(
+    //                 window.d3,
+    //                 'dataContainer',
+    //                 { open: '{$statusData['statusOpen']}', closed: '{$statusData['statusClosed']}' },
+    //                 { red: 'var(--red)', green: 'var(--green)' });
+    //             openCloseChart.draw();";
+    //     }
+    // echo "</script>";
 
 $link->disconnect();
 
-include 'fileend.php';
+// include 'fileend.php';
