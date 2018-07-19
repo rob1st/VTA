@@ -6,24 +6,33 @@ $table = 'evidenceType';
 include('filestart.php');
 $link = f_sqlConnect();
 
-    if(!f_tableExists($link, $table, DB_Name)) {
-        die('<br>Destination table does not exist: '.$table);
+// check for messages
+if (!empty($_SESSION['errorMsg'])) {
+    echo "<p class='mt-0 mb-0 text-light bg-red'>{$_SESSION['errorMsg']}</p>";
+    unset($_SESSION['errorMsg']);
+} elseif (!empty($_SESSION['successMsg'])) {
+    echo "<p class='mt-0 mb-0 bg-yellow'>{$_SESSION['successMsg']}</p>";
+    unset($_SESSION['successMsg']);
+}
+
+// if(!f_tableExists($link, $table, DB_Name)) {
+//     die('<br>Destination table does not exist: '.$table);
+// }
+
+$sql = "SELECT EviTypeID, eviTypeName, lastUpdated, updatedBy FROM $table ORDER BY eviTypeName";
+$sql1 = "SELECT COUNT(*) FROM $table";
+
+if($result = mysqli_query($link,$sql1)) {
+    echo"
+        <header class='container page-header'>
+        <h1 class='page-title'>Evidence Types</h1><br />
+        <table class='sumtable'>
+            <tr class='sumtr'>
+                <td class='sumtd'>Evidence Types: </td>";
+    while ($row = mysqli_fetch_array($result)) {
+            echo "<td class='sumtd'>{$row[0]}</td>";
     }
-
-    $sql = "SELECT EviTypeID, eviTypeName, lastUpdated, updatedBy FROM $table ORDER BY eviTypeName";
-    $sql1 = "SELECT COUNT(*) FROM $table";
-
-    if($result = mysqli_query($link,$sql1)) {
-        echo"
-                <header class='container page-header'>
-                <h1 class='page-title'>Evidence Types</h1><br />
-                <table class='sumtable'>
-                    <tr class='sumtr'>
-                        <td class='sumtd'>Evidence Types: </td>";
-            while ($row = mysqli_fetch_array($result)) {
-                    echo "<td class='sumtd'>{$row[0]}</td>";
-            }
-            echo "</table><br></header>";
+    echo "</table><br></header>";
 }
     if($result = mysqli_query($link,$sql)) {
         echo"

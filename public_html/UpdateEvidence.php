@@ -28,7 +28,7 @@
                                     <tr class='usertr'>
                                         <th class='userth'>Evidence Type Name:</th>
                                         <td class='usertd'>
-                                            <input type='text' name='EviType' maxlength='50' required value='".$EviType."'/>
+                                            <input type='text' name='EviType' maxlength='50' required value='$EviType'/>
                                         </td>
                                     </tr>
                                 </table>
