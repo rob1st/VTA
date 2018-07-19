@@ -23,12 +23,12 @@
                     echo "
                         <div class='container'> 
                             <FORM action='UpdateSystemCommit.php' method='POST'>
-                                <input type='hidden' name='SystemID' value='".$q."'>
+                                <input type='hidden' name='SystemID' value='$q'>
                                 <table class='table'>
                                     <tr class='usertr'>
                                         <th class='userth'>System Name:</th>
                                         <td class='usertd'>
-                                            <input type='text' name='SystemName' maxlength='50' required value='".$System."'/>
+                                            <input type='text' name='SystemName' maxlength='55' required value='$System'/>
                                         </td>
                                     </tr>
                                 </table>

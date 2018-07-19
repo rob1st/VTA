@@ -18,16 +18,16 @@ if(!empty($_POST)) {
           }
         }
     
-    $sql = "UPDATE System
-            SET SystemName = '".$System."'
-                ,updatedBy = '".$UserID."'
+    $sql = "UPDATE system
+            SET SystemName = '$System'
+                ,updatedBy = '$UserID'
                 ,lastUpdated = NOW()
-            WHERE SystemID = ".$SystemID.";";
+            WHERE SystemID = $SystemID";
 
-            if(mysqli_query($link,$sql)) {
-                echo "<br>Update Completed successfully";
-        } else {
+        if(!mysqli_query($link,$sql)) {
             echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
+            mysqli_close($link);
+            exit;
         }
         mysqli_close($link);
         header("Location: DisplaySystems.php?msg=1");
