@@ -14,13 +14,26 @@ $twig = new Twig_Environment($loader,
     ]
 );
 $twig->addExtension(new Twig_Extension_Debug());
+$template = $twig->load('table.html');
 
 // base context
 $context = [
     'navbarHeading' => !empty($_SESSION['firstname']) ? $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] : '',
     'title' => 'Deficiencies List',
     'pageHeading' => 'Deficiencies',
-    'tableName' => 'asset'
+    'tableName' => 'CDL',
+    'tableHeadings' => [
+        [ 'value' => 'ID', 'cellWd' => '' ],
+        [ 'value' => 'Location', 'cellWd' => '', 'collapse' => 'sm' ],
+        [ 'value' => 'Severity', 'cellWd' => '', 'collapse' => 'xs' ],
+        [ 'value' => 'Date created', 'cellWd' => '', 'collapse' => 'md' ],
+        [ 'value' => 'Status', 'cellWd' => '' ],
+        [ 'value' => 'System affected', 'cellWd' => '', 'collapse' => 'sm' ],
+        [ 'value' => 'Description', 'cellWd' => '' ],
+        [ 'value' => 'Specific location', 'cellWd' => '', 'collapse' => 'md' ],
+        [ 'value' => 'Last updated', 'cellWd' => '', 'collapse' => 'md' ],
+        [ 'value' => 'Edit', 'cellWd' => '', 'collapse' => 'sm' ]
+    ]
 ];
 
 $title = "View Deficiencies";

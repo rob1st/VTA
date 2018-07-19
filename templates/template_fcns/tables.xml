@@ -1,4 +1,3 @@
-{% import "forms.html" as forms %}
 {# each data item expects the format
 ##  '<--fieldName-->' => [
 ##      'value' =>
