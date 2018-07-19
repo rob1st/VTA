@@ -24,16 +24,16 @@ $context = [
     'tableName' => 'CDL',
     'info' => 'Click Deficiency ID number to see full details',
     'tableHeadings' => [
-        [ 'value' => 'ID', 'cellWd' => '' ],
-        [ 'value' => 'Location', 'cellWd' => '', 'collapse' => 'sm' ],
-        [ 'value' => 'Severity', 'cellWd' => '', 'collapse' => 'xs' ],
-        [ 'value' => 'Date created', 'cellWd' => '', 'collapse' => 'md' ],
-        [ 'value' => 'Status', 'cellWd' => '' ],
-        [ 'value' => 'System affected', 'cellWd' => '', 'collapse' => 'sm' ],
-        [ 'value' => 'Description', 'cellWd' => '' ],
-        [ 'value' => 'Specific location', 'cellWd' => '', 'collapse' => 'md' ],
-        [ 'value' => 'Last updated', 'cellWd' => '', 'collapse' => 'md' ],
-        [ 'value' => 'Edit', 'cellWd' => '', 'collapse' => 'sm' ]
+        'ID' => [ 'value' => 'ID', 'cellWd' => '' ],
+        'location' => [ 'value' => 'Location', 'cellWd' => '', 'collapse' => 'sm' ],
+        'severity' => [ 'value' => 'Severity', 'cellWd' => '', 'collapse' => 'xs' ],
+        'dateCreated' => [ 'value' => 'Date created', 'cellWd' => '', 'collapse' => 'md' ],
+        'status' => [ 'value' => 'Status', 'cellWd' => '' ],
+        'systemAffected' => [ 'value' => 'System affected', 'cellWd' => '', 'collapse' => 'sm' ],
+        'description' => [ 'value' => 'Description', 'cellWd' => '' ],
+        'specLoc' => [ 'value' => 'Specific location', 'cellWd' => '', 'collapse' => 'md' ],
+        'lastUpdated' => [ 'value' => 'Last updated', 'cellWd' => '', 'collapse' => 'md' ],
+        'edit' => [ 'value' => 'Edit', 'cellWd' => '', 'collapse' => 'sm' ]
     ]
 ];
 

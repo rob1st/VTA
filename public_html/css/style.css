@@ -693,6 +693,7 @@ a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px; */
 /*  #Mobile (Portrait) */
+@media all and (max-width: 576px) {
     .collapse-xs{
         display:none;
         width:0;
@@ -700,8 +701,9 @@ a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
         opacity:0;
         visibility: collapse;
     }
+}
 /* #Mobile (Landscape) */
-@media all and (min-width: 576px) {
+@media all and (max-width: 768px) {
     .collapse-sm{
         display:none;
         width:0;
@@ -712,7 +714,7 @@ a[data-toggle="collapse"].collapsed>.typcn-arrow-sorted-down:before {
 
 }
 /* #Tablet (Portrait) */
-@media all and (min-width: 768px) {
+@media all and (max-width: 992px) {
     .collapse-md{
         display:none;
         width:0;
