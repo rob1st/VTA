@@ -1,8 +1,5 @@
 <?php
 include('session.php');
-?>
-
-<?php
 include('sql_functions/sqlFunctions.php');
 
 if(!empty($_POST)) {
@@ -11,9 +8,8 @@ if(!empty($_POST)) {
     $link = f_sqlConnect();
  
     $sql = "DELETE 
-            FROM Severity
-            WHERE SeverityID = ".$SevID.";";
-    //echo "sql: " .$sql. "Comment out Later";
+            FROM severity
+            WHERE SeverityID = $SevID";
     
     if(mysqli_query($link,$sql)) {
         echo "<br>Deleted record successfully";
@@ -22,6 +18,5 @@ if(!empty($_POST)) {
     }
     mysqli_close($link);
     header("Location: DisplaySeverities.php");
-    
 }
 ?>
