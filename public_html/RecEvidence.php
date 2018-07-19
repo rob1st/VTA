@@ -4,16 +4,16 @@
     $table = 'evidenceType';
     
     $link = f_sqlConnect();
-    $check = "SELECT * FROM $table WHERE eviTypeName = '{$_POST['EviTypeName']}'";
+    // $check = "SELECT * FROM $table WHERE eviTypeName = '{$_POST['EviTypeName']}'";
     $UserID = $_SESSION['userID'];
-    $user = "SELECT username FROM users_enc WHERE UserID = ".$UserID;
-    if($result=mysqli_query($link,$user)) 
-        {
-          /*from the sql results, assign the username that returned to the $username variable*/    
-          while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['username'];
-          }
-        }
+    // $user = "SELECT username FROM users_enc WHERE UserID = ".$UserID;
+    // if($result=mysqli_query($link,$user)) 
+    //     {
+    //       /*from the sql results, assign the username that returned to the $username variable*/    
+    //       while($row = mysqli_fetch_assoc($result)) {
+    //         $Username = $row['username'];
+    //       }
+    //     }
     $keys = implode(", ", (array_keys($_POST)));
     $values = implode("', '", (array_values($_POST)));
     
