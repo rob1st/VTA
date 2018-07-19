@@ -4,15 +4,15 @@
     $table = 'location';
     
     $link = f_sqlConnect();
-    $check = "SELECT * FROM $table WHERE LocationName = '".$_POST['LocationName']."'";
+    // $check = "SELECT * FROM $table WHERE LocationName = '".$_POST['LocationName']."'";
     $UserID = $_SESSION['userID'];
-    $user = "SELECT username FROM users_enc WHERE UserID = ".$UserID;
-    if($result=mysqli_query($link,$user)) {
+    // $user = "SELECT username FROM users_enc WHERE UserID = ".$UserID;
+    // if($result=mysqli_query($link,$user)) {
       /*from the sql results, assign the username that returned to the $username variable*/    
-      while($row = mysqli_fetch_assoc($result)) {
-        $Username = $row['username'];
-      }
-    }
+    //   while($row = mysqli_fetch_assoc($result)) {
+    //     $Username = $row['username'];
+    //   }
+    // }
     $keys = implode(", ", (array_keys($_POST)));
     $values = implode("', '", (array_values($_POST)));
     
@@ -27,7 +27,7 @@
     //   header("location: $duplicate?msg=1");
     // }
     // else {
-    $sql = "INSERT INTO $table($keys, lastUpdated, updatedBy) VALUES ('$values', NOW(), '$Username')";
+    $sql = "INSERT INTO $table($keys, lastUpdated, updatedBy) VALUES ('$values', NOW(), '$UserID')";
     
     if (!mysqli_query($link,$sql)) {
 	  	echo '<br>Error: ' .mysqli_error($link);
