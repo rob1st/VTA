@@ -10,18 +10,18 @@ include('filestart.php');
           <h1 class="page-title">Add New Status type</h1>
         </header>
         <div class="container main-content">
-        <FORM action="RecStatus.php" method="POST">
+        <form action="RecStatus.php" method="POST">
             <table class='table svbx-table'>
                 <tr class='usertr'>
                     <th class='userth'>Status Type Name:</th>
                     <td class='usertd'>
-                        <input type="text" name="statusName" maxlength="50" required/>
+                        <input type="text" name="statusName" maxlength="25" required/>
                     </td>
                 </tr>
             </table>
             <br />
             <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
             <input type='reset' value='reset' class='btn btn-primary btn-lg' />
-        </FORM>
+        </form>
         </div>
 <?php include('fileend.php') ?>

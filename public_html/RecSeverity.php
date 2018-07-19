@@ -34,7 +34,7 @@
     //echo '<br>Num_rows: ' .$num_rows;
     
     if (!mysqli_query($link,$sql)) {
-  		echo '<br>Error: ' .mysqli_error($link);
+  		echo '<br>Error: ' . mysqli_error($link);
     } else {
       header("location: DisplaySeverities.php");
     }
