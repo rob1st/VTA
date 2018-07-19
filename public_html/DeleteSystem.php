@@ -12,7 +12,7 @@ if(!empty($_POST)) {
  
     $sql = "DELETE 
             FROM system
-            WHERE SystemID = ".$SysID.";";
+            WHERE SystemID = $SysID";
     //echo "sql: " .$sql. "Comment out Later";
     
     if(mysqli_query($link,$sql)) {
