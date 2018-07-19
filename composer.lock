@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "922af12b52f4e91158685d1558a42282",
+    "content-hash": "22bc90c3664ca17943d181fc8dc0f823",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1129,7 +1129,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "joshcam/mysqli-database-class": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

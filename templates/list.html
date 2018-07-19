@@ -1,11 +1,10 @@
-{% extends "manage.html" %}
+{% extends "card.html" %}
 
 {% from 'template_fcns/tablelikeRow.html' import tablelikeRow %}
 
 {% block breadcrumb %}
-    <h3 class='text-yellow'>{{ meta }}</h3>
     {% if backto %}
-        <a href='/public_html/{{ backto }}'>&#10094; Back to list of tables</a>
+        <a href='/{{ backto }}'>&#10094; Back to list of tables</a>
     {% endif %}
 {% endblock %}
 
@@ -14,6 +13,11 @@
     ## 'name' => (string)
     ## 'href' => (string)
     #}
+    {% if tableHeadings is iterable and tableHeadings|length %}
+        <li class='row item-margin-bottom bg-secondary text-light pad'>
+            {{ tablelikeRow(tableHeadings) }}
+        </li>
+    {% endif %}
     <ul class="pl-0 item-margin-bottom">
         {% if data is iterable and data|length %}
             {% for item in data %}
@@ -27,7 +31,7 @@
     </ul>
     {% if addPath %}
         <div class='center-content'>
-            <a href='/public_html/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
+            <a href='/{{ addPath }}' class='btn btn-outline'>Add new {{ tableName }}</a>
         </div>
     {% endif %}
 {% endblock %}

@@ -1,11 +1,18 @@
 # git stuff
 .DS_Store
 
-# for devs eyes only
+# packages
+node_modules
+composer.phar
+/vendor/
+
+# config and sensitive info
 config.*
 php.ini
 phpinfo.php
 check.php
+
+# error logging
 error_log
 php_errors.log
 old_*
