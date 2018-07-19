@@ -12,7 +12,7 @@ if ($idrID = intval($_POST['idrID'])) {
                 $commentQry = "INSERT idrComments (userID, comment, idrID, commentDate)
                     VALUES ('{$_POST['userID']}', '{$_POST['comment']}', {$idrID}, '{$timestamp}')";
                 $result = $link->query($commentQry);
-                if (!result) {
+                if (!$result) {
                     http_response_code(500);
                     $code = http_response_code();
                     echo "There was a problem adding your comment";
@@ -37,7 +37,7 @@ if ($idrID = intval($_POST['idrID'])) {
         $commentQry = "INSERT idrComments (userID, comment, idrID, commentDate)
             VALUES ('{$_POST['userID']}', '{$_POST['comment']}', {$idrID}, '{$timestamp}')";
         $result = $link->query($commentQry);
-        if (!result) {
+        if (!$result) {
             http_response_code(500);
             $code = http_response_code();
             echo "There was a problem adding your comment\n{$link->error}";
