@@ -6,17 +6,21 @@
 ##      ('href') =>
 #}  ]
 
+{# CREATETABLE OUGHT TO ALSO HANDLE:
+##   • mapping of collapse classes from headings to cells
+##   • appending of ID to href's
+#}
 {% macro createTable(data, headings) %}
     {% import _self as tables %}
     <table class='table table-responsive table-layout-fixed'>
-        <thead style='width: 100%'>
-            <tr style='width: 100%'>
+        <thead>
+            <tr>
                 {{ tables.createHeadings(headings) }}
             </tr>
         </thead>
         <tbody style='width: 100%'>
             {% for row in data %}
-                {{ tables.createRow(row) }}
+                {{ tables.createRow(row, headings) }}
             {% endfor %}
         </tbody>
     </table>
@@ -43,26 +47,44 @@
     >{{ array.value }}</th>
 {% endmacro %}
 
-{% macro createRow(row) %}
+{% macro createRow(row, headings) %}
     {% import _self as tables %}
+    {# id field must exist and must be named 'ID' #}
+    {% set id %}
+        {% if not row.ID is empty %}
+            {{- row.ID is iterable ? row.ID.value : row.ID -}}
+        {% else %}{% endif %}
+    {% endset %}
     <tr>
-        {% for field in row %}
+        {% for fieldName, field in row %}
             {% if not field is iterable %}
-                <td>{{ field }}</td>
+                {% set cellContent = not headings[fieldName].href is empty
+                    ? tables.anchorTag(headings[fieldName].href, id, field)
+                    : field
+                %}
+                <td>{{ cellContent }}</td>
             {% else %}
-                {{ tables.createCellFromArray(field) }}
+                {# headings and data keys must match #}
+                {{ tables.createCellFromArray(field, id, headings[fieldName]) }}
             {% endif %}
         {% endfor %}
     </tr>
 {% endmacro %}
 
-{% macro createCellFromArray(array) %}
+{% macro createCellFromArray(field, id, heading) %}
     {% import _self as tables %}
-    {% set cellContent = array.href is empty ? array.value : tables.anchorTag(array.href, array.value) %}
-    {% set cellAttrs = array.collapse is empty ? '' : 'class=collapse-' ~ array.collapse %}
+    {% set cellContent %}
+        {% if not field.href is empty %}
+            tables.anchorTag(field.href, field.value)
+        {% elseif not heading.href is empty %}
+            {{ heading.href }}
+        {% else %} {{ field.value }}
+        {% endif %}
+    {% endset %}
+    {% set cellAttrs = field.collapse is empty ? '' : 'class=collapse-' ~ field.collapse %}
     <td {{ cellAttrs }}>{{ cellContent }}</td>
 {% endmacro %}
 
-{% macro anchorTag(href, text) %}
-    <a href='{{ href }}'>{{ text }}</a>
+{% macro anchorTag(href, id, text) %}
+    <a href='{{- href | trim -}}{{- id | trim -}}'>{{ text }}</a>
 {% endmacro %}

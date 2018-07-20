@@ -1,7 +1,7 @@
 <?php
 $sqlMap = [
     'asset' => [
-        'table' => ['assetID', 'assetTag', 'compName', 'locationName', 'installed', 'testStatName'],
+        'table' => ['assetID as ID', 'assetTag', 'compName', 'locationName', 'installed', 'testStatName'],
         'add' => ['assetTag', 'component', 'location', 'room', 'installStatus', 'testStatus'],
         'update' => ['lastUpdated', 'updatedBy']
     ],

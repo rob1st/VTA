@@ -24,7 +24,7 @@ $context = [
     'tableName' => 'CDL',
     'info' => 'Click Deficiency ID number to see full details',
     'tableHeadings' => [
-        'ID' => [ 'value' => 'ID', 'cellWd' => '' ],
+        'ID' => [ 'value' => 'ID', 'cellWd' => '', 'href' => '/viewDef.php?defID=' ],
         'location' => [ 'value' => 'Location', 'cellWd' => '', 'collapse' => 'sm' ],
         'severity' => [ 'value' => 'Severity', 'cellWd' => '', 'collapse' => 'xs' ],
         'dateCreated' => [ 'value' => 'Date created', 'cellWd' => '', 'collapse' => 'md' ],
@@ -33,7 +33,7 @@ $context = [
         'description' => [ 'value' => 'Description', 'cellWd' => '' ],
         'specLoc' => [ 'value' => 'Specific location', 'cellWd' => '', 'collapse' => 'md' ],
         'lastUpdated' => [ 'value' => 'Last updated', 'cellWd' => '', 'collapse' => 'md' ],
-        'edit' => [ 'value' => 'Edit', 'cellWd' => '', 'collapse' => 'sm' ]
+        'edit' => [ 'value' => 'Edit', 'cellWd' => '', 'collapse' => 'sm', 'href' => '/updateDef.php?defID=' ]
     ]
 ];
 
