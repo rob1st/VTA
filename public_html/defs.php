@@ -365,7 +365,7 @@ if(!empty($_GET['search'])) {
         try {
             // printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
-            echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getMessage()}</h1>";
+            echo "<h1 style='color: #da0;'>print search bar got issues: {$e}</h1>";
         }
 
         // printInfoBox($role, 'NewDef.php');

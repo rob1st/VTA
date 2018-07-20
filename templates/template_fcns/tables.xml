@@ -50,28 +50,38 @@
 {% macro createRow(row, headings) %}
     {% import _self as tables %}
     {# id field must exist and must be named 'ID' #}
+    {% set equalSign = '=' %}
     {% set id %}
         {% if not row.ID is empty %}
-            {{- row.ID is iterable ? row.ID.value : row.ID -}}
+            {{ row.ID is iterable ? row.ID.value|trim : row.ID|trim }}
         {% else %}{% endif %}
     {% endset %}
     <tr>
         {% for fieldName, field in row %}
+            {# check for href current field #}
+            
+            {% if not field.href is empty %}
+                {% set href = not field.href|trim|last is same as(equalSign) ? field.href|trim : field.href|trim ~ id %}
+            {% elseif not headings[fieldName].href is empty %}
+                {% set href = not headings[fieldName].href|trim|last is same as(equalSign)? headings[fieldName].href|trim ~ id %}
+            {% else %}{% endif %}
             {% if not field is iterable %}
-                {% set cellContent = not headings[fieldName].href is empty
-                    ? tables.anchorTag(headings[fieldName].href, id, field)
-                    : field
-                %}
-                <td>{{ cellContent }}</td>
+                {# if field is simple scalar then check for href on heading for field #}
+                {% set cellContent %}
+                    {% if not href is empty %}
+                        {{ href }}
+                    {% else %}{{- field|trim -}}{% endif %}
+                {% endset %}
+                <td>{{- cellContent|trim -}}</td>
             {% else %}
                 {# headings and data keys must match #}
-                {{ tables.createCellFromArray(field, id, headings[fieldName]) }}
+                {{ tables.createCellFromArray(field, headings[fieldName]) }}
             {% endif %}
         {% endfor %}
     </tr>
 {% endmacro %}
 
-{% macro createCellFromArray(field, id, heading) %}
+{% macro createCellFromArray(field, heading) %}
     {% import _self as tables %}
     {% set cellContent %}
         {% if not field.href is empty %}
@@ -85,6 +95,6 @@
     <td {{ cellAttrs }}>{{ cellContent }}</td>
 {% endmacro %}
 
-{% macro anchorTag(href, id, text) %}
-    <a href='{{- href | trim -}}{{- id | trim -}}'>{{ text }}</a>
+{% macro anchorTag(href, text) %}
+    <a href='{{- href|trim -}}'>{{ text }}</a>
 {% endmacro %}
