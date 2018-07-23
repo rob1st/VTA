@@ -57,6 +57,10 @@
         {% else %}{% endif %}
     {% endset %}
     <tr>
+        {#
+            iterate over data row, rendering data in tr's
+            data may or may not be attached to array describing visual table structure
+        #}
         {% for fieldName, field in row %}
             {# initialize href to empty at the start of each each iteration #}
             {% set href = false %}
@@ -84,9 +88,25 @@
                 <td>{{ cellContent }}</td>
                 
             {% else %}
-                {# headings and data keys must match #}
+                {# headings and row keys must match #}
                 {{ tables.createCellFromArray(field, headings[fieldName]) }}
             {% endif %}
+        {% endfor %}
+        {#
+            after iterating over row fields, add any [field] that is on headings[] but not on row[]
+            e.g., edit, delete
+        #}
+        {% for fieldName, field in headings if row[fieldName] is empty %}
+            {% if fieldName is same as("edit") %}
+                {% set href = not headings[fieldName].href|trim|last is same as(equalSign)
+                    ? headings[fieldName].href|trim
+                    : headings[fieldName].href|trim ~ id|trim %}
+                {% set cellContent = tables.editButton(href|trim) %}
+            {% elseif fieldName is same as("delete") %}
+                {# delete button template here #}
+            {% endif %}
+            {% set collapse = field.collapse is empty ? '' : 'collapse-' ~ field.collapse %}
+            <td class='{{ collapse }}'>{{ cellContent }}</td>
         {% endfor %}
     </tr>
 {% endmacro %}
@@ -107,4 +127,8 @@
 
 {% macro anchorTag(href, text) %}
     <a href='{{- href|trim -}}'>{{ text }}</a>
+{% endmacro %}
+
+{% macro editButton(href) %}
+    <a href='{{ href|trim }}' class='btn btn-outline'><i class="typcn typcn-edit"></i></a>
 {% endmacro %}
