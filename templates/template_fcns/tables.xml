@@ -58,21 +58,31 @@
     {% endset %}
     <tr>
         {% for fieldName, field in row %}
+            {# initialize href to empty at the start of each each iteration #}
+            {% set href = false %}
             {# check for href on current field #}
             {% if not field.href is empty %}
                 {# if href on field, concat field.href + id #}
                 {% set href = not field.href|trim|last is same as(equalSign) ? field.href|trim : field.href|trim ~ id %}
+                
             {% elseif not headings[fieldName].href is empty %}
-                {% set href = not headings[fieldName].href|trim|last is same as(equalSign)? headings[fieldName].href|trim ~ id %}
+            
+                {# if href on heading, concat heading.href + id #}
+                {% set href = not headings[fieldName].href|trim|last is same as(equalSign)
+                    ? headings[fieldName].href|trim
+                    : headings[fieldName].href|trim ~ id|trim %}
+                
             {% else %}{% endif %}
             {% if not field is iterable %}
+            
                 {# if field is simple scalar then check for href on heading for field #}
                 {% set cellContent %}
                     {% if not href is empty %}
-                        {{ href }}
+                        {{ tables.anchorTag(href, id|trim) }}
                     {% else %}{{- field|trim -}}{% endif %}
                 {% endset %}
-                <td>{{- cellContent|trim -}}</td>
+                <td>{{ cellContent }}</td>
+                
             {% else %}
                 {# headings and data keys must match #}
                 {{ tables.createCellFromArray(field, headings[fieldName]) }}

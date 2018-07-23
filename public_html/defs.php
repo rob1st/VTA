@@ -402,7 +402,7 @@ if(!empty($_GET['search'])) {
             $link->orderBy('ID', 'ASC');
             $link->where('c.status', 3, '<>');
             
-            $context['data'] = $result = $link->get('CDL c', 20, $fields);
+            $context['data'] = $result = $link->get('CDL c', 5, $fields);
             $template->display($context);
             // printProjectDefsTable($result, $_SESSION['role']);
         } catch (Exception $e) {

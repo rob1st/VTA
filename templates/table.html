@@ -15,6 +15,8 @@
         </div>
     {% endblock %}
     {% block table %}
+        <pre style='color: blue'>{{ dump(tableHeadings) }}</pre>
+        <pre class='text-secondary'>{{ dump(data) }}</pre>
         {{ tables.createTable(data, tableHeadings) }}
     {% endblock %}
 {% endblock %}
