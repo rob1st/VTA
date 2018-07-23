@@ -64,31 +64,34 @@
         {% for fieldName, field in row %}
             {# initialize href to empty at the start of each each iteration #}
             {% set href = false %}
+
             {# check for href on current field #}
             {% if not field.href is empty %}
                 {# if href on field, concat field.href + id #}
                 {% set href = not field.href|trim|last is same as(equalSign) ? field.href|trim : field.href|trim ~ id %}
-                
             {% elseif not headings[fieldName].href is empty %}
-            
                 {# if href on heading, concat heading.href + id #}
                 {% set href = not headings[fieldName].href|trim|last is same as(equalSign)
                     ? headings[fieldName].href|trim
                     : headings[fieldName].href|trim ~ id|trim %}
-                
             {% else %}{% endif %}
+            
             {% if not field is iterable %}
             
-                {# if field is simple scalar then check for href on heading for field #}
+                {# if field is simple scalar then check for href, collapse attributes on heading for field #}
+                {% set collapse = headings[fieldName].collapse is empty ? '' : 'collapse-' ~ headings[fieldName].collapse %}
                 {% set cellContent %}
                     {% if not href is empty %}
                         {{ tables.anchorTag(href, id|trim) }}
-                    {% else %}{{- field|trim -}}{% endif %}
+                    {% else %}{{ field|trim }}{% endif %}
                 {% endset %}
-                <td>{{ cellContent }}</td>
+                <td class='{{ collapse }}'>{{- cellContent -}}</td>
                 
             {% else %}
-                {# headings and row keys must match #}
+                {#
+                    field is iteratable
+                    headings and row keys must match
+                #}
                 {{ tables.createCellFromArray(field, headings[fieldName]) }}
             {% endif %}
         {% endfor %}
@@ -106,7 +109,7 @@
                 {# delete button template here #}
             {% endif %}
             {% set collapse = field.collapse is empty ? '' : 'collapse-' ~ field.collapse %}
-            <td class='{{ collapse }}'>{{ cellContent }}</td>
+            <td class='{{ collapse }}'>{{- cellContent -}}</td>
         {% endfor %}
     </tr>
 {% endmacro %}
@@ -117,7 +120,11 @@
         {% if not field.href is empty %}
             {{ tables.anchorTag(field.href, field.value) }}
         {% elseif not heading.href is empty %}
-            {{ heading.href }}
+            {% if heading.value is same as ('Edit') %}
+                {{ tables.editButton(href) }}
+            {% else %}
+                {{ tables.anchorTag(heading.href, field.value) }}
+            {% endif %}
         {% else %} {{ field.value }}
         {% endif %}
     {% endset %}
