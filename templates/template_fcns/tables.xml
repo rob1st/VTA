@@ -58,9 +58,9 @@
     {% endset %}
     <tr>
         {% for fieldName, field in row %}
-            {# check for href current field #}
-            
+            {# check for href on current field #}
             {% if not field.href is empty %}
+                {# if href on field, concat field.href + id #}
                 {% set href = not field.href|trim|last is same as(equalSign) ? field.href|trim : field.href|trim ~ id %}
             {% elseif not headings[fieldName].href is empty %}
                 {% set href = not headings[fieldName].href|trim|last is same as(equalSign)? headings[fieldName].href|trim ~ id %}
@@ -85,7 +85,7 @@
     {% import _self as tables %}
     {% set cellContent %}
         {% if not field.href is empty %}
-            tables.anchorTag(field.href, field.value)
+            {{ tables.anchorTag(field.href, field.value) }}
         {% elseif not heading.href is empty %}
             {{ heading.href }}
         {% else %} {{ field.value }}

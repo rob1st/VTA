@@ -22,7 +22,7 @@ $updateFormCtrls = [
 
 $tableStructure = [
     // in each case 'value' prop will get append from db query
-    'assetID' => [
+    'ID' => [
         'value' => '',
         'href' => '/assets.php/view?assetID=', // concat this with value of assetID
         'heading' => [

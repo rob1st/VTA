@@ -113,7 +113,7 @@ function getAssetData($route) {
         // loop over data, appending it to table fields
         $data = array_map(function($asset) use ($tableStructure) {
             $row = $tableStructure;
-            $id = $asset['assetID']; // hold onto assetID
+            $id = $asset['ID']; // hold onto assetID
             
             $row['edit']['href'] .= $id;
             if(!empty($row['edit']['heading']['collapse']))
