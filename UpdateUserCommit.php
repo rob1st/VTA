@@ -1,20 +1,17 @@
 <?php
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
 include('SQLFunctions.php');
 include('session.php');
-$AUserID = $_SESSION['userID'];
-$link = f_sqlConnect();
+$AUserID = $_SESSION['username'];
+$link = connect();
 $title = "Update User Commit";
 
-$user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
-if($result=mysqli_query($link,$user)) {
-    /*from the sql results, assign the username that returned to the $username variable*/
-    while($row = mysqli_fetch_assoc($result)) {
-        $AUsername = $row['username'];
-    }
-}
+// $user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
+// if($result=mysqli_query($link,$user)) {
+//     /*from the sql results, assign the username that returned to the $username variable*/
+//     while($row = mysqli_fetch_assoc($result)) {
+//         $AUsername = $row['username'];
+//     }
+// }
 
 if($_POST['Password'] <> '') {
     $pwd = '1';
@@ -49,15 +46,17 @@ elseif (filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL) !=true)
     $message = "Email is not a valid email address";
 }
 elseif(!empty($_POST)) {
-    $UserID = $_POST['userID'];
-    $Username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-    $lastname = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
-    $company = filter_var($_POST['Company'], FILTER_SANITIZE_STRING);
-    $password = filter_var($_POST['Password'], FILTER_SANITIZE_STRING);
-    $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
-    $Role = $_POST['role'];
-    $Password = password_hash($password, PASSWORD_BCRYPT);
+    $post = filter_input(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+    $post['password'] = password_hash($post['password'], PASSWORD_BCRYPT);
+    // $UserID = $_POST['userID'];
+    // $Username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    // $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
+    // $lastname = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
+    // $company = filter_var($_POST['Company'], FILTER_SANITIZE_STRING);
+    // $password = filter_var($_POST['Password'], FILTER_SANITIZE_STRING);
+    // $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
+    // $Role = $_POST['role'];
+    // $Password = password_hash($password, PASSWORD_BCRYPT);
 
     if($pwd == '0') {
 
