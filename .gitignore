@@ -11,6 +11,9 @@ php_errors.log
 old_*
 bootstrap.*
 webColors.json
+database.json
+migrations/
+templates/template_fcns/tables.xml.twig
 
 # dependencies and package mngrs
 node_modules
