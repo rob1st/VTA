@@ -3,13 +3,14 @@
     include('SQLFunctions.php');
     $table = 'users_enc';
     $q = $_POST["q"];
-    $ARole = $_SESSION['role'];
+    $userRole = $_SESSION['role'];
     $title = "SVBX - Update User";
     $Loc = "SELECT Username, Role, firstname, lastname, Email, Company FROM $table WHERE UserID = ".$q;
     include('filestart.php');
 
-    if($ARole == 'U' OR $ARole == 'V') {
+    if($userRole < 30) {
         header('location: unauthorised.php');
+        exit;
     }
 
     $link = f_sqlConnect();
@@ -19,11 +20,11 @@
         </header>
 <?php       if($stmt = $link->prepare($Loc)) {
             $stmt->execute();
-            $stmt->bind_result($Username, $Role, $firstname, $lastname, $Email, $Company);
+            $stmt->bind_result($Username, $targetRole, $firstname, $lastname, $Email, $Company);
             while ($stmt->fetch()) {
                 echo "
                     <div class='container main-content'>";
-                        if($ARole >= 30) {
+                        if($userRole >= 30) {
                 echo "
                         <form action='UpdateUserCommit.php' method='POST' onsubmit='' />
                             <input type='hidden' name='userID' value='".$q."'>
@@ -72,79 +73,58 @@
                                         <i>confirm new password</i>
                                     </td>
                                 </tr>";
-                                if($ARole == 'S') {
+                                if ($userRole >= 40) {
                                 echo "
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='4'>Role:</td>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='S'";
-                                        if($ARole== 'S') {
-                                        echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='40'";
+                                        echo ( $targetRole === 40 ? ' checked' : '' );
                                         echo "/>Super Admin
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='A'";
-                                        if($Role== 'A') {
-                                            echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='30'";
+                                        echo ( $targetRole === 30 ? ' checked' : '' );
                                         echo "/>Administrator
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='U'";
-                                        if($Role== 'U') {
-                                            echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='20'";
+                                        echo ( $targetRole === 20 ? ' checked' : '' );
                                         echo "/>User
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='V'";
-                                        if($Role== 'V') {
-                                            echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='10'";
+                                        echo ( $targetRole === 10 ? ' checked' : '' );
                                         echo "/>Read Only
                                     </td>
                                 </tr>";
-                                } elseif($ARole == 'A') {
+                                } elseif ($userRole >= 30) {
                                 echo "
                                 <tr class='usertr'>
                                     <th class='userth' rowspan='3'>Role:</td>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='A'";
-                                        if($Role== 'A') {
-                                        echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='30'";
+                                        echo ( $targetRole === 30 ? ' checked' : '' );
                                         echo "/>Administrator
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='U'";
-                                        if($Role== 'U') {
-                                            echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='20'";
+                                        echo ( $targetRole === 20 ? ' checked' : '' );
                                         echo "/>User
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <td class='usertd'>
-                                        <input type='radio' name=['role'] value='V'";
-                                        if($Role== 'V') {
-                                            echo ' checked';
-                                        } else {
-                                        }
+                                        <input type='radio' name='role' value='10'";
+                                        echo ( $targetRole === 10 ? ' checked' : '' );
                                         echo "/>Read Only
                                     </td>
                                 </tr>";
@@ -157,8 +137,8 @@
                             </form>";
                         } else {
                             echo "<p style='text-align:center'>You do not have the authority to amend this user";
-                            //echo "<br />ARole: ".$ARole;
-                            //echo "<br />Role: ".$Role."</p>";
+                            //echo "<br />ARole: ".$userRole;
+                            //echo "<br />Role: ".$targetRole."</p>";
                         }
                         echo "</div>";
                     }
