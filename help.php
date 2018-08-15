@@ -18,7 +18,7 @@ session_start();
 <?php
     $table = 'users_enc';
     
-    // if(!f_tableExists($link, $table, DB_Name)) {
+    // if(!f_tableExists($link, $table, DB_NAME)) {
     //     die('<br>Destination table does not exist: '.$table);
     // }
     

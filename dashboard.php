@@ -24,7 +24,7 @@ $critSev = 0;
 $majSev = 0;
 $minSev = 0;
 
-//if(!f_tableExists($link, $table, DB_Name)) {
+//if(!f_tableExists($link, $table, DB_NAME)) {
 //    die('<br>Destination table does not exist: '.$table);
 //}
 

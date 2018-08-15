@@ -6,7 +6,7 @@ $title = "SVBX - Display Status Types";
 include('filestart.php');
 $link = f_sqlConnect();
 
-    if(!f_tableExists($link, $table, DB_Name)) {
+    if(!f_tableExists($link, $table, DB_NAME)) {
         die('<br>Destination table does not exist: '.$table);
     }
 

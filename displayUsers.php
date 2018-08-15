@@ -8,7 +8,7 @@ $adminID = $_SESSION['userID'];
 $Role = $_SESSION['role'];
 
 $link = f_sqlConnect();
-    if(!f_tableExists($link, $table, DB_Name)) {
+    if(!f_tableExists($link, $table, DB_NAME)) {
         die('<br>Destination table does not exist: '.$table);
     }
 

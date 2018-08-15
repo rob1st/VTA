@@ -8,7 +8,7 @@ include('filestart.php');
 $link = f_sqlConnect();
         //echo '<br>Source table: ' .$table;
         
-    // if(!f_tableExists($link, $table, DB_Name)) {
+    // if(!f_tableExists($link, $table, DB_NAME)) {
     //     die('<br>Destination table does not exist: '.$table);
     // }
     

@@ -24,7 +24,7 @@
     $values = implode("', '", (array_values($_POST)));
     echo '<br>Parsed Values: ' .$values;
     
-    if(!f_tableExists($link, $table, DB_Name)) {
+    if(!f_tableExists($link, $table, DB_NAME)) {
         die('<br>Destination table does not exist:'.$table);
     }
     
