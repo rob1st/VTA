@@ -6,11 +6,11 @@
     $duplicate = 'duplicate.php'; // this file doesn't exist
 
     function connect() {
-        return new MysqliDB(DB_Host, DB_USER, DB_PWD, DB_Name);
+        return new MysqliDB(DB_HOST, DB_USER, DB_PWD, DB_NAME);
     }
 
     function f_sqlConnect() {
-        $link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
+        $link = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_NAME);
         if ($link->connect_error) {
             die("Connection failed: " .$link->connect_error);
 
@@ -21,7 +21,7 @@
     }
 
     function f_sqlConnect1() {
-        $Link = new mysqli(DB_Host, DB_USER, DB_PWD, DB_Name);
+        $Link = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_NAME);
         if ($Link->connect_error) {
             die("Connection failed: " .$Link->connect_error);
 

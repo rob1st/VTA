@@ -1,116 +1,69 @@
 <?php
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
 include('SQLFunctions.php');
 include('session.php');
-$AUserID = $_SESSION['userID'];
-$link = f_sqlConnect();
+$aUsername = $_SESSION['username'];
 $title = "Update User Commit";
 
-$user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
-if($result=mysqli_query($link,$user)) {
-    /*from the sql results, assign the username that returned to the $username variable*/
-    while($row = mysqli_fetch_assoc($result)) {
-        $AUsername = $row['username'];
-    }
-}
-
-if($_POST['Password'] <> '') {
-    $pwd = '1';
-    if($_POST['Password'] <> $_POST['ConPwd']) {
-        $message = 'Confirmation password does not match new password';
-    }
-    if (ctype_alnum($_POST['Password']) != true) {
-        $message = "Password must be alpha numeric";
-    }
-} else {
-    $pwd = '0';
-}
-
-if(!isset($_POST['username']))
-{
+if (!isset($_POST['username'])) {
     $message = 'Please enter a valid username';
 }
-elseif (strlen( $_POST['username']) > 20 || strlen($_POST['username']) < 4)
-{
-    $message = 'incorrect length for Username';
+elseif (strlen( $_POST['username']) > 20 || strlen($_POST['username']) < 4) {
+    $message = 'Incorrect length for Username';
 }
-elseif (ctype_alnum($_POST['username']) != true)
-{
+elseif (ctype_alnum($_POST['username']) != true) {
     $message = "Username must be alpha numeric";
 }
-elseif (ctype_alnum($_POST['Company']) != true)
-{
+elseif (ctype_alnum($_POST['company']) != true) {
     $message = "Company must be alpha numeric";
 }
-elseif (filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL) !=true)
-{
+elseif (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) !=true) {
     $message = "Email is not a valid email address";
 }
-elseif(!empty($_POST)) {
-    $UserID = $_POST['userID'];
-    $Username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-    $lastname = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
-    $company = filter_var($_POST['Company'], FILTER_SANITIZE_STRING);
-    $password = filter_var($_POST['Password'], FILTER_SANITIZE_STRING);
-    $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
-    $Role = $_POST['role'];
-    $Password = password_hash($password, PASSWORD_BCRYPT);
-
-    if($pwd == '0') {
-
+elseif (!empty($_POST)) {
+    $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+    
+    $fields = [
+        'username' => $post['username'],
+        'firstname' => $post['firstname'],
+        'lastname' => $post['lastname'],
+        'password' => $post['password'],
+        'company' => $post['company'],
+        'email' => $post['email'],
+        'role' => $post['role'],
+        'updated_by' => $aUsername,
+        'lastUpdated' => date('Y-m-d H:i:s')
+    ];
+    
+    foreach ($fields as $field => $val) {
+        if (empty($val)) unset($fields[$field]);
+    }
+    
     try {
-
-    $sql = "UPDATE users_enc
-            SET  Username = '".$Username."'
-                ,firstname = '".$firstname."'
-                ,lastname = '".$lastname."'
-                ,Role = '".$Role."'
-                ,Email = '".$Email."'
-                ,Company = '".$company."'
-                ,updated_By = '".$AUsername."'
-                ,LastUpdated = NOW()
-            WHERE UserID = ".$UserID.";";
-
-            if(mysqli_query($link,$sql)) {
-                header('location: displayUsers.php');
-
-        } else {
-            $message = "<br>Error: " .mysqli_error($link);
+        if (!empty($message)) throw new Exception($message);
+        
+        if (!empty($fields['password'])) {
+            if (!empty($post['conPwd']) && $fields['password'] !== $post['conPwd'])
+                throw new Exception('Confirmation password does not match new password');
+            elseif (!$fields['password'] = password_hash($fields['password'], PASSWORD_DEFAULT))
+                throw new Exception('Unable to encrypt new password');
         }
-        mysqli_close($link);
-        //header("Location: DisplayUsers.php?msg=1");
-        //echo "<br>SQL: ".$sql;
-    } catch(Exception $e) { $message = "Unable to process request1";}
-    } elseif($pwd == '1') {
 
-        try {
+        if (!$post['userID']) throw new Exception('Could not find userID');
 
-    $sql = "UPDATE users_enc
-            SET  Username = '".$Username."'
-                ,Password = '".$Password."'
-                ,firstname = '".$firstname."'
-                ,lastname = '".$lastname."'
-                ,Role = '".$Role."'
-                ,Email = '".$Email."'
-                ,Company = '".$company."'
-                ,updated_By = '".$AUsername."'
-                ,LastUpdated = NOW()
-            WHERE UserID = ".$UserID.";";
-
-            if(mysqli_query($link,$sql)) {
-                header('location: displayUsers.php');
-        } else {
-            $message = "<br>Error: " .mysqli_error($link);
-        }
-        mysqli_close($link);
-        //header("Location: DisplayUsers.php?msg=1");
-        //echo "<br>SQL: ".$sql;
-    } catch(Exception $e) {$message = "Unable to process request2";}
-    } else {
-        $message = 'Unable to process request3<br />'.$pwd;
+        $link = connect();
+        $link->where('userID', $post['userID']);
+        
+        if (!$link->update('users_enc', $fields))
+            throw new Exception('There was a problem updating the record: ' . $link->getLastError());
+        else $location = '/displayUsers.php';
+    } catch (Exception $e) {
+        $_SESSION['errorMsg'] = $e->getMessage();
+        $location = "/UpdateUser.php?userID={$post['userID']}";
+    } finally {
+        if (!empty($link) && is_a($link, MysqliDb)) $link->disconnect();
+        if (!empty($message)) $_SESSION['errorMsg'] = $message;
+        header("Location: $location");
+        exit;
     }
 }
 

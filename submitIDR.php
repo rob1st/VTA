@@ -71,7 +71,7 @@
 
             // currently this fcn, found in SQLFunctions, is broken
             // don't repair it unless you're ready to deal with the bugs that may produce
-            // if (!f_tableExists($link, $idrTable, DB_Name)) {
+            // if (!f_tableExists($link, $idrTable, DB_NAME)) {
             // shouldn't this be an error handler like the duplicate check above(?)
                 // echo 'table "'.$idrTable.'" could not be found';
             // } else {
