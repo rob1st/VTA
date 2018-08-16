@@ -5,7 +5,7 @@
     $q = $_POST["q"];
     $userRole = $_SESSION['role'];
     $title = "SVBX - Update User";
-    $Loc = "SELECT Username, Role, firstname, lastname, Email, Company FROM $table WHERE UserID = ".$q;
+    $Loc = "SELECT Username, Role, firstname, lastname, Email, Company FROM $table WHERE UserID = $q";
     include('filestart.php');
 
     if($userRole < 30) {
@@ -20,7 +20,7 @@
         </header>
 <?php       if($stmt = $link->prepare($Loc)) {
             $stmt->execute();
-            $stmt->bind_result($Username, $targetRole, $firstname, $lastname, $Email, $Company);
+            $stmt->bind_result($username, $targetRole, $firstname, $lastname, $email, $company);
             while ($stmt->fetch()) {
                 echo "
                     <div class='container main-content'>";
@@ -32,44 +32,44 @@
                                 <tr class='usertr'>
                                     <th class='userth'>First name:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='firstname' maxlength='25' required value='".$firstname."'/>
+                                        <input type='text' name='firstname' maxlength='25' required value='$firstname'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Last name:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='lastname' maxlength='25' required value='".$lastname."'/>
+                                        <input type='text' name='lastname' maxlength='25' required value='$lastname'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Email Address:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='Email' maxlength='55' required value='".$Email."'/>
+                                        <input type='text' name='email' maxlength='55' required value='$email'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Username:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='username' maxlength='25' required value='".$Username."'/>
+                                        <input type='text' name='username' maxlength='25' required value='$username'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Company:</td>
                                     <td class='usertd'>
-                                        <input type='text' name='Company' maxlength='25' required value='".$Company."'/>
+                                        <input type='text' name='company' maxlength='25' required value='$company'/>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Password:</td>
                                     <td class='usertd'>
-                                        <input type='password' name='Password' maxlength='25' value=''/><br />
+                                        <input type='password' name='password' maxlength='25' value=''/><br />
                                         <i>only complete if you want to change a users password</i>
                                     </td>
                                 </tr>
                                 <tr class='usertr'>
                                     <th class='userth'>Confirm Password:</td>
                                     <td class='usertd'>
-                                        <input type='password' name='ConPwd' maxlength='25' value=''/><br />
+                                        <input type='password' name='conPwd' maxlength='25' value=''/><br />
                                         <i>confirm new password</i>
                                     </td>
                                 </tr>";
