@@ -100,7 +100,7 @@ try {
             
     $stmt->close();
     
-    $location = "viewDef.php?bartDefID=$defID";
+    $location = "/defs.php?view=BART";
     
     // insert new comment if one was submitted
     if ($bdCommText) {
