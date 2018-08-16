@@ -9,7 +9,7 @@ include('uploadAttachment.php');
 
 $link = f_sqlConnect();
 
-function printException(Exception $exc, $sql = '') {
+function printException(\Exception $exc, $sql = '') {
     print "
         <div style='font-family: monospace'>
             <h4>Caught exception:</h4>
