@@ -20,7 +20,7 @@ function printException(\Exception $exc, $sql = '') {
 }
 
 // prepare POST and sql string for commit
-$post = $_POST;
+$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
 $defID = $post['id'];
 $userID = $_SESSION['userID'];
 
@@ -54,6 +54,17 @@ $post = ['updated_by' => $_SESSION['userID']] + $post;
 $post['resolution_disputed'] || $post['resolution_disputed'] = 0;
 $post['structural'] || $post['structural'] = 0;
 
+// escape anything that's an open text field
+$post['descriptive_title_vta'] = $link->escape_string($post['descriptive_title_vta']);
+$post['root_prob_vta'] = $link->escape_string($post['root_prob_vta']);
+$post['resolution_vta'] = $link->escape_string($post['resolution_vta']);
+$post['id_bart'] = $link->escape_string($post['id_bart']);
+$post['description_bart'] = $link->escape_string($post['description_bart']);
+$post['cat1_bart'] = $link->escape_string($post['cat1_bart']);
+$post['cat2_bart'] = $link->escape_string($post['cat2_bart']);
+$post['cat3_bart'] = $link->escape_string($post['cat3_bart']);
+$post['level_bart'] = $link->escape_string($post['level_bart']);
+
 $assignmentList = implode(' = ?, ', array_keys($fieldsArr)).' = ?';
 $sql = "UPDATE BARTDL SET $assignmentList WHERE id=$defID";
 
@@ -62,27 +73,27 @@ try {
 
     $types = 'iiiiisssiiiiissssssss';
     if (!$stmt->bind_param($types,
-        intval($post['updated_by']),
-        intval($post['creator']),
-        intval($post['next_step']),
-        intval($post['bic']),
-        intval($post['status']),
-        $link->escape_string($post['descriptive_title_vta']),
-        $link->escape_string($post['root_prob_vta']),
-        $link->escape_string($post['resolution_vta']),
-        intval($post['priority_vta']),
-        intval($post['agree_vta']),
-        intval($post['safety_cert_vta']),
-        intval($post['resolution_disputed']),
-        intval($post['structural']),
-        $link->escape_string($post['id_bart']),
-        $link->escape_string($post['description_bart']),
-        $link->escape_string($post['cat1_bart']),
-        $link->escape_string($post['cat2_bart']),
-        $link->escape_string($post['cat3_bart']),
-        $link->escape_string($post['level_bart']),
-        $link->escape_string($post['dateOpen_bart']),
-        $link->escape_string($post['dateClose_bart'])
+        $post['updated_by'],
+        $post['creator'],
+        $post['next_step'],
+        $post['bic'],
+        $post['status'],
+        $post['descriptive_title_vta'],
+        $post['root_prob_vta'],
+        $post['resolution_vta'],
+        $post['priority_vta'],
+        $post['agree_vta'],
+        $post['safety_cert_vta'],
+        $post['resolution_disputed'],
+        $post['structural'],
+        $post['id_bart'],
+        $post['description_bart'],
+        $post['cat1_bart'],
+        $post['cat2_bart'],
+        $post['cat3_bart'],
+        $post['level_bart'],
+        $post['dateOpen_bart'],
+        $post['dateClose_bart']
     )) throw new mysqli_sql_exception($stmt->error);
 
     if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
