@@ -90,15 +90,22 @@ $link = f_sqlConnect();
                         <td class='usertd'>{$row[5]}</td>
                         <td class='usertd'>{$row[6]}</td>
                         <td class='usertd'>
-                        <form action='UpdateUser.php' method='POST' onsubmit=''/>
-                        <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
+                            <a class='btn btn-outline' href='/UpdateUser.php?userID={$row[0]}'>
+                                <i class='typcn typcn-edit'></i>
+                            </a>
+                        </td>";
                             if($Role >= 40) {
                                 echo "
-                        <td class='usertd'><form action='DeleteUser.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete user {$row[2]} {$row[3]}`)'/>
-                        <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";
-                            }
-                            echo "</tr>";
+                        <td class='usertd'>
+                            <form action='DeleteUser.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete user {$row[2]} {$row[3]}`)'>
+                                <button type='submit' name='q' value='{$row[0]}' class='btn btn-outline'>
+                                    <i class='typcn typcn-times'></i>
+                                </button>
+                            </form>
+                        </td>";
                     }
+                    echo "</tr>";
+                }
             }
             echo "</table></div>";
     }

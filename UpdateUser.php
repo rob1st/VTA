@@ -2,10 +2,10 @@
     include('session.php');
     include('SQLFunctions.php');
     $table = 'users_enc';
-    $q = $_POST["q"];
+    $targetUserID = filter_input(INPUT_GET, "userID", FILTER_SANITIZE_NUMBER_INT);
     $userRole = $_SESSION['role'];
     $title = "SVBX - Update User";
-    $Loc = "SELECT Username, Role, firstname, lastname, Email, Company FROM $table WHERE UserID = $q";
+    $Loc = "SELECT Username, Role, firstname, lastname, Email, Company FROM $table WHERE UserID = $targetUserID";
     include('filestart.php');
 
     if($userRole < 30) {
@@ -27,7 +27,7 @@
                         if($userRole >= 30) {
                 echo "
                         <form action='UpdateUserCommit.php' method='POST' onsubmit='' />
-                            <input type='hidden' name='userID' value='".$q."'>
+                            <input type='hidden' name='userID' value='$targetUserID'>
                             <table class='table'>
                                 <tr class='usertr'>
                                     <th class='userth'>First name:</td>
@@ -145,7 +145,7 @@
                 } else {
                     echo '<br>Unable to connect';
                     echo '<br />SQL: '.$Loc;
-                    echo '<br />UserID: '.$q;
+                    echo '<br />UserID: '.$targetUserID;
                     exit();
                 }
         include('fileend.php') ?>

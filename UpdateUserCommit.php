@@ -20,7 +20,7 @@ elseif (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) !=true) {
     $message = "Email is not a valid email address";
 }
 elseif (!empty($_POST)) {
-    $post = filter_input(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+    $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
     
     $fields = [
         'username' => $post['username'],
