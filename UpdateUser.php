@@ -24,7 +24,14 @@
             while ($stmt->fetch()) {
                 echo "
                     <div class='container main-content'>";
-                        if($userRole >= 30) {
+                if (!empty($_SESSION['errorMsg'])) {
+                    echo "
+                        <div class='thin-grey-border bg-yellow pad'>
+                            <p class='mt-0 mb-0'>{$_SESSION['errorMsg']}</p>
+                        </div>";
+                    unset($_SESSION['errorMsg']);
+                }
+                if ($userRole >= 30) {
                 echo "
                         <form action='UpdateUserCommit.php' method='POST' onsubmit='' />
                             <input type='hidden' name='userID' value='$targetUserID'>

@@ -41,9 +41,11 @@ elseif (!empty($_POST)) {
     try {
         if (!empty($message)) throw new Exception($message);
         
-        if (!empty($post['password']) && !empty($post['conPwd'])) {
-            if ($_POST['password'] !== $_POST['conPwd'])
+        if (!empty($fields['password'])) {
+            if (!empty($post['conPwd']) && $fields['password'] !== $post['conPwd'])
                 throw new Exception('Confirmation password does not match new password');
+            elseif (!$fields['password'] = password_hash($fields['password'], PASSWORD_DEFAULT))
+                throw new Exception('Unable to encrypt new password');
         }
 
         if (!$post['userID']) throw new Exception('Could not find userID');
@@ -53,9 +55,10 @@ elseif (!empty($_POST)) {
         
         if (!$link->update('users_enc', $fields))
             throw new Exception('There was a problem updating the record: ' . $link->getLastError());
-        else $location = '/UpdateUser.php';
+        else $location = '/displayUsers.php';
     } catch (Exception $e) {
         $_SESSION['errorMsg'] = $e->getMessage();
+        $location = "/UpdateUser.php?userID={$post['userID']}";
     } finally {
         if (!empty($link) && is_a($link, MysqliDb)) $link->disconnect();
         if (!empty($message)) $_SESSION['errorMsg'] = $message;

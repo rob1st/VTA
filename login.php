@@ -11,7 +11,7 @@ include('filestart.php');
     <main role="main" class="container main-content">
       <div class="container login-container">
         <?php
-            if (isset($_SESSION['errorMsg'])) {
+            if (!empty($_SESSION['errorMsg'])) {
                 echo "
                     <div class='thin-grey-border bg-yellow pad'>
                         <p class='mt-0 mb-0'>{$_SESSION['errorMsg']}</p>
