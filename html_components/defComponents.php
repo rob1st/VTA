@@ -112,8 +112,8 @@ function renderAttachmentsAsAnchors(array $attachments = []) {
     if (count($attachments)) {
         foreach ($attachments as $attachment) {
             $list .= "<li><a href='"
-                .htmlentities(stripcslashes($attachment['bdaFilepath']))."'>"
-                .htmlentities(stripcslashes($attachment['filename']))."</a></li>";
+                . htmlentities(stripcslashes($attachment['bdaFilepath']))."'>"
+                . htmlentities(stripcslashes($attachment['filename']))."</a></li>";
         }
     }
     return sprintf("<ul class='pl-0 mb-0'>%s</ul>", $list);
@@ -417,7 +417,7 @@ $vtaElements = [
         'type' => 'file',
         'element' => "
             <input name='attachment' id='attachment' type='file' accept='$attachmentFormats' class='form-control'>
-            <label class='text-red'>max. allowed file size 5Mb</label>"
+            <label class='text-red'>max. allowed file size 4Mb</label>"
     ],
     'bdCommText' => [
         'label' => returnLabel('bdCommText', 'Add comment'),

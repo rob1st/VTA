@@ -1,8 +1,9 @@
 <?php
 use codeguy\Upload\Exception;
-require 'vendor/autoload.php';
 
-session_start();
+require 'vendor/autoload.php';
+require_once 'session.php';
+
 include('SQLFunctions.php');
 // include('utils/utils.php');
 include('uploadAttachment.php');
@@ -21,8 +22,8 @@ function printException(\Exception $exc, $sql = '') {
 
 // prepare POST and sql string for commit
 $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-$defID = $post['id'];
-$userID = $_SESSION['userID'];
+$defID = intval($post['id']);
+$userID = intval($_SESSION['userID']);
 
 // validate POST data
 // if it's empty then file upload exceeds post_max_size
@@ -33,13 +34,16 @@ if (!count($post) || !$defID) {
 }
 
 // hold onto comments separately
-$bdCommText = $post['bdCommText'];
+$bdCommText = !empty($post['bdCommText']) ?
+    $link->escape_string($post['bdCommText'])
+    : '';
 
 // check for attachment and prepare Upload object
-if ($_FILES['attachment']['size']
-    && $_FILES['attachment']['name']
-    && $_FILES['attachment']['tmp_name']
-    && $_FILES['attachment']['type']) {
+if (!empty($_FILES['attachment'])
+    && !empty($_FILES['attachment']['size'])
+    && !empty($_FILES['attachment']['name'])
+    && !empty($_FILES['attachment']['tmp_name'])
+    && !empty($_FILES['attachment']['type'])) {
     $folder = 'uploads/bartdlUploads';
     $attachmentKey = 'attachment';
 }
@@ -109,9 +113,9 @@ try {
         
         if(!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
         if(!$stmt->bind_param($types,
-            $link->escape_string($bdCommText),
-            intval($userID),
-            intval($defID))) throw new mysqli_sql_exception($stmt->error);
+            $bdCommText,
+            $userID,
+            $defID)) throw new mysqli_sql_exception($stmt->error);
         if(!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
         
         $stmt->close();
@@ -121,14 +125,14 @@ try {
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
     
 } catch (\mysqli_sql_exception $e) {
-    $location = '';
-    printException($e, 'orangeRed', $sql);
+    $location = '/updateBartDef.php?bartDefID=' . $defID;
+    $_SESSION['errorMsg'] = $e->getMessage();
 } catch (UploadException $e) {
-    $location = '';
-    printException($e, 'fuchsia');
+    $location = '/updateBartDef.php?bartDefID=' . $defID;
+    $_SESSION['errorMsg'] = $e->getMessage();
 } catch (\Exception $e) {
-    $location = '';
-    printException($e, 'crimson');
+    $location = '/updateBartDef.php?bartDefID=' . $defID;
+    $_SESSION['errorMsg'] = $e->getMessage();
 }
 
 $link->close();
