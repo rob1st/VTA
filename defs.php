@@ -11,6 +11,13 @@ $view = !empty(($_GET['view']))
 
 include('filestart.php');
 
+// init Twig
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, [
+    'debug' => true
+]);
+$twig->addExtension(new Twig_Extension_Debug());
+
 // query to see if user has permission to view BART defs
 try {
     $link = connect();
@@ -50,7 +57,8 @@ function getFilterOptions($link, $queryParams) {
     foreach ($queryParams as $fieldName => $params) {
         $table = $params['table'];
         $fields = $params['fields'];
-        if (!empty($params['join'])) $link->join($table, $params['join']['joinOn']);
+        if (!empty($params['join']))
+            $link->join($params['join']['joinTable'], $params['join']['joinOn'], $params['join']['joinType']);
         if (!empty($params['where'])) {
             if (gettype($params['where']) === 'string')
             // if where is string, use it as raw where query
@@ -65,7 +73,7 @@ function getFilterOptions($link, $queryParams) {
             $options[$fieldName] = [];
             foreach ($result as $row) {
                 $fieldNames = array_keys($row);
-                $value = $row[$fieldsNames[0]];
+                $value = $row[$fieldNames[0]];
                 if (count($fieldNames) > 1) $text = $row[$fieldNames[1]];
                 else $text = $value;
                 $options[$fieldName][$value] = $text;
@@ -320,7 +328,7 @@ function printBartDefsTable($result, $role) {
 
 // check for search params
 // if no search params show all defs that are not 'deleted'
-if(isset($_GET['search'])) {
+if(!empty($_GET['search'])) {
     $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
     $get = array_filter($get); // filter to remove falsey values -- is this necessary?
     unset($get['search']);
@@ -354,6 +362,96 @@ if(isset($_GET['search'])) {
     // render Project Defs table and Search Fields
     if ($view !== 'BART' || !$bartPermit) {
         try {
+            $filterSelects = [
+                "defID" => [
+                    'table' => 'CDL',
+                    'fields' => 'defID',
+                    'where' => [
+                        'field' => 'status',
+                        'value' => '3',
+                        'comparison' => '<>'
+                    ]
+                ],
+                "status" => [
+                    'table' => 'status s',
+                    'fields' => ['statusID', 'statusName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'c.status = s.statusID',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.statusID',
+                    'where' => [
+                        'field' => 'statusID',
+                        'value' => '3',
+                        'comparison' => '<>'
+                    ]
+                ],
+                "safetyCert" => [
+                    'table' => 'yesNo y',
+                    'fields' => ['yesNoID', 'yesNoName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'c.safetyCert = y.yesNoID',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'y.yesNoID'
+                ],
+                "severity" => [
+                    'table' => 'severity s',
+                    'fields' => ['severityID', 'severityName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 's.severityID = c.severity',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.severityID'
+                ],
+                "systemAffected" => [
+                    'table' => 'system s',
+                    'fields' => ['systemID', 'systemName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 's.systemID = c.systemAffected',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.systemID'
+                ],
+                "groupToResolve" => [
+                    'table' => 'system s',
+                    'fields' => ['systemID', 'systemName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 's.systemID = c.groupToResolve',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.systemID'
+                ],
+                "location" => [
+                    'table' => 'location l',
+                    'fields' => ['locationID', 'locationName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'l.locationID = c.location',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'l.locationID'
+                ],
+                "specLoc" => [
+                    'table' => 'CDL',
+                    'fields' => 'specLoc',
+                    'groupBy' => 'specLoc'
+                ],
+                "identifiedBy" => [
+                    'table' => 'CDL',
+                    'fields' => 'identifiedBy',
+                    'groupBy' => 'identifiedBy'
+                ]
+            ];
+            $filterOptions = getFilterOptions($link, $filterSelects);
+            echo "<pre>";
+            print_r($filterOptions);
+            echo "</pre>";
             // printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getMessage()}</h1>";
