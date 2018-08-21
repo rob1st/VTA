@@ -6,7 +6,8 @@ include('utils/utils.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
 $role = $_SESSION['role'];
-$view = isset($_GET['view']) ? $_GET['view'] : '';
+$view = !empty(($_GET['view']))
+    ? filter_var($_GET['view'], FILTER_SANITIZE_NUMBER_INT) : '';
 
 include('filestart.php');
 
@@ -42,6 +43,38 @@ function printInfoBox($role, $href, $dataGraphic = false) {
     $box = sprintf($box, $btn);
 
     return printf($box, $href);
+}
+
+function getFilterOptions($link, $queryParams) {
+    $options = [];
+    foreach ($queryParams as $fieldName => $params) {
+        $table = $params['table'];
+        $fields = $params['fields'];
+        if (!empty($params['join'])) $link->join($table, $params['join']['joinOn']);
+        if (!empty($params['where'])) {
+            if (gettype($params['where']) === 'string')
+            // if where is string, use it as raw where query
+                $link->where($params['where']);
+            elseif (!empty($params['where']['comparison']))
+                $link->where($params['where']['field'], $params['where']['value'], $params['where']['comparison']);
+            else $link->where($params['where']['field'], $params['where']['value']);
+        }
+        if (!empty($params['groupBy'])) $link->groupBy($params['groupBy']);
+        if (!empty($params['orderBy'])) $link->orderBy($params['orderBy']);
+        if ($result = $link->get($table, null, $fields)) {
+            $options[$fieldName] = [];
+            foreach ($result as $row) {
+                $fieldNames = array_keys($row);
+                $value = $row[$fieldsNames[0]];
+                if (count($fieldNames) > 1) $text = $row[$fieldNames[1]];
+                else $text = $value;
+                $options[$fieldName][$value] = $text;
+            }
+        } else {
+            $options[$fieldName] = "Unable to retrieve $fieldName list";
+        }
+    }
+    return $options;
 }
 
 function printSearchBar($link, $get, $formAction) {
@@ -100,15 +133,6 @@ function printSearchBar($link, $get, $formAction) {
     } else throw new mysqli_sql_exception("Unable to retrieve defID list");
 
     if ($result = $link->get('status', null, 'statusID, statusName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['status']) && $get['status'] === $row['statusID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['statusID'], $selected, $row['statusName']);
-        // }
-        // $curLab = sprintf($labelF, 'Status');
-        // $curEl = sprintf($selectF, 'status', $opts);
-        // sprintf($colF, 6, 2, $curLab . $curEl);
         $cols .= $makeSelectEl('Status', 'status', ['statusID', 'statusName'], [6, 2], $result);
     } else throw new mysqli_sql_exception("Unable to retrieve status list");
 
@@ -330,7 +354,7 @@ if(isset($_GET['search'])) {
     // render Project Defs table and Search Fields
     if ($view !== 'BART' || !$bartPermit) {
         try {
-            printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
+            // printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getMessage()}</h1>";
         }

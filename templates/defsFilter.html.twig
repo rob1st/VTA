@@ -1,0 +1,121 @@
+{% @params
+%% data => [
+%%     'defID' => @array [ value => text ],
+%%     'status' => @array,
+%%     'safetyCert' => @array,
+%%     'severity' => @array,
+%%     'systemAffected' => @array,
+%%     'groupToResolve' => @array,
+%%     'description' => @string,
+%%     'location' => @array,
+%%     'specLoc' => @array,
+%%     'identifiedBy' => @array,
+%% ],
+%}
+<div class="row item-margin-bottom">
+    <form method="GET" action="defs.php" class="col-12">
+        <div class="row">
+            <h5 class="col-12">
+                <a data-toggle="collapse" href="#filterDefs" role="button" aria-expanded="false" aria-controls="filterDefs" class="collapsed">
+                    Filter deficiencies
+                    <i class="typcn typcn-arrow-sorted-down"></i>
+                </a>
+            </h5>
+        </div>
+        <div class="collapse">
+            <div class="row item-margin-bottom">
+                <div id="container_select_defID" class="col-6 col-sm-1 pl-1 pr-1">
+                    <label>Def #</label>
+                    <select name="defID" class="form-control">
+                        <option></option>
+                        {% for value, text in data.defID %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_status" class="col-6 col-sm-2 pl-1 pr-1">
+                    <label>Status</label>
+                    <select name="status" class="form-control">
+                        <option></option>
+                        {% for value, text in data.status %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_safetyCert" class="col-6 col-sm-1 pl-1 pr-1">
+                    <label>Safety cert</label>
+                    <select name="safetyCert" class="form-control">
+                        <option></option>
+                        {% for value, text in data.safetyCert %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_severity" class="col-6 col-sm-3 pl-1 pr-1">
+                    <label>Severity</label>
+                    <select name="severity" class="form-control">
+                        <option></option>
+                        {% for value, text in data.severity %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_sysAffected" class="col-6 col-sm-3 pl-1 pr-1">
+                    <label>System affected</label>
+                    <select name="systemAffected" class="form-control">
+                        <option></option>
+                        {% for value, text, in data.systemAffected %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_groupToRes" class="col-6 col-sm-3 pl-1 pr-1">
+                    <label>Group to resolve</label>
+                    <select name="groupToResolve" class="form-control">
+                        <option></option>
+                        {% for value, text in data.groupToResolve %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row item-margin-bottom">
+                <div id="container_input_descrip" class="col-4 col-sm-4 pl-1 pr-1">
+                    <label>Description</label>
+                    <input type="text" name="description" class="form-control" value="{{data.description}}" />
+                </div>
+                <div id="container_select_location" class="col-6 col-sm-2 pl-1 pr-1">
+                    <label>Location</label>
+                    <select name="location" class="form-control">
+                        <option></option>
+                        {% for value, text in data.location %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_specLoc" class="col-6 col-sm-2 pl-1 pr-1">
+                    <label>Specific location</label>
+                    <select name="specLoc" class="form-control">
+                        <option></option>
+                        {% for value, text in data.specLoc %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_select_identifiedBy" class="col-6 col-sm-2 pl-1 pr-1">
+                    <label>Identified by</label>
+                    <select name="identifiedBy" class="form-control">
+                        <option></option>
+                        {% for value, text in data.identifiedBy %}
+                            <option value="{{value}}">{{text}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="container_buttons_submit-reset" class="col-12 col-sm-2 flew-row justify-center align-end pl-1 pr-1">
+                    <button name="search" value="search" type="submit" class="btn btn-primary item-margin-right">Search</button>
+                    <button type="button" class="btn btn-primary item-margin-right" onclick="return resetSearch(event)">Reset</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
