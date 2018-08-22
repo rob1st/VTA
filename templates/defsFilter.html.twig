@@ -1,17 +1,16 @@
-{% @params
-%% data => [
-%%     'defID' => @array [ value => text ],
-%%     'status' => @array,
-%%     'safetyCert' => @array,
-%%     'severity' => @array,
-%%     'systemAffected' => @array,
-%%     'groupToResolve' => @array,
-%%     'description' => @string,
-%%     'location' => @array,
-%%     'specLoc' => @array,
-%%     'identifiedBy' => @array,
-%% ],
-%}
+{# @params
+## selectOptions => [
+##     'defID' => @array [ value => text ],
+##     'status' => @array,
+##     'safetyCert' => @array,
+##     'severity' => @array,
+##     'systemAffected' => @array,
+##     'groupToResolve' => @array,
+##     'location' => @array,
+##     'specLoc' => @array,
+##     'identifiedBy' => @array,
+## ],
+#}
 <div class="row item-margin-bottom">
     <form method="GET" action="defs.php" class="col-12">
         <div class="row">
@@ -22,13 +21,13 @@
                 </a>
             </h5>
         </div>
-        <div class="collapse">
+        <div id="filterDefs" class="collapse">
             <div class="row item-margin-bottom">
                 <div id="container_select_defID" class="col-6 col-sm-1 pl-1 pr-1">
                     <label>Def #</label>
                     <select name="defID" class="form-control">
                         <option></option>
-                        {% for value, text in data.defID %}
+                        {% for value, text in selectOptions.defID %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -37,7 +36,7 @@
                     <label>Status</label>
                     <select name="status" class="form-control">
                         <option></option>
-                        {% for value, text in data.status %}
+                        {% for value, text in selectOptions.status %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -46,16 +45,16 @@
                     <label>Safety cert</label>
                     <select name="safetyCert" class="form-control">
                         <option></option>
-                        {% for value, text in data.safetyCert %}
+                        {% for value, text in selectOptions.safetyCert %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div id="container_select_severity" class="col-6 col-sm-3 pl-1 pr-1">
+                <div id="container_select_severity" class="col-6 col-sm-2 pl-1 pr-1">
                     <label>Severity</label>
                     <select name="severity" class="form-control">
                         <option></option>
-                        {% for value, text in data.severity %}
+                        {% for value, text in selectOptions.severity %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -64,7 +63,7 @@
                     <label>System affected</label>
                     <select name="systemAffected" class="form-control">
                         <option></option>
-                        {% for value, text, in data.systemAffected %}
+                        {% for value, text in selectOptions.systemAffected %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -73,7 +72,7 @@
                     <label>Group to resolve</label>
                     <select name="groupToResolve" class="form-control">
                         <option></option>
-                        {% for value, text in data.groupToResolve %}
+                        {% for value, text in selectOptions.groupToResolve %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -82,13 +81,13 @@
             <div class="row item-margin-bottom">
                 <div id="container_input_descrip" class="col-4 col-sm-4 pl-1 pr-1">
                     <label>Description</label>
-                    <input type="text" name="description" class="form-control" value="{{data.description}}" />
+                    <input type="text" name="description" class="form-control" value="{{values.description}}" />
                 </div>
                 <div id="container_select_location" class="col-6 col-sm-2 pl-1 pr-1">
                     <label>Location</label>
                     <select name="location" class="form-control">
                         <option></option>
-                        {% for value, text in data.location %}
+                        {% for value, text in selectOptions.location %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -97,7 +96,7 @@
                     <label>Specific location</label>
                     <select name="specLoc" class="form-control">
                         <option></option>
-                        {% for value, text in data.specLoc %}
+                        {% for value, text in selectOptions.specLoc %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
@@ -106,12 +105,12 @@
                     <label>Identified by</label>
                     <select name="identifiedBy" class="form-control">
                         <option></option>
-                        {% for value, text in data.identifiedBy %}
+                        {% for value, text in selectOptions.identifiedBy %}
                             <option value="{{value}}">{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div id="container_buttons_submit-reset" class="col-12 col-sm-2 flew-row justify-center align-end pl-1 pr-1">
+                <div id="container_buttons_submit-reset" class="col-12 col-sm-2 flex-row justify-center align-end pl-1 pr-1">
                     <button name="search" value="search" type="submit" class="btn btn-primary item-margin-right">Search</button>
                     <button type="button" class="btn btn-primary item-margin-right" onclick="return resetSearch(event)">Reset</button>
                 </div>
