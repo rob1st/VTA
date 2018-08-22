@@ -435,7 +435,7 @@ if(!empty($_GET['search'])) {
                         'comparison' => '<>'
                     ]
                 ],
-                'safety_cert_vta sc' => [
+                'safety_cert_vta' => [
                     'table' => 'yesNo y',
                     'fields' => ['yesNoID', 'yesNoName'],
                     'join' => [

@@ -15,50 +15,57 @@
 
 {% block filterFields %}
     <div class="row item-margin-bottom">
-        <div id="container_select_nextStep" class="col-6 col-sm-3 pl-1 pr-1">
-            <label></label>
-            <select>
+        <div id="container_select_nextStep" class="col-6 col-sm-3 flex-column justify-end pl-1 pr-1">
+            <label>Next step</label>
+            <select class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.next_step %}
+                    <option value="{{value}}">{{text}}</option>
                 {% endfor %}
             </select>
         </div>
-        <div id="container_select_bic" class="col-6 col-sm-2 pl-1 pr-1">
-            <label></label>
-            <select>
+        <div id="container_select_bic" class="col-6 col-sm-2 flex-column justify-end pl-1 pr-1">
+            <label>BIC</label>
+            <select class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.bic %}
+                    <option value="{{value}}">{{text}}</option>
                 {% endfor %}
             </select>
         </div>
-        <div id="container_select_status" class="col-6 col-sm-2 pl-1 pr-1">
-            <label></label>
-            <select>
+        <div id="container_select_status" class="col-6 col-sm-2 flex-column justify-end pl-1 pr-1">
+            <label>Status</label>
+            <select class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.status %}
+                    <option value="{{value}}">{{text}}</option>
                 {% endfor %}
             </select>
         </div>
-        <div id="container_select_safetyCert" class="col-6 col-sm-1 pl-1 pr-1">
-            <label></label>
-            <select>
+        <div id="container_select_safetyCert" class="col-6 col-sm-1 flex-column justify-end pl-1 pr-1">
+            <label>Safety cert</label>
+            <select class="form-control">
                 <option></option>
-                {% for value, text in selectOptions.safetyCert %}
+                {% for value, text in selectOptions.safety_cert_vta %}
+                    <option value="{{value}}">{{text}}</option>
                 {% endfor %}
             </select>
         </div>
-        <div id="container_select_resDisp" class="col-6 col-sm-1 pl-1 pr-1">
-            <label></label>
-            <select>
+        <div id="container_select_resDisp" class="col-6 col-sm-1 flex-column justify-end pl-1 pr-1">
+            <label>Resolution disputed</label>
+            <select class="form-control">
+                <option></option>
                 {% for value, text in selectOptions.resolution_disputed %}
+                    <option value="{{value}}">{{text}}</option>
                 {% endfor %}
             </select>
         </div>
-        <div id="container_select_structural" class="col-6 col-sm-1 pl-1 pr-1">
-            <label></label>
-            <select>
+        <div id="container_select_structural" class="col-6 col-sm-1 flex-column justify-end pl-1 pr-1">
+            <label>Structural</label>
+            <select class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.structural %}
+                    <option value="{{value}}">{{text}}</option>
                 {% endfor %}
             </select>
         </div>
