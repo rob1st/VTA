@@ -1,0 +1,67 @@
+{% extends "filterForm.html.twig" %}
+{# @params
+## selectOptions = [
+##     next_step => [ value, text ],
+##     bic,
+##     status,
+##     safetyCert,
+##     resolution_disputed,
+##     structural
+## ],
+## values = []
+#}
+
+{% set formAction = "defs.php?view=BART" %}
+
+{% block filterFields %}
+    <div class="row item-margin-bottom">
+        <div id="container_select_nextStep" class="col-6 col-sm-3 pl-1 pr-1">
+            <label></label>
+            <select>
+                <option></option>
+                {% for value, text in selectOptions.next_step %}
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_bic" class="col-6 col-sm-2 pl-1 pr-1">
+            <label></label>
+            <select>
+                <option></option>
+                {% for value, text in selectOptions.bic %}
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_status" class="col-6 col-sm-2 pl-1 pr-1">
+            <label></label>
+            <select>
+                <option></option>
+                {% for value, text in selectOptions.status %}
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_safetyCert" class="col-6 col-sm-1 pl-1 pr-1">
+            <label></label>
+            <select>
+                <option></option>
+                {% for value, text in selectOptions.safetyCert %}
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_resDisp" class="col-6 col-sm-1 pl-1 pr-1">
+            <label></label>
+            <select>
+                {% for value, text in selectOptions.resolution_disputed %}
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_structural" class="col-6 col-sm-1 pl-1 pr-1">
+            <label></label>
+            <select>
+                <option></option>
+                {% for value, text in selectOptions.structural %}
+                {% endfor %}
+            </select>
+        </div>
+        {{ parent() }}
+    </div>
+{% endblock %}

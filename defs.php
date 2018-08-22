@@ -458,6 +458,12 @@ if(!empty($_GET['search'])) {
             ];
             
             $filterOptions = getFilterOptions($link, $filterSelects);
+            
+            $twig->display('bartDefsFilter.html.twig', [
+                'selectOptions' => $filterOptions,
+                'values' => $get,
+                'collapse' => empty($get)
+            ]);
         } catch (Exception $e) {
             echo "<p class='pad' style='border: 1px solid var(--gray); background-color: var(--yellow); color: var(--gray)'>"
                 . "There was a problem retrieving filter parameters: "
