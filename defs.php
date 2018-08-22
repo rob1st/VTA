@@ -6,7 +6,7 @@ include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
 $role = $_SESSION['role'];
 $view = !empty(($_GET['view']))
-    ? filter_var($_GET['view'], FILTER_SANITIZE_NUMBER_INT) : '';
+    ? filter_var($_GET['view'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
 
 include('filestart.php');
 
@@ -242,15 +242,6 @@ if(!empty($_GET['search'])) {
 
         try {
             $filterSelects = [
-                "defID" => [
-                    'table' => 'CDL',
-                    'fields' => 'defID',
-                    'where' => [
-                        'field' => 'status',
-                        'value' => '3',
-                        'comparison' => '<>'
-                    ]
-                ],
                 "status" => [
                     'table' => 'status s',
                     'fields' => ['statusID', 'statusName'],
@@ -334,7 +325,8 @@ if(!empty($_GET['search'])) {
                 'collapse' => empty($get)
             ]);
         } catch (Exception $e) {
-            echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getTemplateLine()}: {$e->getMessage()}</h1>";
+            echo "<p style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>There was a problem displaying search fields</p>";
+            error_log($e->getTemplateLine() . ': ' . $e->getMessage());
         }
 
         try {
@@ -387,10 +379,100 @@ if(!empty($_GET['search'])) {
             if (!$statusData = $link->query($statusSql)[0])
                 throw new mysqli_sql_exception("There was a problem retrieving status data");
         } catch (Exception $e) {
-            echo "<h1 style='color: #b82;'>{$e->getMessage()}</h1>";
+            echo "<p style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>{$e->getMessage()}</p>";
         }
 
         printInfoBox($role, 'newBartDef.php', 1);
+        
+        try {
+            $filterSelects = [
+                'status' => [
+                    'table' => 'status s',
+                    'fields' => ['statusID', 'statusName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 's.statusID = b.status',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.statusID',
+                    'where' => [
+                        'field' => 's.statusID',
+                        'value' => '3',
+                        'comparison' => '<>'
+                    ]
+                ],
+                'next_step' => [
+                    'table' => 'bdNextStep n',
+                    'fields' => ['bdNextStepID', 'nextStepName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'b.next_step = n.bdNextStepID',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'n.bdNextStepID',
+                    'where' => [
+                        'field' => 'n.bdNextStepID',
+                        'value' => '0',
+                        'comparison' => '<>'
+                    ]
+                ],
+                'bic' => [
+                    'table' => 'bdParties p',
+                    'fields' => ['partyID', 'partyName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'p.partyID = b.creator',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'p.partyID',
+                    'where' => [
+                        'field' => 'p.partyID',
+                        'value' => '0',
+                        'comparison' => '<>'
+                    ]
+                ],
+                'safety_cert_vta sc' => [
+                    'table' => 'yesNo y',
+                    'fields' => ['yesNoID', 'yesNoName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'y.yesNoID = b.safety_cert_vta',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'y.yesNoID'
+                ],
+                'resolution_disputed' => [
+                    'table' => 'yesNo y',
+                    'fields' => ['yesNoID', 'yesNoName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'y.yesNoID = b.resolution_disputed',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'y.yesNoID'
+                ],
+                'structural' => [
+                    'table' => 'yesNo y',
+                    'fields' => ['yesNoID', 'yesNoName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'y.yesNoID = b.structural',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'y.yesNoID'
+                ]
+            ];
+            
+            $filterOptions = getFilterOptions($link, $filterSelects);
+            
+            echo "<pre>";
+            print_r($filterOptions);
+            echo "</pre>";
+        } catch (Exception $e) {
+            echo "<p class='pad' style='border: 1px solid var(--gray); background-color: var(--yellow); color: var(--gray)'>"
+                . "There was a problem retrieving filter parameters: "
+                . $e->getMessage() . "</p>";
+        }
 
         try {
             $fields = [
