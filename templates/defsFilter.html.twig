@@ -1,3 +1,4 @@
+{% extends "filterForm.html.twig" %}
 {# @params
 ## selectOptions => [
 ##     'defID' => @array [ value => text ],
@@ -10,129 +11,113 @@
 ##     'specLoc' => @array,
 ##     'identifiedBy' => @array,
 ## ],
+## values => [],
 #}
+{% set formAction = "defs.php" %}
 
-{% if collapse is empty %}
-    {% set show, collapsed = ' show', '' %}
-{% else %}
-    {% set show, collapsed = '', 'collapsed' %}
-{% endif %}
-
-<div class="row item-margin-bottom">
-    <form method="GET" action="defs.php" class="col-12">
-        <div class="row">
-            <h5 class="col-12">
-                <a data-toggle="collapse" href="#filterDefs" role="button" aria-expanded="false" aria-controls="filterDefs" class="{{collapsed}}">
-                    Filter deficiencies
-                    <i class="typcn typcn-arrow-sorted-down"></i>
-                </a>
-            </h5>
+{% block filterFields %}
+    <div class="row item-margin-bottom">
+        <div id="container_input_defID" class="col-6 col-sm-1 pl-1 pr-1">
+            <label>Def #</label>
+            <input type="text" name="defID" class="form-control" value="{{values.defID}}">
         </div>
-        <div id="filterDefs" class="collapse{{show}}">
-            <div class="row item-margin-bottom">
-                <div id="container_input_defID" class="col-6 col-sm-1 pl-1 pr-1">
-                    <label>Def #</label>
-                    <input type="text" name="defID" class="form-control" value="{{values.defID}}">
-                </div>
-                <div id="container_select_status" class="col-6 col-sm-2 pl-1 pr-1">
-                    <label>Status</label>
-                    <select name="status" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.status %}
-                            {% set selected = (not values.status is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_select_safetyCert" class="col-6 col-sm-1 pl-1 pr-1">
-                    <label>Safety cert</label>
-                    <select name="safetyCert" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.safetyCert %}
-                            {% set selected = (not values.safetyCert is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_select_severity" class="col-6 col-sm-2 pl-1 pr-1">
-                    <label>Severity</label>
-                    <select name="severity" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.severity %}
-                            {% set selected = (not values.severity is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_select_sysAffected" class="col-6 col-sm-3 pl-1 pr-1">
-                    <label>System affected</label>
-                    <select name="systemAffected" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.systemAffected %}
-                            {% set selected = (not values.systemAffected is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_select_groupToRes" class="col-6 col-sm-3 pl-1 pr-1">
-                    <label>Group to resolve</label>
-                    <select name="groupToResolve" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.groupToResolve %}
-                            {% set selected = (not values.groupToResolve is empty and values.status == value)
-                                    ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="row item-margin-bottom">
-                <div id="container_input_descrip" class="col-4 col-sm-4 pl-1 pr-1">
-                    <label>Description</label>
-                    <input type="text" name="description" class="form-control" value="{{values.description}}" />
-                </div>
-                <div id="container_select_location" class="col-6 col-sm-2 pl-1 pr-1">
-                    <label>Location</label>
-                    <select name="location" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.location %}
-                            {% set selected = (not values.location is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_select_specLoc" class="col-6 col-sm-2 pl-1 pr-1">
-                    <label>Specific location</label>
-                    <select name="specLoc" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.specLoc %}
-                            {% set selected = (not values.specLoc is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_select_identifiedBy" class="col-6 col-sm-2 pl-1 pr-1">
-                    <label>Identified by</label>
-                    <select name="identifiedBy" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.identifiedBy %}
-                            {% set selected = (not values.identifiedBy is empty and values.status == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="container_buttons_submit-reset" class="col-12 col-sm-2 flex-row justify-center align-end pl-1 pr-1">
-                    <button name="search" value="search" type="submit" class="btn btn-primary item-margin-right">Search</button>
-                    <button type="button" class="btn btn-primary item-margin-right" onclick="return resetSearch(event)">Reset</button>
-                </div>
-            </div>
+        <div id="container_select_status" class="col-6 col-sm-2 pl-1 pr-1">
+            <label>Status</label>
+            <select name="status" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.status %}
+                    {% set selected = (not values.status is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
         </div>
-    </form>
-</div>
+        <div id="container_select_safetyCert" class="col-6 col-sm-1 pl-1 pr-1">
+            <label>Safety cert</label>
+            <select name="safetyCert" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.safetyCert %}
+                    {% set selected = (not values.safetyCert is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_severity" class="col-6 col-sm-2 pl-1 pr-1">
+            <label>Severity</label>
+            <select name="severity" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.severity %}
+                    {% set selected = (not values.severity is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_sysAffected" class="col-6 col-sm-3 pl-1 pr-1">
+            <label>System affected</label>
+            <select name="systemAffected" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.systemAffected %}
+                    {% set selected = (not values.systemAffected is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_groupToRes" class="col-6 col-sm-3 pl-1 pr-1">
+            <label>Group to resolve</label>
+            <select name="groupToResolve" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.groupToResolve %}
+                    {% set selected = (not values.groupToResolve is empty and values.status == value)
+                            ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="row item-margin-bottom">
+        <div id="container_input_descrip" class="col-4 col-sm-4 pl-1 pr-1">
+            <label>Description</label>
+            <input type="text" name="description" class="form-control" value="{{values.description}}" />
+        </div>
+        <div id="container_select_location" class="col-6 col-sm-2 pl-1 pr-1">
+            <label>Location</label>
+            <select name="location" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.location %}
+                    {% set selected = (not values.location is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_specLoc" class="col-6 col-sm-2 pl-1 pr-1">
+            <label>Specific location</label>
+            <select name="specLoc" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.specLoc %}
+                    {% set selected = (not values.specLoc is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_select_identifiedBy" class="col-6 col-sm-2 pl-1 pr-1">
+            <label>Identified by</label>
+            <select name="identifiedBy" class="form-control">
+                <option></option>
+                {% for value, text in selectOptions.identifiedBy %}
+                    {% set selected = (not values.identifiedBy is empty and values.status == value)
+                        ? ' selected' : '' %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="container_buttons_submit-reset" class="col-12 col-sm-2 flex-row justify-center align-end pl-1 pr-1">
+            <button name="search" value="search" type="submit" class="btn btn-primary item-margin-right">Search</button>
+            <button type="button" class="btn btn-primary item-margin-right" onclick="return resetSearch(event)">Reset</button>
+        </div>
+    </div>
+{% endblock %}

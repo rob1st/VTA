@@ -208,7 +208,7 @@ function printBartDefsTable($result, $role) {
 if(!empty($_GET['search'])) {
     $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
     $get = array_filter($get); // filter to remove falsey values -- is this necessary?
-    unset($get['search']);
+    unset($get['search'], $get['view']);
 } else {
     $get = null;
 }
@@ -320,12 +320,13 @@ if(!empty($_GET['search'])) {
             ];
             
             $twig->display('defsFilter.html.twig', [
+                'resetScript' => 'resetSearch',
                 'selectOptions' => getFilterOptions($link, $filterSelects),
                 'values' => $get,
                 'collapse' => empty($get)
             ]);
         } catch (Exception $e) {
-            echo "<p style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>There was a problem displaying search fields</p>";
+            echo "<p class='pad' style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>There was a problem displaying search fields</p>";
             error_log($e->getTemplateLine() . ': ' . $e->getMessage());
         }
 
@@ -457,10 +458,6 @@ if(!empty($_GET['search'])) {
             ];
             
             $filterOptions = getFilterOptions($link, $filterSelects);
-            
-            echo "<pre>";
-            print_r($filterOptions);
-            echo "</pre>";
         } catch (Exception $e) {
             echo "<p class='pad' style='border: 1px solid var(--gray); background-color: var(--yellow); color: var(--gray)'>"
                 . "There was a problem retrieving filter parameters: "
@@ -484,6 +481,13 @@ if(!empty($_GET['search'])) {
             foreach ($joins as $tableName => $on) {
                 $link->join($tableName, $on, 'LEFT');
             }
+            
+            if ($get) {
+                foreach ($get as $param => $val) {
+                    $link->where($param, $val);
+                }
+            }
+            $link->where('status', '3', '<>');
             $link->orderBy('ID', 'ASC');
             $res = $link->get('BARTDL b', null, $fields);
             printBartDefsTable($res, $bartPermit);
