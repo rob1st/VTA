@@ -361,7 +361,8 @@ if(!empty($_GET['search'])) {
 
             if ($get) {
                 foreach ($get as $param => $val) {
-                    if ($param === 'description') $link->where($param, "%{$val}%", 'LIKE');
+                    if ($param === 'description' || $param === 'defID')
+                        $link->where($param, "%{$val}%", 'LIKE');
                     else $link->where($param, $val);
                 }
             }

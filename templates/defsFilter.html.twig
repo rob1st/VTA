@@ -30,16 +30,9 @@
         </div>
         <div id="filterDefs" class="collapse{{show}}">
             <div class="row item-margin-bottom">
-                <div id="container_select_defID" class="col-6 col-sm-1 pl-1 pr-1">
+                <div id="container_input_defID" class="col-6 col-sm-1 pl-1 pr-1">
                     <label>Def #</label>
-                    <select name="defID" class="form-control">
-                        <option></option>
-                        {% for value, text in selectOptions.defID %}
-                            {% set selected = (not values.defID is empty and values.defID == value)
-                                ? ' selected' : '' %}
-                            <option value="{{value}}"{{selected}}>{{text}}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="text" name="defID" class="form-control" value="{{values.defID}}">
                 </div>
                 <div id="container_select_status" class="col-6 col-sm-2 pl-1 pr-1">
                     <label>Status</label>
