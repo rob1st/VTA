@@ -28,7 +28,7 @@ function returnFakeInputStr($val) {
     return returnHtmlForVal($val, $str, $altStr);
 }
 
-if (isset($_GET['defID']) && $_GET['defID']) {
+if (!empty($_GET['defID'])) {
     $link = f_sqlConnect();
     $sql = file_get_contents("viewDef.sql").$defID;
 
@@ -271,7 +271,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
         include('fileend.php');
         exit;
     }
-} elseif (isset($_GET['bartDefID']) && $_GET['bartDefID']) {
+} elseif (!empty($_GET['bartDefID'])) {
     $link = f_sqlConnect();
     // check for bartdl permission
     if ($result = $link->query('SELECT bdPermit from users_enc where userID='.$_SESSION['userID'])) {
@@ -299,6 +299,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
         $fieldList = str_replace('agree_vta', 'ag.agreeDisagreeName AS agree_vta', $fieldList);
         $fieldList = str_replace('creator', 'c.partyName AS creator', $fieldList);
         $fieldList = str_replace('next_step', 'n.nextStepName AS next_step', $fieldList);
+        $fieldList = str_replace('safety_cert_vta', 'y.yesNoName AS safety_cert_vta', $fieldList);
         $sql = 'SELECT '
             .$fieldList
             ." FROM BARTDL"
@@ -306,6 +307,7 @@ if (isset($_GET['defID']) && $_GET['defID']) {
             ." JOIN agreeDisagree ag ON BARTDL.agree_vta=ag.agreeDisagreeID"
             ." JOIN bdParties c ON BARTDL.creator=c.partyID"
             ." JOIN bdNextStep n ON BARTDL.next_step=n.bdNextStepID"
+            ." JOIN yesNo y ON BARTDL.safety_cert_vta = y.yesNoID"
             ." WHERE BARTDL.id=?";
 
         if ($stmt = $link->prepare($sql)) {
