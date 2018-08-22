@@ -11,17 +11,24 @@
 ##     'identifiedBy' => @array,
 ## ],
 #}
+
+{% if collapse is empty %}
+    {% set show, collapsed = ' show', '' %}
+{% else %}
+    {% set show, collapsed = '', 'collapsed' %}
+{% endif %}
+
 <div class="row item-margin-bottom">
     <form method="GET" action="defs.php" class="col-12">
         <div class="row">
             <h5 class="col-12">
-                <a data-toggle="collapse" href="#filterDefs" role="button" aria-expanded="false" aria-controls="filterDefs" class="collapsed">
+                <a data-toggle="collapse" href="#filterDefs" role="button" aria-expanded="false" aria-controls="filterDefs" class="{{collapsed}}">
                     Filter deficiencies
                     <i class="typcn typcn-arrow-sorted-down"></i>
                 </a>
             </h5>
         </div>
-        <div id="filterDefs" class="collapse">
+        <div id="filterDefs" class="collapse{{show}}">
             <div class="row item-margin-bottom">
                 <div id="container_select_defID" class="col-6 col-sm-1 pl-1 pr-1">
                     <label>Def #</label>

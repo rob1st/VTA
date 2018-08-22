@@ -1,6 +1,5 @@
 <?php
 include('session.php');
-// session_start();
 include('SQLFunctions.php');
 include('utils/utils.php');
 include('html_functions/htmlTables.php');
@@ -83,128 +82,6 @@ function getFilterOptions($link, $queryParams) {
         }
     }
     return $options;
-}
-
-function printSearchBar($link, $get, $formAction) {
-    list($collapsed, $show) = isset($get['search']) ? ['', ' show'] : ['collapsed', ''];
-    $marker = '%s';
-    $formF = "
-        <div class='row item-margin-bottom'>
-            <form method='{$formAction['method']}' action='{$formAction['action']}' class='col-12'>
-                <div class='row'>
-                    <h5 class='col-12'>
-                        <a
-                            data-toggle='collapse'
-                            href='#filterDefs'
-                            role='button'
-                            aria-expanded='false'
-                            aria-controls='filterDefs'
-                            class='$collapsed'
-                        >Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i>
-                        </a>
-                    </h5>
-                </div>
-                <div class='collapse$show' id='filterDefs'>%s</div>
-            </form>
-        </div>";
-    $rowF = "<div class='row item-margin-bottom'>%s</div>";
-    $colF = "<div class='col-%s col-sm-%s pl-1 pr-1'>%s</div>";
-    $labelF = "<label>%s</label>";
-    $selectF = "
-        <select name='%s' class='form-control'>
-            <option value=''></option>
-            %s
-        </select>";
-    $optionF = "<option value='%s'%s>%s</option>";
-
-    $makeSelectEl = function ($labelText, $param, array $fields, array $colWds, $data) use ($get, $labelF, $selectF, $optionF, $colF)
-    {
-        list($inputVal, $inputText) = isset($fields[1])
-            ? [ $fields[0], $fields[1] ] : [ $fields[0], $fields[0]];
-        // collect <option> els in a str before sprintf <select>
-        $opts = '';
-        foreach ($data as $row) {
-            $selected = isset($get[$param]) && $get[$param] === $row[$fields[0]]
-                ? ' selected' : '';
-            $opts .= sprintf($optionF, $row[$inputVal], $selected, $row[$inputText]);
-        }
-        $curLab = sprintf($labelF, $labelText);
-        $curEl = sprintf($selectF, $param, $opts);
-        // return sprintf('%s', 'CONTENT!' . '6');
-        return sprintf($colF, $colWds[0], $colWds[1], $curLab . $curEl);
-
-    };
-    // collect elements w/i cols in 2 two rows
-    if ($result = $link->get('CDL', null, 'defID')) {
-        // this is the first column so we start a new $cols collector
-        $cols = $makeSelectEl('Def #', 'defID', ['defID'], [6, 1], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve defID list");
-
-    if ($result = $link->get('status', null, 'statusID, statusName')) {
-        $cols .= $makeSelectEl('Status', 'status', ['statusID', 'statusName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve status list");
-
-    if ($result = $link->get('yesNo', null, 'yesNoID, yesNoName')) {
-        $cols .= $makeSelectEl('Safety cert', 'safetyCert', ['yesNoID', 'yesNoName'], [6, 1], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve safetyCert list");
-
-    if ($result = $link->get('severity', null, 'severityID, severityName')) {
-        $cols .= $makeSelectEl('Severity', 'severity', ['severityID', 'severityName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve severity list");
-
-    $link->join('system s', 'c.systemAffected = s.systemID', 'INNER');
-    $link->groupBy('systemName');
-    $link->orderBy('systemID');
-    if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
-        $cols .= $makeSelectEl('System affected', 'systemAffected', ['systemID', 'systemName'], [6, 3], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve system list");
-
-    $link->join('system s', 'c.groupToResolve = s.systemID', 'INNER');
-    $link->groupBy('systemName');
-    $link->orderBy('systemID');
-    if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
-        $cols .= $makeSelectEl('Group to resolve', 'groupToResolve', ['systemID', 'systemName'], [6, 3], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve groupToResolve list");
-
-    // finish first row
-    $row1 = sprintf($rowF, $cols);
-
-    // begin new row with a fresh $cols collector
-    $curLab = sprintf($labelF, 'Description');
-    $curVal = isset($get['description']) ? $get['description'] : '';
-    $curEl = "<input type='text' name='description' class='form-control' value='$curVal'>";
-    $cols = sprintf($colF, 4, 4, $curLab . $curEl);
-
-    $link->join('location l', 'c.location = l.locationID', 'INNER');
-    $link->groupBy('locationName');
-    $link->orderBy('locationID');
-    if ($result = $link->get('CDL c', null, 'l.locationID, l.locationName')) {
-        $cols .= $makeSelectEl('Location', 'location', ['locationID', 'locationName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve location list");
-
-    $link->groupBy('specLoc');
-    if ($result = $link->get('CDL', null, 'specLoc')) {
-        $cols .= $makeSelectEl('Specific location', 'specLoc', ['specLoc'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve specLoc list");
-
-    $link->groupBy('identifiedBy');
-    if ($result = $link->get('CDL', null, 'identifiedBy')) {
-        $cols .= $makeSelectEl('Identified by', 'identifiedBy', ['identifiedBy'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve identifiedBy list");
-
-    // submit and reset buttons
-    $buttons = "
-            <button name='search' value='search' type='submit' class='btn btn-primary item-margin-right'>Search</button>
-            <button type='button' class='btn btn-primary item-margin-right' onclick='return resetSearch(event)'>Reset</button>";
-    // buttons column needs flex classes so I tack them on after bootstrap col width class
-    $cols .= sprintf($colF, 12, '2 flex-row justify-center align-end', $buttons);
-
-    // finish second row;
-    $row2 = sprintf($rowF, $cols);
-
-    $form = sprintf($formF, $row1 . $row2);
-
-    print $form;
 }
 
 function printDefsTable($result, $tableElements, $userLvl) {
@@ -448,13 +325,10 @@ if(!empty($_GET['search'])) {
                     'groupBy' => 'identifiedBy'
                 ]
             ];
-            $filterOptions = getFilterOptions($link, $filterSelects);
-            echo "<pre>";
-            print_r($filterOptions);
-            echo "</pre>";
             
             $twig->display('defsFilter.html.twig', [
-                'selectOptions' => $filterOptions
+                'selectOptions' => getFilterOptions($link, $filterSelects),
+                'collapse' => empty($get)
             ]);
             // printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
