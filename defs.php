@@ -238,6 +238,8 @@ if(!empty($_GET['search'])) {
 <?php
     // render Project Defs table and Search Fields
     if ($view !== 'BART' || !$bartPermit) {
+        printInfoBox($role, 'NewDef.php');
+
         try {
             $filterSelects = [
                 "defID" => [
@@ -328,14 +330,12 @@ if(!empty($_GET['search'])) {
             
             $twig->display('defsFilter.html.twig', [
                 'selectOptions' => getFilterOptions($link, $filterSelects),
+                'values' => $get,
                 'collapse' => empty($get)
             ]);
-            // printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
         } catch (Exception $e) {
             echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getTemplateLine()}: {$e->getMessage()}</h1>";
         }
-
-        printInfoBox($role, 'NewDef.php');
 
         try {
             $fields = [

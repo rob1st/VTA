@@ -35,7 +35,9 @@
                     <select name="defID" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.defID %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.defID is empty and values.defID == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -44,7 +46,9 @@
                     <select name="status" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.status %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.status is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -53,7 +57,9 @@
                     <select name="safetyCert" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.safetyCert %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.safetyCert is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -62,7 +68,9 @@
                     <select name="severity" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.severity %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.severity is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -71,7 +79,9 @@
                     <select name="systemAffected" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.systemAffected %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.systemAffected is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -80,7 +90,9 @@
                     <select name="groupToResolve" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.groupToResolve %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.groupToResolve is empty and values.status == value)
+                                    ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -95,7 +107,9 @@
                     <select name="location" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.location %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.location is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -104,7 +118,9 @@
                     <select name="specLoc" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.specLoc %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.specLoc is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -113,7 +129,9 @@
                     <select name="identifiedBy" class="form-control">
                         <option></option>
                         {% for value, text in selectOptions.identifiedBy %}
-                            <option value="{{value}}">{{text}}</option>
+                            {% set selected = (not values.identifiedBy is empty and values.status == value)
+                                ? ' selected' : '' %}
+                            <option value="{{value}}"{{selected}}>{{text}}</option>
                         {% endfor %}
                     </select>
                 </div>
