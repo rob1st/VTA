@@ -385,6 +385,9 @@ if(!empty($_GET['search'])) {
         printInfoBox($role, 'newBartDef.php', 1);
         
         try {
+            $res_dispCase = '(CASE WHEN resolution_disputed = 1 THEN "yes" ELSE "no" END) AS yesNoName';
+            $structCase = '(CASE WHEN structural = 1 THEN "yes" ELSE "no" END) AS yesNoName';
+            
             $filterSelects = [
                 'status' => [
                     'table' => 'status s',
@@ -442,24 +445,14 @@ if(!empty($_GET['search'])) {
                     'groupBy' => 'y.yesNoID'
                 ],
                 'resolution_disputed' => [
-                    'table' => 'yesNo y',
-                    'fields' => ['yesNoID', 'yesNoName'],
-                    'join' => [
-                        'joinTable' => 'BARTDL b',
-                        'joinOn' => 'y.yesNoID = b.resolution_disputed',
-                        'joinType' => 'INNER'
-                    ],
-                    'groupBy' => 'y.yesNoID'
+                    'table' => 'BARTDL',
+                    'fields' => ['resolution_disputed', $res_dispCase], // res_disp and structural use CASES to map 0 + 1 to 'no' + 'yes' b/c they don't line up nicely with our bool table, yesNo
+                    'groupBy' => 'resolution_disputed'
                 ],
                 'structural' => [
-                    'table' => 'yesNo y',
-                    'fields' => ['yesNoID', 'yesNoName'],
-                    'join' => [
-                        'joinTable' => 'BARTDL b',
-                        'joinOn' => 'y.yesNoID = b.structural',
-                        'joinType' => 'INNER'
-                    ],
-                    'groupBy' => 'y.yesNoID'
+                    'table' => 'BARTDL',
+                    'fields' => ['structural', $structCase], // res_disp and structural use CASES to map 0 + 1 to 'no' + 'yes' b/c they don't line up nicely with our bool table, yesNo
+                    'groupBy' => 'structural'
                 ]
             ];
             
