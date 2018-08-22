@@ -11,61 +11,68 @@
 ## values = []
 #}
 
-{% set formAction = "defs.php?view=BART" %}
+{% set formAction = "defs.php" %}
 
 {% block filterFields %}
+    <input type="hidden" name="view" value="BART" />
     <div class="row item-margin-bottom">
         <div id="container_select_nextStep" class="col-6 col-sm-3 flex-column justify-end pl-1 pr-1">
             <label>Next step</label>
-            <select class="form-control">
+            <select name="next_step" class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.next_step %}
-                    <option value="{{value}}">{{text}}</option>
+                    {% set selected = (not values.next_step is empty and values.next_step == value) ? " selected" : "" %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
                 {% endfor %}
             </select>
         </div>
         <div id="container_select_bic" class="col-6 col-sm-2 flex-column justify-end pl-1 pr-1">
             <label>BIC</label>
-            <select class="form-control">
+            <select name="bic" class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.bic %}
-                    <option value="{{value}}">{{text}}</option>
+                    {% set selected = (not values.bic is empty and values.bic == value) ? " selected" : "" %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
                 {% endfor %}
             </select>
         </div>
         <div id="container_select_status" class="col-6 col-sm-2 flex-column justify-end pl-1 pr-1">
             <label>Status</label>
-            <select class="form-control">
+            <select name="status" class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.status %}
-                    <option value="{{value}}">{{text}}</option>
+                    {% set selected = (not values.status is empty and values.status == value) ? " selected" : "" %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
                 {% endfor %}
             </select>
         </div>
         <div id="container_select_safetyCert" class="col-6 col-sm-1 flex-column justify-end pl-1 pr-1">
             <label>Safety cert</label>
-            <select class="form-control">
+            <select name="safety_cert_vta" class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.safety_cert_vta %}
-                    <option value="{{value}}">{{text}}</option>
+                    {% set selected = (not values.safety_cert_vta is empty and values.safety_cert_vta == value) ? " selected" : "" %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
                 {% endfor %}
             </select>
         </div>
         <div id="container_select_resDisp" class="col-6 col-sm-1 flex-column justify-end pl-1 pr-1">
             <label>Resolution disputed</label>
-            <select class="form-control">
+            <select name="resolution_disputed" class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.resolution_disputed %}
-                    <option value="{{value}}">{{text}}</option>
+                    {% set selected = (not values.resolution_disputed is empty and values.resolution_disputed == value) ? " selected" : "" %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
                 {% endfor %}
             </select>
         </div>
         <div id="container_select_structural" class="col-6 col-sm-1 flex-column justify-end pl-1 pr-1">
             <label>Structural</label>
-            <select class="form-control">
+            <select name="structural" class="form-control">
                 <option></option>
                 {% for value, text in selectOptions.structural %}
-                    <option value="{{value}}">{{text}}</option>
+                    {% set selected = (not values.structural is empty and values.structural == value) ? " selected" : "" %}
+                    <option value="{{value}}"{{selected}}>{{text}}</option>
                 {% endfor %}
             </select>
         </div>
