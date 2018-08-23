@@ -361,7 +361,7 @@ $generalElements = [
         'label' => returnLabel('status', 'Status', 1),
         'tagName' => 'select',
         'element' => "<select name='status' id='status' class='form-control' required>%s</select>",
-        'query' => "SELECT statusID, statusName from status WHERE statusName <> 'Deleted'",
+        'query' => "SELECT statusID, statusName from status WHERE statusID <> 3",
         'value' => ''
     ],
     'descriptive_title_vta' => [

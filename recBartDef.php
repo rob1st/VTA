@@ -9,7 +9,7 @@ include('uploadAttachment.php');
 $link = f_sqlConnect();
 
 $date = date('Y-m-d');
-$userID = $_SESSION['userID'];
+$userID = intval($_SESSION['userID']);
 
 function printException(\Exception $exc, $color = 'orangeRed') {
     print "
@@ -23,11 +23,12 @@ function printException(\Exception $exc, $color = 'orangeRed') {
 
 // prepare POST and sql string for commit
 $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_SPECIAL_CHARS);
-$bdCommText = $post['bdCommText'];
+$bdCommText = $link->escape_string($post['bdCommText']);
 
 // validate POST data, if it's empty bump user back to form
 if (!count($post)) {
-    include('js/emptyPostRedirect.php');
+    $_SESSION['errorMsg'] = 'No data received. Your upload may be too large';
+    header('Location: /newBartDef.php');
     exit;
 }
 
@@ -53,37 +54,48 @@ try {
 }
 
 try {
+    // escape anything that's an open text field
+    $post['descriptive_title_vta'] = $link->escape_string($post['descriptive_title_vta']);
+    $post['root_prob_vta'] = $link->escape_string($post['root_prob_vta']);
+    $post['resolution_vta'] = $link->escape_string($post['resolution_vta']);
+    $post['id_bart'] = $link->escape_string($post['id_bart']);
+    $post['description_bart'] = $link->escape_string($post['description_bart']);
+    $post['cat1_bart'] = $link->escape_string($post['cat1_bart']);
+    $post['cat2_bart'] = $link->escape_string($post['cat2_bart']);
+    $post['cat3_bart'] = $link->escape_string($post['cat3_bart']);
+    $post['level_bart'] = $link->escape_string($post['level_bart']);
+
     $types = 'iiiiiisssiiiiisssssssss';
     if (!$stmt->bind_param($types,
-        intval($post['created_by']),
-        intval($post['created_by']),
-        intval($post['creator']),
-        intval($post['next_step']),
-        intval($post['bic']),
-        intval($post['status']),
-        $link->escape_string($post['descriptive_title_vta']),
-        $link->escape_string($post['root_prob_vta']),
-        $link->escape_string($post['resolution_vta']),
-        intval($post['priority_vta']),
-        intval($post['agree_vta']),
-        intval($post['safety_cert_vta']),
-        intval($post['resolution_disputed']),
-        intval($post['structural']),
-        $link->escape_string($post['id_bart']),
-        $link->escape_string($post['description_bart']),
-        $link->escape_string($post['cat1_bart']),
-        $link->escape_string($post['cat2_bart']),
-        $link->escape_string($post['cat3_bart']),
-        $link->escape_string($post['level_bart']),
-        $link->escape_string($post['dateOpen_bart']),
-        $link->escape_string($post['dateClose_bart']),
+        $post['created_by'],
+        $post['created_by'],
+        $post['creator'],
+        $post['next_step'],
+        $post['bic'],
+        $post['status'],
+        $post['descriptive_title_vta'],
+        $post['root_prob_vta'],
+        $post['resolution_vta'],
+        $post['priority_vta'],
+        $post['agree_vta'],
+        $post['safety_cert_vta'],
+        $post['resolution_disputed'],
+        $post['structural'],
+        $post['id_bart'],
+        $post['description_bart'],
+        $post['cat1_bart'],
+        $post['cat2_bart'],
+        $post['cat3_bart'],
+        $post['level_bart'],
+        $post['dateOpen_bart'],
+        $post['dateClose_bart'],
         $date
     )) throw new mysqli_sql_exception($stmt->error);
 
     if (!$stmt->execute()) {
         throw new mysqli_sql_exception($stmt->error);
     }
-    $defID = $stmt->insert_id;
+    $defID = intval($stmt->insert_id);
     $stmt->close();
 
     $location = "viewDef.php?bartDefID=$defID";
@@ -97,9 +109,9 @@ try {
             throw new mysqli_sql_exception($link->error);
         }
         if (!$stmt->bind_param($types,
-            $link->escape_string($bdCommText),
-            intval($userID),
-            intval($defID))) {
+            $bdCommText,
+            $userID,
+            $defID)) {
                 http_response_code(500);
                 throw new mysqli_sql_exception($stmt->error);
         }
@@ -112,33 +124,14 @@ try {
 
     // upload and insert attachment if found
     if ($attachmentKey) uploadAttachment($link, $attachmentKey, $folder, $defID);
-} catch (mysqli_sql_exception $e) {
-    $location = '';
-    if (strpos($e->getMessage(), 'Duplicate entry') == false) {
-        $msg = $link->escape_string($e->getMessage());
-        print "
-            <script>
-                (function () {
-                    window.history.go(-1);
-                    window.alert('$msg')
-                })();
-            </script>";
-        $link->close();
-        exit;
-    } else {
-        printException($e);
-        $link->close();
-        exit;
-    }
-} catch (UploadException $e) {
-    $location = '';
-    printException($e);
-    $link->close();
-    exit;
+    
+    $location = '/defs.php?view=BART';
 } catch (\Exception $e) {
-    $location = '';
-    printException($e);
-    $link->close();
+    $location = '/newBartDef.php';
+    $_SESSION['errorMsg'] = $e->getMessage();
+} finally {
+    header("Location: $location");
+    if (is_a($link, mysqli)) $link->close();
     exit;
 }
 

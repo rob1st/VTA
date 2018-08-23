@@ -7,7 +7,7 @@ include_once('error_handling/sqlErrors.php');
 
 $userID = intval($_SESSION['userID']);
 
-function uploadAttachment($cnxn, $key, $dir, int $assocID) {
+function uploadAttachment($link, $key, $dir, int $assocID) {
     $filetypes = explode(',',
         preg_replace('/\s+/', '', file_get_contents('allowedFormats.csv')));
     $storage = new \Upload\Storage\FileSystem($dir);
@@ -28,7 +28,7 @@ function uploadAttachment($cnxn, $key, $dir, int $assocID) {
     }
     
     try { // commit file data to db
-        if (!$stmt = $cnxn->prepare($sql)) throw new mysqli_sql_exception($cnxn->error);
+        if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
         if (!$stmt->bind_param($types,
             $filepath,
             $assocID,
