@@ -6,6 +6,7 @@ config.*
 php.ini
 phpinfo.php
 check.php
+test.php
 error_log
 php_errors.log
 old_*

@@ -5,9 +5,8 @@ require 'vendor/autoload.php';
 
 include_once('error_handling/sqlErrors.php');
 
-$userID = intval($_SESSION['userID']);
-
 function uploadAttachment($link, $key, $dir, int $assocID) {
+    $userID = intval($_SESSION['userID']);
     $filetypes = explode(',',
         preg_replace('/\s+/', '', file_get_contents('allowedFormats.csv')));
     $storage = new \Upload\Storage\FileSystem($dir);
@@ -36,7 +35,7 @@ function uploadAttachment($link, $key, $dir, int $assocID) {
             $filesize,
             $fileext,
             $filename)) throw new mysqli_sql_exception($stmt->error);
-        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error . " : userID = $userID");
         $stmt->close();
         return $filepath;
     } catch (\mysqli_sql_exception $e) {

@@ -54,6 +54,11 @@ try {
 }
 
 try {
+    // append keys that do not or may not come from html form
+    $post['updated_by'] = $_SESSION['userID'];
+    $post['resolution_disputed'] = !empty($post['resolution_disputed']) ? $post['resolution_disputed'] : 0;
+    $post['structural'] = !empty($post['structural']) ? $post['structural'] : 0;
+
     // escape anything that's an open text field
     $post['descriptive_title_vta'] = $link->escape_string($post['descriptive_title_vta']);
     $post['root_prob_vta'] = $link->escape_string($post['root_prob_vta']);
@@ -131,7 +136,7 @@ try {
     $_SESSION['errorMsg'] = $e->getMessage();
 } finally {
     header("Location: $location");
-    if (is_a($link, mysqli)) $link->close();
+    if (is_a($link, 'mysqli')) $link->close();
     exit;
 }
 

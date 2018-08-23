@@ -54,9 +54,9 @@ $fieldsArr = array_fill_keys(explode(',', $fieldList), '?');
 unset($fieldsArr['id'], $fieldsArr['created_by'], $fieldsArr['form_modified']);
 
 // append keys that do not or may not come from html form
-$post = ['updated_by' => $_SESSION['userID']] + $post;
-$post['resolution_disputed'] || $post['resolution_disputed'] = 0;
-$post['structural'] || $post['structural'] = 0;
+$post['updated_by'] = $_SESSION['userID'];
+$post['resolution_disputed'] = !empty($post['resolution_disputed']) ? $post['resolution_disputed'] : 0;
+$post['structural'] = !empty($post['structural']) ? $post['structural'] : 0;
 
 // escape anything that's an open text field
 $post['descriptive_title_vta'] = $link->escape_string($post['descriptive_title_vta']);
