@@ -1,7 +1,7 @@
 <?php 
     include('session.php');
     include('SQLFunctions.php');
-    $table = Location;
+    $table = 'location';
     $q = $_POST["q"];
     $title = "SVBX - Update Location";
     $Loc = "SELECT LocationName FROM $table WHERE LocationID = ".$q;

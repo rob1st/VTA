@@ -1,7 +1,6 @@
 <?php
 include('SQLFunctions.php');
-include('Session.php');
-session_start();
+include('session.php');
 
 if(!empty($_POST)) {
     $LocationID = $_POST['LocationID'];
@@ -9,29 +8,18 @@ if(!empty($_POST)) {
     $UserID = $_SESSION['userID'];
     $link = f_sqlConnect();
     
-    $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
-    if($result=mysqli_query($link,$user)) 
-        {
-          /*from the sql results, assign the username that returned to the $username variable*/    
-          while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['username'];
-          }
-        }
-    
-    $sql = "UPDATE Location
-            SET LocationName = '".$LocationName."'
-                ,updatedBy = '".$Username."'
+    $sql = "UPDATE location
+            SET LocationName = '$LocationName'
+                ,updatedBy = '$UserID'
                 ,lastUpdated = NOW()
-            WHERE LocationID = ".$LocationID.";";
+            WHERE LocationID = $LocationID";
 
-            if(mysqli_query($link,$sql)) {
-                echo "<br>Update Completed successfully";
-        } else {
-            echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
-        }
-        mysqli_close($link);
-        header("Location: DisplayLocations.php?msg=1");
-        //echo "<br>Username: ".$Username;
-        //echo "<br>UserID: ".$user;        
+    if(mysqli_query($link,$sql)) {
+        $_SESSION['successMsg'] = "Update Completed successfully";
+    } else {
+        $_SESSION['errorMsg'] = "Error: " .$sql. "<br>" .mysqli_error($link);
+    }
+    mysqli_close($link);
+    header("Location: DisplayLocations.php?msg=1");
 }
 ?>
