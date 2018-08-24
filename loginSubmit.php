@@ -48,6 +48,7 @@ try {
         'password',
         'role',
         'inspector',
+        'bdPermit',
         'secQ'
     ];
 
@@ -67,6 +68,7 @@ try {
         $_SESSION['lastname'] = $result['lastname'];
         $_SESSION['role'] = $result['role'];
         $_SESSION['inspector'] = $result['inspector'];
+        $_SESSION['bdPermit'] = $result['bdPermit'];
         $_SESSION['timeout'] = time();
 
         $link->where('username', $result['username']);

@@ -19,7 +19,7 @@ function PieChart(d3, id, d, palette, wd = '200', ht = '200') {
     // TODO: setData(), setColors(), setDims(), setWd(), setHt(), setContainer()
     // and get...() for all of the above
     const public = {
-        draw: function() {
+        draw: function(options = []) {
             const radius = Math.min(width, height)/2;
             const color = d3.scaleOrdinal(colors);
             
@@ -49,6 +49,9 @@ function PieChart(d3, id, d, palette, wd = '200', ht = '200') {
         },
         getContainer: function() {
             return container;
+        },
+        getData: () => {
+            return data;
         }
     };
     
@@ -61,7 +64,7 @@ function PieChart(d3, id, d, palette, wd = '200', ht = '200') {
             const swatch = document.createElement('i')
             
             label.classList.add('mr-2', 'mb-1', 'ml-2')
-            label.textContent = datum.label
+            label.textContent = `${datum.count} ${datum.label}`
     
             swatch.classList.add('legend-swatch')
             swatch.style.backgroundColor = colorScheme[i]
