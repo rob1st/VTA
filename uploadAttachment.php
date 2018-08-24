@@ -5,43 +5,43 @@ require 'vendor/autoload.php';
 
 include_once('error_handling/sqlErrors.php');
 
-function uploadAttachment($cnxn, $key, $dir, $assocID) {
+function uploadAttachment($link, $key, $dir, int $assocID) {
+    $userID = intval($_SESSION['userID']);
     $filetypes = explode(',',
         preg_replace('/\s+/', '', file_get_contents('allowedFormats.csv')));
     $storage = new \Upload\Storage\FileSystem($dir);
     $attachment = new \Upload\File($key, $storage);
     $filename = $attachment->getNameWithExtension();
-    $filepath = $dir.'/'.$filename;
+    $filename = $link->escape_string($filename);
+    $filepath = $dir . '/' . $filename;
     $filesize = $attachment->getSize();
     $fileext = $attachment->getExtension();
     $attachment->addValidations($filetypes);
     $sql = 'INSERT bartdlAttachments (bdaFilepath, bartdlID, uploaded_by, filesize, fileext, filename) VALUES (?, ?, ?, ?, ?, ?)';
     $types = 'siiiss';
-    try {
+    
+    try { // upload file
         $attachment->upload();
     } catch (UploadException $e) {
-        http_response_code(500);
         throw new UploadException($e);
     }
     
-    try {
-        if (!$stmt = $cnxn->prepare($sql)) throw new mysqli_sql_exception($cnxn->error);
+    try { // commit file data to db
+        if (!$stmt = $link->prepare($sql)) throw new mysqli_sql_exception($link->error);
         if (!$stmt->bind_param($types,
-            $cnxn->escape_string($filepath),
-            intval($assocID),
-            intval($_SESSION['userID']),
-            intval($filesize),
-            $cnxn->escape_string($fileext),
-            $cnxn->escape_string($filename))) throw new mysqli_sql_exception($stmt->error);
-        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error);
+            $filepath,
+            $assocID,
+            $userID,
+            $filesize,
+            $fileext,
+            $filename)) throw new mysqli_sql_exception($stmt->error);
+        if (!$stmt->execute()) throw new mysqli_sql_exception($stmt->error . " : userID = $userID");
         $stmt->close();
         return $filepath;
     } catch (\mysqli_sql_exception $e) {
         $stmt->close();
-        http_response_code(500);
         throw new mysqli_sql_exception($e);
     } catch (\Exception $e) {
-        http_response_code(500);
         throw new Exception($e);
     }
 }

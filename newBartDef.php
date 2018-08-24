@@ -77,7 +77,15 @@ if ($bdPermit) {
 
     echo "
         <header class='container page-header'>
-            <h1 class='page-title'>Add New Deficiency</h1>
+            <h1 class='page-title'>Add New Deficiency</h1>";
+            if (!empty($_SESSION['errorMsg'])) {
+                echo "
+                    <div class='thin-grey-border bg-yellow pad'>
+                        <p class='mt-0 mb-0'>{$_SESSION['errorMsg']}</p>
+                    </div>";
+                unset($_SESSION['errorMsg']);
+            }
+    echo "
         </header>
         <main role='main' class='container main-content'>
             <form action='recBartDef.php' method='POST' enctype='multipart/form-data'>

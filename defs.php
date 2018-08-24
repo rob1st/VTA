@@ -1,14 +1,21 @@
 <?php
 include('session.php');
-// session_start();
 include('SQLFunctions.php');
 include('utils/utils.php');
 include('html_functions/htmlTables.php');
 $title = "View Deficiencies";
 $role = $_SESSION['role'];
-$view = isset($_GET['view']) ? $_GET['view'] : '';
+$view = !empty(($_GET['view']))
+    ? filter_var($_GET['view'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
 
 include('filestart.php');
+
+// init Twig
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader, [
+    'debug' => true
+]);
+$twig->addExtension(new Twig_Extension_Debug());
 
 // query to see if user has permission to view BART defs
 try {
@@ -44,135 +51,37 @@ function printInfoBox($role, $href, $dataGraphic = false) {
     return printf($box, $href);
 }
 
-function printSearchBar($link, $get, $formAction) {
-    list($collapsed, $show) = isset($get['search']) ? ['', ' show'] : ['collapsed', ''];
-    $marker = '%s';
-    $formF = "
-        <div class='row item-margin-bottom'>
-            <form method='{$formAction['method']}' action='{$formAction['action']}' class='col-12'>
-                <div class='row'>
-                    <h5 class='col-12'>
-                        <a
-                            data-toggle='collapse'
-                            href='#filterDefs'
-                            role='button'
-                            aria-expanded='false'
-                            aria-controls='filterDefs'
-                            class='$collapsed'
-                        >Filter deficiencies<i class='typcn typcn-arrow-sorted-down'></i>
-                        </a>
-                    </h5>
-                </div>
-                <div class='collapse$show' id='filterDefs'>%s</div>
-            </form>
-        </div>";
-    $rowF = "<div class='row item-margin-bottom'>%s</div>";
-    $colF = "<div class='col-%s col-sm-%s pl-1 pr-1'>%s</div>";
-    $labelF = "<label>%s</label>";
-    $selectF = "
-        <select name='%s' class='form-control'>
-            <option value=''></option>
-            %s
-        </select>";
-    $optionF = "<option value='%s'%s>%s</option>";
-
-    $makeSelectEl = function ($labelText, $param, array $fields, array $colWds, $data) use ($get, $labelF, $selectF, $optionF, $colF)
-    {
-        list($inputVal, $inputText) = isset($fields[1])
-            ? [ $fields[0], $fields[1] ] : [ $fields[0], $fields[0]];
-        // collect <option> els in a str before sprintf <select>
-        $opts = '';
-        foreach ($data as $row) {
-            $selected = isset($get[$param]) && $get[$param] === $row[$fields[0]]
-                ? ' selected' : '';
-            $opts .= sprintf($optionF, $row[$inputVal], $selected, $row[$inputText]);
+function getFilterOptions($link, $queryParams) {
+    $options = [];
+    foreach ($queryParams as $fieldName => $params) {
+        $table = $params['table'];
+        $fields = $params['fields'];
+        if (!empty($params['join']))
+            $link->join($params['join']['joinTable'], $params['join']['joinOn'], $params['join']['joinType']);
+        if (!empty($params['where'])) {
+            if (gettype($params['where']) === 'string')
+            // if where is string, use it as raw where query
+                $link->where($params['where']);
+            elseif (!empty($params['where']['comparison']))
+                $link->where($params['where']['field'], $params['where']['value'], $params['where']['comparison']);
+            else $link->where($params['where']['field'], $params['where']['value']);
         }
-        $curLab = sprintf($labelF, $labelText);
-        $curEl = sprintf($selectF, $param, $opts);
-        // return sprintf('%s', 'CONTENT!' . '6');
-        return sprintf($colF, $colWds[0], $colWds[1], $curLab . $curEl);
-
-    };
-    // collect elements w/i cols in 2 two rows
-    if ($result = $link->get('CDL', null, 'defID')) {
-        // this is the first column so we start a new $cols collector
-        $cols = $makeSelectEl('Def #', 'defID', ['defID'], [6, 1], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve defID list");
-
-    if ($result = $link->get('status', null, 'statusID, statusName')) {
-        // $opts = '';
-        // foreach ($result as $row) {
-        //     $selected = isset($get['status']) && $get['status'] === $row['statusID']
-        //         ? ' selected' : '';
-        //     $opts .= sprintf($optionF, $row['statusID'], $selected, $row['statusName']);
-        // }
-        // $curLab = sprintf($labelF, 'Status');
-        // $curEl = sprintf($selectF, 'status', $opts);
-        // sprintf($colF, 6, 2, $curLab . $curEl);
-        $cols .= $makeSelectEl('Status', 'status', ['statusID', 'statusName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve status list");
-
-    if ($result = $link->get('yesNo', null, 'yesNoID, yesNoName')) {
-        $cols .= $makeSelectEl('Safety cert', 'safetyCert', ['yesNoID', 'yesNoName'], [6, 1], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve safetyCert list");
-
-    if ($result = $link->get('severity', null, 'severityID, severityName')) {
-        $cols .= $makeSelectEl('Severity', 'severity', ['severityID', 'severityName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve severity list");
-
-    $link->join('system s', 'c.systemAffected = s.systemID', 'INNER');
-    $link->groupBy('systemName');
-    $link->orderBy('systemID');
-    if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
-        $cols .= $makeSelectEl('System affected', 'systemAffected', ['systemID', 'systemName'], [6, 3], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve system list");
-
-    $link->join('system s', 'c.groupToResolve = s.systemID', 'INNER');
-    $link->groupBy('systemName');
-    $link->orderBy('systemID');
-    if ($result = $link->get('CDL c', null, 'systemID, systemName')) {
-        $cols .= $makeSelectEl('Group to resolve', 'groupToResolve', ['systemID', 'systemName'], [6, 3], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve groupToResolve list");
-
-    // finish first row
-    $row1 = sprintf($rowF, $cols);
-
-    // begin new row with a fresh $cols collector
-    $curLab = sprintf($labelF, 'Description');
-    $curVal = isset($get['description']) ? $get['description'] : '';
-    $curEl = "<input type='text' name='description' class='form-control' value='$curVal'>";
-    $cols = sprintf($colF, 4, 4, $curLab . $curEl);
-
-    $link->join('location l', 'c.location = l.locationID', 'INNER');
-    $link->groupBy('locationName');
-    $link->orderBy('locationID');
-    if ($result = $link->get('CDL c', null, 'l.locationID, l.locationName')) {
-        $cols .= $makeSelectEl('Location', 'location', ['locationID', 'locationName'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve location list");
-
-    $link->groupBy('specLoc');
-    if ($result = $link->get('CDL', null, 'specLoc')) {
-        $cols .= $makeSelectEl('Specific location', 'specLoc', ['specLoc'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve specLoc list");
-
-    $link->groupBy('identifiedBy');
-    if ($result = $link->get('CDL', null, 'identifiedBy')) {
-        $cols .= $makeSelectEl('Identified by', 'identifiedBy', ['identifiedBy'], [6, 2], $result);
-    } else throw new mysqli_sql_exception("Unable to retrieve identifiedBy list");
-
-    // submit and reset buttons
-    $buttons = "
-            <button name='search' value='search' type='submit' class='btn btn-primary item-margin-right'>Search</button>
-            <button type='button' class='btn btn-primary item-margin-right' onclick='return resetSearch(event)'>Reset</button>";
-    // buttons column needs flex classes so I tack them on after bootstrap col width class
-    $cols .= sprintf($colF, 12, '2 flex-row justify-center align-end', $buttons);
-
-    // finish second row;
-    $row2 = sprintf($rowF, $cols);
-
-    $form = sprintf($formF, $row1 . $row2);
-
-    print $form;
+        if (!empty($params['groupBy'])) $link->groupBy($params['groupBy']);
+        if (!empty($params['orderBy'])) $link->orderBy($params['orderBy']);
+        if ($result = $link->get($table, null, $fields)) {
+            $options[$fieldName] = [];
+            foreach ($result as $row) {
+                $fieldNames = array_keys($row);
+                $value = $row[$fieldNames[0]];
+                if (count($fieldNames) > 1) $text = $row[$fieldNames[1]];
+                else $text = $value;
+                $options[$fieldName][$value] = $text;
+            }
+        } else {
+            $options[$fieldName] = "Unable to retrieve $fieldName list";
+        }
+    }
+    return $options;
 }
 
 function printDefsTable($result, $tableElements, $userLvl) {
@@ -296,10 +205,10 @@ function printBartDefsTable($result, $role) {
 
 // check for search params
 // if no search params show all defs that are not 'deleted'
-if(isset($_GET['search'])) {
+if(!empty($_GET['search'])) {
     $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_SPECIAL_CHARS);
     $get = array_filter($get); // filter to remove falsey values -- is this necessary?
-    unset($get['search']);
+    unset($get['search'], $get['view']);
 } else {
     $get = null;
 }
@@ -329,13 +238,97 @@ if(isset($_GET['search'])) {
 <?php
     // render Project Defs table and Search Fields
     if ($view !== 'BART' || !$bartPermit) {
-        try {
-            printSearchBar($link, $get, ['method' => 'GET', 'action' => 'defs.php']);
-        } catch (Exception $e) {
-            echo "<h1 style='color: #da0;'>print search bar got issues: {$e->getMessage()}</h1>";
-        }
-
         printInfoBox($role, 'NewDef.php');
+
+        try {
+            $filterSelects = [
+                "status" => [
+                    'table' => 'status s',
+                    'fields' => ['statusID', 'statusName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'c.status = s.statusID',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.statusID',
+                    'where' => [
+                        'field' => 'statusID',
+                        'value' => '3',
+                        'comparison' => '<>'
+                    ]
+                ],
+                "safetyCert" => [
+                    'table' => 'yesNo y',
+                    'fields' => ['yesNoID', 'yesNoName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'c.safetyCert = y.yesNoID',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'y.yesNoID'
+                ],
+                "severity" => [
+                    'table' => 'severity s',
+                    'fields' => ['severityID', 'severityName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 's.severityID = c.severity',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.severityID'
+                ],
+                "systemAffected" => [
+                    'table' => 'system s',
+                    'fields' => ['systemID', 'systemName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 's.systemID = c.systemAffected',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.systemID'
+                ],
+                "groupToResolve" => [
+                    'table' => 'system s',
+                    'fields' => ['systemID', 'systemName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 's.systemID = c.groupToResolve',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.systemID'
+                ],
+                "location" => [
+                    'table' => 'location l',
+                    'fields' => ['locationID', 'locationName'],
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'l.locationID = c.location',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'l.locationID'
+                ],
+                "specLoc" => [
+                    'table' => 'CDL',
+                    'fields' => 'specLoc',
+                    'groupBy' => 'specLoc'
+                ],
+                "identifiedBy" => [
+                    'table' => 'CDL',
+                    'fields' => 'identifiedBy',
+                    'groupBy' => 'identifiedBy'
+                ]
+            ];
+            
+            $twig->display('defsFilter.html.twig', [
+                'resetScript' => 'resetSearch',
+                'selectOptions' => getFilterOptions($link, $filterSelects),
+                'values' => $get,
+                'collapse' => empty($get)
+            ]);
+        } catch (Exception $e) {
+            echo "<p class='pad' style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>There was a problem displaying search fields</p>";
+            error_log($e->getTemplateLine() . ': ' . $e->getMessage());
+        }
 
         try {
             $fields = [
@@ -361,7 +354,8 @@ if(isset($_GET['search'])) {
 
             if ($get) {
                 foreach ($get as $param => $val) {
-                    if ($param === 'description') $link->where($param, "%{$val}%", 'LIKE');
+                    if ($param === 'description' || $param === 'defID')
+                        $link->where($param, "%{$val}%", 'LIKE');
                     else $link->where($param, $val);
                 }
             }
@@ -386,10 +380,95 @@ if(isset($_GET['search'])) {
             if (!$statusData = $link->query($statusSql)[0])
                 throw new mysqli_sql_exception("There was a problem retrieving status data");
         } catch (Exception $e) {
-            echo "<h1 style='color: #b82;'>{$e->getMessage()}</h1>";
+            echo "<p style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>{$e->getMessage()}</p>";
         }
 
         printInfoBox($role, 'newBartDef.php', 1);
+        
+        try {
+            $res_dispCase = '(CASE WHEN resolution_disputed = 1 THEN "yes" ELSE "no" END) AS yesNoName';
+            $structCase = '(CASE WHEN structural = 1 THEN "yes" ELSE "no" END) AS yesNoName';
+            
+            $filterSelects = [
+                'status' => [
+                    'table' => 'status s',
+                    'fields' => ['statusID', 'statusName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 's.statusID = b.status',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 's.statusID',
+                    'where' => [
+                        'field' => 's.statusID',
+                        'value' => '3',
+                        'comparison' => '<>'
+                    ]
+                ],
+                'next_step' => [
+                    'table' => 'bdNextStep n',
+                    'fields' => ['bdNextStepID', 'nextStepName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'b.next_step = n.bdNextStepID',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'n.bdNextStepID',
+                    'where' => [
+                        'field' => 'n.bdNextStepID',
+                        'value' => '0',
+                        'comparison' => '<>'
+                    ]
+                ],
+                'bic' => [
+                    'table' => 'bdParties p',
+                    'fields' => ['partyID', 'partyName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'p.partyID = b.creator',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'p.partyID',
+                    'where' => [
+                        'field' => 'p.partyID',
+                        'value' => '0',
+                        'comparison' => '<>'
+                    ]
+                ],
+                'safety_cert_vta' => [
+                    'table' => 'yesNo y',
+                    'fields' => ['yesNoID', 'yesNoName'],
+                    'join' => [
+                        'joinTable' => 'BARTDL b',
+                        'joinOn' => 'y.yesNoID = b.safety_cert_vta',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'y.yesNoID'
+                ],
+                'resolution_disputed' => [
+                    'table' => 'BARTDL',
+                    'fields' => ['resolution_disputed', $res_dispCase], // res_disp and structural use CASES to map 0 + 1 to 'no' + 'yes' b/c they don't line up nicely with our bool table, yesNo
+                    'groupBy' => 'resolution_disputed'
+                ],
+                'structural' => [
+                    'table' => 'BARTDL',
+                    'fields' => ['structural', $structCase], // res_disp and structural use CASES to map 0 + 1 to 'no' + 'yes' b/c they don't line up nicely with our bool table, yesNo
+                    'groupBy' => 'structural'
+                ]
+            ];
+            
+            $filterOptions = getFilterOptions($link, $filterSelects);
+            
+            $twig->display('bartDefsFilter.html.twig', [
+                'selectOptions' => $filterOptions,
+                'values' => $get,
+                'collapse' => empty($get)
+            ]);
+        } catch (Exception $e) {
+            echo "<p class='pad' style='border: 1px solid var(--gray); background-color: var(--yellow); color: var(--gray)'>"
+                . "There was a problem retrieving filter parameters: "
+                . $e->getMessage() . "</p>";
+        }
 
         try {
             $fields = [
@@ -408,6 +487,13 @@ if(isset($_GET['search'])) {
             foreach ($joins as $tableName => $on) {
                 $link->join($tableName, $on, 'LEFT');
             }
+            
+            if ($get) {
+                foreach ($get as $param => $val) {
+                    $link->where($param, $val);
+                }
+            }
+            $link->where('status', '3', '<>');
             $link->orderBy('ID', 'ASC');
             $res = $link->get('BARTDL b', null, $fields);
             printBartDefsTable($res, $bartPermit);
