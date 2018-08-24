@@ -6,11 +6,6 @@ $table = 'system';
 $title = "SVBX - Display Status Types";
 include('filestart.php');
 $link = f_sqlConnect();
-        //echo '<br>Source table: ' .$table;
-        
-    // if(!f_tableExists($link, $table, DB_NAME)) {
-    //     die('<br>Destination table does not exist: '.$table);
-    // }
     
     $sql = "SELECT SystemID, SystemName, lastUpdated, updatedBy FROM $table ORDER BY SystemName";
     $sql1 = "SELECT COUNT(*) FROM $table";
@@ -63,11 +58,11 @@ $link = f_sqlConnect();
                             <td class='usertd'>{$row[2]}</td>
                             <td class='usertd'>{$row[3]}</td>
                             <td class='usertd'><form action='UpdateSystem.php' method='POST' onsubmit=''>
-                                <button type='submit' name='q' value='.$row[0].'><i class='typcn typcn-edit'></i></button></form></td>";
+                                <button type='submit' name='q' value='{$row[0]}'><i class='typcn typcn-edit'></i></button></form></td>";
                             if($Role >= 40) {
                                 echo "
                                 <td class='usertd'><form action='DeleteSystem.php' method='POST' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} Status`)'/>
-                                <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";
+                                <button type='Submit' name='q' value='{$row[0]}'><i class='typcn typcn-times'></i></button></form></td>";
                             }
                         echo "</tr>";
                     }
