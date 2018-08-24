@@ -1,7 +1,7 @@
 <?PHP
     include('SQLFunctions.php');
     Session_start();
-    $table = Severity;
+    $table = 'severity';
     
 
     echo '<br>display full contents of the _POST: <br>';

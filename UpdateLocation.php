@@ -8,7 +8,7 @@
     include('filestart.php');
     $link = f_sqlConnect();
     
-    if($Role <= 20) {
+    if($role <= 20) {
         header('location: unauthorised.php');
     }
 ?>

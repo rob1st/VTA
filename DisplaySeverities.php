@@ -41,7 +41,7 @@ $link = f_sqlConnect();
                             <th class='userth'>Last updated</th>
                             <th class='userth'>Updated by</th>
                             <th class='userth'>Edit</th>";
-                            if($Role >= 40) {
+                            if($role >= 40) {
                                 echo "
                             <th class='userth'>Delete</th>";
                             }
@@ -62,7 +62,7 @@ $link = f_sqlConnect();
                         <td class='usertd'>{$row[4]}</td>
                         <td class='usertd'><form action='UpdateSeverity.php' method='POST' onsubmit=''/>
                         <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
-                            if($Role >= 40) {
+                            if($role >= 40) {
                                 echo "
                         <td class='usertd'><form action='DeleteSeverity.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete severity {$row[1]}`)'/>
                         <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";

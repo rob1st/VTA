@@ -2,7 +2,6 @@
     include('SQLFunctions.php');
     session_Start();
     $table = 'location';
-    
 
     echo '<br>display full contents of the _POST: <br>';
     var_dump($_POST);
