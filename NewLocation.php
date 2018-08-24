@@ -2,7 +2,7 @@
 include('session.php');
 $title = "SVBX - Add New Location";
 include('filestart.php');
-    if ($Role <= 20) {
+    if ($role <= 20) {
         header('location: unauthorised.php');
     }
     ?>
