@@ -29,13 +29,13 @@
         $result->close();
     }
 
-    $roleT = [
+    $roleT = array(
         40 => 'Super Admin',
         30 => 'Admin',
         20 => 'User',
         15 => 'Contractor',
         10 => 'Viewer'
-    ];
+    );
 
     // auth-level-specific views
     $userLinks = [
