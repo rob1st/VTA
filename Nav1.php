@@ -15,10 +15,12 @@ if(empty($_SESSION['userID'])) {
     $navItems = [
       'Home' => 'dashboard.php',
       'Help' => 'help.php',
-      'Deficiencies' => [
-        'Project Deficiencies' => 'defs.php',
-        'BART Deficiencies' => 'defs.php?view=BART'
-      ],
+      'Deficiencies' => empty($_SESSION['bdPermit']) 
+        ? 'defs.php'
+        : [
+            'Project Deficiencies' => 'defs.php',
+            'BART Deficiencies' => 'defs.php?view=BART'
+          ],
       'Safety Certs' => 'ViewSC.php'
     ];
 
