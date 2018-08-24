@@ -27,18 +27,6 @@ if(empty($_SESSION['userID'])) {
     if ($_SESSION['inspector']) {
       $navItems['Daily Report'] = 'idr.php';
     }
-
-    if ($role >= 40) {
-        $roleT = 'Super Admin';
-    } elseif ($role >= 30) {
-        $roleT = 'Administrator';
-    } elseif ($role >= 20) {
-        $roleT = 'User';
-    } elseif ($role >= 10) {
-        $roleT = 'Viewer';
-    } else {
-        $roleT = '';
-    }
 }
 ?>
 <nav class="navbar navbar-expand-md navbar-dark navbar-vta-blue">
