@@ -10,14 +10,6 @@
     $link = f_sqlConnect();
     $check = "SELECT * FROM $table WHERE SeverityName = '".$_POST['SeverityName']."'";
     $UserID = $_SESSION['userID'];
-    $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
-    if($result=mysqli_query($link,$user)) 
-        {
-          /*from the sql results, assign the username that returned to the $username variable*/    
-          while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['username'];
-          }
-        }
     
     $keys = implode(", ", (array_keys($_POST)));
     echo '<br>Parsed Key: ' .$keys;
@@ -35,7 +27,7 @@
       header("location: $duplicate?msg=1");
     }
     else {
-    $sql = "INSERT INTO $table($keys, lastUpdated, updatedBy) VALUES ('$values', NOW(), '$Username')";
+    $sql = "INSERT INTO $table($keys, lastUpdated, updatedBy) VALUES ('$values', NOW(), '$UserID')";
     //echo '<br>sql: ' .$sql;
     //echo '<br>Num_rows: ' .$num_rows;
     

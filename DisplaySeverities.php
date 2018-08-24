@@ -16,7 +16,20 @@ $link = f_sqlConnect();
     if($result = mysqli_query($link,$sql1)) {
         echo"
                 <header class='container page-header'>
-                <h1 class='page-title'>Severity Types</h1><br />
+                <h1 class='page-title'>Severity Types</h1><br />";
+                
+                if (!empty($_SESSION['errorMsg']) || !empty($_SESSION['successMsg'])) {
+                    list($msgKey, $color) = empty($_SESSION['errorMsg'])
+                        ? ['successMsg', 'green'] : ['errorMsg', 'yellow'];
+                    echo "
+                        <div class='bg-$color thin-grey-border pad'>
+                            <p>{$_SESSION[$msgKey]}</p>
+                        </div>";
+                    unset($_SESSION[$msgKey]);
+                }
+                
+        echo
+                "
                 <table class='sumtable'>
                     <tr class='sumtr'>
                         <td class='sumtd'>Severity Types in Database: </td>";
