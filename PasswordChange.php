@@ -1,12 +1,7 @@
 <?php
 
 include('session.php');
-<<<<<<< HEAD
-session_start();
-$userID = $_POST['userID'];
-=======
 $Username = $_POST['username'];
->>>>>>> 30d6376... Fix/update profile (#138)
 $oldpw = ($_POST['oldpw']);
 $newpw = ($_POST['newpw']);
 
