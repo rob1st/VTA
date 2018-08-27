@@ -18,12 +18,7 @@ session_start();
 <?php
     $table = 'users_enc';
     
-    // if(!f_tableExists($link, $table, DB_NAME)) {
-    //     die('<br>Destination table does not exist: '.$table);
-    // }
-    
-    $sql = "SELECT firstname, lastname, Email FROM $table WHERE Role = 'A' OR Role = 'S' ORDER BY lastname";
-   
+    $sql = "SELECT firstname, lastname, Email FROM $table WHERE Role >= 40 ORDER BY lastname";
     
     if($result = mysqli_query($link,$sql)) {
         echo"   <table class='table svbx-table'>

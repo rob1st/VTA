@@ -18,7 +18,7 @@ if(!empty($_POST)) {
     $sql = "UPDATE CDL
             SET 
                  Status = '3'
-                ,updatedBy = '".$AUsername."'
+                ,updated_By = '".$AUsername."'
                 ,LastUpdated = NOW()
             WHERE DefID = ".$DefID.";";
     //echo "sql: " .$sql. "Comment out Later";
