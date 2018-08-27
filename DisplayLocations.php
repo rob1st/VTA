@@ -40,11 +40,11 @@ $link = f_sqlConnect();
                         echo "
                             <th class='userth'>Last Updated</th>
                             <th class='userth'>Updated By</th>";
-                                if($Role >= 30) {
+                                if($role >= 30) {
                             echo "
                             <th class='userth'>Edit</th>";
                                 }
-                            if($Role >= 40) {
+                            if($role >= 40) {
                                 echo "
                             <th class='userth'>Delete</th>";
                             }
@@ -62,12 +62,12 @@ $link = f_sqlConnect();
                         echo "
                         <td class='usertd'>{$row[2]}</td>
                         <td class='usertd'>{$row[3]}</td>";
-                            if($Role >= 30) {
+                            if($role >= 30) {
                             echo "
                         <td class='usertd'><form action='UpdateLocation.php' method='POST' onsubmit=''/>
                         <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
                             }
-                        if($Role >= 40) {
+                        if($role >= 40) {
                             echo "
                         <td class='usertd'><form action='DeleteLocation.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete {$row[1]} location`)'/>
                         <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";

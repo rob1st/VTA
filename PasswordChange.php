@@ -33,7 +33,7 @@ elseif(!empty($_POST)) {
         $link = f_sqlConnect();
         
         // check whether username exists
-        $query = "SELECT Password FROM users_enc WHERE  Username='".$Username."'";
+        $query = "SELECT Password FROM users_enc WHERE userID='$userID'";
         if($result=mysqli_query($link,$query)) {
         while($row = mysqli_fetch_assoc($result)) {
             $get_password = $row['Password'];

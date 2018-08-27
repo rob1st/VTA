@@ -1,7 +1,6 @@
 <?php
 include('SQLFunctions.php');
-// include('Session.php');
-session_start();
+include('session.php');
 
 if(!empty($_POST)) {
     $StatusID = $_POST['StatusID'];
@@ -31,7 +30,5 @@ if(!empty($_POST)) {
         }
         mysqli_close($link);
         header("Location: DisplayStatuses.php?msg=1");
-        //echo "<br>Username: ".$Username;
-        //echo "<br>UserID: ".$user;        
 }
 ?>

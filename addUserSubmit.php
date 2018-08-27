@@ -1,7 +1,6 @@
 <?php
 require_once('SQLFunctions.php');
 include('session.php');
-// session_start();
 
 $AUserID = $_SESSION['userID'];
 $AUser = "SELECT username FROM users_enc WHERE UserID = $AUserID";

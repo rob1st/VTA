@@ -55,7 +55,6 @@ elseif(!empty($_POST)) {
     $password = filter_var($_POST['Password'], FILTER_SANITIZE_STRING);
     $SecA = filter_var($_POST['SecA'], FILTER_SANITIZE_STRING);
     $Email = filter_var($_POST['Email'], FILTER_SANITIZE_EMAIL);
-    // $Role = $_POST['role'];
     $Password = password_hash($password, PASSWORD_BCRYPT);
 
     if($pwd == '0') {
@@ -81,8 +80,6 @@ elseif(!empty($_POST)) {
             echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
         }
         mysqli_close($link);
-        //header("Location: DisplayUsers.php?msg=1");
-        //echo "<br>SQL: ".$sql;
     } catch(Exception $e) { $message = "Unable to process request1";}
     } elseif($pwd == '1') {
 
@@ -107,8 +104,6 @@ elseif(!empty($_POST)) {
             echo "<br>Error: " .$sql. "<br>" .mysqli_error($link);
         }
         mysqli_close($link);
-        //header("Location: DisplayUsers.php?msg=1");
-        //echo "<br>SQL: ".$sql;
     } catch(Exception $e) {$message = "Unable to process request2";}
     } else {
         $message = 'Unable to process request3<br />'.$pwd;

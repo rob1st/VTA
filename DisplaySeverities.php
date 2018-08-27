@@ -16,7 +16,20 @@ $link = f_sqlConnect();
     if($result = mysqli_query($link,$sql1)) {
         echo"
                 <header class='container page-header'>
-                <h1 class='page-title'>Severity Types</h1><br />
+                <h1 class='page-title'>Severity Types</h1><br />";
+                
+                if (!empty($_SESSION['errorMsg']) || !empty($_SESSION['successMsg'])) {
+                    list($msgKey, $color) = empty($_SESSION['errorMsg'])
+                        ? ['successMsg', 'green'] : ['errorMsg', 'yellow'];
+                    echo "
+                        <div class='bg-$color thin-grey-border pad'>
+                            <p>{$_SESSION[$msgKey]}</p>
+                        </div>";
+                    unset($_SESSION[$msgKey]);
+                }
+                
+        echo
+                "
                 <table class='sumtable'>
                     <tr class='sumtr'>
                         <td class='sumtd'>Severity Types in Database: </td>";
@@ -41,7 +54,7 @@ $link = f_sqlConnect();
                             <th class='userth'>Last updated</th>
                             <th class='userth'>Updated by</th>
                             <th class='userth'>Edit</th>";
-                            if($Role >= 40) {
+                            if($role >= 40) {
                                 echo "
                             <th class='userth'>Delete</th>";
                             }
@@ -62,7 +75,7 @@ $link = f_sqlConnect();
                         <td class='usertd'>{$row[4]}</td>
                         <td class='usertd'><form action='UpdateSeverity.php' method='POST' onsubmit=''/>
                         <input type='hidden' name='q' value='".$row[0]."'/><input type='submit' value='Update'></form></td>";
-                            if($Role >= 40) {
+                            if($role >= 40) {
                                 echo "
                         <td class='usertd'><form action='DeleteSeverity.php' method='POST' onsubmit='' onsubmit='' onclick='return confirm(`do you want to delete severity {$row[1]}`)'/>
                         <button type='Submit' name='q' value='".$row[0]."'><i class='typcn typcn-times'></i></button></form></td>";

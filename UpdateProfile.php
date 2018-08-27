@@ -1,7 +1,7 @@
 <?php
     include('session.php');
     include('SQLFunctions.php');
-    $table = users_enc;
+    $table = 'users_enc';
     $q = $_SESSION['userID'];
     $ARole = $_SESSION['role'];
     $title = "SVBX - Update Profile";
