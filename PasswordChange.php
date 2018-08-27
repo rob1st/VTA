@@ -1,8 +1,12 @@
 <?php
 
 include('session.php');
+<<<<<<< HEAD
 session_start();
 $userID = $_POST['userID'];
+=======
+$Username = $_POST['username'];
+>>>>>>> 30d6376... Fix/update profile (#138)
 $oldpw = ($_POST['oldpw']);
 $newpw = ($_POST['newpw']);
 
@@ -54,7 +58,7 @@ elseif(!empty($_POST)) {
                             users_enc 
                         SET 
                             Password = '$new_pwd'
-                            ,updated_By = '$userID'
+                            ,updated_By = '$Username'
                             ,LastUpdated = NOW()
                         WHERE 
                             Username = '$Username'";

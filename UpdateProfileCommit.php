@@ -62,16 +62,16 @@ elseif(!empty($_POST)) {
     try {
 
     $sql = "UPDATE users_enc
-            SET  Username = '".$Username."'
-                ,firstname = '".$firstname."'
-                ,lastname = '".$lastname."'
-                ,Email = '".$Email."'
-                ,Company = '".$company."'
-                ,SecQ = '".$SecQ."'
-                ,SecA = '".$SecA."'
-                ,Updated_by = '".$AUsername."'
+            SET  Username = '$Username'
+                ,firstname = '$firstname'
+                ,lastname = '$lastname'
+                ,Email = '$Email'
+                ,Company = '$company'
+                ,SecQ = '$SecQ'
+                ,SecA = '$SecA'
+                ,updated_By = '$AUsername'
                 ,LastUpdated = NOW()
-            WHERE UserID = ".$UserID.";";
+            WHERE UserID = $UserID";
 
             if(mysqli_query($link,$sql)) {
                 header('location: displayUsers.php');
@@ -86,17 +86,17 @@ elseif(!empty($_POST)) {
         try {
 
     $sql = "UPDATE users_enc
-            SET  Username = '".$Username."'
-                ,Password = '".$Password."'
-                ,firstname = '".$firstname."'
-                ,lastname = '".$lastname."'
-                ,Email = '".$Email."'
-                ,Company = '".$company."'
-                ,SecQ = '".$SecQ."'
-                ,SecA = '".$SecA."'
-                ,Updated_by = '".$AUsername."'
+            SET  Username = '$Username'
+                ,Password = '$Password'
+                ,firstname = '$firstname'
+                ,lastname = '$lastname'
+                ,Email = '$Email'
+                ,Company = '$company'
+                ,SecQ = '$SecQ'
+                ,SecA = '$SecA'
+                ,Updated_by = '$AUsername'
                 ,LastUpdated = NOW()
-            WHERE UserID = ".$UserID.";";
+            WHERE UserID = '$UserID'";
 
             if(mysqli_query($link,$sql)) {
                 header('location: displayUsers.php');
@@ -110,13 +110,13 @@ elseif(!empty($_POST)) {
     }
 }
 
-include('filestart.php');
-    echo "
-        <div class='container page-header'>
-            <h1 class='page-title'>Error</h1>
-        </div>
-        <div class='container'>
-        <p style='text-align:center'>$message</p>
-        </div>";
+// include('filestart.php');
+//     echo "
+//         <div class='container page-header'>
+//             <h1 class='page-title'>Error</h1>
+//         </div>
+//         <div class='container'>
+//         <p style='text-align:center'>$message</p>
+//         </div>";
 
-include('fileend.php');
+// include('fileend.php');

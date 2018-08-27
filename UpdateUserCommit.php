@@ -67,13 +67,13 @@ elseif (!empty($_POST)) {
     }
 }
 
-include('filestart.php');
-    echo "
-        <header class='container page-header'>
-            <h1 class='page-title'>Error</h1>
-        </header>
-        <div class='container'>
-        <p style='text-align:center'>$message</p>
-        </div>";
+// include('filestart.php');
+//     echo "
+//         <header class='container page-header'>
+//             <h1 class='page-title'>Error</h1>
+//         </header>
+//         <div class='container'>
+//         <p style='text-align:center'>$message</p>
+//         </div>";
 
-include('fileend.php');
+// include('fileend.php');
