@@ -1,6 +1,6 @@
 <?PHP
     include('SQLFunctions.php');
-    session_start();
+    include 'session.php';
     $table = 'status';
 
 
@@ -10,14 +10,6 @@
     $link = f_sqlConnect();
     $check = "SELECT * FROM $table WHERE statusName = '".$_POST['statusName']."'";
     $UserID = $_SESSION['userID'];
-    $user = "SELECT Username FROM users_enc WHERE UserID = ".$UserID;
-    if($result=mysqli_query($link,$user))
-        {
-          /*from the sql results, assign the username that returned to the $username variable*/
-          while($row = mysqli_fetch_assoc($result)) {
-            $Username = $row['username'];
-          }
-        }
 
     $keys = implode(", ", (array_keys($_POST)));
     echo '<br>Parsed Key: ' .$keys;
