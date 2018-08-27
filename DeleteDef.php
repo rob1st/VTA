@@ -2,23 +2,16 @@
 include('session.php');
 include('SQLFunctions.php');
 
-$user = "SELECT Username FROM users_enc WHERE UserID = ".$AUserID;
-if($result=mysqli_query($link,$user)) {
-    /*from the sql results, assign the username that returned to the $username variable*/    
-    while($row = mysqli_fetch_assoc($result)) {
-        $AUsername = $row['username'];
-    }
-}
-
 if(!empty($_POST)) {
     $DefID = $_POST['q'];
+    $username = $_SESSION['username'];
     
     $link = f_sqlConnect();
  
     $sql = "UPDATE CDL
             SET 
                  Status = '3'
-                ,updated_By = '".$AUsername."'
+                ,updated_By = '$username'
                 ,LastUpdated = NOW()
             WHERE DefID = ".$DefID.";";
     //echo "sql: " .$sql. "Comment out Later";
