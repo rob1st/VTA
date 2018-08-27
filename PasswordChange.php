@@ -2,7 +2,7 @@
 
 include('session.php');
 session_start();
-$Username = $_POST['username'];
+$userID = $_POST['userID'];
 $oldpw = ($_POST['oldpw']);
 $newpw = ($_POST['newpw']);
 
@@ -34,7 +34,7 @@ elseif(!empty($_POST)) {
         $link = f_sqlConnect();
         
         // check whether username exists
-        $query = "SELECT Password FROM users_enc WHERE  Username='".$Username."'";
+        $query = "SELECT Password FROM users_enc WHERE userID='$userID'";
         if($result=mysqli_query($link,$query)) {
         while($row = mysqli_fetch_assoc($result)) {
             $get_password = $row['Password'];
@@ -54,7 +54,7 @@ elseif(!empty($_POST)) {
                             users_enc 
                         SET 
                             Password = '$new_pwd'
-                            ,updatedBy = '$Username'
+                            ,updated_By = '$userID'
                             ,LastUpdated = NOW()
                         WHERE 
                             Username = '$Username'";
