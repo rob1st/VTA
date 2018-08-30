@@ -14,7 +14,7 @@
     if ($result = $link->query($userQry)) {
         $row = $result->fetch_assoc();
         $userFullName = $row['firstname'].' '.$row['lastname'];
-        $idrAuth = $row['inspector'] ? $role : 0;
+        $idrAuth = ($row['inspector'] || $role >= 30) ? $role : 0;
         $result->close();
     } elseif ($link->error) {
         $msg = 'Unable to retrieve user account information';
@@ -82,7 +82,7 @@
                 </div>
             </div>";
             // render Data Views only if user has permission
-            if ($myIDRs || $idrAuth > 1) {
+            if ($myIDRs || $idrAuth >= 30) {
                 echo "
                     <div class='card item-margin-bottom no-border-radius box-shadow'>
                         <div class='card-body pad-more'>

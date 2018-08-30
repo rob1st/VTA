@@ -72,7 +72,8 @@ try {
         $_SESSION['timeout'] = time();
 
         $link->where('username', $result['username']);
-        $link->update('users_enc', ['lastLogin' => 'NOW()']);
+        $lastLogin = date('Y-m-d H:i:s');
+        $link->update('users_enc', ['lastLogin' => $lastLogin]);
 
         if (!$result['secQ']) $redirectUrl = 'setSQ.php';
         else $redirectUrl = 'dashboard.php';
