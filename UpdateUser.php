@@ -5,7 +5,7 @@
     $targetUserID = filter_input(INPUT_GET, "userID", FILTER_SANITIZE_NUMBER_INT);
     $userRole = $_SESSION['role'];
     $title = "SVBX - Update User";
-    $Loc = "SELECT Username, Role, firstname, lastname, Email, Company FROM $table WHERE UserID = $targetUserID";
+    $Loc = "SELECT Username, Role, firstname, lastname, Email, Company, inspector FROM $table WHERE UserID = $targetUserID";
     include('filestart.php');
 
     if($userRole < 30) {
@@ -20,7 +20,7 @@
         </header>
 <?php       if($stmt = $link->prepare($Loc)) {
             $stmt->execute();
-            $stmt->bind_result($username, $targetRole, $firstname, $lastname, $email, $company);
+            $stmt->bind_result($username, $targetRole, $firstname, $lastname, $email, $company, $inspector);
             while ($stmt->fetch()) {
                 echo "
                     <div class='container main-content'>";
@@ -142,9 +142,15 @@
                                 <div id='inspector-fieldset' class='row item-margin-bottom'>
                                     <h6 class='col-md-4'>Can create Inspector Daily Reports?</h6>
                                     <div id='inspector-options' class='col-md-8'>
-                                        <input type='radio' id='inspector-true' name='inspector' value='1' />
+                                        <input type='radio' id='inspector-true' name='inspector' value='1' required ";
+                                        echo ($inspector === 1 ? 'checked' : '');
+                                echo "
+                                        />
                                         <label for='inspector-yes'>Yes</label>
-                                        <input type='radio' name='inspector' value='0' checked/>
+                                        <input type='radio' id='inspector-yes' name='inspector' value='0' required ";
+                                        echo ($inspector === 0 ? 'checked' : '');
+                                echo "
+                                        />
                                         <label for='inspector-no'>No</label>
                                     </div>
                                 </div>
