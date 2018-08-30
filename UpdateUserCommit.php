@@ -52,9 +52,9 @@ elseif (!empty($_POST)) {
         $link = connect();
         $link->where('userID', $post['userID']);
         
-        // if (!$link->update('users_enc', $fields))
-        //     throw new Exception('There was a problem updating the record: ' . $link->getLastError());
-        // else $location = '/displayUsers.php';
+        if (!$link->update('users_enc', $fields))
+            throw new Exception('There was a problem updating the record: ' . $link->getLastError());
+        else $location = '/displayUsers.php';
     } catch (Exception $e) {
         $_SESSION['errorMsg'] = $e->getMessage();
         $location = "/UpdateUser.php?userID={$post['userID']}";
@@ -65,7 +65,3 @@ elseif (!empty($_POST)) {
         exit;
     }
 }
-
-echo "<pre>";
-var_dump($fields);
-echo "</pre>";
