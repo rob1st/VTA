@@ -139,6 +139,15 @@
                                 }
                                 echo "
                                 </table>
+                                <div id='inspector-fieldset' class='row item-margin-bottom'>
+                                    <h6 class='col-md-4'>Can create Inspector Daily Reports?</h6>
+                                    <div id='inspector-options' class='col-md-8'>
+                                        <input type='radio' id='inspector-true' name='inspector' value='1' />
+                                        <label for='inspector-yes'>Yes</label>
+                                        <input type='radio' name='inspector' value='0' checked/>
+                                        <label for='inspector-no'>No</label>
+                                    </div>
+                                </div>
                                 <input type='submit' value='submit' class='btn btn-primary btn-lg'/>
                                 <input type='reset' value='reset' class='btn btn-primary btn-lg' />
                             </form>";
