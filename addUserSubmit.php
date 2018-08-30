@@ -53,7 +53,7 @@ else {
     $company = filter_var($_POST['Company'], FILTER_SANITIZE_STRING);
     $Company = $link->real_escape_string($company);
     $pwd = password_hash($pass, PASSWORD_BCRYPT);
-    $dateAdded = 'NOW()';
+    $dateAdded = date('Y-m-d H:i:s');
 
     try {
         $sql = "SELECT 1 FROM users_enc WHERE Username = '$username'";

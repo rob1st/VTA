@@ -16,21 +16,24 @@ $link = f_sqlConnect();
     $sql1 = "SELECT COUNT(*) FROM $table";
 
     if($result = mysqli_query($link,$sql1)) {
-        echo"
+        echo "
                 <header class='container page-header'>
                     <h1 class='page-title'>Users</h1>
-                <table class='sumtable'>
-                    <tr class='sumtr'>
-                        <td class='sumtd'>Users in Database: </td>";
+                    <h6 class='text-center'>Users in Database: ";
             while ($row = mysqli_fetch_array($result)) {
-                    echo "<td class='sumtd'>{$row[0]}</td>";
+                    echo $row[0];
             }
-            echo "</table><br></header>";
+            echo "
+                    </h6>
+                </header>";
 }
     if($result = mysqli_query($link,$sql)) {
         echo"
-                <div class='container main-content' style='max-width: 1600px;'>
-                <table class='table'>
+            <div class='main-content'>
+                <div class='container text-right item-margin-bottom'>
+                    <a href='/newUser.php' class='btn btn-primary'>Add new user</a>
+                </div>
+                <table class='table table-responsive'>
                     <tr class='usertr'>
                         <th class='userth'>First name</th>
                         <th class='userth'>Last name</th>

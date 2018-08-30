@@ -13,9 +13,8 @@ $role = $_SESSION['role'];
 $contractQry = 'SELECT contractID, contractName FROM contract';
 
 $userFullName = "{$_SESSION['firstname']} {$_SESSION['lastname']}";
-if (intval($_SESSION['inspector'] >= 1)) {
-    $userAuth = $role;
-}
+
+$userAuth = ($_SESSION['inspector'] || $role >= 30) ? $role : 0;
 
 $locQry = "SELECT LocationID, LocationName FROM Location ORDER BY LocationID";
 
@@ -578,6 +577,6 @@ if ($userAuth < 10) {
     }
 }
 
-$link->close();
+if (!empty($link) && is_a($link, mysqli)) $link->close();
 include('fileend.php');
 ?>
