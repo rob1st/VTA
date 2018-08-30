@@ -30,13 +30,12 @@ elseif (!empty($_POST)) {
         'company' => $post['company'],
         'email' => $post['email'],
         'role' => $post['role'],
+        'inspector' => $post['inspector'],
         'updated_by' => $aUsername,
         'lastUpdated' => date('Y-m-d H:i:s')
     ];
     
-    foreach ($fields as $field => $val) {
-        if (empty($val)) unset($fields[$field]);
-    }
+    $fields = array_filter($fields);
     
     try {
         if (!empty($message)) throw new Exception($message);
@@ -60,20 +59,9 @@ elseif (!empty($_POST)) {
         $_SESSION['errorMsg'] = $e->getMessage();
         $location = "/UpdateUser.php?userID={$post['userID']}";
     } finally {
-        if (!empty($link) && is_a($link, MysqliDb)) $link->disconnect();
+        if (!empty($link) && is_a($link, 'MysqliDb')) $link->disconnect();
         if (!empty($message)) $_SESSION['errorMsg'] = $message;
         header("Location: $location");
         exit;
     }
 }
-
-// include('filestart.php');
-//     echo "
-//         <header class='container page-header'>
-//             <h1 class='page-title'>Error</h1>
-//         </header>
-//         <div class='container'>
-//         <p style='text-align:center'>$message</p>
-//         </div>";
-
-// include('fileend.php');

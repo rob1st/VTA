@@ -61,7 +61,7 @@
                                         if(is_array($list1) || is_object($list1)) {
                                         foreach($list1 as $row) {
                                             echo "<option value='$row[SecQID]'";
-                                                if($row[SecQID] == $SecQ) {
+                                                if($row['SecQID'] == $SecQ) {
                                                     echo " selected>$row[SecQ]</option>";
                                                     } else { echo ">$row[SecQ]</option>";
                                                 }
