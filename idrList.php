@@ -8,11 +8,7 @@ $role = $_SESSION['role'];
 
 $qry = "SELECT userid, username, firstname, lastname, viewidr FROM users_enc where userid='$userID'";
 
-if ($_SESSION['inspector']) {
-    $idrAuth = $role;
-} else {
-    $idrAuth = 0;
-}
+$idrAuth = ($_SESSION['inspector'] || $role >= 30) ? $role : 0;
 
 $qry = "SELECT idrID, i.userID, idrForDate, username FROM IDR i JOIN users_enc u on i.UserID=u.UserID";
 $orderBy = " ORDER BY idrID DESC";
@@ -137,4 +133,3 @@ if ($idrAuth) {
 } else {
     include "unauthorised.php";
 }
-?>
