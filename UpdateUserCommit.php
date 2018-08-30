@@ -60,7 +60,7 @@ elseif (!empty($_POST)) {
         $_SESSION['errorMsg'] = $e->getMessage();
         $location = "/UpdateUser.php?userID={$post['userID']}";
     } finally {
-        if (!empty($link) && is_a($link, MysqliDb)) $link->disconnect();
+        if (!empty($link) && is_a($link, 'MysqliDb')) $link->disconnect();
         if (!empty($message)) $_SESSION['errorMsg'] = $message;
         header("Location: $location");
         exit;
