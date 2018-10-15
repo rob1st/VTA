@@ -337,7 +337,7 @@ if(!empty($_GET['search'])) {
             ]);
         } catch (Twig_Error $e) {
             echo "<p class='pad' style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>There was a problem displaying search fields</p>";
-            error_log($e->getTemplateLine() . ': ' . $e->getMessage());
+            error_log("{$e->getFile()}: Line {$e->getTemplateLine()}: {$e->getMessage()}");
         } catch (Exception $e) {
             echo "<p class='pad' style='border: 1px solid var(--grey); background-color: var(--yellow); color: white'>There was a problem displaying search fields</p>";
             error_log($e->getMessage());
