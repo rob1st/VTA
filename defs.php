@@ -316,6 +316,16 @@ if(!empty($_GET['search'])) {
                     'table' => 'CDL',
                     'fields' => 'identifiedBy',
                     'groupBy' => 'identifiedBy'
+                ],
+                'requiredBy' => [
+                    'table' => 'requiredBy r',
+                    'fields' => 'reqByID, requiredBy',
+                    'join' => [
+                        'joinTable' => 'CDL c',
+                        'joinOn' => 'r.reqByID = c.requiredBy',
+                        'joinType' => 'INNER'
+                    ],
+                    'groupBy' => 'reqByID'
                 ]
             ];
             
